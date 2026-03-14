@@ -1,0 +1,132 @@
+[
+  {
+    "content": [
+      "1"
+    ]
+  },
+  {
+    "content": [
+      "63"
+    ]
+  },
+  {
+    "content": [
+      "$",
+      "span",
+      null,
+      {
+        "className": "flex gap-px-10 after:block after:bg-[red] after:w-px-10 after:h-full",
+        "children": [
+          [
+            "$",
+            "span",
+            null,
+            {
+              "className": "DriverAvatar-module_driveravatar__CrhU8 DriverAvatar-module_sm__knPcV",
+              "children": [
+                [
+                  "$",
+                  "img",
+                  null,
+                  {
+                    "src": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp/v1740000000/common/f1/2026/mercedes/georus01/2026mercedesgeorus01right.webp",
+                    "alt": "",
+                    "style": {
+                      "backgroundColor": "#27f4d2"
+                    }
+                  }
+                ],
+                "$undefined"
+              ]
+            }
+          ],
+          [
+            "$",
+            "span",
+            null,
+            {
+              "children": [
+                [
+                  "$",
+                  "span",
+                  null,
+                  {
+                    "className": "max-lg:hidden",
+                    "children": "George"
+                  }
+                ],
+                "\u00a0",
+                [
+                  "$",
+                  "span",
+                  null,
+                  {
+                    "className": "max-md:hidden",
+                    "children": "Russell"
+                  }
+                ],
+                [
+                  "$",
+                  "span",
+                  null,
+                  {
+                    "className": "md:hidden",
+                    "children": "RUS"
+                  }
+                ]
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      "$",
+      "span",
+      null,
+      {
+        "className": "inline-flex gap-px-10",
+        "children": [
+          [
+            "$",
+            "span",
+            null,
+            {
+              "className": "TeamLogo-module_teamlogo__lA3j1 TeamLogo-module_sm__rtN1v",
+              "style": {
+                "backgroundColor": "#27f4d2"
+              },
+              "children": [
+                "$",
+                "img",
+                null,
+                {
+                  "src": "https://media.formula1.com/image/upload/c_lfill,w_64/q_auto/v1740000000/common/f1/2026/mercedes/2026mercedeslogowhite.webp",
+                  "alt": ""
+                }
+              ]
+            }
+          ],
+          "Mercedes"
+        ]
+      }
+    ]
+  },
+  {
+    "content": [
+      "58"
+    ]
+  },
+  {
+    "content": [
+      "1:23:06.801"
+    ]
+  },
+  {
+    "content": [
+      25
+    ]
+  }
+]

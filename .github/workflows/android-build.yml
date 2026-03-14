@@ -1,0 +1,175 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - 'csv/**'
+      - 'scripts/**'
+      - 'server.cjs'
+      - 'compose.yaml'
+      - 'entrypoint.sh'
+      - 'Dockerfile'
+      - '.github/workflows/docker-build.yml'
+      - 'AGENTS.md'
+      - 'README.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+# 必须显式授予 contents:write 才能创建 GitHub Release
+permissions:
+  contents: write
+
+jobs:
+  build-android:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. 拉取代码 ─────────────────────────────────────────────────────
+      - name: Checkout f1-website
+        uses: actions/checkout@v4
+
+      # ── 2. 构建 Web 产物 ─────────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web (vite)
+        run: npm run build
+
+      # ── 3. 配置 JDK 与 Android SDK ────────────────────────────────────────
+      - name: Setup JDK 21
+        id: setup_jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK path
+        id: setup_sdk
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+
+      - name: Generate Persistent Debug Keystore
+        run: |
+          if [ ! -f android/app/debug.keystore ]; then
+            echo "Generating new persistent debug.keystore..."
+            keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "cn=Android Debug, o=Android, c=US"
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git add android/app/debug.keystore
+            git commit -m "chore(android): auto-generate persistent debug keystore for consistent signatures"
+            git push origin HEAD:main
+          else
+            echo "Persistent debug.keystore already exists."
+          fi
+
+      # ── 4. 同步到 Android 项目 ───────────────────────────────────────────
+      - name: Capacitor sync
+        id: cap_sync
+        run: |
+          if ! npx cap sync android > sync_log.txt 2>&1; then
+             echo "::error::Capacitor sync failed"
+             echo "### ❌ Capacitor Sync Error" >> $GITHUB_STEP_SUMMARY
+             echo '```text' >> $GITHUB_STEP_SUMMARY
+             cat sync_log.txt >> $GITHUB_STEP_SUMMARY
+             echo '```' >> $GITHUB_STEP_SUMMARY
+             exit 1
+          fi
+
+      # ── 5. 构建 debug APK ───────────────────────────────────────────────
+      - name: Build debug APK
+        id: build_apk
+        run: |
+          cd android
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+          if ! ./gradlew assembleDebug --no-daemon --stacktrace > build_log.txt 2>&1; then
+             echo "::error::Gradle build failed! Check the step summary for details."
+             echo "### ❌ Gradle Build Error" >> $GITHUB_STEP_SUMMARY
+             echo '```text' >> $GITHUB_STEP_SUMMARY
+             tail -n 100 build_log.txt >> $GITHUB_STEP_SUMMARY
+             echo '```' >> $GITHUB_STEP_SUMMARY
+             cp build_log.txt ../
+             exit 1
+          fi
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g"
+
+      - name: Debug fallback
+        if: failure()
+        run: |
+          echo "Sync: ${{ steps.cap_sync.conclusion }}" > fallback.txt
+          echo "Setup JDK: ${{ steps.setup_jdk.conclusion }}" >> fallback.txt
+          echo "Setup SDK: ${{ steps.setup_sdk.conclusion }}" >> fallback.txt
+          echo "Build APK: ${{ steps.build_apk.conclusion }}" >> fallback.txt
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add fallback.txt || true
+          git add build_log.txt || true
+          git add sync_log.txt || true
+          git commit -m "ci: diagnostic info [skip ci]" || true
+          git push origin HEAD:ci-debug-branch -f || true
+
+      # ── 6. 获取版本号 & 重命名 APK ────────────────────────────────────────
+      - name: Get version & rename APK
+        id: version
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          
+          # 提取当前提交的说明（用于 Release Notes）
+          {
+            echo "COMMIT_MSG<<EOF"
+            git log -1 --pretty=format:"%B"
+            echo ""
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          
+          echo "VERSION=$VER" >> "$GITHUB_OUTPUT"
+          mv android/app/build/outputs/apk/debug/app-debug.apk \
+             f1-data-hub-v${VER}.apk
+          echo "APK renamed: f1-data-hub-v${VER}.apk"
+          ls -lh f1-data-hub-v${VER}.apk
+
+      # ── 7. 发布到 GitHub Releases ──────────────────────────────────────
+      - name: Create / Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: "F1 Data Hub v${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## F1 Data Hub Android APK
+
+            ### ✨ 本次更新主要事项
+            ```text
+            ${{ steps.version.outputs.COMMIT_MSG }}
+            ```
+          files: f1-data-hub-v${{ steps.version.outputs.VERSION }}.apk
+          draft: false
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# ──────────────────────────────────────────────────────────────────────────
+# 升级到 Release 签名（可选）:
+#
+# 1. 本机生成 keystore:
+#    keytool -genkey -v -keystore f1-release.jks -alias f1key \
+#            -keyalg RSA -keysize 2048 -validity 10000
+#
+# 2. 转为 base64 (Windows PowerShell):
+#    [Convert]::ToBase64String([IO.File]::ReadAllBytes("f1-release.jks")) | Set-Clipboard
+#
+# 3. 在 GitHub Settings > Secrets 添加:
+#    ANDROID_KEYSTORE_BASE64  /  ANDROID_STORE_PASSWORD
+#    ANDROID_KEY_ALIAS        /  ANDROID_KEY_PASSWORD
+#
+# 4. 替换 "Build debug APK" 步骤为 assembleRelease + 签名参数
+# ──────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,1374 @@
+
+> f1express@1.0.0 test
+> vitest --run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mC:/Users/jaymz/Desktop/oc/f1express[39m
+
+ [32m✓[39m src/__tests__/utils.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/utils/f1Data.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[90mstderr[2m | src/hooks/useDynamic2026Data.test.ts[2m > [22m[2museDynamic2026Data[2m > [22m[2mshould initially return loading state
+[22m[39mFailed to load local baseline data TypeError: Cannot read properties of undefined (reading 'catch')
+    at loadData [90m(C:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.ts:77:67[90m)[39m
+    at [90mC:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.ts:154:9
+    at Object.react_stack_bottom_frame [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:25989:20[90m)[39m
+    at runWithFiberInDEV [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:874:13[90m)[39m
+    at commitHookEffectListMount [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13249:29[90m)[39m
+    at commitHookPassiveMountEffects [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13336:11[90m)[39m
+    at commitPassiveMountOnFiber [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15484:13[90m)[39m
+    at recursivelyTraversePassiveMountEffects [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15439:11[90m)[39m
+    at commitPassiveMountOnFiber [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15519:11[90m)[39m
+    at flushPassiveEffects [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:18432:9[90m)[39m
+
+[90mstderr[2m | src/hooks/useDynamic2026Data.test.ts[2m > [22m[2museDynamic2026Data[2m > [22m[2mshould fetch local data successfully and then attempt remote fetch
+[22m[39m⚠️ 远端 GitHub 数据完整性校验失败 (检测到赛程 < 20)，触发保护机制，继续使用本地数据。
+
+[90mstdout[2m | tests/server/api.test.js[2m > [22m[2mServer API[2m > [22m[2mGET /api/check-update should return update status
+[22m[39m[Update] Checking for new image: dudumin/f1express:latest (API v1.43)
+
+[90mstderr[2m | tests/server/api.test.js[2m > [22m[2mServer API[2m > [22m[2mGET /api/check-update should return update status
+[22m[39m[Update] docker pull failed: Command failed: docker pull dudumin/f1express:latest
+'docker' �����ڲ����ⲿ���Ҳ���ǿ����еĳ���
+���������ļ���
+
+
+[90mstderr[2m | tests/server/api.test.js[2m > [22m[2mServer API[2m > [22m[2mPOST /api/upload-csv with invalid filename should return 400
+[22m[39m[Server] Blocked invalid target filename: invalid_name.csv
+
+ [32m✓[39m tests/server/api.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 148[2mms[22m[39m
+ [31m❯[39m src/__tests__/components.test.tsx [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 525[2mms[22m[39m
+   [32m✓[39m Layout[2m > [22mrenders children content[32m 163[2mms[22m[39m
+[31m   [31m×[31m Layout[2m > [22mrenders navigation component[39m[32m 152[2mms[22m[39m
+[31m     → Unable to find an element with the text: Data Hub. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"min-h-screen bg-bg-primary pb-16 md:pb-0 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"[31m
+    [36m>[31m
+      [36m<nav[31m
+        [33mclass[31m=[32m"fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"flex items-center justify-between h-16"[31m
+          [36m>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m"flex items-center space-x-4 group"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"relative"[31m
+              [36m>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"absolute inset-0 bg-f1-red/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"[31m
+                [36m/>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"p-1 group-hover:scale-110 transition-all duration-300"[31m
+                [36m>[31m
+                  [36m<svg[31m
+                    [33mclass[31m=[32m"w-10 md:w-12 h-auto"[31m
+                    [33mfill[31m=[32m"none"[31m
+                    [33mrole[31m=[32m"img"[31m
+                    [33mstyle[31m=[32m"height: 24px;"[31m
+                    [33mviewBox[31m=[32m"0 0 1600 400"[31m
+                    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                  [36m>[31m
+                    [36m<title>[31m
+                      [0mF1[0m
+                    [36m</title>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[31m
+                      [33mfill[31m=[32m"#e10600"[31m
+                    [36m/>[31m
+                  [36m</svg>[31m
+                [36m</div>[31m
+              [36m</div>[31m
+              [36m<span[31m
+                [33mclass[31m=[32m"text-primary font-black text-2xl hidden sm:block font-orbitron tracking-tighter group-hover:text-f1-red transition-colors italic"[31m
+              [36m>[31m
+                [0mDATA [0m
+                [36m<span[31m
+                  [33mclass[31m=[32m"text-f1-red"[31m
+                [36m>[31m
+                  [0mHUB[0m
+                [36m</span>[31m
+              [36m</span>[31m
+            [36m</a>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"hidden md:flex items-center space-x-1"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center space-x-1 mr-4"[31m
+              [36m>[31m
+                [36m<a[31m
+                  [33mclass[31m=[32m"flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 relative group text-white"[31m
+                  [33mdata-discover[31m=[32m"true"[31m
+                  [33mhref[31m=[32m"/"[31m
+                [36m>[31m
+                  [36m<div[31m
+                    [33mclass[31m=[32m"absolute inset-0 bg-f1-red rounded-xl shadow-lg shadow-f1-red/30"[31m
+                  [36m/>[31m
+                  [36m<div[31m
+                    [33mclass[31m=[32m"relative z-10 flex items-center space-x-2  rounded-xl px-2 py-1 transition-all"[31m
+                  [36m>[31m
+                    [36m<svg[31m
+                      [33maria-hidden[31m=[32m"true"[31m
+                      [33mclass[31m=[32m"lucide lucide-house"[31m
+                      [33mfill[31m=[32m"none"[31m
+                      [33mheight[31m=[32m"18"[31m
+                      [33mstroke[31m=[32m"currentColor"[31m
+                      [33mstroke-linecap[31m=[32m"round"[31m
+                      [33mstroke-linejoin[31m=[32m"round"[31m
+                      [33mstroke-width[31m=[32m"2"[31m
+                      [33mviewBox[31m=[32m"0 0 24 24"[31m
+                      [33mwidth[31m=[32m"18"[31m
+                      [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                    [36m>[31m
+                      [36m<path[31m
+                        [33md[31m=[32m"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"[31m
+                      [36m/>[31m
+                      [36m<path[31m
+                        [33md[31m=[32m"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"[31m
+                      [36m/>[31m
+                    [36m</svg>[31m
+                    [36m<span[31m
+                      [33mclass[31m=[32m"font-medium"[31m
+                    [36m>[31m
+                      [0m首页[0m
+                    [36m</span>[31m
+                  [36m</div>[31m
+                [36m</a>[31m
+                [36m<a[31m
+                  [33mclass[31m=[32m"flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 relative group text-secondary hover:text-primary"[31m
+                  [33mdata-discover[31m=...[39m
+   [32m✓[39m Navigation[2m > [22mrenders all navigation links[32m 56[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mhas correct navigation structure[32m 151[2mms[22m[39m
+[90mstderr[2m | src/hooks/useDynamic2026Data.test.ts[2m > [22m[2museDynamic2026Data[2m > [22m[2mshould retain local data if remote fetch fails
+[22m[39m⚠️ 后台数据静默拉取失败，继续使用本地数据 Error: Network Error
+    at [90mC:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.test.ts:63:39
+    at mockCall [90m(file:///C:/Users/jaymz/Desktop/oc/f1express/[39mnode_modules/[4m@vitest/spy[24m/dist/index.js:96:15[90m)[39m
+    at spy [90m(file:///C:/Users/jaymz/Desktop/oc/f1express/[39mnode_modules/[4mtinyspy[24m/dist/index.js:47:80[90m)[39m
+    at loadData [90m(C:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.ts:113:25[90m)[39m
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mDriversPage[2m > [22m[2mrenders page title correctly
+[22m[39mAn update to DriversPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/hooks/useDynamic2026Data.test.ts[2m > [22m[2museDynamic2026Data[2m > [22m[2mshould handle local fetch error
+[22m[39mFailed to load local baseline data Error: Local Network Error
+    at [90mC:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.test.ts:87:35
+    at mockCall [90m(file:///C:/Users/jaymz/Desktop/oc/f1express/[39mnode_modules/[4m@vitest/spy[24m/dist/index.js:96:15[90m)[39m
+    at spy [90m(file:///C:/Users/jaymz/Desktop/oc/f1express/[39mnode_modules/[4mtinyspy[24m/dist/index.js:47:80[90m)[39m
+    at loadData [90m(C:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.ts:74:21[90m)[39m
+    at [90mC:\Users\jaymz\Desktop\oc\f1express\[39msrc\hooks\useDynamic2026Data.ts:154:9
+    at Object.react_stack_bottom_frame [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:25989:20[90m)[39m
+    at runWithFiberInDEV [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:874:13[90m)[39m
+    at commitHookEffectListMount [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13249:29[90m)[39m
+    at commitHookPassiveMountEffects [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:13336:11[90m)[39m
+    at commitPassiveMountOnFiber [90m(C:\Users\jaymz\Desktop\oc\f1express\[39mnode_modules\[4mreact-dom[24m\cjs\react-dom-client.development.js:15484:13[90m)[39m
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mDriversPage[2m > [22m[2mrenders search input
+[22m[39mAn update to DriversPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mDriversPage[2m > [22m[2mrenders view mode toggles
+[22m[39mAn update to DriversPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mDriversPage[2m > [22m[2mallows search input interaction
+[22m[39m⚠️ 远端 GitHub 数据完整性校验失败 (检测到赛程 < 20)，触发保护机制，继续使用本地数据。
+
+ [31m❯[39m src/hooks/useDynamic2026Data.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 1325[2mms[22m[39m
+[31m   [31m×[31m useDynamic2026Data[2m > [22mshould initially return loading state[39m[32m 50[2mms[22m[39m
+[31m     → expected false to be true // Object.is equality[39m
+[31m   [31m×[31m useDynamic2026Data[2m > [22mshould fetch local data successfully and then attempt remote fetch[39m[33m 1114[2mms[22m[39m
+[31m     → expected [ { round: '1', …(6) } ] to deeply equal [ { round: '1', updated: true } ]
+
+Ignored nodes: comments, script, style
+[36m<html>[31m
+  [36m<head />[31m
+  [36m<body>[31m
+    [36m<div />[31m
+  [36m</body>[31m
+[36m</html>[31m[39m
+[31m   [31m×[31m useDynamic2026Data[2m > [22mshould retain local data if remote fetch fails[39m[32m 83[2mms[22m[39m
+[31m     → expected "spy" to be called 6 times, but got 8 times[39m
+[31m   [31m×[31m useDynamic2026Data[2m > [22mshould handle local fetch error[39m[32m 75[2mms[22m[39m
+[31m     → expected "spy" to be called 3 times, but got 4 times[39m
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mTeamsPage[2m > [22m[2mrenders page title correctly
+[22m[39mAn update to TeamsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mTeamsPage[2m > [22m[2mrenders stats cards
+[22m[39mAn update to TeamsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mTeamsPage[2m > [22m[2mrenders table headers
+[22m[39mAn update to TeamsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mRacesPage[2m > [22m[2mrenders page title correctly
+[22m[39mAn update to RacesPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mRacesPage[2m > [22m[2mrenders search input
+[22m[39mAn update to RacesPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/__tests__/pages.test.tsx[2m > [22m[2mRacesPage[2m > [22m[2mallows search input interaction
+[22m[39m⚠️ 远端 GitHub 数据完整性校验失败 (检测到赛程 < 20)，触发保护机制，继续使用本地数据。
+
+ [31m❯[39m src/__tests__/pages.test.tsx [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 999[2mms[22m[39m
+[31m   [31m×[31m HomePage[2m > [22mrenders page title correctly[39m[32m 236[2mms[22m[39m
+[31m     → Unable to find an element with the text: Formula 1. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"animate-fade-in"[31m
+    [36m>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[31m
+          [36m/>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[31m
+          [36m/>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"relative z-10 text-center px-4 animate-slide-up"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"mb-8"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"inline-block relative"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[31m
+              [36m/>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"relative p-2 animate-float"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33mclass[31m=[32m"w-24 md:w-32 h-auto"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mrole[31m=[32m"img"[31m
+                  [33mstyle[31m=[32m"height: 24px;"[31m
+                  [33mviewBox[31m=[32m"0 0 1600 400"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<title>[31m
+                    [0mF1[0m
+                  [36m</title>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[31m
+                    [33mfill[31m=[32m"#e10600"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+              [36m</div>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"max-w-4xl mx-auto"[31m
+          [36m/>[31m
+        [36m</div>[31m
+      [36m</section>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"py-16 px-4 relative"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"max-w-7xl mx-auto"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"grid md:grid-cols-3 gap-6 mb-16"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[31m
+              [33mstyle[31m=[32m"animation-delay: 0ms;"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center space-x-4"[31m
+              [36m>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[31m
+                [36m>[31m
+                  [36m<svg[31m
+                    [33maria-hidden[31m=[32m"true"[31m
+                    [33mclass[31m=[32m"lucide lucide-users text-f1-red"[31m
+                    [33mfill[31m=[32m"none"[31m
+                    [33mheight[31m=[32m"24"[31m
+                    [33mstroke[31m=[32m"currentColor"[31m
+                    [33mstroke-linecap[31m=[32m"round"[31m
+                    [33mstroke-linejoin[31m=[32m"round"[31m
+                    [33mstroke-width[31m=[32m"2"[31m
+                    [33mviewBox[31m=[32m"0 0 24 24"[31m
+                    [33mwidth[31m=[32m"24"[31m
+                    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                  [36m>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[31m
+                    [36m/>[31m
+                    [36m<circle[31m
+                      [33mcx[31m=[32m"9"[31m
+                      [33mcy[31m=[32m"7"[31m
+                      [33mr[31m=[32m"4"[31m
+                    [36m/>[31m
+                  [36m</svg>[31m
+                [36m</div>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"text-left"[31m
+                [36m>[31m
+                  [36m<div[31m
+                    [33mclass[31m=[32m"text-2xl font-bold text-primary font-orbitron"[31m
+ ...[39m
+[31m   [31m×[31m HomePage[2m > [22mrenders main navigation buttons[39m[32m 263[2mms[22m[39m
+[31m     → Unable to find an accessible element with the role "link" and name `/查看车手/i`
+
+Here are the accessible roles:
+
+  img:
+
+  Name "F1":
+  [36m<svg[31m
+    [33mclass[31m=[32m"w-24 md:w-32 h-auto"[31m
+    [33mfill[31m=[32m"none"[31m
+    [33mrole[31m=[32m"img"[31m
+    [33mstyle[31m=[32m"height: 24px;"[31m
+    [33mviewBox[31m=[32m"0 0 1600 400"[31m
+    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  heading:
+
+  Name "积分榜 Top 5":
+  [36m<h2[31m
+    [33mclass[31m=[32m"text-2xl font-bold text-primary flex items-center font-orbitron"[31m
+  [36m/>[31m
+
+  Name "车队排名 Top 5":
+  [36m<h2[31m
+    [33mclass[31m=[32m"text-2xl font-bold text-primary flex items-center font-orbitron"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  link:
+
+  Name "查看更多":
+  [36m<a[31m
+    [33mclass[31m=[32m"flex items-center text-f1-red hover:text-red-400 transition-colors group"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/drivers"[31m
+  [36m/>[31m
+
+  Name "查看更多":
+  [36m<a[31m
+    [33mclass[31m=[32m"flex items-center text-f1-red hover:text-red-400 transition-colors group"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/teams"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"animate-fade-in"[31m
+    [36m>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[31m
+          [36m/>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[31m
+          [36m/>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"relative z-10 text-center px-4 animate-slide-up"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"mb-8"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"inline-block relative"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[31m
+              [36m/>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"relative p-2 animate-float"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33mclass[31m=[32m"w-24 md:w-32 h-auto"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mrole[31m=[32m"img"[31m
+                  [33mstyle[31m=[32m"height: 24px;"[31m
+                  [33mviewBox[31m=[32m"0 0 1600 400"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<title>[31m
+                    [0mF1[0m
+                  [36m</title>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[31m
+                    [33mfill[31m=[32m"#e10600"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+              [36m</div>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"max-w-4xl mx-auto"[31m
+          [36m/>[31m
+        [36m</div>[31m
+      [36m</section>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"py-16 px-4 relative"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"max-w-7xl mx-auto"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"grid md:grid-cols-3 gap-6 mb-16"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[31m
+              [33mstyle[31m=[32m"animation-delay: 0ms;"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center space-x-4"[31m
+              [36m>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[31m
+                [36m>[31m
+                  [36m<svg[31m
+                    [33maria-hidden[31m=[32m"true"[31m
+                    [33mclass[31m=[32m"lucide lucide-users text-f1-red"[31m
+                    [33mfill[31m=[32m"none"[31m
+                    [33mheight[31m=[32m"24"[31m
+                    [33mstroke[31m=[32m"currentColor"[31m
+                    [33mstroke-linecap[31m=[32m"round"[31m
+                    [33mstroke-linejoin[31m=[32m"round"[31m
+                    [33mstroke-width[31m=[32m"2"[31m
+                    [33mviewBox[31m=[32m"0 0 24 24"[31m
+                    [33mwidth[31m=[32m"24"[31m
+                    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                  [36m>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[31m
+                    [36m/>[31m
+                    [36m<circle[31m
+                      [33mcx[31m=[32m"9"[31m
+                      [33mcy[31m=[32m"7"[31m
+                      [33mr[31m=[32m"4"[31m
+                    [36m/>[31m
+                  [36m</svg>[31m
+                [36m</div>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"text-left"[31m
+                [36m>[31m
+                  [36m<div[31m
+                    [33mclass[31m=[32m"text-2xl font-bold text-primary font-orbitron"[31m
+ ...[39m
+[31m   [31m×[31m HomePage[2m > [22mrenders hero section[39m[32m 37[2mms[22m[39m
+[31m     → Unable to find an element with the text: /探索F1历史数据/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"animate-fade-in"[31m
+    [36m>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[31m
+        [36m/>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"absolute inset-0"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[31m
+          [36m/>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[31m
+          [36m/>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"relative z-10 text-center px-4 animate-slide-up"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"mb-8"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"inline-block relative"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[31m
+              [36m/>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"relative p-2 animate-float"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33mclass[31m=[32m"w-24 md:w-32 h-auto"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mrole[31m=[32m"img"[31m
+                  [33mstyle[31m=[32m"height: 24px;"[31m
+                  [33mviewBox[31m=[32m"0 0 1600 400"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<title>[31m
+                    [0mF1[0m
+                  [36m</title>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[31m
+                    [33mfill[31m=[32m"#e10600"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+              [36m</div>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"max-w-4xl mx-auto"[31m
+          [36m/>[31m
+        [36m</div>[31m
+      [36m</section>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"py-16 px-4 relative"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"max-w-7xl mx-auto"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"grid md:grid-cols-3 gap-6 mb-16"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[31m
+              [33mstyle[31m=[32m"animation-delay: 0ms;"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center space-x-4"[31m
+              [36m>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[31m
+                [36m>[31m
+                  [36m<svg[31m
+                    [33maria-hidden[31m=[32m"true"[31m
+                    [33mclass[31m=[32m"lucide lucide-users text-f1-red"[31m
+                    [33mfill[31m=[32m"none"[31m
+                    [33mheight[31m=[32m"24"[31m
+                    [33mstroke[31m=[32m"currentColor"[31m
+                    [33mstroke-linecap[31m=[32m"round"[31m
+                    [33mstroke-linejoin[31m=[32m"round"[31m
+                    [33mstroke-width[31m=[32m"2"[31m
+                    [33mviewBox[31m=[32m"0 0 24 24"[31m
+                    [33mwidth[31m=[32m"24"[31m
+                    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                  [36m>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[31m
+                    [36m/>[31m
+                    [36m<path[31m
+                      [33md[31m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[31m
+                    [36m/>[31m
+                    [36m<circle[31m
+                      [33mcx[31m=[32m"9"[31m
+                      [33mcy[31m=[32m"7"[31m
+                      [33mr[31m=[32m"4"[31m
+                    [36m/>[31m
+                  [36m</svg>[31m
+                [36m</div>[31m
+                [36m<div[31m
+                  [33mclass[31m=[32m"text-left"[31m
+                [36m>[31m
+                  [36m<div[31m
+                    [33mclass[31m=[32m"text-2xl font-bold text-primary font-orbitron"[31m
+ ...[39m
+   [32m✓[39m DriversPage[2m > [22mrenders page title correctly[32m 38[2mms[22m[39m
+   [32m✓[39m DriversPage[2m > [22mrenders search input[32m 27[2mms[22m[39m
+   [32m✓[39m DriversPage[2m > [22mrenders view mode toggles[32m 41[2mms[22m[39m
+   [32m✓[39m DriversPage[2m > [22mallows search input interaction[32m 167[2mms[22m[39m
+   [32m✓[39m TeamsPage[2m > [22mrenders page title correctly[32m 15[2mms[22m[39m
+   [32m✓[39m TeamsPage[2m > [22mrenders stats cards[32m 9[2mms[22m[39m
+   [32m✓[39m TeamsPage[2m > [22mrenders table headers[32m 11[2mms[22m[39m
+   [32m✓[39m RacesPage[2m > [22mrenders page title correctly[32m 8[2mms[22m[39m
+   [32m✓[39m RacesPage[2m > [22mrenders search input[32m 6[2mms[22m[39m
+   [32m✓[39m RacesPage[2m > [22mallows search input interaction[32m 137[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/hooks/useDynamic2026Data.test.ts[2m > [22museDynamic2026Data[2m > [22mshould initially return loading state
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+[36m [2m❯[22m src/hooks/useDynamic2026Data.test.ts:[2m17:40[22m[39m
+    [90m 15| [39m        [35mconst[39m { result } [33m=[39m [34mrenderHook[39m(() [33m=>[39m [34museDynamic2026Data[39m())[33m;[39m
+    [90m 16| [39m
+    [90m 17| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mloading)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   | [39m                                       [31m^[39m
+    [90m 18| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mschedule)[33m.[39m[34mtoEqual[39m([])[33m;[39m
+    [90m 19| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mdrivers)[33m.[39m[34mtoEqual[39m([])[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/hooks/useDynamic2026Data.test.ts[2m > [22museDynamic2026Data[2m > [22mshould fetch local data successfully and then attempt remote fetch
+[31m[1mAssertionError[22m: expected [ { round: '1', …(6) } ] to deeply equal [ { round: '1', updated: true } ]
+
+Ignored nodes: comments, script, style
+[36m<html>[31m
+  [36m<head />[31m
+  [36m<body>[31m
+    [36m<div />[31m
+  [36m</body>[31m
+[36m</html>[31m[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[2m    {[22m
+[31m+     "carImage": undefined,[39m
+[31m+     "detailedImage": undefined,[39m
+[31m+     "flag": undefined,[39m
+[31m+     "image": undefined,[39m
+[31m+     "logo": undefined,[39m
+[31m+     "officialImage": undefined,[39m
+[2m      "round": "1",[22m
+[32m-     "updated": true,[39m
+[2m    },[22m
+[2m  ][22m
+
+[36m [2m❯[22m src/hooks/useDynamic2026Data.test.ts:[2m51:45[22m[39m
+    [90m 49| [39m        [90m// Wait for the remote to sync[39m
+    [90m 50| [39m        [35mawait[39m [34mwaitFor[39m(() [33m=>[39m {
+    [90m 51| [39m            expect(result.current.schedule).toEqual(mockRemoteSchedule…
+    [90m   | [39m                                            [31m^[39m
+    [90m 52| [39m        })[33m;[39m
+    [90m 53| [39m
+[90m [2m❯[22m runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:[2m47:12[22m[39m
+[90m [2m❯[22m checkCallback node_modules/@testing-library/dom/dist/wait-for.js:[2m124:77[22m[39m
+[90m [2m❯[22m Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:[2m118:16[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/hooks/useDynamic2026Data.test.ts[2m > [22museDynamic2026Data[2m > [22mshould retain local data if remote fetch fails
+[31m[1mAssertionError[22m: expected "spy" to be called 6 times, but got 8 times[39m
+[36m [2m❯[22m src/hooks/useDynamic2026Data.test.ts:[2m80:27[22m[39m
+    [90m 78| [39m
+    [90m 79| [39m        [90m// Ensure remote fetch was attempted[39m
+    [90m 80| [39m        [34mexpect[39m(fetchMock)[33m.[39m[34mtoHaveBeenCalledTimes[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 81| [39m        [90m// But the data should still be the local one[39m
+    [90m 82| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mschedule)[33m.[39m[34mtoEqual[39m(mockLocalSchedule)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/hooks/useDynamic2026Data.test.ts[2m > [22museDynamic2026Data[2m > [22mshould handle local fetch error
+[31m[1mAssertionError[22m: expected "spy" to be called 3 times, but got 4 times[39m
+[36m [2m❯[22m src/hooks/useDynamic2026Data.test.ts:[2m99:27[22m[39m
+    [90m 97| [39m
+    [90m 98| [39m        // Should not have attempted remote fetch due to the catch blo…
+    [90m 99| [39m        [34mexpect[39m(fetchMock)[33m.[39m[34mtoHaveBeenCalledTimes[39m([34m3[39m)[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m100| [39m    })[33m;[39m
+    [90m101| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/components.test.tsx[2m > [22mLayout[2m > [22mrenders navigation component
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: Data Hub. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-bg-primary pb-16 md:pb-0 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"[39m
+    [36m>[39m
+      [36m<nav[39m
+        [33mclass[39m=[32m"fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center justify-between h-16"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"flex items-center space-x-4 group"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"relative"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute inset-0 bg-f1-red/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"p-1 group-hover:scale-110 transition-all duration-300"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33mclass[39m=[32m"w-10 md:w-12 h-auto"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mrole[39m=[32m"img"[39m
+                    [33mstyle[39m=[32m"height: 24px;"[39m
+                    [33mviewBox[39m=[32m"0 0 1600 400"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<title>[39m
+                      [0mF1[0m
+                    [36m</title>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[39m
+                      [33mfill[39m=[32m"#e10600"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"text-primary font-black text-2xl hidden sm:block font-orbitron tracking-tighter group-hover:text-f1-red transition-colors italic"[39m
+              [36m>[39m
+                [0mDATA [0m
+                [36m<span[39m
+                  [33mclass[39m=[32m"text-f1-red"[39m
+                [36m>[39m
+                  [0mHUB[0m
+                [36m</span>[39m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"hidden md:flex items-center space-x-1"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center space-x-1 mr-4"[39m
+              [36m>[39m
+                [36m<a[39m
+                  [33mclass[39m=[32m"flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 relative group text-white"[39m
+                  [33mdata-discover[39m=[32m"true"[39m
+                  [33mhref[39m=[32m"/"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"absolute inset-0 bg-f1-red rounded-xl shadow-lg shadow-f1-red/30"[39m
+                  [36m/>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"relative z-10 flex items-center space-x-2  rounded-xl px-2 py-1 transition-all"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mclass[39m=[32m"lucide lucide-house"[39m
+                      [33mfill[39m=[32m"none"[39m
+                      [33mheight[39m=[32m"18"[39m
+                      [33mstroke[39m=[32m"currentColor"[39m
+                      [33mstroke-linecap[39m=[32m"round"[39m
+                      [33mstroke-linejoin[39m=[32m"round"[39m
+                      [33mstroke-width[39m=[32m"2"[39m
+                      [33mviewBox[39m=[32m"0 0 24 24"[39m
+                      [33mwidth[39m=[32m"18"[39m
+                      [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"[39m
+                      [36m/>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"font-medium"[39m
+                    [36m>[39m
+                      [0m首页[0m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                [36m</a>[39m
+                [36m<a[39m
+                  [33mclass[39m=[32m"flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 relative group text-secondary hover:text-primary"[39m
+                  [33mdata-discover[39m=...
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/__tests__/components.test.tsx:[2m35:19[22m[39m
+    [90m 33| [39m    
+    [90m 34| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'F1'[39m))[33m.[39m[34mtoBeInTheDocument[39m()[33m;[39m
+    [90m 35| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Data Hub'[39m))[33m.[39m[34mtoBeInTheDocument[39m()[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m 36| [39m  })[33m;[39m
+    [90m 37| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/pages.test.tsx[2m > [22mHomePage[2m > [22mrenders page title correctly
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: Formula 1. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"animate-fade-in"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[39m
+          [36m/>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative z-10 text-center px-4 animate-slide-up"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mb-8"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"inline-block relative"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"relative p-2 animate-float"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mclass[39m=[32m"w-24 md:w-32 h-auto"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mrole[39m=[32m"img"[39m
+                  [33mstyle[39m=[32m"height: 24px;"[39m
+                  [33mviewBox[39m=[32m"0 0 1600 400"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<title>[39m
+                    [0mF1[0m
+                  [36m</title>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[39m
+                    [33mfill[39m=[32m"#e10600"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"max-w-4xl mx-auto"[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"py-16 px-4 relative"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"max-w-7xl mx-auto"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid md:grid-cols-3 gap-6 mb-16"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[39m
+              [33mstyle[39m=[32m"animation-delay: 0ms;"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center space-x-4"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-users text-f1-red"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"24"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"24"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+                    [36m/>[39m
+                    [36m<circle[39m
+                      [33mcx[39m=[32m"9"[39m
+                      [33mcy[39m=[32m"7"[39m
+                      [33mr[39m=[32m"4"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"text-left"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"text-2xl font-bold text-primary font-orbitron"[39m
+ ...
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/__tests__/pages.test.tsx:[2m25:19[22m[39m
+    [90m 23| [39m  [34mit[39m([32m'renders page title correctly'[39m[33m,[39m () [33m=>[39m {
+    [90m 24| [39m    [34mrenderWithProviders[39m([33m<[39m[33mHomePage[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 25| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Formula 1'[39m))[33m.[39m[34mtoBeInTheDocument[39m()[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m 26| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Data Hub'[39m))[33m.[39m[34mtoBeInTheDocument[39m()[33m;[39m
+    [90m 27| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/pages.test.tsx[2m > [22mHomePage[2m > [22mrenders main navigation buttons
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an accessible element with the role "link" and name `/查看车手/i`
+
+Here are the accessible roles:
+
+  img:
+
+  Name "F1":
+  [36m<svg[39m
+    [33mclass[39m=[32m"w-24 md:w-32 h-auto"[39m
+    [33mfill[39m=[32m"none"[39m
+    [33mrole[39m=[32m"img"[39m
+    [33mstyle[39m=[32m"height: 24px;"[39m
+    [33mviewBox[39m=[32m"0 0 1600 400"[39m
+    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "积分榜 Top 5":
+  [36m<h2[39m
+    [33mclass[39m=[32m"text-2xl font-bold text-primary flex items-center font-orbitron"[39m
+  [36m/>[39m
+
+  Name "车队排名 Top 5":
+  [36m<h2[39m
+    [33mclass[39m=[32m"text-2xl font-bold text-primary flex items-center font-orbitron"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "查看更多":
+  [36m<a[39m
+    [33mclass[39m=[32m"flex items-center text-f1-red hover:text-red-400 transition-colors group"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/drivers"[39m
+  [36m/>[39m
+
+  Name "查看更多":
+  [36m<a[39m
+    [33mclass[39m=[32m"flex items-center text-f1-red hover:text-red-400 transition-colors group"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/teams"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"animate-fade-in"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[39m
+          [36m/>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative z-10 text-center px-4 animate-slide-up"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mb-8"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"inline-block relative"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"relative p-2 animate-float"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mclass[39m=[32m"w-24 md:w-32 h-auto"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mrole[39m=[32m"img"[39m
+                  [33mstyle[39m=[32m"height: 24px;"[39m
+                  [33mviewBox[39m=[32m"0 0 1600 400"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<title>[39m
+                    [0mF1[0m
+                  [36m</title>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[39m
+                    [33mfill[39m=[32m"#e10600"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"max-w-4xl mx-auto"[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"py-16 px-4 relative"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"max-w-7xl mx-auto"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid md:grid-cols-3 gap-6 mb-16"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[39m
+              [33mstyle[39m=[32m"animation-delay: 0ms;"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center space-x-4"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-users text-f1-red"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"24"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"24"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+                    [36m/>[39m
+                    [36m<circle[39m
+                      [33mcx[39m=[32m"9"[39m
+                      [33mcy[39m=[32m"7"[39m
+                      [33mr[39m=[32m"4"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"text-left"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"text-2xl font-bold text-primary font-orbitron"[39m
+ ...
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/__tests__/pages.test.tsx:[2m31:19[22m[39m
+    [90m 29| [39m  [34mit[39m([32m'renders main navigation buttons'[39m[33m,[39m () [33m=>[39m {
+    [90m 30| [39m    [34mrenderWithProviders[39m([33m<[39m[33mHomePage[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 31| [39m    expect(screen.getByRole('link', { name: /查看车手/i })).toBeInTheDocum…
+    [90m   | [39m                  [31m^[39m
+    [90m 32| [39m    expect(screen.getByRole('link', { name: /比赛记录/i })).toBeInTheDocum…
+    [90m 33| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/pages.test.tsx[2m > [22mHomePage[2m > [22mrenders hero section
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: /探索F1历史数据/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"animate-fade-in"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"relative min-h-[70vh] flex items-center justify-center overflow-hidden"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0 grid-bg opacity-30 dark:opacity-50"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"absolute inset-0"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute top-1/4 left-1/4 w-96 h-96 bg-f1-red/10 dark:bg-f1-red/20 rounded-full blur-3xl animate-pulse"[39m
+          [36m/>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"relative z-10 text-center px-4 animate-slide-up"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mb-8"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"inline-block relative"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float"[39m
+              [36m/>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"relative p-2 animate-float"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mclass[39m=[32m"w-24 md:w-32 h-auto"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mrole[39m=[32m"img"[39m
+                  [33mstyle[39m=[32m"height: 24px;"[39m
+                  [33mviewBox[39m=[32m"0 0 1600 400"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<title>[39m
+                    [0mF1[0m
+                  [36m</title>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M1367.21 312.501C1379.83 312.501 1390.25 316.71 1398.5 325.168C1406.75 333.626 1410.88 344.001 1410.88 356.334C1410.88 356.335 1410.88 356.336 1410.88 356.337L1410.88 356.334C1410.88 368.667 1406.79 379.043 1398.58 387.418C1390.38 395.793 1380 400.001 1367.38 400.001C1354.75 400.001 1344.25 395.792 1335.92 387.334C1327.54 378.876 1323.38 368.501 1323.38 356.168L1323.38 356.166C1323.38 343.835 1327.54 333.459 1335.83 325.084C1344.13 316.709 1354.59 312.501 1367.21 312.501ZM1167.04 149.792H635.292C501.959 149.792 473.584 160.083 403.667 227.875H403.708L226.292 400H0L281.542 120.583C386.208 17 436.667 0 615.125 0H1320.04L1167.04 149.792ZM1144.21 173.708L1003.96 313.958H641.125C574.625 313.958 559.917 317.083 526.917 350.083L477 400H267.167L422.292 244.875C483.209 184 504.209 173.708 638.5 173.708H1144.21ZM1600 0L1198.92 400H950.875L1350.88 0H1600ZM1367.13 319.376C1356.79 319.376 1348.13 322.96 1341.13 330.126C1334.17 337.293 1330.67 345.96 1330.67 356.168C1330.67 366.376 1334.17 375.042 1341.13 382.209C1348.09 389.376 1356.75 392.959 1367.13 392.959C1377.5 392.959 1386.13 389.418 1393.13 382.293C1400.09 375.168 1403.58 366.501 1403.58 356.251C1403.58 346.001 1400.09 337.293 1393.13 330.126C1386.17 322.959 1377.5 319.376 1367.13 319.376ZM1367.21 332.084C1373.5 332.084 1378.25 333.251 1381.42 335.626C1384.58 337.959 1386.17 341.501 1386.17 346.209C1386.17 350.917 1385.54 354.417 1384.25 356.709C1382.96 359.001 1380.79 360.834 1377.71 362.251L1386.83 380.668H1376.71L1368.42 363.501H1358.63L1358.58 363.459V380.626H1348.96V332.084H1367.21ZM1358.42 355.918H1368.21C1371.21 355.918 1373.38 355.293 1374.67 354.001C1376 352.709 1376.67 350.626 1376.67 347.751C1376.67 342.293 1373.25 339.584 1366.38 339.584H1358.42V355.918Z"[39m
+                    [33mfill[39m=[32m"#e10600"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"max-w-4xl mx-auto"[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"py-16 px-4 relative"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"max-w-7xl mx-auto"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid md:grid-cols-3 gap-6 mb-16"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"glass rounded-2xl p-6 border border-border shadow-xl shadow-black/5 card-hover animate-slide-up"[39m
+              [33mstyle[39m=[32m"animation-delay: 0ms;"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center space-x-4"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"w-12 h-12 bg-f1-red/20 rounded-xl flex items-center justify-center"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-users text-f1-red"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"24"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"24"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M16 3.128a4 4 0 0 1 0 7.744"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M22 21v-2a4 4 0 0 0-3-3.87"[39m
+                    [36m/>[39m
+                    [36m<circle[39m
+                      [33mcx[39m=[32m"9"[39m
+                      [33mcy[39m=[32m"7"[39m
+                      [33mr[39m=[32m"4"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"text-left"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"text-2xl font-bold text-primary font-orbitron"[39m
+ ...
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/__tests__/pages.test.tsx:[2m37:19[22m[39m
+    [90m 35| [39m  [34mit[39m([32m'renders hero section'[39m[33m,[39m () [33m=>[39m {
+    [90m 36| [39m    [34mrenderWithProviders[39m([33m<[39m[33mHomePage[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 37| [39m    [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([36m/探索F1历史数据/i[39m))[33m.[39m[34mtoBeInTheDocument[39m()[33m;[39m
+    [90m   | [39m                  [31m^[39m
+    [90m 38| [39m  })[33m;[39m
+    [90m 39| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m27 passed[39m[22m[90m (35)[39m
+[2m   Start at [22m 13:10:39
+[2m   Duration [22m 4.11s[2m (transform 730ms, setup 1.46s, collect 2.56s, tests 3.01s, environment 7.56s, prepare 1.84s)[22m
+

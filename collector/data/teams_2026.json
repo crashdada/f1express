@@ -1,0 +1,354 @@
+[
+    {
+        "id": "ferrari",
+        "name": "Ferrari",
+        "nameCn": "法拉利",
+        "color": "#e10600",
+        "logo": "/photos/seasons/2026/teams/ferrari_logo.webp",
+        "drivers": [
+            "LEC",
+            "HAM"
+        ],
+        "carImage": "/photos/seasons/2026/teams/ferrari_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/ferrari/2026ferrarilogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/ferrari/2026ferraricarright.webp",
+        "engine": "Ferrari",
+        "engineCn": "法拉利",
+        "base": "Maranello, Italy",
+        "baseCn": "马拉内罗，意大利",
+        "history": {
+            "championships": 16,
+            "wins": 223,
+            "podiums": 754,
+            "poles": 221,
+            "entries": 1066,
+            "firstEntry": "1958"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "red_bull",
+        "name": "Red Bull Racing",
+        "nameCn": "红牛",
+        "color": "#0600ef",
+        "logo": "/photos/seasons/2026/teams/red_bull_logo.webp",
+        "drivers": [
+            "VER",
+            "HAD"
+        ],
+        "carImage": "/photos/seasons/2026/teams/red_bull_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/redbullracing/2026redbullracinglogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/redbullracing/2026redbullracingcarright.webp",
+        "engine": "Red Bull Ford",
+        "engineCn": "红牛福特",
+        "base": "Milton Keynes, United Kingdom",
+        "baseCn": "米尔顿凯恩斯，英国",
+        "history": {
+            "championships": 6,
+            "wins": 130,
+            "podiums": 297,
+            "poles": 111,
+            "entries": 418,
+            "firstEntry": "2005"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "mercedes",
+        "name": "Mercedes-AMG",
+        "nameCn": "梅赛德斯",
+        "color": "#27f4d2",
+        "logo": "/photos/seasons/2026/teams/mercedes_logo.webp",
+        "drivers": [
+            "RUS",
+            "ANT"
+        ],
+        "carImage": "/photos/seasons/2026/teams/mercedes_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/mercedes/2026mercedeslogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/mercedes/2026mercedescarright.webp",
+        "engine": "Mercedes",
+        "engineCn": "梅赛德斯",
+        "base": "Brackley, United Kingdom",
+        "baseCn": "布拉克利，英国",
+        "history": {
+            "championships": 8,
+            "wins": 122,
+            "podiums": 293,
+            "poles": 135,
+            "entries": 329,
+            "firstEntry": "2010"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "mclaren",
+        "name": "McLaren",
+        "nameCn": "迈凯伦",
+        "color": "#ff8700",
+        "logo": "/photos/seasons/2026/teams/mclaren_logo.webp",
+        "drivers": [
+            "NOR",
+            "PIA"
+        ],
+        "carImage": "/photos/seasons/2026/teams/mclaren_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/mclaren/2026mclarenlogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/mclaren/2026mclarencarright.webp",
+        "engine": "Mercedes",
+        "engineCn": "梅赛德斯",
+        "base": "Woking, United Kingdom",
+        "baseCn": "沃金，英国",
+        "history": {
+            "championships": 10,
+            "wins": 203,
+            "podiums": 558,
+            "poles": 164,
+            "entries": 995,
+            "firstEntry": "1966"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "aston_martin",
+        "name": "Aston Martin",
+        "nameCn": "阿斯顿·马丁",
+        "color": "#229971",
+        "logo": "/photos/seasons/2026/teams/aston_martin_logo.webp",
+        "drivers": [
+            "ALO",
+            "STR"
+        ],
+        "carImage": "/photos/seasons/2026/teams/aston_martin_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/astonmartin/2026astonmartinlogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/astonmartin/2026astonmartincarright.webp",
+        "engine": "Honda",
+        "engineCn": "本田",
+        "base": "Silverstone, United Kingdom",
+        "baseCn": "银石，英国",
+        "history": {
+            "championships": 0,
+            "wins": 0,
+            "podiums": 9,
+            "poles": 0,
+            "entries": 119,
+            "firstEntry": "1959"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "audi",
+        "name": "Audi F1 Team",
+        "nameCn": "奥迪",
+        "color": "#f50537",
+        "logo": "/photos/seasons/2026/teams/audi_logo.webp",
+        "drivers": [
+            "HUL",
+            "BOR"
+        ],
+        "carImage": "/photos/seasons/2026/teams/audi_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/audi/2026audilogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/audi/2026audicarright.webp",
+        "engine": "Audi",
+        "engineCn": "奥迪",
+        "base": "Hinwil, Switzerland",
+        "baseCn": "欣维尔，瑞士",
+        "history": {
+            "championships": 0,
+            "wins": 1,
+            "podiums": 32,
+            "poles": 3,
+            "entries": 665,
+            "firstEntry": "1963"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "williams",
+        "name": "Williams",
+        "nameCn": "威廉姆斯",
+        "color": "#64c4ff",
+        "logo": "/photos/seasons/2026/teams/williams_logo.webp",
+        "drivers": [
+            "ALB",
+            "SAI"
+        ],
+        "carImage": "/photos/seasons/2026/teams/williams_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/williams/2026williamslogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/williams/2026williamscarright.webp",
+        "engine": "Mercedes",
+        "engineCn": "梅赛德斯",
+        "base": "Grove, United Kingdom",
+        "baseCn": "格罗夫，英国",
+        "history": {
+            "championships": 9,
+            "wins": 114,
+            "podiums": 315,
+            "poles": 126,
+            "entries": 862,
+            "firstEntry": "1975"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "alpine",
+        "name": "Alpine",
+        "nameCn": "阿尔派",
+        "color": "#0093cc",
+        "logo": "/photos/seasons/2026/teams/alpine_logo.webp",
+        "drivers": [
+            "GAS",
+            "COL"
+        ],
+        "carImage": "/photos/seasons/2026/teams/alpine_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/alpine/2026alpinelogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/alpine/2026alpinecarright.webp",
+        "engine": "Mercedes",
+        "engineCn": "梅赛德斯",
+        "base": "Enstone, United Kingdom",
+        "baseCn": "恩斯通，英国",
+        "history": {
+            "championships": 2,
+            "wins": 36,
+            "podiums": 109,
+            "poles": 51,
+            "entries": 514,
+            "firstEntry": "1977"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "haas",
+        "name": "Haas",
+        "nameCn": "哈斯",
+        "color": "#b6babd",
+        "logo": "/photos/seasons/2026/teams/haas_logo.webp",
+        "drivers": [
+            "OCO",
+            "BEA"
+        ],
+        "carImage": "/photos/seasons/2026/teams/haas_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/haas/2026haaslogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/haas/2026haascarright.webp",
+        "engine": "Ferrari",
+        "engineCn": "法拉利",
+        "base": "Kannapolis, United States",
+        "baseCn": "坎纳波利斯，美国",
+        "history": {
+            "championships": 0,
+            "wins": 0,
+            "podiums": 0,
+            "poles": 1,
+            "entries": 214,
+            "firstEntry": "2016"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "rb",
+        "name": "Racing Bulls",
+        "nameCn": "RB",
+        "color": "#6692ff",
+        "logo": "/photos/seasons/2026/teams/rb_logo.webp",
+        "drivers": [
+            "LAW",
+            "LIN"
+        ],
+        "carImage": "/photos/seasons/2026/teams/rb_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/racingbulls/2026racingbullslogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/racingbulls/2026racingbullscarright.webp",
+        "engine": "Red Bull Ford",
+        "engineCn": "红牛福特",
+        "base": "Faenza, Italy",
+        "baseCn": "法恩扎，意大利",
+        "history": {
+            "championships": 0,
+            "wins": 0,
+            "podiums": 0,
+            "poles": 0,
+            "entries": 24,
+            "firstEntry": "2024"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    },
+    {
+        "id": "cadillac",
+        "name": "Cadillac F1 Team",
+        "nameCn": "凯迪拉克",
+        "color": "#ffce00",
+        "logo": "/photos/seasons/2026/teams/cadillac_logo.webp",
+        "drivers": [
+            "PER",
+            "BOT"
+        ],
+        "carImage": "/photos/seasons/2026/teams/cadillac_car.webp",
+        "officialLogo": "https://media.formula1.com/image/upload/c_lfill,w_48/q_auto/v1740000000/common/f1/2026/cadillac/2026cadillaclogo.webp",
+        "officialCar": "https://media.formula1.com/image/upload/c_lfill,h_224/q_auto/d_common:f1:2026:fallback:car:2026fallbackcarright.webp/v1740000000/common/f1/2026/cadillac/2026cadillaccarright.webp",
+        "engine": "Ferrari",
+        "engineCn": "法拉利",
+        "base": "Detroit, United States",
+        "baseCn": "底特律，美国",
+        "history": {
+            "championships": 0,
+            "wins": 0,
+            "podiums": 0,
+            "poles": 0,
+            "entries": 0,
+            "firstEntry": "2026"
+        },
+        "stats": {
+            "points": 0,
+            "rank": 0,
+            "wins": 0,
+            "podiums": 0
+        }
+    }
+]

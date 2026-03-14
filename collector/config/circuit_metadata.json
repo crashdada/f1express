@@ -1,0 +1,170 @@
+{
+    "australia": {
+        "length": "5.278km",
+        "first_gp": 1996,
+        "laps": 58,
+        "distance": "306.124km",
+        "record": "1:19.813 (Charles Leclerc (2024))"
+    },
+    "china": {
+        "length": "5.451km",
+        "first_gp": 2004,
+        "laps": 56,
+        "distance": "305.066km",
+        "record": "1:32.238 (Michael Schumacher (2004))"
+    },
+    "japan": {
+        "length": "5.807km",
+        "first_gp": 1987,
+        "laps": 53,
+        "distance": "307.471km",
+        "record": "1:30.965 (Kimi Antonelli (2025))"
+    },
+    "bahrain": {
+        "length": "5.412km",
+        "first_gp": 2004,
+        "laps": 57,
+        "distance": "308.238km",
+        "record": "1:31.447 (Pedro de la Rosa (2005))"
+    },
+    "saudi-arabia": {
+        "length": "6.175km",
+        "first_gp": 2021,
+        "laps": 50,
+        "distance": "308.5km",
+        "record": null
+    },
+    "miami": {
+        "length": "5.412km",
+        "first_gp": 2022,
+        "laps": 57,
+        "distance": "308.326km",
+        "record": "1:29.708 (Max Verstappen (2023))"
+    },
+    "canada": {
+        "length": "4.361km",
+        "first_gp": 1978,
+        "laps": 70,
+        "distance": "305.27km",
+        "record": "1:13.078 (Valtteri Bottas (2019))"
+    },
+    "monaco": {
+        "length": "3.337km",
+        "first_gp": 1950,
+        "laps": 78,
+        "distance": "260.286km",
+        "record": "1:12.909 (Lewis Hamilton (2021))"
+    },
+    "barcelona-catalunya": {
+        "length": "4.657km",
+        "first_gp": 1991,
+        "laps": 66,
+        "distance": "307.236km",
+        "record": "1:15.743 (Oscar Piastri (2025))"
+    },
+    "austria": {
+        "length": "4.326km",
+        "first_gp": 1970,
+        "laps": 71,
+        "distance": "307.018km",
+        "record": "1:07.924 (Oscar Piastri (2025))"
+    },
+    "great-britain": {
+        "length": "5.891km",
+        "first_gp": 1950,
+        "laps": 52,
+        "distance": "306.198km",
+        "record": "1:27.097 (Max Verstappen (2020))"
+    },
+    "belgium": {
+        "length": "7.004km",
+        "first_gp": 1950,
+        "laps": 44,
+        "distance": "308.052km",
+        "record": "1:44.701 (Sergio Perez (2024))"
+    },
+    "hungary": {
+        "length": "4.381km",
+        "first_gp": 1986,
+        "laps": 70,
+        "distance": "306.63km",
+        "record": "1:16.627 (Lewis Hamilton (2020))"
+    },
+    "netherlands": {
+        "length": "4.259km",
+        "first_gp": 1952,
+        "laps": 72,
+        "distance": "306.587km",
+        "record": "1:11.097 (Lewis Hamilton (2021))"
+    },
+    "italy": {
+        "length": "5.793km",
+        "first_gp": 1950,
+        "laps": 53,
+        "distance": "306.72km",
+        "record": "1:20.901 (Lando Norris (2025))"
+    },
+    "spain": {
+        "length": "5.416km",
+        "first_gp": 2026,
+        "laps": 57,
+        "distance": "308.524km",
+        "record": null
+    },
+    "azerbaijan": {
+        "length": "6.003km",
+        "first_gp": 2016,
+        "laps": 51,
+        "distance": "306.049km",
+        "record": "1:43.009 (Charles Leclerc (2019))"
+    },
+    "singapore": {
+        "length": "4.927km",
+        "first_gp": 2008,
+        "laps": 62,
+        "distance": "305.337km",
+        "record": "1:33.808 (Lewis Hamilton (2025))"
+    },
+    "united-states": {
+        "length": "5.513km",
+        "first_gp": 2012,
+        "laps": 56,
+        "distance": "308.405km",
+        "record": "1:36.169 (Charles Leclerc (2019))"
+    },
+    "mexico": {
+        "length": "4.304km",
+        "first_gp": 1963,
+        "laps": 71,
+        "distance": "305.354km",
+        "record": "1:17.774 (Valtteri Bottas (2021))"
+    },
+    "brazil": {
+        "length": "4.309km",
+        "first_gp": 1973,
+        "laps": 71,
+        "distance": "305.879km",
+        "record": "1:10.540 (Valtteri Bottas (2018))"
+    },
+    "las-vegas": {
+        "length": "6.201km",
+        "first_gp": 2023,
+        "laps": 50,
+        "distance": "309.958km",
+        "record": "1:33.365 (Max Verstappen (2025))"
+    },
+    "qatar": {
+        "length": "5.419km",
+        "first_gp": 2021,
+        "laps": 57,
+        "distance": "308.611km",
+        "record": "1:22.384 (Lando Norris (2024))"
+    },
+    "abu-dhabi": {
+        "length": "5.281km",
+        "laps": 58,
+        "record": "1:26.103 (Verstappen)",
+        "first_gp": 2009,
+        "distance": "306.183km"
+    }
+}

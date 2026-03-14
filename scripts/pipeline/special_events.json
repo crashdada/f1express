@@ -1,0 +1,295 @@
+{
+    "description": "F1历史特殊事件配置 - 用于处理取消资格、积分处罚等特殊情况",
+    "constructor_disqualifications": [
+        {
+            "year": 2007,
+            "team": "迈凯伦",
+            "team_en": "McLaren",
+            "reason": "间谍门事件 (Spygate) - 窃取Ferrari技术机密",
+            "details": "McLaren被FIA取消2007年车队冠军资格，车队积分清零。车手积分保留，因此Lewis Hamilton and Fernando Alonso的个人积分仍然有效。",
+            "original_points": 218,
+            "final_points": 0,
+            "actual_champion": "法拉利",
+            "actual_champion_points": 204
+        },
+        {
+            "year": 2018,
+            "team": "印度力量",
+            "team_en": "Force India",
+            "reason": "车队所有权变更 (Sahara Force India -> Racing Point Force India)",
+            "details": "2018赛季第1-12站(Sahara Force India)由于破产托管，此前累积板的59分被清零。从第13站起以Racing Point Force India名义重新计分(最终52分)。",
+            "affected_rounds": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            "final_points": 52,
+            "final_points_for_rounds": 0
+        },
+        {
+            "year": 2020,
+            "team": "赛点",
+            "team_en": "Racing Point",
+            "reason": "刹车通风道设计违规 (Copygate)",
+            "details": "因非法使用梅赛德斯设计的刹车通风道，被FIA扣除15个车队积分。车手积分不受影响。",
+            "original_points": 210,
+            "final_points": 195
+        }
+    ],
+    "driver_disqualifications": [],
+    "driver_championship_overrides": [
+        {
+            "year": 1954,
+            "driver": "Juan Manuel Fangio",
+            "driver_cn": "胡安·曼努埃尔 方吉奥",
+            "team": "梅赛德斯",
+            "team_en": "Mercedes",
+            "reason": "1954年方吉奥赛季中途从玛莎拉蒂转投梅赛德斯，并主要代表梅赛德斯赢得冠军，官方记录通常归属于梅赛德斯。"
+        }
+    ],
+    "points_penalties": [
+        {
+            "year": 1995,
+            "round": 1,
+            "team": "贝纳通",
+            "team_en": "Benetton",
+            "points_deducted": "ALL",
+            "reason": "1995巴西站：燃油不符，取消该站车队积分（车手积分保留）",
+            "details": "舒马赫获得冠军，其10分个人积分保留，但贝纳通车队该站积分扣除。"
+        },
+        {
+            "year": 1995,
+            "round": 1,
+            "team": "威廉姆斯",
+            "team_en": "Williams",
+            "points_deducted": "ALL",
+            "reason": "1995巴西站：燃油不符，取消该站车队积分（车手积分保留）",
+            "details": "库特哈德获得亚军，其6分个人积分保留，但威廉姆斯车队该站积分扣除。"
+        },
+        {
+            "year": 2000,
+            "round": 10,
+            "team": "迈凯伦",
+            "team_en": "McLaren",
+            "points_deducted": 10,
+            "reason": "2000奥地利站：赛后技术检查发现哈基宁赛车的ECU封条缺失，扣除该站10分车队积分（车手积分保留）",
+            "details": "FIA保留哈基宁的分站冠军和10分个人积分，但扣除了迈凯伦车队在本站获得的10分车队积分（库特哈德的6分车队积分保留）。"
+        }
+    ],
+    "points_additions": [
+        {
+            "year": 1969,
+            "round": 7,
+            "driver": "Jean-Pierre Beltoise",
+            "position": 12,
+            "added_points": 1.0,
+            "reason": "因前 6 名中有 F2 赛车，他递补获得 F1 组第 6 名积分"
+        },
+        {
+            "year": 1969,
+            "round": 7,
+            "driver": "Jo Siffert",
+            "position": 11,
+            "added_points": 2.0,
+            "reason": "因前 6 名中有 F2 赛车，他递补获得 F1 组第 5 名积分"
+        },
+        {
+            "year": 1967,
+            "round": 7,
+            "driver": "Jo Bonnier",
+            "position": 6,
+            "added_points": 2.0,
+            "reason": "1967年德国站：因前方有F2赛车，他递补为F1组别第5名，获得2分"
+        },
+        {
+            "year": 1967,
+            "round": 7,
+            "driver": "Guy Ligier",
+            "position": 8,
+            "added_points": 1.0,
+            "reason": "1967年德国站：因前方有F2赛车，他递补为F1组别第6名，获得1分"
+        }
+    ],
+    "scoring_rules": [
+        {
+            "year": 1961,
+            "type": "WCC_vs_WDC_diff",
+            "description": "1961年车手冠军(WDC)第1名积9分，但车队冠军(WCC)第1名仅积8分。",
+            "affected_points": {
+                "P1_WDC": 9,
+                "P1_WCC": 8
+            }
+        }
+    ],
+    "constructor_multi_entity": [
+        {
+            "team": "莲花",
+            "team_en": "Lotus",
+            "team_id": 56,
+            "description": "莲花车队历史同时使用多种引擎参赛。各实体独立取每站最高分后，合并计入莲花总积分。",
+            "overrides": {
+                "1962": {
+                    "entities": [
+                        "Lotus-Climax:38",
+                        "Lotus-BRM:1"
+                    ],
+                    "total": 39
+                },
+                "1963": {
+                    "entities": [
+                        "Lotus-Climax:74",
+                        "Lotus-BRM:4"
+                    ],
+                    "total": 78
+                },
+                "1964": {
+                    "entities": [
+                        "Lotus-Climax:40",
+                        "Lotus-BRM:3"
+                    ],
+                    "total": 43
+                },
+                "1965": {
+                    "entities": [
+                        "Lotus-Climax:58",
+                        "Lotus-BRM:2"
+                    ],
+                    "total": 60
+                },
+                "1966": {
+                    "entities": [
+                        "Lotus-BRM:13",
+                        "Lotus-Climax:8"
+                    ],
+                    "total": 21
+                },
+                "1967": {
+                    "entities": [
+                        "Lotus-Ford:44",
+                        "Lotus-BRM:6"
+                    ],
+                    "total": 50
+                },
+                "1983": {
+                    "entities": [
+                        "Lotus-Renault:11",
+                        "Lotus-Ford:1"
+                    ],
+                    "total": 12
+                }
+            }
+        },
+        {
+            "team": "迈凯伦",
+            "team_en": "McLaren",
+            "team_id": 79,
+            "description": "1966-1968年迈凯伦使用多种引擎参赛。统一并入主ID(79)。",
+            "overrides": {
+                "1966": {
+                    "entities": [
+                        "McLaren-Ford:2",
+                        "McLaren-Serenissima:1"
+                    ],
+                    "total": 3
+                },
+                "1967": {
+                    "entities": [
+                        "McLaren-BRM:3"
+                    ],
+                    "total": 3
+                },
+                "1968": {
+                    "entities": [
+                        "McLaren-Ford Cosworth:49",
+                        "McLaren-BRM:3"
+                    ],
+                    "total": 52
+                }
+            }
+        },
+        {
+            "team": "布拉汉姆",
+            "team_en": "Brabham",
+            "team_id": 70,
+            "description": "1965-1967年布拉汉姆多引擎实体合并。",
+            "overrides": {
+                "1965": {
+                    "entities": [
+                        "Brabham-Climax:31",
+                        "Brabham-BRM:5"
+                    ],
+                    "total": 36
+                },
+                "1966": {
+                    "entities": [
+                        "Brabham-Repco:49",
+                        "Brabham-Climax:1",
+                        "Brabham-BRM:1"
+                    ],
+                    "total": 51
+                },
+                "1967": {
+                    "entities": [
+                        "Brabham-Repco:67",
+                        "Brabham-Climax:2"
+                    ],
+                    "total": 69
+                }
+            }
+        },
+        {
+            "team": "库珀",
+            "team_en": "Cooper",
+            "team_id": 7,
+            "description": "1960/1967年库珀多引擎实体合并。",
+            "overrides": {
+                "1960": {
+                    "entities": [
+                        "Cooper-Climax:58",
+                        "Cooper-Maserati:3",
+                        "Cooper-Castellotti:3"
+                    ],
+                    "total": 64
+                },
+                "1967": {
+                    "entities": [
+                        "Cooper-Maserati:28",
+                        "Cooper-Climax:6"
+                    ],
+                    "total": 34
+                }
+            }
+        },
+        {
+            "team": "Matra",
+            "team_en": "Matra",
+            "team_id": 82,
+            "description": "1968年Matra多引擎实体合并。",
+            "overrides": {
+                "1968": {
+                    "entities": [
+                        "Matra-Ford:45",
+                        "Matra:8"
+                    ],
+                    "total": 53
+                }
+            }
+        }
+    ],
+    "team_id_merges": [
+        {
+            "from": 83,
+            "to": 79,
+            "reason": "McLaren BRM (1967-1968) 统一并入主迈凯伦ID"
+        }
+    ]
+}

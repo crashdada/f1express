@@ -1,0 +1,15 @@
+{
+    "flags": {
+        "UNITED STATES": "USA",
+        "MIAMI": "USA",
+        "LAS VEGAS": "USA",
+        "BARCELONA-CATALUNYA": "Spain",
+        "ABU DHABI": "UAE",
+        "GREAT BRITAIN": "Great_Britain",
+        "SAUDI ARABIA": "Saudi_Arabia"
+    },
+    "teams": {
+        "KICK SAUBER": "audi",
+        "STAKE F1 TEAM KICK SAUBER": "audi"
+    }
+}

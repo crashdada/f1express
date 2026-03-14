@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e10600" />
+  <meta name="description" content="探索F1历史数据，了解车手表现、车队战绩和比赛记录" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="F1 Data Hub" />
+  <title>F1 Data Hub</title>
+  <link rel="icon" type="image/svg+xml" href="/f1-favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/f1-favicon.svg" />
+</head>
+
+<body>
+  <!-- Immediately unregister service worker before anything else -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        registrations.forEach(function (registration) {
+          registration.unregister();
+          console.log('Service Worker unregistered');
+        });
+      });
+
+      // Also clear all caches
+      if ('caches' in window) {
+        caches.keys().then(function (names) {
+          names.forEach(function (name) {
+            caches.delete(name);
+            console.log('Cache deleted:', name);
+          });
+        });
+      }
+    }
+  </script>
+  <div id="root"></div>
+  <script src="/libs/sql.js/sql-wasm.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
+  <!-- Service Worker disabled in development -->
+  <!--
+    <script>
+      // Unregister old service worker during development
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+            console.log('SW unregistered:', registration);
+          }
+        });
+      }
+    </script>
+    -->
+</body>
+
+</html>
