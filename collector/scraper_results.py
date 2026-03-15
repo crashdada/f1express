@@ -235,9 +235,19 @@ def main():
             print(f'[!] 未找到第 {args.round} 轮比赛')
             sys.exit(1)
     elif args.force:
-        # 取最近的非测试赛事
+        # 取距离现在最近的已结束或正在进行的赛事（而不是赛季最后一场）
         races = [r for r in schedule if not r.get('isTest', False)]
-        race = races[-1] if races else None
+        now = datetime.datetime.now(datetime.timezone.utc)
+        race = None
+        for r in reversed(races):
+            race_session = next((s for s in r.get('sessions', []) if s.get('name', '').upper() == 'RACE'), None)
+            if race_session and race_session.get('time'):
+                rt = datetime.datetime.fromisoformat(race_session['time'].replace('Z', '+00:00'))
+                if rt <= now + datetime.timedelta(days=1): # 允许采集刚开始或即将结束的
+                    race = r
+                    break
+        if not race:
+            race = races[0] if races else None
         if not race:
             print('[!] 赛历中无有效赛事')
             sys.exit(1)
