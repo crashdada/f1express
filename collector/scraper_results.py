@@ -107,7 +107,7 @@ def discover_race_urls(collector):
     listing_url = f"{collector.base_url}/en/results/{collector.season}/races"
     print(f'   发现比赛URL: {listing_url}')
 
-    html = collector.fetch_page(listing_url, max_retries=2, initial_delay=30)
+    html = collector.fetch_page(listing_url, max_retries=2)
     if not html:
         print('   [!] 无法获取 results 列表页面')
         return {}
@@ -152,7 +152,7 @@ def scrape_race_results(collector, race, race_urls=None):
     print(f'   URL: {result_url}')
 
     # 获取页面 HTML
-    html = collector.fetch_page(result_url, max_retries=2, initial_delay=60)
+    html = collector.fetch_page(result_url, max_retries=2)
     if not html:
         print(f'   [!] 页面获取失败')
         return None
@@ -176,7 +176,7 @@ def scrape_race_results(collector, race, race_urls=None):
     # 尝试获取杆位信息 (Starting Grid)
     grid_url = result_url.replace('/race-result', '/starting-grid')
     print(f'   起步距阵 URL: {grid_url}')
-    grid_html = collector.fetch_page(grid_url, max_retries=1, initial_delay=5)
+    grid_html = collector.fetch_page(grid_url, max_retries=1)
     if grid_html:
         pole_info = collector.get_starting_grid(grid_html)
         if pole_info:

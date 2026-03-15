@@ -1,0 +1,167 @@
+{
+    "round": "ROUND 2",
+    "country": "CHINA",
+    "slug": "china",
+    "url": "https://www.formula1.com/en/results/2026/races/1280/china/race-result",
+    "scraped_at": "2026-03-15T17:28:29.189352",
+    "results": [
+        {
+            "pos": "1",
+            "no": "12",
+            "laps": "56",
+            "time": "1:33:15.607",
+            "points": 25
+        },
+        {
+            "pos": "2",
+            "no": "63",
+            "laps": "56",
+            "time": "+5.515s",
+            "points": 18
+        },
+        {
+            "pos": "3",
+            "no": "44",
+            "laps": "56",
+            "time": "+25.267s",
+            "points": 15
+        },
+        {
+            "pos": "4",
+            "no": "16",
+            "laps": "56",
+            "time": "+28.894s",
+            "points": 12
+        },
+        {
+            "pos": "5",
+            "no": "87",
+            "laps": "56",
+            "time": "+57.268s",
+            "points": 10
+        },
+        {
+            "pos": "6",
+            "no": "10",
+            "laps": "56",
+            "time": "+59.647s",
+            "points": 8
+        },
+        {
+            "pos": "7",
+            "no": "30",
+            "laps": "56",
+            "time": "+80.588s",
+            "points": 6
+        },
+        {
+            "pos": "8",
+            "no": "6",
+            "laps": "56",
+            "time": "+87.247s",
+            "points": 4
+        },
+        {
+            "pos": "9",
+            "no": "55",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 2
+        },
+        {
+            "pos": "10",
+            "no": "43",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 1
+        },
+        {
+            "pos": "11",
+            "no": "27",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "12",
+            "no": "41",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "13",
+            "no": "77",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "14",
+            "no": "31",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "15",
+            "no": "11",
+            "laps": "55",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "3",
+            "laps": "45",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "14",
+            "laps": "32",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "18",
+            "laps": "9",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "81",
+            "laps": "0",
+            "time": "DNS",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "1",
+            "laps": "0",
+            "time": "DNS",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "5",
+            "laps": "0",
+            "time": "DNS",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "23",
+            "laps": "0",
+            "time": "DNS",
+            "points": 0
+        }
+    ],
+    "polePosition": {
+        "no": "12",
+        "time": "1:32.064"
+    }
+}

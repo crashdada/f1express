@@ -267,6 +267,35 @@ class F1DataCollector:
         except:
             return []
 
+    def get_starting_grid(self, html):
+        """解析起步位次 (Starting Grid)"""
+        full_text = self._reconstruct_next_data(html)
+        start_tag = '"rows":['
+        start_idx = full_text.find(start_tag)
+        if start_idx == -1: return None
+
+        content = full_text[start_idx + len(start_tag) - 1:]
+        brace_count, end_idx = 0, 0
+        for i, char in enumerate(content):
+            if char == '[': brace_count += 1
+            elif char == ']': brace_count -= 1
+            if brace_count == 0:
+                end_idx = i + 1
+                break
+        try:
+            rows = json.loads(content[:end_idx])
+            if rows:
+                # 只取第一行作为杆位信息示例（或返回完整列表，取决于 scraper_results.py 如何使用）
+                # scraper_results.py 期望 {'no': ..., 'time': ...}
+                row = rows[0]
+                return {
+                    'no': row[1].get('content', [None])[0] if len(row) > 1 else None,
+                    'time': row[4].get('content', [None])[0] if len(row) > 4 else None
+                }
+            return None
+        except:
+            return None
+
 if __name__ == "__main__":
     collector = F1DataCollector()
     print(f"Starting F1 Data Collector for Season {collector.season}...")
