@@ -182,8 +182,10 @@ def scrape_race_results(collector, race, race_urls=None):
         if sprint_html:
             sprint_results = collector.get_race_results(sprint_html)
             if sprint_results:
+                # 冲刺赛只记录前8名 (得分区)
+                sprint_results = sprint_results[:8]
                 output['sprintResults'] = sprint_results
-                print(f"   ✅ 获取到 {len(sprint_results)} 条冲刺赛成绩")
+                print(f"   ✅ 获取到 {len(sprint_results)} 条冲刺赛成绩 (仅记录前8名)")
             else:
                 print("   [!] 未找到冲刺赛成绩数据")
         else:

@@ -3,7 +3,7 @@
     "country": "CHINA",
     "slug": "china",
     "url": "https://www.formula1.com/en/results/2026/races/1280/china/race-result",
-    "scraped_at": "2026-03-15T18:06:52.684163",
+    "scraped_at": "2026-03-15T18:09:12.704640",
     "results": [
         {
             "pos": "1",
@@ -216,104 +216,6 @@
             "laps": "19",
             "time": "+11.271s",
             "points": 1
-        },
-        {
-            "pos": "9",
-            "no": "3",
-            "laps": "19",
-            "time": "+11.619s",
-            "points": 0
-        },
-        {
-            "pos": "10",
-            "no": "31",
-            "laps": "19",
-            "time": "+13.887s",
-            "points": 0
-        },
-        {
-            "pos": "11",
-            "no": "10",
-            "laps": "19",
-            "time": "+14.780s",
-            "points": 0
-        },
-        {
-            "pos": "12",
-            "no": "55",
-            "laps": "19",
-            "time": "+15.753s",
-            "points": 0
-        },
-        {
-            "pos": "13",
-            "no": "5",
-            "laps": "19",
-            "time": "+15.858s",
-            "points": 0
-        },
-        {
-            "pos": "14",
-            "no": "43",
-            "laps": "19",
-            "time": "+16.393s",
-            "points": 0
-        },
-        {
-            "pos": "15",
-            "no": "6",
-            "laps": "19",
-            "time": "+16.430s",
-            "points": 0
-        },
-        {
-            "pos": "16",
-            "no": "23",
-            "laps": "19",
-            "time": "+20.014s",
-            "points": 0
-        },
-        {
-            "pos": "17",
-            "no": "14",
-            "laps": "19",
-            "time": "+21.599s",
-            "points": 0
-        },
-        {
-            "pos": "18",
-            "no": "18",
-            "laps": "19",
-            "time": "+21.971s",
-            "points": 0
-        },
-        {
-            "pos": "19",
-            "no": "11",
-            "laps": "19",
-            "time": "+28.241s",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "27",
-            "laps": "12",
-            "time": "DNF",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "77",
-            "laps": "12",
-            "time": "DNF",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "41",
-            "laps": "11",
-            "time": "DNF",
-            "points": 0
         }
     ],
     "polePosition": {

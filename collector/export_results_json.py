@@ -125,10 +125,10 @@ def build_results_json():
                 'status': status,
             })
 
-        # 处理冲刺赛成绩
+        # 处理冲刺赛成绩 (仅取前8名得分区)
         sprint_results = []
         if raw.get('sprintResults'):
-            for r in raw['sprintResults']:
+            for r in raw['sprintResults'][:8]:
                 no = str(r['no'])
                 driver = no_map.get(no, {})
                 pos_raw = r['pos']
