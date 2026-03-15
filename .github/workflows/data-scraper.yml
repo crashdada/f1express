@@ -1,0 +1,61 @@
+name: F1 Data Scraper (Integrated)
+
+on:
+  schedule:
+    # 每 3 小时执行一次 (15 3 6 9 12 15 18 21)
+    - cron: '15 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      force_results:
+        description: 'Force scrape race results'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout f1express
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || github.token }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f collector/requirements.txt ]; then
+            pip install -r collector/requirements.txt
+          else
+            pip install requests beautifulsoup4
+          fi
+
+      - name: Run Scraper
+        run: |
+          # 运行赛果采集
+          if [ "${{ github.event.inputs.force_results }}" = "true" ]; then
+            python collector/scraper_results.py --force
+          else
+            python collector/scraper_results.py
+          fi
+          
+          # 导出 JSON 并同步到 public/data
+          python collector/export_results_json.py
+          python collector/syncer.py --all
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add collector/data/*.json collector/results_*/ public/data/*.json 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update F1 data $(date -u +'%Y-%m-%d') [skip ci]"
+            git push origin main
+          fi
