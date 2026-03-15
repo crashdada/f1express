@@ -42,6 +42,7 @@ export interface IRaceRound2026 {
         lastNameCn: string;
     };
     results: IRaceResult2026[];
+    sprintResults?: IRaceResult2026[];
 }
 
 interface DynamicDataState {
@@ -134,7 +135,7 @@ export function useDynamic2026Data() {
                                 schedule: processAssets(newSchedule),
                                 drivers: newDrivers,
                                 teams: newTeams,
-                                raceResults: newResults.length > 0 ? newResults : prev.raceResults,
+                                raceResults: newResults.length >= prev.raceResults.length ? newResults : prev.raceResults,
                             }));
                             console.log('🔄 Data successfully synced and seamlessly updated from GitHub');
                         }

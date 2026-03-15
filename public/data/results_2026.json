@@ -594,6 +594,112 @@
                 "status": "DNF"
             }
         ],
+        "sprintResults": [
+            {
+                "pos": 1,
+                "firstName": "George",
+                "lastName": "Russell",
+                "firstNameCn": "乔治",
+                "lastNameCn": "拉塞尔",
+                "code": "RUS",
+                "number": 63,
+                "team": "Mercedes",
+                "teamCn": "梅赛德斯",
+                "points": 8,
+                "status": "Finished"
+            },
+            {
+                "pos": 2,
+                "firstName": "Charles",
+                "lastName": "Leclerc",
+                "firstNameCn": "夏尔",
+                "lastNameCn": "勒克莱尔",
+                "code": "LEC",
+                "number": 16,
+                "team": "Ferrari",
+                "teamCn": "法拉利",
+                "points": 7,
+                "status": "Finished"
+            },
+            {
+                "pos": 3,
+                "firstName": "Lewis",
+                "lastName": "Hamilton",
+                "firstNameCn": "刘易斯",
+                "lastNameCn": "汉密尔顿",
+                "code": "HAM",
+                "number": 44,
+                "team": "Ferrari",
+                "teamCn": "法拉利",
+                "points": 6,
+                "status": "Finished"
+            },
+            {
+                "pos": 4,
+                "firstName": "Lando",
+                "lastName": "Norris",
+                "firstNameCn": "兰多",
+                "lastNameCn": "诺里斯",
+                "code": "NOR",
+                "number": 1,
+                "team": "McLaren",
+                "teamCn": "迈凯伦",
+                "points": 5,
+                "status": "Finished"
+            },
+            {
+                "pos": 5,
+                "firstName": "Kimi",
+                "lastName": "Antonelli",
+                "firstNameCn": "安德里亚",
+                "lastNameCn": "安东内利",
+                "code": "ANT",
+                "number": 12,
+                "team": "Mercedes",
+                "teamCn": "梅赛德斯",
+                "points": 4,
+                "status": "Finished"
+            },
+            {
+                "pos": 6,
+                "firstName": "Oscar",
+                "lastName": "Piastri",
+                "firstNameCn": "奥斯卡",
+                "lastNameCn": "皮亚斯特里",
+                "code": "PIA",
+                "number": 81,
+                "team": "McLaren",
+                "teamCn": "迈凯伦",
+                "points": 3,
+                "status": "Finished"
+            },
+            {
+                "pos": 7,
+                "firstName": "Liam",
+                "lastName": "Lawson",
+                "firstNameCn": "利亚姆",
+                "lastNameCn": "劳森",
+                "code": "LAW",
+                "number": 30,
+                "team": "Racing Bulls",
+                "teamCn": "Racing Bulls",
+                "points": 2,
+                "status": "Finished"
+            },
+            {
+                "pos": 8,
+                "firstName": "Oliver",
+                "lastName": "Bearman",
+                "firstNameCn": "奥利弗",
+                "lastNameCn": "比尔曼",
+                "code": "BEA",
+                "number": 87,
+                "team": "Haas",
+                "teamCn": "哈斯",
+                "points": 1,
+                "status": "Finished"
+            }
+        ],
         "polePosition": {
             "time": "1:32.064",
             "code": "ANT",

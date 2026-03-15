@@ -44,16 +44,26 @@ const RaceDetailPage = () => {
     const [useShanghaiTime, setUseShanghaiTime] = useState(true);
 
     // Get race results from JSON for this slug
-    const raceResults = useMemo(() => {
-        if (!slug || !allRaceResults.length) return [];
+    const { results: raceResults, sprintResults } = useMemo(() => {
+        if (!slug || !allRaceResults.length) return { results: [], sprintResults: [] };
         const round = allRaceResults.find(r => r.slug === slug);
-        if (!round) return [];
-        return round.results.sort((a, b) => {
+        if (!round) return { results: [], sprintResults: [] };
+        
+        const sortedResults = [...round.results].sort((a, b) => {
             if (a.pos != null && b.pos != null) return a.pos - b.pos;
             if (a.pos != null) return -1;
             if (b.pos != null) return 1;
             return 0;
         });
+
+        const sortedSprint = round.sprintResults ? [...round.sprintResults].sort((a, b) => {
+            if (a.pos != null && b.pos != null) return a.pos - b.pos;
+            if (a.pos != null) return -1;
+            if (b.pos != null) return 1;
+            return 0;
+        }) : [];
+
+        return { results: sortedResults, sprintResults: sortedSprint };
     }, [slug, allRaceResults]);
 
 
@@ -372,6 +382,79 @@ const RaceDetailPage = () => {
                         </div>
                     </div>
                 </div>
+                
+                {/* Sprint Results Section (if available) */}
+                {sprintResults && sprintResults.length > 0 && (
+                    <div className="mt-12 glass-strong rounded-[2rem] p-8 md:p-12 border border-white/5 shadow-2xl overflow-hidden relative group">
+                        <div className="absolute top-0 right-0 p-8 opacity-[0.03] -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-1000">
+                            <Sparkles size={250} />
+                        </div>
+                        <h3 className="text-3xl font-black text-primary font-orbitron flex items-center mb-10 uppercase tracking-tight italic">
+                            <Sparkles className="text-f1-red mr-4" size={32} />
+                            冲刺赛成绩 (Sprint)
+                        </h3>
+                        <div className="overflow-x-auto pb-4 relative z-10">
+                            <table className="w-full text-left border-collapse whitespace-nowrap min-w-[700px]">
+                                <thead>
+                                    <tr className="border-b-2 border-f1-red/30">
+                                        <th className="py-4 px-4 text-center text-secondary text-sm font-black uppercase tracking-widest w-16">Pos</th>
+                                        <th className="py-4 px-4 text-center text-secondary text-sm font-black uppercase tracking-widest w-16">No</th>
+                                        <th className="py-4 px-4 text-secondary text-sm font-black uppercase tracking-widest">Driver</th>
+                                        <th className="py-4 px-4 text-secondary text-sm font-black uppercase tracking-widest">Team</th>
+                                        <th className="py-4 px-4 text-right text-secondary text-sm font-black uppercase tracking-widest w-24">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sprintResults.map((result, idx) => {
+                                        const isPodium = result.pos && result.pos <= 3;
+                                        const posColor = result.pos === 1
+                                            ? 'text-yellow-400 bg-yellow-400/10'
+                                            : result.pos === 2
+                                                ? 'text-gray-300 bg-gray-300/10'
+                                                : result.pos === 3
+                                                    ? 'text-orange-400 bg-orange-400/10'
+                                                    : 'text-primary bg-bg-secondary/40 border border-white/5';
+
+                                        const bgClass = idx % 2 === 0 ? 'bg-bg-primary/20' : 'bg-transparent';
+
+                                        return (
+                                            <tr key={idx} className={`border-b border-white/5 hover:bg-white/5 transition-colors ${bgClass} group`}>
+                                                <td className="py-4 px-4 text-center">
+                                                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-black font-orbitron text-sm italic ${posColor}`}>
+                                                        {result.pos || '-'}
+                                                    </span>
+                                                </td>
+                                                <td className="py-4 px-4 text-center">
+                                                    <span className="text-secondary font-mono font-bold text-sm">
+                                                        {result.number}
+                                                    </span>
+                                                </td>
+                                                <td className="py-4 px-4">
+                                                    <div className="flex items-center">
+                                                        <span className={`text-base ${isPodium ? 'font-black text-primary' : 'font-bold text-slate-300'}`}>
+                                                            {result.firstNameCn || result.firstName} {result.lastNameCn || result.lastName}
+                                                        </span>
+                                                        <span className="text-f1-red ml-3 text-xs font-mono bg-f1-red/10 px-2 py-0.5 rounded border border-f1-red/20 opacity-80 group-hover:opacity-100 transition-opacity">
+                                                            {result.code}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 px-4">
+                                                    <p className="text-secondary text-sm font-bold uppercase tracking-wider">
+                                                        {result.teamCn || result.team}
+                                                    </p>
+                                                </td>
+                                                <td className={`py-4 px-4 text-right font-black font-orbitron italic tabular-nums text-xl ${result.points > 0 ? 'text-primary' : 'text-slate-500'}`}>
+                                                    {result.points > 0 ? `${result.points}` : '-'}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
 
                 {/* Full Width Results Section */}
                 <div className={`mt-12 glass-strong rounded-[2rem] p-8 md:p-12 border border-white/5 shadow-2xl overflow-hidden relative group ${raceResults.length === 0 ? 'opacity-40 grayscale pointer-events-none' : ''}`}>
