@@ -97,6 +97,7 @@ def build_results_json():
             round_num = int(m.group(1)) if m else 0
         race_date = slug_date_map.get(slug, '')
 
+        # 处理正赛成绩
         results = []
         for r in raw.get('results', []):
             no = str(r['no'])
@@ -124,6 +125,34 @@ def build_results_json():
                 'status': status,
             })
 
+        # 处理冲刺赛成绩
+        sprint_results = []
+        if raw.get('sprintResults'):
+            for r in raw['sprintResults']:
+                no = str(r['no'])
+                driver = no_map.get(no, {})
+                pos_raw = r['pos']
+                try:
+                    pos = int(pos_raw)
+                    status = 'Finished'
+                except (ValueError, TypeError):
+                    pos = None
+                    status = 'DNF'
+                
+                sprint_results.append({
+                    'pos': pos,
+                    'firstName': driver.get('firstName', ''),
+                    'lastName': driver.get('lastName', ''),
+                    'firstNameCn': driver.get('firstNameCn', ''),
+                    'lastNameCn': driver.get('lastNameCn', ''),
+                    'code': driver.get('code', ''),
+                    'number': int(no) if no.isdigit() else 0,
+                    'team': driver.get('team', ''),
+                    'teamCn': TEAM_CN_MAP.get(driver.get('team', ''), driver.get('teamCn', '')),
+                    'points': r.get('points', 0),
+                    'status': status,
+                })
+
         race_info = {
             'round': round_num,
             'country': country,
@@ -131,6 +160,9 @@ def build_results_json():
             'date': race_date,
             'results': results,
         }
+        
+        if sprint_results:
+            race_info['sprintResults'] = sprint_results
 
         pole = raw.get('polePosition')
         if pole:

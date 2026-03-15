@@ -173,7 +173,23 @@ def scrape_race_results(collector, race, race_urls=None):
         'results': results
     }
 
-    # 尝试获取杆位信息 (Starting Grid)
+    # 1. 尝试获取冲刺赛成绩 (Sprint Results)
+    has_sprint = any(s.get('name') == 'Sprint' for s in race.get('sessions', []))
+    if has_sprint:
+        sprint_url = result_url.replace('/race-result', '/sprint-results')
+        print(f'   发现冲刺赛，尝试采集: {sprint_url}')
+        sprint_html = collector.fetch_page(sprint_url, max_retries=1)
+        if sprint_html:
+            sprint_results = collector.get_race_results(sprint_html)
+            if sprint_results:
+                output['sprintResults'] = sprint_results
+                print(f"   ✅ 获取到 {len(sprint_results)} 条冲刺赛成绩")
+            else:
+                print("   [!] 未找到冲刺赛成绩数据")
+        else:
+            print("   [!] 获取 Sprint Results 页面失败")
+
+    # 2. 尝试获取杆位信息 (Starting Grid)
     grid_url = result_url.replace('/race-result', '/starting-grid')
     print(f'   起步距阵 URL: {grid_url}')
     grid_html = collector.fetch_page(grid_url, max_retries=1)
@@ -187,7 +203,7 @@ def scrape_race_results(collector, race, race_urls=None):
     else:
         print("   [!] 获取 Starting Grid 失败，无杆位数据")
 
-    print(f'   ✅ 获取到 {len(results)} 条成绩')
+    print(f'   ✅ 采集任务完成')
     return output
 
 
