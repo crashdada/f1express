@@ -45,7 +45,7 @@ COPY --from=builder /app/dist ./dist
 
 # 复制后端服务程序及必要的运行脚本
 COPY server.cjs .
-COPY docker/entrypoint.sh ./entrypoint.sh
+COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 
 # 复制核心脚本与基础数据 (排除 .git, node_modules 等已在 .dockerignore 中定义的目录)
