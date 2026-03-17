@@ -84,7 +84,8 @@ app.post('/api/self-update', updateLimiter, (req, res) => {
 });
 
 // 4. SPA 路由回退 (处理前端路由刷新 404 问题)
-app.get('/:any*', (req, res) => {
+// 在 Express 5 中，通配符语法极其严格，直接使用中间件作为兜底是最好的兼容方案
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
