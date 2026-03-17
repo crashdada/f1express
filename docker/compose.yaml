@@ -1,6 +1,6 @@
 # F1 Website — NAS Docker Compose (无状态部署)
 #
-# 这种模式下数据完全由 GitHub 镜像驱动，NAS 不需要挂载 Volume。
+# 这种模式下数据完全由 GitHub 镜像驱动，NAS 不需要挂载存储 Volume。
 # 每次 GitHub Actions 采集完新数据后，只需执行：
 #   docker compose pull && docker compose up -d
 # 即可更新到最新积分和赛程。
@@ -10,12 +10,14 @@ services:
     image: dudumin/f1express:latest
     container_name: f1express
     ports:
-      - "8001:8001"
+      - "8002:8001"
     environment:
       # 启用存储分离模式，指向镜像内的存储目录
       - F1_STORAGE_ROOT=/app/f1_storage
       - NAS_MODE=true
-    # 彻底移除 volumes 挂载，确保启动时使用的是镜像内最新的数据
+    volumes:
+      # 必须挂载 docker.sock 才能使 Admin Console 的“检查更新”和“自更新”功能生效
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     logging:
       driver: "json-file"
