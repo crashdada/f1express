@@ -7,16 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 
 // 1. 配置存储目录 (NAS 模式下指向挂载路径，否则指向内置)
+// 统一遵循 f1_storage 规范
 const STORAGE_ROOT = process.env.F1_STORAGE_ROOT || path.join(__dirname, 'f1_storage');
 
-// 2. 静态文件服务 (注意顺序)
+// 2. 静态文件服务
 
-// A. /data 路由：依次查找内置 dist/data 和外部挂载 f1_storage
-// 这一步关键：防止 Catch-all 把 .db 或 .json 解析成 HTML
-app.use('/data', express.static(path.join(__dirname, 'dist', 'data')));
+// A. /data 路由：托管数据库和 JSON (f1_storage 根目录)
 app.use('/data', express.static(STORAGE_ROOT));
 
-// B. /photos 路由：托管车手与车队照片
+// B. /photos 路由：托管照片 (f1_storage/photos)
 app.use('/photos', express.static(path.join(STORAGE_ROOT, 'photos')));
 
 // C. 托管编译后的前端页面 (React App)
@@ -38,7 +37,7 @@ app.get('/api/check-update', updateLimiter, (req, res) => {
     exec(`docker pull ${DOCKER_IMAGE}`, { env: dockerEnv }, (err, stdout, stderr) => {
         if (err) {
             console.error('[Update] docker pull failed:', err.message);
-            return res.status(500).json({ hasUpdate: false, error: '无法获取更新，请检查 docker.sock 挂载' });
+            return res.status(500).json({ hasUpdate: false, error: '无法获取更新，请确认 /var/run/docker.sock 已挂载' });
         }
         const isUpToDate = stdout.includes('Image is up to date') || stdout.includes('Status: Image is up to date');
         res.json({
@@ -53,7 +52,7 @@ app.post('/api/self-update', updateLimiter, (req, res) => {
     if (!fs.existsSync('/var/run/docker.sock')) {
         return res.status(500).json({ error: 'Docker Socket 未挂载' });
     }
-    console.log('[Update] Self-update triggered...');
+    console.log('[Update] Self-update triggered via Watchtower...');
     res.json({ status: 'restarting', message: '容器将在 30-60 秒内重启应用新镜像...' });
     setTimeout(() => {
         exec(`docker run --rm -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --run-once --cleanup f1express`, { env: dockerEnv });
@@ -61,24 +60,22 @@ app.post('/api/self-update', updateLimiter, (req, res) => {
 });
 
 // 4. SPA 路由回退 (Catch-all)
-// ！！！极其重要：必须排除数据和照片路径，否则当这些资源缺失时，前端会收到 index.html 并报数据库解析错误
+// 排除数据请求，防止 404 时返回 HTML 导致前端解析数据库错误
 app.use((req, res) => {
-    const isDataOrPhoto = req.path.startsWith('/data/') || req.path.startsWith('/photos/') || req.path.includes('.db') || req.path.includes('.json');
-    
-    if (isDataOrPhoto) {
-        console.warn(`[404] Missing resource requested: ${req.path}`);
-        return res.status(404).json({ error: 'Data or photo not found' });
+    // 如果是请求特定资源却没找到，直接 404
+    const isResource = req.path.includes('.') || req.path.startsWith('/data/') || req.path.startsWith('/photos/');
+    if (isResource) {
+        return res.status(404).send('Resource Not Found');
     }
-
+    // 否则作为页面路由返回 index.html
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // 5. 启动程序
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`=================================================`);
-    console.log(`F1 Express Server (Stateless Ready)`);
+    console.log(`F1 Express Server (Standard f1_storage Mode)`);
     console.log(`Port: ${PORT}`);
     console.log(`Storage: ${STORAGE_ROOT}`);
-    console.log(`Fallback Strategy Enabled: /data -> dist/data OR f1_storage`);
     console.log(`=================================================`);
 });
