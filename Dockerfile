@@ -5,19 +5,21 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# 复制依赖配置
 COPY package.json package-lock.json* ./
 RUN npm install --registry=https://registry.npmmirror.com
 
+# 复制源代码并编译
 COPY . .
 RUN npm run build
 
 
 # =============================================================
-# 阶段 2: 运行阶段 (Runner) — 精简镜像，只含运行时依赖
+# 阶段 2: 运行阶段 (Runner) — 精简镜像
 # =============================================================
 FROM node:20-alpine
 
-# 时区与镜像源
+# 设置时区与常用的国内镜像源（可选）
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
     apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
@@ -25,32 +27,35 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
 
 WORKDIR /app
 
-# Python 环境（用于数据同步脚本）+ git（用于 NAS 推送回 GitHub）+ docker-cli（用于自更新）
-RUN apk add --no-cache python3 py3-pip py3-pandas py3-requests py3-beautifulsoup4 git rsync docker-cli docker-compose jq && \
+# 安装运行时必需的最小化工具：
+# - python3, py3-requests, py3-beautifulsoup4: 用于数据处理和采集脚本
+# - git: 用于 Admin Console 同步数据回 GitHub
+# - jq: 用于解析 json (Workflow/Scripts)
+# - docker-cli: 仅当需要触发自更新时有用，保持轻量级
+RUN apk add --no-cache python3 py3-requests py3-beautifulsoup4 git jq docker-cli && \
     ln -sf /usr/bin/python3 /usr/bin/python
 
-# Node.js 生产依赖
+# 安装 Node.js 生产环境依赖
 COPY package.json package-lock.json* ./
-RUN npm pkg delete scripts.prepare && npm install --production --registry=https://registry.npmmirror.com
+RUN npm pkg delete scripts.prepare && \
+    npm install --production --registry=https://registry.npmmirror.com
 
-# ── 前端产物 ───────────────────────────────────────────────
+# 从 builder 阶段复制前端静态产物
 COPY --from=builder /app/dist ./dist
 
-# ── 后端与数据处理脚本 ──────────────────────────────────────
+# 复制后端服务程序及必要的运行脚本
 COPY server.cjs .
-COPY entrypoint.sh .
+COPY docker/entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 
+# 复制核心脚本与基础数据 (排除 .git, node_modules 等已在 .dockerignore 中定义的目录)
 COPY scripts ./scripts
 COPY public ./public
 COPY f1_storage ./f1_storage
-COPY .git ./.git
-
-# ── f1-collector 脚本 (Integrated) ───
 COPY collector ./collector
 
-# =============================================================
+# 暴露端口
 EXPOSE 8001
 
-# 直接启动 entrypoint
+# 启动容器
 ENTRYPOINT ["./entrypoint.sh"]
