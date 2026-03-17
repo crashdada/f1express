@@ -17,7 +17,7 @@ export async function checkForUpdates(): Promise<{
     error?: string;
 }> {
     // @ts-ignore
-    const currentVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.5.0';
+    const currentVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.1.1';
 
     try {
         const res = await fetch('https://api.github.com/repos/crashdada/f1-website/releases/latest');

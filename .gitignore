@@ -19,10 +19,10 @@ pnpm-debug.log*
 backups/
 f1_storage/backups/
 
-# Data storage separation
-f1_storage/*.db
+# Data storage separation (Tracked for stateless image bundling)
+!f1_storage/f1.db
+!f1_storage/photos/
 f1_storage/live/
-f1_storage/photos/
 f1_storage/uploads/
 # (f1_storage/csv and f1_storage/assets ARE tracked)
 
