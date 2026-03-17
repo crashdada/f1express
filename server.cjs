@@ -7,12 +7,15 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 8001;
 
-// 1. 配置上传: 先存到 uploads/ 暂存区，防止直接挂载 csv/ 导致覆盖容器内文件
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
-const CSV_DIR = path.join(__dirname, 'csv');
+// 1. 配置上传与存储分离
+const STORAGE_ROOT = process.env.F1_STORAGE_ROOT || path.join(__dirname, 'f1_storage');
+const UPLOAD_DIR = path.join(STORAGE_ROOT, 'uploads');
+const CSV_DIR = path.join(STORAGE_ROOT, 'csv');
+const DATA_DIR = STORAGE_ROOT; // 统一数据根目录
 
 // 确保目录存在
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR);
+if (!fs.existsSync(STORAGE_ROOT)) fs.mkdirSync(STORAGE_ROOT, { recursive: true });
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 if (!fs.existsSync(CSV_DIR)) fs.mkdirSync(CSV_DIR);
 
 const storage = multer.diskStorage({
@@ -100,7 +103,7 @@ app.post('/api/upload-csv', uploadLimiter, upload.single('file'), (req, res) => 
         return res.status(400).json({ error: `CSV 内容校验失败，请检查文件头格式是否与 ${filename} 匹配` });
     }
 
-    console.log(`[Server] Received ${req.file.originalname} → saving as csv/${filename}`);
+    console.log(`[Server] Received ${req.file.originalname} → saving as ${path.relative(__dirname, CSV_DIR)}/${filename}`);
 
     try {
         const targetPath = path.join(CSV_DIR, filename);
@@ -187,12 +190,13 @@ function runGitPush(filename, res) {
         try {
             console.log('[Git] Checking for missing files to auto-restore...');
             // 获取所有被标记为已删除的 csv 文件
-            const statusOutput = execSync('git ls-files --deleted csv/', { cwd: __dirname, encoding: 'utf-8' }).trim();
+            const csvRelPath = path.relative(__dirname, CSV_DIR).replace(/\\/g, '/');
+            const statusOutput = execSync(`git ls-files --deleted ${csvRelPath}/`, { cwd: __dirname, encoding: 'utf-8' }).trim();
 
             if (statusOutput) {
                 const missingFiles = statusOutput.split('\n')
                     .map(f => f.trim())
-                    .filter(f => f.endsWith('.csv') && f !== `csv/${filename}`); // 排除刚上传的那个（虽然理论上刚上传的不算 deleted，但防守一波）
+                    .filter(f => f.endsWith('.csv') && f !== `${csvRelPath}/${filename}`); // 排除刚上传的那个
 
                 if (missingFiles.length > 0) {
                     console.log(`[Git] Restoring ${missingFiles.length} missing CSV files:`, missingFiles);
@@ -206,9 +210,7 @@ function runGitPush(filename, res) {
 
         // ---[提交阶段]---
         const pushCommands = [
-            ['git', ['add', 'public/data']],    // 生成的数据
-            ['git', ['add', 'csv/*.csv']],     // 所有的 CSV (刚上传的 + 刚恢复的)
-            // 注意：不使用 git add . 也不使用 git add csv，这样会自动忽略 compose.yaml
+            ['git', ['add', `${path.relative(__dirname, CSV_DIR).replace(/\\/g, '/')}/*.csv`]],     // 仅同步 CSV 源码
             ['git', ['commit', '-m', `data: update ${filename} via admin console`]],
             ['git', ['push', 'origin', 'main']]
         ];

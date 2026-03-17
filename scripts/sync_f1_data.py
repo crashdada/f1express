@@ -6,6 +6,17 @@ import time
 from datetime import datetime
 import hashlib
 import json
+from pathlib import Path
+import io
+
+# Fix encoding for Windows
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
+# Import central config
+sys.path.append(str(Path(__file__).resolve().parent))
+from f1_config import get_path, ensure_dirs, STORAGE_ROOT
 
 # ── 环境检测 ──────────────────────────────────────────────────────────────────
 # NAS 模式：通过环境变量 NAS_MODE=true 激活（在 compose.yaml 中设置）
@@ -18,11 +29,20 @@ MAX_BACKUPS = 5
 step_results = []   # [(step_label, success: bool/None, elapsed_s: float)]
 # success: True=✅, False=❌, None=⏩ (Skipped)
 
+def safe_print(msg, **kwargs):
+    try:
+        print(msg, **kwargs)
+    except UnicodeEncodeError:
+        if isinstance(msg, str):
+            print(msg.encode('ascii', 'replace').decode('ascii'), **kwargs)
+        else:
+            print(msg, **kwargs)
+
 def record(label, success, elapsed):
     step_results.append((label, success, elapsed))
 
 def run_command(command, cwd=None, extra_env=None):
-    print(f"\n>>> 正在运行: {' '.join(str(c) for c in command)}")
+    safe_print(f"\n>>> 正在运行: {' '.join(str(c) for c in command)}")
     env = os.environ.copy()
     if extra_env:
         env.update(extra_env)
@@ -31,34 +51,38 @@ def run_command(command, cwd=None, extra_env=None):
     
     t0 = time.time()
     try:
-        result = subprocess.run(
+        process = subprocess.Popen(
             command,
             cwd=cwd,
-            check=True,
-            capture_output=True,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             text=True,
             encoding='utf-8',
             errors='replace',
-            env=env
+            bufsize=1,
+            universal_newlines=True
         )
-        print(result.stdout)
-        if result.stderr:
-            print(result.stderr)
+        
+        for line in process.stdout:
+            safe_print(line, end='', flush=True)
+            
+        process.wait()
+        
+        if process.returncode != 0:
+            safe_print(f"!!! 错误: Command returned non-zero exit status {process.returncode}")
+            return False, time.time() - t0
         return True, time.time() - t0
-    except subprocess.CalledProcessError as e:
-        print(f"!!! 错误: {e}")
-        if e.stdout:
-            print(e.stdout)
-        if e.stderr:
-            print(e.stderr)
+    except Exception as e:
+        safe_print(f"!!! 非预期异常: {e}")
         return False, time.time() - t0
 
 def backup_database(db_path, website_dir):
     if not os.path.exists(db_path):
-        print("  [SKIP] 数据库不存在，跳过备份")
+        safe_print("  [SKIP] 数据库不存在，跳过备份")
         return False
 
-    backup_dir = os.path.join(website_dir, 'backups')
+    backup_dir = str(get_path('backups'))
     os.makedirs(backup_dir, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -72,14 +96,24 @@ def backup_database(db_path, website_dir):
     return True
 
 def hot_update_nas(website_dir):
-    src_dir = os.path.join(website_dir, "public", "data")
+    # In separated mode, this might still be needed if DIST is independent,
+    # but usually, we serve directly from storage.
+    src_dir = get_path('root')
     dst_dir = os.path.join(website_dir, "dist", "data")
     os.makedirs(dst_dir, exist_ok=True)
     count = 0
     for fname in os.listdir(src_dir):
-        if fname.endswith('.db') or fname.endswith('.json'):
+        if fname.endswith('.db') or (os.path.isfile(os.path.join(src_dir, fname)) and fname.endswith('.json')):
             shutil.copy2(os.path.join(src_dir, fname), os.path.join(dst_dir, fname))
             count += 1
+    
+    # Also copy live data
+    live_dir = get_path('live')
+    if os.path.exists(live_dir):
+        for fname in os.listdir(live_dir):
+            if fname.endswith('.json'):
+                shutil.copy2(os.path.join(live_dir, fname), os.path.join(dst_dir, fname))
+                count += 1
     print(f"  [OK] 热更新完成：共同步 {count} 个文件至 dist/data/")
 
 def get_directory_hash(directory):
@@ -94,10 +128,10 @@ def get_directory_hash(directory):
     return hash_md5.hexdigest()
 
 def print_summary(is_light):
-    print("\n" + "=" * 60)
-    mode_str = "LIGHT (Incremental)" if is_light else "FULL (Rebuild)"
-    print(f"📋 执行汇总 ({mode_str} Mode)")
-    print("=" * 60)
+    mode_str = "LIGHT (Asset Only)" if is_light else "FULL (Database Rebuild)"
+    safe_print("\n" + "=" * 60)
+    safe_print(f"📋 执行汇总 ({mode_str} Mode)")
+    safe_print("=" * 60)
     all_ok = True
     for i, (label, status, elapsed) in enumerate(step_results, 1):
         if status is True:
@@ -108,13 +142,13 @@ def print_summary(is_light):
         else:
             icon = "⏩" # Skipped
         
-        print(f"  {i:2d}. {icon}  {label:<45} {elapsed:>5.1f}s")
+        safe_print(f"  {i:2d}. {icon}  {label:<45} {elapsed:>5.1f}s")
     
     total = sum(e for _, _, e in step_results)
-    print("-" * 60)
+    safe_print("-" * 60)
     status_label = "全部成功 ✅" if all_ok else "存在失败步骤 ❌"
-    print(f"  总耗时: {total:.1f}s | 状态: {status_label}")
-    print("=" * 60)
+    safe_print(f"  总耗时: {total:.1f}s | 状态: {status_label}")
+    safe_print("=" * 60)
     return all_ok
 
 def main():
@@ -123,9 +157,10 @@ def main():
     WEBSITE_DIR   = os.path.dirname(SCRIPT_DIR)
     COLLECTOR_DIR = os.path.join(WEBSITE_DIR, "collector")
     COLLECTOR_SCRIPTS_DIR = os.path.join(WEBSITE_DIR, "collector")
-    CSV_DIR       = os.path.join(WEBSITE_DIR, "csv")
+    CSV_DIR       = str(get_path('csv'))
     HASH_FILE     = os.path.join(SCRIPT_DIR, ".csv_hash")
-    db_path       = os.path.join(WEBSITE_DIR, "public", "data", "f1.db")
+    db_path       = str(get_path('db'))
+    ensure_dirs()
 
     # 命令行参数
     force_rebuild = "--force" in sys.argv or "-f" in sys.argv
@@ -154,40 +189,47 @@ def main():
         print("🔄 检测到 CSV 变更或强制刷新，进入【全量重建模式】")
     print("=" * 60)
 
-    # 1. 资产本地化
+    # 1. 规范化数据库重建
+    PIPELINE_DIR = os.path.join(SCRIPT_DIR, "pipeline")
     if not is_light:
-        print("\n[步骤 1/12] 资产本地化 (CSV 图片下载)...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/download_csv_assets.py"], cwd=WEBSITE_DIR)
-        record("资产本地化 (Assets Localization)", ok, elapsed)
+        print("\n[步骤 1/12] 规范化数据库重构 (CSV -> f1.db)...")
+        db_build_script = os.path.join(PIPELINE_DIR, "create_normalized_db.py")
+        ok, elapsed = run_command([sys.executable, db_build_script], cwd=WEBSITE_DIR)
+        record("数据库重建 (Normalized DB Build)", ok, elapsed)
     else:
-        record("资产本地化 (Skipped - No Change)", None, 0)
+        record("数据库重建 (Skipped - Light Mode)", None, 0)
 
-    # 2. 数据库备份
-    print("\n[步骤 2/12] 安全性备份...")
-    t0 = time.time()
-    bk = backup_database(db_path, WEBSITE_DIR)
-    record("安全性备份 (Security Backup)", bk, time.time() - t0)
-
-    # 3. 重建数据库
+    # 2. 资产下载 (仅全量模式)
     if not is_light:
-        print("\n[步骤 3/12] 基础架构重建 (Rebuild Schema)...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/create_normalized_db.py"], cwd=WEBSITE_DIR)
-        record("基础架构重建 (Schema Reconstruction)", ok, elapsed)
+        print("\n[步骤 2/12] 云端资源局部化同步...")
+        asset_script = os.path.join(PIPELINE_DIR, "download_csv_assets.py")
+        ok, elapsed = run_command([sys.executable, asset_script], cwd=WEBSITE_DIR)
+        record("云端资源局部化 (Cloud Asset Sync)", ok, elapsed)
     else:
-        record("基础架构重建 (Skipped - Reuse Data)", None, 0)
+        record("云端资源局部化 (Skipped)", None, 0)
 
-    # 4. 补全历史照片
+    # 3. 数据备份 (仅全量模式)
     if not is_light:
-        print("\n[步骤 4/12] 历史照片补全...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/patch_historical_photos.py"], cwd=WEBSITE_DIR)
-        record("历史照片补全 (Image Patching)", ok, elapsed)
+        print("\n[步骤 3/12] 数据库快照备份...")
+        ok = backup_database(db_path, WEBSITE_DIR)
+        record("数据库备份 (DB Backup)", ok, 0.1)
+    else:
+        record("数据库备份 (Skipped)", None, 0)
+
+    # 4. 历史照片
+    if not is_light:
+        print("\n[步骤 4/12] 历史驱动照片索引补全 (Archive)...")
+        patch_photo_script = os.path.join(PIPELINE_DIR, "patch_historical_photos.py")
+        ok, elapsed = run_command([sys.executable, patch_photo_script], cwd=WEBSITE_DIR)
+        record("历史照片补全 (History Photo Arch)", ok, elapsed)
     else:
         record("历史照片补全 (Skipped)", None, 0)
 
     # 5. 中文名称
     if not is_light:
         print("\n[步骤 5/12] 中文化翻译引擎...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/add_driver_chinese_names.py"], cwd=WEBSITE_DIR)
+        chinese_name_script = os.path.join(PIPELINE_DIR, "add_driver_chinese_names.py")
+        ok, elapsed = run_command([sys.executable, chinese_name_script], cwd=WEBSITE_DIR)
         record("中文化翻译 (Multilingual Support)", ok, elapsed)
     else:
         record("中文化翻译 (Skipped)", None, 0)
@@ -195,7 +237,8 @@ def main():
     # 6. 冲刺赛导入
     if not is_light:
         print("\n[步骤 6/12] 冲刺赛数据集成...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/import_sprint_data.py"], cwd=WEBSITE_DIR)
+        sprint_script = os.path.join(PIPELINE_DIR, "import_sprint_data.py")
+        ok, elapsed = run_command([sys.executable, sprint_script], cwd=WEBSITE_DIR)
         record("冲刺赛集成 (Sprint Integration)", ok, elapsed)
     else:
         record("冲刺赛集成 (Skipped)", None, 0)
@@ -203,7 +246,8 @@ def main():
     # 7. 历史最快圈导入
     if not is_light:
         print("\n[步骤 7/12] 最快圈速库注入...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/import_fastest_lap.py"], cwd=WEBSITE_DIR)
+        fl_script = os.path.join(PIPELINE_DIR, "import_fastest_lap.py")
+        ok, elapsed = run_command([sys.executable, fl_script], cwd=WEBSITE_DIR)
         record("最快圈速注入 (Fastest Lap Repo)", ok, elapsed)
     else:
         record("最快圈速注入 (Skipped)", None, 0)
@@ -211,7 +255,8 @@ def main():
     # 8. 特殊事件处理
     if not is_light:
         print("\n[步骤 8/12] 特殊事件规则应用 (Permanent DB Fixes)...")
-        ok, elapsed = run_command([sys.executable, "scripts/pipeline/apply_special_events.py"], cwd=WEBSITE_DIR)
+        special_events_script = os.path.join(PIPELINE_DIR, "apply_special_events.py")
+        ok, elapsed = run_command([sys.executable, special_events_script], cwd=WEBSITE_DIR)
         record("特殊事件应用 (Special Events)", ok, elapsed)
     else:
         # 注意：此处不能热更新，因为现有的 apply_special_events.py 是累加型的
@@ -219,17 +264,20 @@ def main():
 
     # 9. 冠军重算 (LIGHT 模式必须运行)
     print("\n[步骤 9/12] 年度冠军权威重算...")
-    ok, elapsed = run_command(["node", "scripts/pipeline/recalculate_championships.cjs"], cwd=WEBSITE_DIR)
+    recalc_champ_script = os.path.join(PIPELINE_DIR, "recalculate_championships.cjs")
+    ok, elapsed = run_command(["node", recalc_champ_script], cwd=WEBSITE_DIR, extra_env={'F1_DB_PATH': db_path})
     record("冠军重算 (Championship Recalc)", ok, elapsed)
 
     # 10. 统计全聚合 (LIGHT 模式必须运行)
     print("\n[步骤 10/12] 全量数据统计全聚合...")
-    ok, elapsed = run_command([sys.executable, "scripts/pipeline/recalculate_stats.py"], cwd=WEBSITE_DIR)
+    recalc_stats_script = os.path.join(PIPELINE_DIR, "recalculate_stats.py")
+    ok, elapsed = run_command([sys.executable, recalc_stats_script], cwd=WEBSITE_DIR, extra_env={'F1_DB_PATH': db_path})
     record("全量统计聚合 (Global Stats Agg)", ok, elapsed)
 
     # 11. 照片索引更新
     print("\n[步骤 11/12] 视觉资产索引生成...")
-    ok, elapsed = run_command([sys.executable, "scripts/pipeline/update_photo_index.py"], cwd=WEBSITE_DIR)
+    update_photo_script = os.path.join(PIPELINE_DIR, "update_photo_index.py")
+    ok, elapsed = run_command([sys.executable, update_photo_script], cwd=WEBSITE_DIR)
     record("照片索引更新 (Photo Index Gen)", ok, elapsed)
 
     # 12. 最终同步与审计
@@ -237,15 +285,15 @@ def main():
     t0 = time.time()
     # 注入 JSON
     if NAS_MODE:
-        refine_script = os.path.join(COLLECTOR_SCRIPTS_DIR, "refine_with_stats.py")
+        refine_script = os.path.join(COLLECTOR_SCRIPTS_DIR, "processors", "refine_with_stats.py")
         if os.path.exists(refine_script):
             run_command([sys.executable, refine_script], cwd=WEBSITE_DIR, extra_env={'F1_DB_PATH': db_path})
         hot_update_nas(WEBSITE_DIR)
     else:
         # 本机开发模式
-        refine_script_local = os.path.join(COLLECTOR_DIR, "refine_with_stats.py")
+        refine_script_local = os.path.join(COLLECTOR_DIR, "processors", "refine_with_stats.py")
         if os.path.exists(refine_script_local):
-            run_command([sys.executable, "refine_with_stats.py"], cwd=COLLECTOR_DIR)
+            run_command([sys.executable, "processors/refine_with_stats.py"], cwd=COLLECTOR_DIR)
         
         syncer_script_local = os.path.join(COLLECTOR_DIR, "syncer.py")
         if os.path.exists(syncer_script_local):

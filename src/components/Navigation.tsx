@@ -43,7 +43,7 @@ const Navigation = () => {
               </div>
             </div>
             <span className="text-primary font-black text-2xl hidden sm:block font-orbitron tracking-tighter group-hover:text-f1-red transition-colors italic">
-              DATA <span className="text-f1-red">HUB</span>
+              F1 <span className="text-f1-red">EXPRESS</span>
             </span>
           </Link>
 

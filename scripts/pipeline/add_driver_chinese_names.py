@@ -6,10 +6,17 @@
 import sqlite3
 import os
 
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
+
 def add_chinese_names():
     """添加车手中文名称"""
-    
-    db_path = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'data', 'f1.db')
+    ensure_dirs()
+    db_path = str(get_path('db'))
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     

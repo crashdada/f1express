@@ -7,112 +7,26 @@ import { TeamCard } from '../components/TeamCard';
 import { StatCard } from '../components/StatCard';
 import F1Logo from '../components/F1Logo';
 import RaceCountdown from '../components/RaceCountdown';
-import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
+
+import { useCombinedData } from '../hooks/useCombinedData';
 
 const HomePage = () => {
   const { state } = useF1();
+  const { combinedTeams, combinedDrivers } = useCombinedData();
   const [mounted, setMounted] = useState(false);
-  const { raceResults: liveResults } = useDynamic2026Data();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const combinedDrivers = useMemo(() => {
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        if (r.polePosition && r.polePosition.code) {
-          const code = r.polePosition.code;
-          if (!liveStatsMap.has(code)) {
-            liveStatsMap.set(code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          liveStatsMap.get(code)!.poles += 1;
-        }
+  const topDrivers = useMemo(() => {
+    return combinedDrivers.slice(0, 5);
+  }, [combinedDrivers]);
 
-        r.results.forEach(res => {
-          const code = res.code;
-          if (!liveStatsMap.has(code)) {
-            liveStatsMap.set(code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          const stats = liveStatsMap.get(code)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
-      });
-    }
+  const topTeams = useMemo(() => {
+    return combinedTeams.slice(0, 5);
+  }, [combinedTeams]);
 
-    return state.drivers
-      .map(driver => {
-        const liveStats = liveStatsMap.get(driver.code);
-        if (!liveStats) return driver;
-        return {
-          ...driver,
-          points: (driver.points || 0) + liveStats.points,
-          wins: (driver.wins || 0) + liveStats.wins,
-          podiums: (driver.podiums || 0) + liveStats.podiums,
-          poles: (driver.poles || 0) + liveStats.poles
-        };
-      })
-      .sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [state.drivers, liveResults]);
-
-  const combinedTeams = useMemo(() => {
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number; teamEn: string }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        if (r.polePosition && r.polePosition.code) {
-          const poleDriver = r.results.find(res => res.code === r.polePosition!.code);
-          if (poleDriver && poleDriver.team) {
-            const teamCn = poleDriver.teamCn || poleDriver.team;
-            if (!liveStatsMap.has(teamCn)) {
-              liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: poleDriver.team });
-            }
-            liveStatsMap.get(teamCn)!.poles += 1;
-          }
-        }
-
-        r.results.forEach(res => {
-          const teamCn = res.teamCn || res.team;
-          if (!liveStatsMap.has(teamCn)) {
-            liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: res.team });
-          }
-          const stats = liveStatsMap.get(teamCn)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
-      });
-    }
-
-    return state.teams.map(team => {
-      let liveStats = liveStatsMap.get(team.name) || liveStatsMap.get(team.nameCn);
-
-      if (!liveStats) {
-        for (const [key, value] of liveStatsMap.entries()) {
-          const enName = value.teamEn;
-          if (team.name.includes(key) || key.includes(team.name) ||
-            (enName && (enName.includes(team.fullName) || team.fullName.includes(enName)))) {
-            liveStats = value;
-            break;
-          }
-        }
-      }
-
-      if (!liveStats) return team;
-      return {
-        ...team,
-        points: (team.points || 0) + liveStats.points,
-        wins: (team.wins || 0) + liveStats.wins,
-        podiums: (team.podiums || 0) + liveStats.podiums,
-        poles: (team.poles || 0) + liveStats.poles
-      };
-    }).sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [state.teams, liveResults]);
-
-  const topDrivers = combinedDrivers.slice(0, 5);
-  const topTeams = combinedTeams.slice(0, 5);
   const totalRaces = state.raceResults.length;
 
   return (

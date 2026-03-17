@@ -99,6 +99,7 @@ const DriverDetailPage = () => {
         });
 
         return Object.values(summary).sort((a, b) => b.season - a.season);
+
     }, [driverResults, state.driverChampionships, driverId]);
 
     // Antigravity Vision: 1. Rank Progression

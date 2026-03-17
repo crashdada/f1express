@@ -1,7 +1,7 @@
 import { ChevronLeft, Clock, Map as MapIcon, Info, Trophy, Calendar, Sparkles, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { COUNTRY_TRANSLATIONS, GP_TRANSLATIONS, DRIVER_TRANSLATIONS } from '../utils/translations';
+import { translateCountry, GP_TRANSLATIONS, DRIVER_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
@@ -79,8 +79,8 @@ const RaceDetailPage = () => {
             const prev = index > 0 ? schedule[index - 1] : null;
             const next = index < schedule.length - 1 ? schedule[index + 1] : null;
 
-            setPrevEvent(prev ? { slug: prev.slug || '', name: COUNTRY_TRANSLATIONS[prev.country] || prev.country } : null);
-            setNextEvent(next ? { slug: next.slug || '', name: COUNTRY_TRANSLATIONS[next.country] || next.country } : null);
+            setPrevEvent(prev ? { slug: prev.slug || '', name: translateCountry(prev.country) } : null);
+            setNextEvent(next ? { slug: next.slug || '', name: translateCountry(next.country) } : null);
         } else {
             setEvent(null);
         }
@@ -187,7 +187,7 @@ const RaceDetailPage = () => {
                                 )}
                             </div>
                             <h1 className="text-6xl md:text-8xl font-black text-primary mb-4 font-orbitron tracking-tighter leading-none italic uppercase">
-                                {COUNTRY_TRANSLATIONS[event.country] || event.country}
+                                {translateCountry(event.country)}
                             </h1>
                             <p className="text-xl md:text-2xl text-secondary font-bold max-w-2xl uppercase tracking-widest italic">
                                 {GP_TRANSLATIONS[event.gpName] || event.gpName}
@@ -544,7 +544,7 @@ const RaceDetailPage = () => {
                 <div className="mt-20 flex flex-col md:flex-row gap-6">
                     {prevEvent ? (
                         <Link
-                            to={`/new-season/${prevEvent.slug}`}
+                            to={`/new-season/race/${prevEvent.slug}`}
                             className="flex-1 glass-strong rounded-3xl p-8 group hover:border-f1-red/30 transition-all duration-300 relative overflow-hidden"
                         >
                             <div className="relative z-10">
@@ -565,7 +565,7 @@ const RaceDetailPage = () => {
 
                     {nextEvent ? (
                         <Link
-                            to={`/new-season/${nextEvent.slug}`}
+                            to={`/new-season/race/${nextEvent.slug}`}
                             className="flex-1 glass-strong rounded-3xl p-8 group hover:border-f1-red/30 transition-all duration-300 relative overflow-hidden text-right"
                         >
                             <div className="relative z-10">

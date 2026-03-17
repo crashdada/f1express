@@ -12,6 +12,8 @@ interface F1Event {
     flag?: string;
     slug?: string;
     sessions?: { name: string; time: string }[];
+    roundNumber?: number;
+    status?: string;
 }
 
 export interface IRaceResult2026 {
@@ -108,40 +110,46 @@ export function useDynamic2026Data() {
                     });
                 }
 
-                // 2. 后台静默拉取 GitHub 上的最新数据 (Remote update)
-                try {
-                    const [sRem, dRem, tRem, rRem] = await Promise.all([
-                        fetch(`${REMOTE_DATA_BASE_URL}/schedule_2026.json?t=${timestamp}`),
-                        fetch(`${REMOTE_DATA_BASE_URL}/drivers_2026.json?t=${timestamp}`),
-                        fetch(`${REMOTE_DATA_BASE_URL}/teams_2026.json?t=${timestamp}`),
-                        fetch(`${REMOTE_DATA_BASE_URL}/results_2026.json?t=${timestamp}`).catch(() => null),
-                    ]);
+                // 2. 后台静默拉取 GitHub 上的最新数据 (Remote update) - 仅限非本地环境
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                
+                if (!isLocalhost) {
+                    try {
+                        const [sRem, dRem, tRem, rRem] = await Promise.all([
+                            fetch(`${REMOTE_DATA_BASE_URL}/schedule_2026.json?t=${timestamp}`),
+                            fetch(`${REMOTE_DATA_BASE_URL}/drivers_2026.json?t=${timestamp}`),
+                            fetch(`${REMOTE_DATA_BASE_URL}/teams_2026.json?t=${timestamp}`),
+                            fetch(`${REMOTE_DATA_BASE_URL}/results_2026.json?t=${timestamp}`).catch(() => null),
+                        ]);
 
-                    if (isMounted && sRem.ok && dRem.ok && tRem.ok) {
-                        const newSchedule = await sRem.json();
-                        const newDrivers = processAssets(await dRem.json());
-                        const newTeams = processAssets(await tRem.json());
-                        const newResults: IRaceRound2026[] = (rRem && rRem.ok) ? await rRem.json() : [];
+                        if (isMounted && sRem.ok && dRem.ok && tRem.ok) {
+                            const newSchedule = await sRem.json();
+                            const newDrivers = processAssets(await dRem.json());
+                            const newTeams = processAssets(await tRem.json());
+                            const newResults: IRaceRound2026[] = (rRem && rRem.ok) ? await rRem.json() : [];
 
-                        // 防护机制: 检查远端数据完整性，如果 GitHub Actions 意外抓取了破损的数据，拒绝同步并继续使用本地良好数据
-                        if (newSchedule.length < 20 || newDrivers.length === 0 || newTeams.length === 0) {
-                            console.warn('⚠️ 远端 GitHub 数据完整性校验失败 (检测到赛程 < 20)，触发保护机制，继续使用本地数据。');
-                            return;
+                            // 防护机制: 检查远端数据完整性
+                            if (newSchedule.length < 20 || newDrivers.length === 0 || newTeams.length === 0) {
+                                console.warn('⚠️ 远端 GitHub 数据完整性校验失败，继续使用本地数据。');
+                                return;
+                            }
+
+                            if (isMounted) {
+                                setData(prev => ({
+                                    ...prev,
+                                    schedule: processAssets(newSchedule),
+                                    drivers: newDrivers,
+                                    teams: newTeams,
+                                    raceResults: newResults.length > prev.raceResults.length ? newResults : prev.raceResults,
+                                }));
+                                console.log('🔄 Data successfully synced and seamlessly updated from GitHub');
+                            }
                         }
-
-                        if (isMounted) {
-                            setData(prev => ({
-                                ...prev,
-                                schedule: processAssets(newSchedule),
-                                drivers: newDrivers,
-                                teams: newTeams,
-                                raceResults: newResults.length >= prev.raceResults.length ? newResults : prev.raceResults,
-                            }));
-                            console.log('🔄 Data successfully synced and seamlessly updated from GitHub');
-                        }
+                    } catch (remoteErr) {
+                        console.warn('⚠️ 后台数据静默拉取失败，继续使用本地数据', remoteErr);
                     }
-                } catch (remoteErr) {
-                    console.warn('⚠️ 后台数据静默拉取失败，继续使用本地数据', remoteErr);
+                } else {
+                    console.log('🚀 Localhost detected, skipping remote data sync to preserve local changes.');
                 }
 
             } catch (err) {

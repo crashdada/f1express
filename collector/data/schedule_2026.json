@@ -5,7 +5,7 @@
         "country": "AUSTRALIA",
         "gpName": "Australian Grand Prix",
         "location": "Melbourne",
-        "dates": "06 - 08 MAR",
+        "dates": "06 - 08 Mar",
         "slug": "australia",
         "image": "/photos/seasons/2026/tracks/australia_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/australia_detailed.webp",
@@ -132,7 +132,7 @@
         "round": "ROUND 4",
         "roundNumber": 4,
         "country": "BAHRAIN",
-        "gpName": "Bahrain Grand Prix",
+        "gpName": "[CANCELLED] Bahrain Grand Prix",
         "location": "Sakhir",
         "dates": "10 - 12 APR",
         "slug": "bahrain",
@@ -140,28 +140,7 @@
         "detailedImage": "/photos/seasons/2026/tracks/bahrain_detailed.webp",
         "flag": "/photos/seasons/flags/Bahrain.svg",
         "url": "https://www.formula1.com/en/racing/2026/bahrain",
-        "sessions": [
-            {
-                "name": "Practice 1",
-                "time": "2026-04-10T14:30:00+03:00"
-            },
-            {
-                "name": "Practice 2",
-                "time": "2026-04-10T18:00:00+03:00"
-            },
-            {
-                "name": "Practice 3",
-                "time": "2026-04-11T15:30:00+03:00"
-            },
-            {
-                "name": "Qualifying",
-                "time": "2026-04-11T19:00:00+03:00"
-            },
-            {
-                "name": "Race",
-                "time": "2026-04-12T18:00:00+03:00"
-            }
-        ],
+        "sessions": [],
         "circuitSpecs": {
             "length": "5.412km",
             "first_gp": 2004,
@@ -169,42 +148,21 @@
             "distance": "308.238km",
             "record": "1:31.447 (Pedro de la Rosa (2005))"
         },
-        "gmtOffset": "+03:00"
+        "status": "CANCELLED"
     },
     {
         "round": "ROUND 5",
         "roundNumber": 5,
         "country": "SAUDI ARABIA",
-        "gpName": "Saudi Arabian Grand Prix",
+        "gpName": "[CANCELLED] Saudi Arabian Grand Prix",
         "location": "Jeddah",
-        "dates": "",
+        "dates": "17 - 19 APR",
         "slug": "saudi-arabia",
         "image": "/photos/seasons/2026/tracks/saudi-arabia_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/saudi-arabia_detailed.webp",
         "flag": "/photos/seasons/flags/Saudi_Arabia.svg",
         "url": "https://www.formula1.com/en/racing/2026/saudi-arabia",
-        "sessions": [
-            {
-                "name": "Practice 1",
-                "time": "2026-04-17T16:30:00+03:00"
-            },
-            {
-                "name": "Practice 2",
-                "time": "2026-04-17T20:00:00+03:00"
-            },
-            {
-                "name": "Practice 3",
-                "time": "2026-04-18T16:30:00+03:00"
-            },
-            {
-                "name": "Qualifying",
-                "time": "2026-04-18T20:00:00+03:00"
-            },
-            {
-                "name": "Race",
-                "time": "2026-04-19T20:00:00+03:00"
-            }
-        ],
+        "sessions": [],
         "circuitSpecs": {
             "length": "6.175km",
             "first_gp": 2021,
@@ -212,7 +170,7 @@
             "distance": "308.5km",
             "record": null
         },
-        "gmtOffset": "+03:00"
+        "status": "CANCELLED"
     },
     {
         "round": "ROUND 6",
@@ -220,7 +178,7 @@
         "country": "USA",
         "gpName": "Miami Grand Prix",
         "location": "Miami",
-        "dates": "",
+        "dates": "01 - 03 May",
         "slug": "miami",
         "image": "/photos/seasons/2026/tracks/miami_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/miami_detailed.webp",
@@ -263,7 +221,7 @@
         "country": "CANADA",
         "gpName": "Canadian Grand Prix",
         "location": "Montreal",
-        "dates": "",
+        "dates": "22 - 24 May",
         "slug": "canada",
         "image": "/photos/seasons/2026/tracks/canada_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/canada_detailed.webp",
@@ -306,7 +264,7 @@
         "country": "MONACO",
         "gpName": "Monaco Grand Prix",
         "location": "Monaco",
-        "dates": "",
+        "dates": "05 - 07 Jun",
         "slug": "monaco",
         "image": "/photos/seasons/2026/tracks/monaco_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/monaco_detailed.webp",
@@ -349,7 +307,7 @@
         "country": "SPAIN",
         "gpName": "Spanish Grand Prix",
         "location": "Barcelona",
-        "dates": "",
+        "dates": "12 - 14 Jun",
         "slug": "barcelona-catalunya",
         "image": "/photos/seasons/2026/tracks/barcelona-catalunya_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/barcelona-catalunya_detailed.webp",
@@ -392,7 +350,7 @@
         "country": "AUSTRIA",
         "gpName": "Austrian Grand Prix",
         "location": "Spielberg",
-        "dates": "",
+        "dates": "26 - 28 Jun",
         "slug": "austria",
         "image": "/photos/seasons/2026/tracks/austria_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/austria_detailed.webp",
@@ -435,7 +393,7 @@
         "country": "UNITED KINGDOM",
         "gpName": "British Grand Prix",
         "location": "Silverstone",
-        "dates": "",
+        "dates": "03 - 05 Jul",
         "slug": "great-britain",
         "image": "/photos/seasons/2026/tracks/great-britain_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/great-britain_detailed.webp",
@@ -478,7 +436,7 @@
         "country": "BELGIUM",
         "gpName": "Belgian Grand Prix",
         "location": "Spa-Francorchamps",
-        "dates": "",
+        "dates": "17 - 19 Jul",
         "slug": "belgium",
         "image": "/photos/seasons/2026/tracks/belgium_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/belgium_detailed.webp",
@@ -521,7 +479,7 @@
         "country": "HUNGARY",
         "gpName": "Hungarian Grand Prix",
         "location": "Budapest",
-        "dates": "",
+        "dates": "24 - 26 Jul",
         "slug": "hungary",
         "image": "/photos/seasons/2026/tracks/hungary_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/hungary_detailed.webp",
@@ -564,7 +522,7 @@
         "country": "NETHERLANDS",
         "gpName": "Dutch Grand Prix",
         "location": "Zandvoort",
-        "dates": "",
+        "dates": "21 - 23 Aug",
         "slug": "netherlands",
         "image": "/photos/seasons/2026/tracks/netherlands_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/netherlands_detailed.webp",
@@ -607,7 +565,7 @@
         "country": "ITALY",
         "gpName": "Italian Grand Prix",
         "location": "Monza",
-        "dates": "",
+        "dates": "04 - 06 Sep",
         "slug": "italy",
         "image": "/photos/seasons/2026/tracks/italy_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/italy_detailed.webp",
@@ -650,7 +608,7 @@
         "country": "SPAIN",
         "gpName": "Spanish Grand Prix",
         "location": "Barcelona",
-        "dates": "",
+        "dates": "11 - 13 Sep",
         "slug": "spain",
         "image": "/photos/seasons/2026/tracks/spain_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/spain_detailed.webp",
@@ -693,7 +651,7 @@
         "country": "AZERBAIJAN",
         "gpName": "Azerbaijan Grand Prix",
         "location": "Baku",
-        "dates": "",
+        "dates": "24 - 26 Sep",
         "slug": "azerbaijan",
         "image": "/photos/seasons/2026/tracks/azerbaijan_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/azerbaijan_detailed.webp",
@@ -736,7 +694,7 @@
         "country": "SINGAPORE",
         "gpName": "Singapore Grand Prix",
         "location": "Singapore",
-        "dates": "",
+        "dates": "09 - 11 Oct",
         "slug": "singapore",
         "image": "/photos/seasons/2026/tracks/singapore_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/singapore_detailed.webp",
@@ -779,7 +737,7 @@
         "country": "USA",
         "gpName": "United States Grand Prix",
         "location": "Austin",
-        "dates": "",
+        "dates": "23 - 25 Oct",
         "slug": "united-states",
         "image": "/photos/seasons/2026/tracks/united-states_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/united-states_detailed.webp",
@@ -822,7 +780,7 @@
         "country": "MEXICO",
         "gpName": "Mexico City Grand Prix",
         "location": "Mexico City",
-        "dates": "",
+        "dates": "30 Oct - 01 Nov",
         "slug": "mexico",
         "image": "/photos/seasons/2026/tracks/mexico_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/mexico_detailed.webp",
@@ -865,7 +823,7 @@
         "country": "BRAZIL",
         "gpName": "Sao Paulo Grand Prix",
         "location": "Sao Paulo",
-        "dates": "",
+        "dates": "06 - 08 Nov",
         "slug": "brazil",
         "image": "/photos/seasons/2026/tracks/brazil_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/brazil_detailed.webp",
@@ -908,7 +866,7 @@
         "country": "USA",
         "gpName": "Las Vegas Grand Prix",
         "location": "Las Vegas",
-        "dates": "",
+        "dates": "19 - 21 Nov",
         "slug": "las-vegas",
         "image": "/photos/seasons/2026/tracks/las-vegas_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/las-vegas_detailed.webp",
@@ -951,7 +909,7 @@
         "country": "QATAR",
         "gpName": "Qatar Grand Prix",
         "location": "Lusail",
-        "dates": "",
+        "dates": "27 - 29 Nov",
         "slug": "qatar",
         "image": "/photos/seasons/2026/tracks/qatar_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/qatar_detailed.webp",
@@ -994,7 +952,7 @@
         "country": "UAE",
         "gpName": "Abu Dhabi Grand Prix",
         "location": "Yas Marina",
-        "dates": "",
+        "dates": "04 - 06 Dec",
         "slug": "united-arab-emirates",
         "image": "/photos/seasons/2026/tracks/abu-dhabi_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/abu-dhabi_detailed.webp",

@@ -4,7 +4,7 @@ import { useF1 } from '../context/F1Context';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 import { SkeletonRaceCard } from '../components/Skeletons';
 import { getTeamDisplayName } from '../utils/f1Data';
-import { COUNTRY_TRANSLATIONS, GP_TRANSLATIONS } from '../utils/translations';
+import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 
 const ITEMS_PER_PAGE = 10;
@@ -50,7 +50,7 @@ const RacesPage = () => {
           poleLastNameCn: pole?.lastNameCn || '',
           poleCode: pole?.code || '',
           country: event.country,
-          countryCn: COUNTRY_TRANSLATIONS[event.country] || event.country, // 映射中文国家名
+          countryCn: translateCountry(event.country), // 映射中文国家名
           startDate: event.dates,
           endDate: '',
           url: event.slug || ''
@@ -277,7 +277,7 @@ const RacesPage = () => {
                       <div className="flex items-center text-secondary text-sm space-x-3">
                         <span className="flex items-center">
                           <MapPin size={14} className="mr-1" />
-                          {race.countryCn} ({race.country})
+                          {translateCountry(race.country)} ({race.country})
                         </span>
                         {race.startDate && (
                           <span className="flex items-center">

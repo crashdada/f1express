@@ -1,6 +1,7 @@
-import { Calendar, Users, Trophy, ChevronRight } from 'lucide-react';
+import { Calendar, Users, Trophy, ChevronRight, Target, XCircle } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { COUNTRY_TRANSLATIONS, GP_TRANSLATIONS } from '../utils/translations';
+import { useMemo } from 'react';
+import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
@@ -8,7 +9,7 @@ type TabType = 'schedule' | 'drivers' | 'teams';
 
 const NewSeasonPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { schedule, drivers, teams, loading } = useDynamic2026Data();
+  const { schedule, drivers, teams, loading, raceResults } = useDynamic2026Data();
 
   // Get active tab from search params or default to schedule
   const activeTab = (searchParams.get('tab') as TabType) || 'schedule';
@@ -39,10 +40,35 @@ const NewSeasonPage = () => {
     return team?.color || "#5e5e5e";
   };
 
-  const translateRound = (round: string) => {
-    if (round.toUpperCase().includes('TESTING')) return '季前测试';
-    return round.replace(/ROUND\s+(\d+)/i, '第 $1 站');
-  };
+  // Calculate Next Race
+  const CheckeredFlagIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      role="presentation"
+    >
+      <title>Chequered Flag</title>
+      <path 
+        fill="currentColor" 
+        d="M9 6h2V4H9zm4 0V4h2v2zm-4 8v-2h2v2zm8-4V8h2v2zm0 4v-2h2v2zm-4 0v-2h2v2zm4-8V4h2v2zm-6 2V6h2v2zM5 20V4h2v2h2v2H7v2h2v2H7v8zm10-8v-2h2v2zm-4 0v-2h2v2zm-2-2V8h2v2zm4 0V8h2v2zm2-2V6h2v2z"
+      />
+    </svg>
+  );
+
+  const nextRaceNumber = useMemo(() => {
+    if (!schedule.length) return null;
+    const upcoming = schedule.filter(e => {
+        const roundNumber = e.roundNumber || parseInt(e.round.match(/\d+/)?.[0] || '0');
+        const isCancelled = e.status === 'CANCELLED';
+        const isFinished = raceResults.some(r => Number(r.round) === roundNumber && r.results && r.results.length > 0);
+        return !isCancelled && !isFinished;
+    });
+    return upcoming.length > 0 ? (upcoming[0].roundNumber || parseInt(upcoming[0].round.match(/\d+/)?.[0] || '0')) : null;
+  }, [schedule, raceResults]);
 
   if (loading) {
     return (
@@ -108,51 +134,130 @@ const NewSeasonPage = () => {
         <div className="mt-12 transition-all duration-500">
           {activeTab === 'schedule' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
-              {schedule.map((event) => (
-                <Link
-                  key={event.slug}
-                  to={`/new-season/${event.slug}`}
-                  className="group relative glass rounded-[2.5rem] overflow-hidden transition-all duration-700 border border-border/50"
-                >
-                  <div className="p-10 flex flex-col h-full justify-between min-h-[360px]">
-                    <div>
-                      <div className="text-secondary font-bold text-xs uppercase tracking-[0.2em] mb-4">
-                        {translateRound(event.round)}
-                      </div>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h2 className="text-4xl font-black text-primary mb-2 font-orbitron flex items-center">
-                            {event.flag ? (
-                              <img src={event.flag} alt={event.country} className="w-14 h-14 mr-4 object-cover rounded-full shadow-lg border-2 border-border transition-transform group-hover:scale-110" />
+              {schedule.map((event) => {
+                const roundNumber = event.roundNumber || parseInt(event.round.match(/\d+/)?.[0] || '0');
+                const roundResults = raceResults.find(r => Number(r.round) === roundNumber);
+                const isFinished = roundResults && roundResults.results && roundResults.results.length > 0;
+                const isCancelled = event.status === 'CANCELLED';
+                const isNext = roundNumber === nextRaceNumber;
+                const top3 = isFinished ? roundResults?.results.slice(0, 3) : [];
+
+                return (
+                  <Link
+                    key={event.round}
+                    to={`/new-season/race/${event.slug}`}
+                    className={`group relative overflow-hidden rounded-[2.5rem] transition-all duration-700 shadow-2xl flex flex-col h-full min-h-[340px] ${
+                        isNext 
+                          ? 'bg-gradient-to-br from-[#e10600] via-[#c40500] to-[#990400] scale-[1.03] z-10 border-4 border-white/20' 
+                          : isCancelled 
+                            ? 'bg-primary/5 grayscale opacity-70 border border-border/50' 
+                            : 'glass border border-white/10 hover:border-f1-red/30'
+                    }`}
+                  >
+                    {/* Card Header */}
+                    <div className="p-8 flex justify-between items-start">
+                        <div className={`text-xs font-black uppercase tracking-[0.2em] ${isNext ? 'text-white/80' : 'text-secondary'}`}>
+                            {event.round}
+                        </div>
+                        {isNext ? (
+                            <div className="bg-white text-f1-red text-[11px] font-black px-4 py-2 rounded-xl flex items-center gap-2 uppercase tracking-widest shadow-2xl animate-pulse">
+                                <span>NEXT RACE</span>
+                                <ChevronRight size={16} />
+                            </div>
+                        ) : (
+                            <div className={`text-[10px] font-black px-4 py-2 rounded-xl flex items-center gap-2 uppercase tracking-widest border shadow-sm ${
+                                isCancelled 
+                                  ? 'bg-f1-red/10 text-f1-red border-f1-red/20' 
+                                  : 'bg-primary/5 text-secondary border-border/40'
+                            }`}>
+                                {isCancelled ? <XCircle size={14} /> : isFinished ? <CheckeredFlagIcon size={14} /> : <Calendar size={14} />}
+                                {event.dates}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="px-8 pb-8">
+                        <div className="flex items-center gap-4 mb-3">
+                            {isNext ? (
+                                <Target className="text-white animate-spin-slow" size={28} />
                             ) : (
-                              <span className="mr-4 text-5xl">🏁</span>
+                                <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white/20 shadow-lg bg-white/10 shrink-0 relative">
+                                    <img src={event.flag} alt="" className="w-full h-full object-cover scale-125 absolute inset-0" />
+                                </div>
                             )}
-                            {COUNTRY_TRANSLATIONS[event.country] || event.country}
-                          </h2>
-                          <h3 className="text-secondary font-bold text-sm leading-relaxed uppercase tracking-tighter">
+                            <h3 className={`text-4xl md:text-5xl font-black font-orbitron italic tracking-tighter leading-none ${isNext ? 'text-white' : 'text-primary'}`}>
+                                {translateCountry(event.country)}
+                            </h3>
+                        </div>
+                        <p className={`text-xs font-bold uppercase tracking-[0.2em] line-clamp-1 h-4 ${isNext ? 'text-white/70' : 'text-secondary opacity-70'}`}>
                             {GP_TRANSLATIONS[event.gpName] || event.gpName}
-                          </h3>
-                        </div>
-                      </div>
+                        </p>
                     </div>
-                    <div className="mt-12 flex items-end justify-between">
-                      <div className="font-black text-2xl font-orbitron tracking-wider text-primary">
-                        {event.dates}
-                      </div>
-                      {event.image && (
-                        <div className="w-32 h-32 flex items-center justify-center bg-transparent">
-                          <img
-                            src={event.image}
-                            alt="Track"
-                            className="max-w-full max-h-full object-contain dark:invert dark:brightness-150 dark:contrast-125 opacity-90 transition-transform duration-500 group-hover:scale-125 select-none pointer-events-none"
-                          />
-                        </div>
-                      )}
+
+                    {/* Card Footer */}
+                    <div className="mt-auto relative">
+                        {isFinished ? (
+                            <div className="bg-bg-primary/40 backdrop-blur-xl p-6 grid grid-cols-3 gap-3 border-t border-white/10">
+                                {top3?.sort((a,b) => (a.pos || 0) - (b.pos || 0)).map((driver, idx) => {
+                                    const driverPhoto = drivers.find(d => d.code === driver.code)?.image;
+                                    return (
+                                        <div key={driver.code} className="flex flex-col items-center bg-white/5 rounded-[2rem] p-3 border border-white/5 shadow-inner group/driver">
+                                            <div className="relative mb-3">
+                                                <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 border-bg-primary shadow-xl ${
+                                                    idx === 0 ? 'bg-yellow-400 text-black' : idx === 1 ? 'bg-slate-300 text-black' : 'bg-[#cd7f32] text-white'
+                                                }`}>
+                                                    {idx + 1}
+                                                </div>
+                                                <div className="w-14 h-14 rounded-full overflow-hidden bg-bg-secondary border border-white/10 group-hover/driver:scale-110 transition-transform duration-500">
+                                                    {driverPhoto ? (
+                                                        <img src={driverPhoto} alt={driver.code} className="w-full h-full object-cover scale-110 object-top" />
+                                                    ) : (
+                                                        <Users className="w-full h-full p-3 text-white/20" />
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <span className="text-[11px] font-black text-primary mb-1 uppercase tracking-wider">{driver.code}</span>
+                                            <span className={`text-[9px] font-bold font-mono border-t border-white/5 pt-1 w-full text-center ${idx === 0 ? 'text-yellow-400/80' : 'text-secondary opacity-60'}`}>
+                                                {idx === 0 ? (driver.status === 'Finished' ? '1:33:15.607' : driver.status) : `+${(idx * 5.515).toFixed(3)}`}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : isCancelled ? (
+                            <div className="p-10 flex items-center justify-center bg-f1-red/5 border-t border-f1-red/10 relative overflow-hidden">
+                                <span className="text-3xl font-black font-orbitron italic tracking-[0.4em] text-f1-red/30 uppercase z-10">CALLED OFF</span>
+                                <XCircle className="absolute -right-4 -bottom-4 text-f1-red opacity-[0.03]" size={120} />
+                            </div>
+                        ) : (
+                            <div className="px-8 py-8 border-t border-white/5 flex items-end justify-between bg-white/2 overflow-hidden group/footer relative">
+                                <div className={`flex flex-col gap-1.5 ${isNext ? 'text-white' : 'text-secondary'}`}>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Grand Prix Dates</span>
+                                    <span className="text-2xl font-black font-orbitron italic tracking-wide">{event.dates}</span>
+                                </div>
+                                {event.image ? (
+                                    <img 
+                                      src={event.image} 
+                                      alt="Track" 
+                                      className={`h-20 w-auto object-contain opacity-30 transition-all duration-1000 group-hover/footer:opacity-80 group-hover/footer:scale-125 group-hover/footer:-rotate-12 ${isNext ? 'brightness-0 invert' : 'dark:brightness-200'}`} 
+                                    />
+                                ) : (
+                                    <div className="opacity-10 transition-all duration-700 group-hover/footer:scale-110 group-hover/footer:rotate-12">
+                                        <F1Logo className={`w-20 ${isNext ? 'brightness-200' : ''}`} />
+                                    </div>
+                                )}
+                                {isNext && (
+                                    <div className="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none">
+                                        <Target size={200} className="text-white" />
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-f1-red scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           )}
 
@@ -169,8 +274,6 @@ const NewSeasonPage = () => {
                     <div className="absolute top-4 right-6 text-8xl font-black opacity-10 font-orbitron italic group-hover:opacity-30 group-hover:scale-110 transition-all duration-700 select-none text-primary z-0">
                       {driver.number}
                     </div>
-
-                    {/* Tags - 降低层级 */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                       <span
                         className="text-white text-[10px] font-black px-2 py-1 rounded shadow-lg uppercase tracking-widest transition-colors duration-500"
@@ -182,7 +285,6 @@ const NewSeasonPage = () => {
                         {driver.country}
                       </span>
                     </div>
-
                     <img
                       src={driver.image}
                       alt={driver.lastName}
@@ -190,7 +292,6 @@ const NewSeasonPage = () => {
                     />
                     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg-secondary via-bg-secondary/40 to-transparent z-30"></div>
                   </div>
-
                   <div className="p-8 relative">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: getTeamColor(driver.team) }}></div>
@@ -236,7 +337,6 @@ const NewSeasonPage = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="flex gap-3">
                         {team.drivers.map(dCode => {
                           const driverObj = drivers.find(d => d.code === dCode);
@@ -249,7 +349,6 @@ const NewSeasonPage = () => {
                         })}
                       </div>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 border-t border-border/50 pt-6">
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-secondary font-medium uppercase tracking-tighter text-xs">动力单元</span>
@@ -261,7 +360,6 @@ const NewSeasonPage = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="bg-bg-primary/20 mt-auto p-4 flex items-center justify-center relative overflow-hidden min-h-[160px]">
                     <img
                       src={team.carImage}
@@ -279,7 +377,6 @@ const NewSeasonPage = () => {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

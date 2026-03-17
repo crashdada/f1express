@@ -4,65 +4,36 @@ import { useF1 } from '../context/F1Context';
 import { DriverCard } from '../components/DriverCard';
 import { SkeletonCard } from '../components/Skeletons';
 import F1Logo from '../components/F1Logo';
-import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
-
+import { TEAM_TRANSLATIONS } from '../utils/translations';
+import { useCombinedData } from '../hooks/useCombinedData';
 
 type SortOption = 'points' | 'wins' | 'podiums' | 'poles' | 'championships';
 
 const DriversPage = () => {
   const { state, dispatch } = useF1();
-  const { raceResults: liveResults } = useDynamic2026Data();
+  const { combinedDrivers, loading } = useCombinedData();
   const [sortBy, setSortBy] = useState<SortOption>('points');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const filteredDrivers = useMemo(() => {
     const query = state.searchQuery.toLowerCase();
 
-    // Process 2026 live stats
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        if (r.polePosition && r.polePosition.code) {
-          const code = r.polePosition.code;
-          if (!liveStatsMap.has(code)) {
-            liveStatsMap.set(code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          liveStatsMap.get(code)!.poles += 1;
-        }
-
-        r.results.forEach(res => {
-          const code = res.code;
-          if (!liveStatsMap.has(code)) {
-            liveStatsMap.set(code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          const stats = liveStatsMap.get(code)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
-      });
-    }
-
-    const filtered = state.drivers
-      .map(driver => {
-        const liveStats = liveStatsMap.get(driver.code);
-        if (!liveStats) return driver;
-        return {
-          ...driver,
-          points: (driver.points || 0) + liveStats.points,
-          wins: (driver.wins || 0) + liveStats.wins,
-          podiums: (driver.podiums || 0) + liveStats.podiums,
-          poles: (driver.poles || 0) + liveStats.poles
-        };
-      })
+    const filtered = combinedDrivers
       .filter(driver => {
+        const teamCn = TEAM_TRANSLATIONS[driver.team] || '';
+        const fullName = `${driver.firstName} ${driver.lastName}`.toLowerCase();
+        const fullNameCn = `${driver.firstNameCn || ''}${driver.lastNameCn || ''}`.toLowerCase();
+        
         return (
+          fullName.includes(query) ||
+          fullNameCn.includes(query) ||
           driver.firstName.toLowerCase().includes(query) ||
           driver.lastName.toLowerCase().includes(query) ||
           (driver.firstNameCn && driver.firstNameCn.toLowerCase().includes(query)) ||
           (driver.lastNameCn && driver.lastNameCn.toLowerCase().includes(query)) ||
           driver.code.toLowerCase().includes(query) ||
-          driver.team.toLowerCase().includes(query)
+          driver.team.toLowerCase().includes(query) ||
+          teamCn.toLowerCase().includes(query)
         );
       })
       .sort((a, b) => {
@@ -74,7 +45,7 @@ const DriversPage = () => {
       });
 
     return filtered;
-  }, [state.drivers, state.searchQuery, sortBy, liveResults]);
+  }, [combinedDrivers, state.searchQuery, sortBy]);
 
   const sortOptions: { value: SortOption; label: string }[] = [
     { value: 'points', label: '积分' },
@@ -84,7 +55,7 @@ const DriversPage = () => {
     { value: 'championships', label: '车手总冠军' },
   ];
 
-  if (state.loading) {
+  if (loading) {
     return (
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto">
@@ -166,7 +137,7 @@ const DriversPage = () => {
 
         {/* Results Count */}
         <div className="mb-6 text-muted">
-          显示 <span className="text-primary font-semibold">{filteredDrivers.length}</span> 位车手 (共 {state.drivers.length} 位)
+          显示 <span className="text-primary font-semibold">{filteredDrivers.length}</span> 位车手 (共 {combinedDrivers.length} 位)
           {state.searchQuery && (
             <span>，搜索: "<span className="text-f1-red">{state.searchQuery}</span>"</span>
           )}

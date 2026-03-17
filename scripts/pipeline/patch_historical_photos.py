@@ -3,14 +3,21 @@ import os
 import json
 import unicodedata
 
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
+
 def strip_accents(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
 
 def patch_historical_photos():
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    db_path = os.path.join(base_dir, 'public', 'data', 'f1.db')
-    archive_dir = os.path.join(base_dir, 'public', 'photos', 'archive')
+    ensure_dirs()
+    db_path = str(get_path('db'))
+    archive_dir = get_path('photos') / 'archive'
     
     if not os.path.exists(archive_dir):
         print(f"[SKIP] Archive directory not found: {archive_dir}")

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Timer, MapPin, Calendar } from 'lucide-react';
-import { COUNTRY_TRANSLATIONS } from '../utils/translations';
+import { translateCountry } from '../utils/translations';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
 const RaceCountdown = () => {
@@ -85,12 +85,12 @@ const RaceCountdown = () => {
                         <span>距离下一场大奖赛</span>
                     </div>
                     <h3 className="text-3xl md:text-5xl font-bold text-primary mb-5 font-orbitron tracking-tight">
-                        {(COUNTRY_TRANSLATIONS[nextRace.country] || nextRace.country) + '大奖赛'}
+                        {translateCountry(nextRace.country) + '大奖赛'}
                     </h3>
                     <div className="flex flex-wrap justify-center items-center gap-4 text-secondary font-medium">
                         <div className="flex items-center gap-1.5">
                             <MapPin size={16} className="text-f1-red" />
-                            <span>{nextRace.location}, {COUNTRY_TRANSLATIONS[nextRace.country] || nextRace.country}</span>
+                            <span>{nextRace.location}, {translateCountry(nextRace.country)}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                             <Calendar size={16} className="text-f1-red" />

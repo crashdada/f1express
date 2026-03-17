@@ -2,7 +2,7 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, '..', '..', 'public', 'data', 'f1.db');
+const dbPath = process.env.F1_DB_PATH || path.join(__dirname, '..', '..', 'public', 'data', 'f1.db');
 const db = new Database(dbPath);
 
 // 读取特殊事件配置

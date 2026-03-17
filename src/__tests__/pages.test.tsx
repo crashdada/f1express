@@ -41,7 +41,7 @@ describe('HomePage', () => {
 describe('DriversPage', () => {
   it('renders page title correctly', () => {
     renderWithProviders(<DriversPage />);
-    expect(screen.getByRole('heading', { name: 'F1 车手数据' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /车手数据/i })).toBeInTheDocument();
   });
 
   it('renders search input', () => {
@@ -68,7 +68,7 @@ describe('DriversPage', () => {
 describe('TeamsPage', () => {
   it('renders page title correctly', () => {
     renderWithProviders(<TeamsPage />);
-    expect(screen.getByRole('heading', { name: 'F1 车队数据' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /车队数据/i })).toBeInTheDocument();
   });
 
   it('renders stats cards', () => {
@@ -87,7 +87,7 @@ describe('TeamsPage', () => {
 describe('RacesPage', () => {
   it('renders page title correctly', () => {
     renderWithProviders(<RacesPage />);
-    expect(screen.getByRole('heading', { name: 'F1 比赛记录' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /比赛记录/i })).toBeInTheDocument();
   });
 
   it('renders search input', () => {

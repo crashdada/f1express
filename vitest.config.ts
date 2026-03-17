@@ -9,13 +9,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/test/',
-        '**/*.d.ts',
-        '**/*.config.*',
-        '**/mockData.*',
-      ],
+      exclude: ['node_modules/', 'src/test/', 'test-suite/', '**/*.d.ts', '**/*.config.*', '**/mockData.*'],
     },
   },
 });

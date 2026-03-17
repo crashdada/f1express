@@ -145,6 +145,13 @@ export const TEAM_TRANSLATIONS: Record<string, string> = {
     "Toyota": "丰田",
     "BMW Sauber": "宝马索伯",
     "Honda": "本田",
+    "Cadillac": "凯迪拉克",
+    "Cadillac F1 Team": "凯迪拉克",
+    "Mercedes-AMG": "梅赛德斯",
+    "Red Bull Racing": "红牛",
+    "Aston Martin Aramco": "阿斯顿·马丁",
+    "Kick Sauber": "索伯",
+    "Audi F1 Team": "奥迪",
     "BAR": "英美车队",
     "Arrows": "飞箭",
     "Stewart": "斯图尔特车队",
@@ -180,6 +187,7 @@ export const TEAM_TRANSLATIONS: Record<string, string> = {
     "Gordini": "戈尔迪尼",
     "Ecurie Belge": "比利时车队",
     "Ecurie Rosier": "罗齐尔车队",
+    "Racing Bulls": "小红牛",
 };
 
 export const COUNTRY_TRANSLATIONS: Record<string, string> = {
@@ -219,6 +227,8 @@ export const COUNTRY_TRANSLATIONS: Record<string, string> = {
     "Korea": "韩国",
     "India": "印度",
     "UAE": "阿联酋",
+    "United Arab Emirates": "阿联酋",
+    "South Korea": "韩国",
     "Vietnam": "越南",
     "Switzerland": "瑞士",
     "Sweden": "瑞典",
@@ -254,6 +264,16 @@ export const COUNTRY_TRANSLATIONS: Record<string, string> = {
     "QATAR": "卡塔尔",
     "ABU DHABI": "阿布扎比",
     "BARCELONA-CATALUNYA": "西班牙 · 加泰罗尼亚",
+    "UNITED KINGDOM": "英国",
+};
+
+/**
+ * 统一翻译函数，支持不区分大小写的查找
+ */
+export const translateCountry = (country: string | undefined): string => {
+    if (!country) return '';
+    // 优先尝试原始匹配，再尝试大写匹配
+    return COUNTRY_TRANSLATIONS[country] || COUNTRY_TRANSLATIONS[country.toUpperCase()] || country;
 };
 
 export const DRIVER_TRANSLATIONS: Record<string, string> = {

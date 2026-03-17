@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { ChevronLeft, Users, Trophy, Info, Sparkles, Target } from 'lucide-react';
 import { IDriver2026, ITeam2026 } from '../types';
-import { COUNTRY_TRANSLATIONS } from '../utils/translations';
+import { translateCountry } from '../utils/translations';
 
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
@@ -15,26 +15,36 @@ const DriverDetail2026 = () => {
     // Compute live 2026 stats from JSON results
     const liveStats = useMemo(() => {
         if (!driver || !allRaceResults.length) return null;
-        // Gather all results for this driver across all rounds
-        const driverResults = allRaceResults.flatMap(round =>
-            round.results.filter(r => r.code === driver.code)
-        );
-        if (driverResults.length === 0) return null;
 
-        const points = driverResults.reduce((sum, r) => sum + (r.points || 0), 0);
-        const wins = driverResults.filter(r => r.pos === 1).length;
-        const podiums = driverResults.filter(r => r.pos != null && r.pos <= 3).length;
+        // Calculate points (including Sprints)
+        const totalPoints = allRaceResults.reduce((sum, round) => {
+            const racePt = round.results?.find(r => r.code === driver.code)?.points || 0;
+            const sprintPt = round.sprintResults?.find(r => r.code === driver.code)?.points || 0;
+            return sum + racePt + sprintPt;
+        }, 0);
+
+        // Calculate wins/podiums (Main Race ONLY)
+        const mainResults = allRaceResults.flatMap(round => 
+            (round.results || []).filter(r => r.code === driver.code)
+        );
+        const wins = mainResults.filter(r => r.pos === 1).length;
+        const podiums = mainResults.filter(r => r.pos != null && r.pos <= 3).length;
         const poles = allRaceResults.filter(r => r.polePosition && r.polePosition.code === driver.code).length;
 
-        // Compute rank
+        // Compute rank based on total points (Race + Sprint)
         const allDriverPoints: Record<string, number> = {};
-        allRaceResults.flatMap(round => round.results).forEach(r => {
-            allDriverPoints[r.code] = (allDriverPoints[r.code] || 0) + (r.points || 0);
+        allRaceResults.forEach(round => {
+            round.results?.forEach(r => {
+                allDriverPoints[r.code] = (allDriverPoints[r.code] || 0) + (r.points || 0);
+            });
+            round.sprintResults?.forEach(r => {
+                allDriverPoints[r.code] = (allDriverPoints[r.code] || 0) + (r.points || 0);
+            });
         });
         const sortedPoints = Object.entries(allDriverPoints).sort((a, b) => b[1] - a[1]);
         const rank = sortedPoints.findIndex(([code]) => code === driver.code) + 1;
 
-        return { points, wins, podiums, rank: rank || undefined, poles, fastestLaps: 0 };
+        return { points: totalPoints, wins, podiums, rank: rank || undefined, poles, fastestLaps: 0 };
     }, [driver, allRaceResults]);
 
 
@@ -114,7 +124,7 @@ const DriverDetail2026 = () => {
                             <div className="flex flex-col">
                                 <span className="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-1 italic">国籍</span>
                                 <span className="text-2xl font-black text-primary uppercase">
-                                    {driver.nationalityCn || COUNTRY_TRANSLATIONS[driver.country] || driver.country}
+                                    {driver.nationalityCn || translateCountry(driver.country)}
                                 </span>
                             </div>
                         </div>
@@ -197,7 +207,7 @@ const DriverDetail2026 = () => {
                                 <div className="space-y-2">
                                     <span className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary opacity-60">国籍</span>
                                     <p className="text-xl font-bold text-primary">
-                                        {driver.nationalityCn || COUNTRY_TRANSLATIONS[driver.country] || driver.country}
+                                        {driver.nationalityCn || translateCountry(driver.country)}
                                     </p>
                                 </div>
                                 <div className="space-y-2">
@@ -265,31 +275,31 @@ const DriverDetail2026 = () => {
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">分站冠军</span>
                                             <p className="text-4xl font-black text-primary font-sans tabular-nums">
-                                                {driver.careerStats.wins}
+                                                {driver.careerStats.wins + (liveStats?.wins || 0)}
                                             </p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">领奖台总数</span>
                                             <p className="text-4xl font-black text-primary font-sans tabular-nums">
-                                                {driver.careerStats.podiums}
+                                                {driver.careerStats.podiums + (liveStats?.podiums || 0)}
                                             </p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">杆位总数</span>
                                             <p className="text-4xl font-black text-primary font-sans tabular-nums">
-                                                {driver.careerStats.poles || 0}
+                                                {(driver.careerStats.poles || 0) + (liveStats?.poles || 0)}
                                             </p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">参加分站总数</span>
                                             <p className="text-4xl font-black text-primary font-sans tabular-nums">
-                                                {driver.careerStats.entries}
+                                                {driver.careerStats.entries + allRaceResults.length}
                                             </p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">职业生涯总积分</span>
                                             <p className="text-4xl font-black text-primary font-sans tabular-nums">
-                                                {driver.careerStats.points}
+                                                {(driver.careerStats.points + (liveStats?.points || 0)).toLocaleString()}
                                             </p>
                                         </div>
                                     </div>

@@ -66,8 +66,8 @@ export const LoadingSpinner = () => (
       <div className="absolute inset-0 border-4 border-f1-red/20 rounded-full" />
       <div className="absolute inset-0 border-4 border-f1-red rounded-full border-t-transparent animate-spin" />
     </div>
-    <div className="text-secondary font-orbitron text-sm animate-pulse">
-      Loading F1 Data...
+    <div className="text-secondary font-orbitron text-sm animate-pulse tracking-widest">
+      F1 EXPRESS LOADING...
     </div>
   </div>
 );

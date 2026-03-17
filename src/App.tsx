@@ -58,13 +58,11 @@ function AppContent() {
           <Route path="/races" element={<RacesPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/new-season" element={<NewSeasonPage />} />
-          <Route path="/new-season/:slug" element={<RaceDetailPage />} />
+          <Route path="/new-season/race/:slug" element={<RaceDetailPage />} />
           <Route path="/new-season/driver/:id" element={<DriverDetail2026 />} />
           <Route path="/driver/:id" element={<DriverDetailPage />} />
           <Route path="/new-season/team/:id" element={<TeamDetail2026 />} />
-          {/* Admin Console: Web only — not available in Android/iOS app */}
-          {!Capacitor.isNativePlatform() && <Route path="/admin-console" element={<DataManagementPage />} />}
-          {/* Settings Page: Native specific features */}
+          <Route path="/admin-console" element={<DataManagementPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </Suspense>
@@ -79,7 +77,6 @@ function App() {
     if (Capacitor.isNativePlatform()) {
       try {
         StatusBar.setOverlaysWebView({ overlay: true });
-        // Style will be managed by ThemeToggle
       } catch (err) {
         console.warn('Status bar configuration failed', err);
       }

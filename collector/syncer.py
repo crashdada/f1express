@@ -32,6 +32,15 @@ import argparse
 import subprocess
 import sys
 from datetime import datetime
+from pathlib import Path
+
+# Import central config
+sys.path.append(str(Path(__file__).resolve().parent / ".." / "scripts"))
+try:
+    from f1_config import get_path, ensure_dirs, STORAGE_ROOT
+    HAS_CONFIG = True
+except ImportError:
+    HAS_CONFIG = False
 
 # 路径计算
 COLLECTOR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -42,25 +51,33 @@ IS_LOCAL = os.path.exists(os.path.join(WEBSITE_DIR, 'package.json'))
 
 JSON_SOURCE = os.path.join(COLLECTOR_DIR, 'data')
 
-if IS_LOCAL:
-    # 本地开发：目标是源码的 public 目录
-    ENV_NAME = '本地源码环境 (Development)'
-    WEBSITE_ROOT = os.path.join(WEBSITE_DIR, 'public') # 本地源码根目录
-    JSON_TARGET = os.path.join(WEBSITE_ROOT, 'data')
-    DB_TARGET = JSON_TARGET  # 数据库放在 data 目录下
+if HAS_CONFIG:
+    ensure_dirs()
+    ENV_NAME = f'F1 Storage Mode (Root: {STORAGE_ROOT})'
+    WEBSITE_ROOT = STORAGE_ROOT.parent # Approximation
+    JSON_TARGET = str(get_path('live'))
+    DB_TARGET = str(get_path('root')) # Place DB in storage root for easiest access
+    PHOTO_TARGET = str(get_path('photos'))
 else:
-    # NAS 部署：目标通常是构建好的产物目录 (dist)
-    potential_dist = os.path.join(WEBSITE_DIR, 'dist')
-    if os.path.exists(potential_dist):
-        WEBSITE_ROOT = potential_dist
-        ENV_NAME = f'NAS 生产构建环境 (Target: {os.path.basename(potential_dist)})'
+    if IS_LOCAL:
+        # 本地开发：目标是源码的 public 目录
+        ENV_NAME = '本地源码环境 (Development)'
+        WEBSITE_ROOT = os.path.join(WEBSITE_DIR, 'public') # 本地源码根目录
+        JSON_TARGET = os.path.join(WEBSITE_ROOT, 'data')
+        DB_TARGET = JSON_TARGET  # 数据库放在 data 目录下
     else:
-        WEBSITE_ROOT = WEBSITE_DIR
-        ENV_NAME = f'NAS 根目录环境 (Target: {os.path.basename(WEBSITE_DIR)})'
-    
-    JSON_TARGET = os.path.join(WEBSITE_ROOT, 'data')
-    DB_TARGET = JSON_TARGET  # 数据库放在 data 目录下
-
+        # NAS 部署：目标通常是构建好的产物目录 (dist)
+        potential_dist = os.path.join(WEBSITE_DIR, 'dist')
+        if os.path.exists(potential_dist):
+            WEBSITE_ROOT = potential_dist
+            ENV_NAME = f'NAS 生产构建环境 (Target: {os.path.basename(potential_dist)})'
+        else:
+            WEBSITE_ROOT = WEBSITE_DIR
+            ENV_NAME = f'NAS 根目录环境 (Target: {os.path.basename(WEBSITE_DIR)})'
+        
+        JSON_TARGET = os.path.join(WEBSITE_ROOT, 'data')
+        DB_TARGET = JSON_TARGET  # 数据库放在 data 目录下
+    PHOTO_TARGET = os.path.join(WEBSITE_ROOT, 'photos')
 def get_json_files(season):
     return [
         f'schedule_{season}.json',
@@ -270,18 +287,22 @@ def sync_db():
 
 def sync_assets():
     """同步 assets 和 photos 目录 (合并至展示端 photos 目录)"""
-    # 同步 assets (国旗图标等) -> 目标网站的 photos 目录
-    source_assets = os.path.join(COLLECTOR_DIR, 'assets')
+    # 优先从 storage root 获取源 assets/目录
+    if HAS_CONFIG:
+        source_assets = str(get_path('assets'))
+    else:
+        source_assets = os.path.join(COLLECTOR_DIR, 'assets')
+        
     # 同步 photos (车手照片等) -> 目标网站的 photos 目录
     source_photos = os.path.join(COLLECTOR_DIR, 'photos')
     
     # 统一目标：无论是 assets 还是 photos，在展示端都放在 photos 目录下
-    target_photos = os.path.join(WEBSITE_ROOT, 'photos')
+    target_photos = PHOTO_TARGET
 
     # 处理两个源文件夹至同一个目标文件夹
     for source in [source_assets, source_photos]:
         target = target_photos
-        if not os.path.exists(source):
+        if not source or not os.path.exists(source):
             continue
             
         log(f'[...] 同步 {os.path.basename(source)} 目录 → {target}')

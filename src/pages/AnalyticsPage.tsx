@@ -76,8 +76,14 @@ const AnalyticsPage = () => {
         };
       }
       driverStats[r.code].points += r.points;
-      if (r.position === 1) driverStats[r.code].wins += 1;
-      if (r.position >= 1 && r.position <= 3) driverStats[r.code].podiums += 1;
+      
+      // 只有正赛（非冲刺赛）才计入胜场和领奖台统计
+      // 同时检查 isSprint 标志和比赛名称中是否包含 "Sprint"
+      const isSprint = r.isSprint === true || (r.grandPrix && r.grandPrix.includes('Sprint'));
+      if (!isSprint) {
+        if (r.position === 1) driverStats[r.code].wins += 1;
+        if (r.position >= 1 && r.position <= 3) driverStats[r.code].podiums += 1;
+      }
 
       if (r.team) {
         if (!driverTeamPoints[r.code]) driverTeamPoints[r.code] = {};
@@ -101,8 +107,13 @@ const AnalyticsPage = () => {
         teamStats[r.team] = { name: r.team, points: 0, wins: 0, podiums: 0 };
       }
       teamStats[r.team].points += r.points;
-      if (r.position === 1) teamStats[r.team].wins += 1;
-      if (r.position >= 1 && r.position <= 3) teamStats[r.team].podiums += 1;
+      
+      // 只有正赛才计入车队胜场和领奖台统计
+      const isSprint = r.isSprint === true || (r.grandPrix && r.grandPrix.includes('Sprint'));
+      if (!isSprint) {
+        if (r.position === 1) teamStats[r.team].wins += 1;
+        if (r.position >= 1 && r.position <= 3) teamStats[r.team].podiums += 1;
+      }
     });
 
     const sortedDriversByPoints = Object.values(driverStats).sort((a, b) => b.points - a.points);
@@ -120,17 +131,38 @@ const AnalyticsPage = () => {
   }, [state.raceResults, timeRange]);
 
   const teamColorMap: Record<string, string> = {
-    '迈凯伦': '#FF8700',
-    '红牛': '#3671c6',
+    // 2026 Teams
     '梅赛德斯': '#27f4d2',
-    '法拉利': '#e8002d',
+    'Mercedes': '#27f4d2',
+    '法拉利': '#e10600',
+    'Ferrari': '#e10600',
+    '红牛': '#0600ef',
+    'Red Bull': '#0600ef',
+    'Red Bull Racing': '#0600ef',
+    '迈凯伦': '#ff8700',
+    'McLaren': '#ff8700',
     '阿斯顿马丁': '#229971',
+    '阿斯顿·马丁': '#229971',
+    'Aston Martin': '#229971',
+    '奥迪': '#f50537',
+    'audi': '#f50537',
+    'Audi F1 Team': '#f50537',
+    '哈斯': '#b6babd',
+    'Haas': '#b6babd',
+    '威廉姆斯': '#64c4ff',
+    'Williams': '#64c4ff',
     '阿尔派': '#0093cc',
     'Alpine': '#0093cc',
-    '威廉姆斯': '#64c4ff',
+    'RB': '#6692ff',
+    'Racing Bulls': '#6692ff',
     '红牛二队': '#6692ff',
+    '凯迪拉克': '#ffce00',
+    'Cadillac': '#ffce00',
+    'Cadillac F1 Team': '#ffce00',
+    
+    // Historical Teams
     '索伯': '#52e252',
-    '哈斯': '#b6babd',
+    'Sauber': '#52e252',
     '雷诺': '#fff000',
     'Renault': '#fff000',
     '莲花': '#c5a059',
@@ -195,37 +227,69 @@ const AnalyticsPage = () => {
 
   const seasonTrendData = useMemo(() => {
     const results = filteredData?.results || [];
-    const seasonStats: Record<number, { totalPoints: number; raceCount: number }> = {};
+    
+    // 如果是“全历史”，显示历年总积分趋势
+    if (timeRange === 'all') {
+      const seasonStats: Record<number, { totalPoints: number }> = {};
+      results.forEach(result => {
+        const season = result.season || 2025;
+        if (!seasonStats[season]) seasonStats[season] = { totalPoints: 0 };
+        seasonStats[season].totalPoints += result.points || 0;
+      });
 
+      const sortedSeasons = Object.keys(seasonStats).sort((a, b) => parseInt(a) - parseInt(b));
+      return {
+        labels: sortedSeasons,
+        datasets: [
+          {
+            label: '赛季总积分趋势',
+            data: sortedSeasons.map(season => seasonStats[parseInt(season)].totalPoints),
+            borderColor: '#e10600',
+            backgroundColor: 'rgba(225, 6, 0, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#e10600',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 4,
+          },
+        ],
+      };
+    } 
+    
+    // 如果选择了特定年份，显示该赛季的积分增长路径
+    const roundStats: Record<number, number> = {};
     results.forEach(result => {
-      const season = result.season || 2025;
-      if (!seasonStats[season]) {
-        seasonStats[season] = { totalPoints: 0, raceCount: 0 };
-      }
-      seasonStats[season].totalPoints += result.points || 0;
-      seasonStats[season].raceCount += 1;
+      const round = result.roundNo || 0;
+      if (round === 0) return;
+      roundStats[round] = (roundStats[round] || 0) + (result.points || 0);
     });
 
-    const sortedSeasons = Object.keys(seasonStats).sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedRounds = Object.keys(roundStats).map(Number).sort((a, b) => a - b);
+    let runningTotal = 0;
+    const accumulatedPoints = sortedRounds.map(round => {
+      runningTotal += roundStats[round];
+      return runningTotal;
+    });
 
     return {
-      labels: sortedSeasons,
+      labels: sortedRounds.map(r => `R${r}`),
       datasets: [
         {
-          label: '赛季总积分趋势',
-          data: sortedSeasons.map(season => seasonStats[parseInt(season)].totalPoints),
-          borderColor: '#e10600',
-          backgroundColor: 'rgba(225, 6, 0, 0.1)',
-          tension: 0.4,
+          label: `${timeRange} 赛季积分增长`,
+          data: accumulatedPoints,
+          borderColor: '#27f4d2', // 2026 风格的主题色
+          backgroundColor: 'rgba(39, 244, 210, 0.1)',
+          tension: 0.3,
           fill: true,
-          pointBackgroundColor: '#e10600',
+          pointBackgroundColor: '#27f4d2',
           pointBorderColor: '#fff',
           pointBorderWidth: 2,
-          pointRadius: 4,
+          pointRadius: 5,
         },
       ],
     };
-  }, [filteredData]);
+  }, [filteredData, timeRange]);
 
   const teamRadarData = useMemo(() => {
     const topTeamsGlobal = filteredData?.teams.slice(0, 5) || [];

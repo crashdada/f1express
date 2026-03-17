@@ -2,11 +2,18 @@ import os
 import csv
 import requests
 import re
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
 
 # 路径配置
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-CSV_DIR = os.path.join(BASE_DIR, 'csv')
-PHOTOS_DIR = os.path.join(BASE_DIR, 'public', 'photos', 'custom')
+ensure_dirs()
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+CSV_DIR = BASE_DIR / 'csv'
+PHOTOS_DIR = get_path('photos') / 'custom'
 
 def download_file(url, target_path, force=False):
     try:

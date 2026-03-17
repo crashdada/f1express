@@ -1,72 +1,13 @@
 import { Crown, Timer } from 'lucide-react';
-import { useF1 } from '../context/F1Context';
 import { TeamRow } from '../components/TeamCard';
 import { SkeletonTable } from '../components/Skeletons';
 import F1Logo from '../components/F1Logo';
-import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
-import { useMemo } from 'react';
+import { useCombinedData } from '../hooks/useCombinedData';
 
 const TeamsPage = () => {
-  const { state } = useF1();
-  const { raceResults: liveResults } = useDynamic2026Data();
+  const { combinedTeams, loading } = useCombinedData();
 
-  const combinedTeams = useMemo(() => {
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number; teamEn: string }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        if (r.polePosition && r.polePosition.code) {
-          const poleDriver = r.results.find(res => res.code === r.polePosition!.code);
-          if (poleDriver && poleDriver.team) {
-            const teamCn = poleDriver.teamCn || poleDriver.team;
-            if (!liveStatsMap.has(teamCn)) {
-              liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: poleDriver.team });
-            }
-            liveStatsMap.get(teamCn)!.poles += 1;
-          }
-        }
-
-        r.results.forEach(res => {
-          const teamCn = res.teamCn || res.team;
-          if (!liveStatsMap.has(teamCn)) {
-            liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: res.team });
-          }
-          const stats = liveStatsMap.get(teamCn)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
-      });
-    }
-
-    return state.teams.map(team => {
-      // Handle potential name variations or substrings (e.g., matching common identifiers)
-      let liveStats = liveStatsMap.get(team.name) || liveStatsMap.get(team.nameCn);
-
-      // If exact match not found, try to find a partial match since 2026 team names might be slightly different
-      if (!liveStats) {
-        for (const [key, value] of liveStatsMap.entries()) {
-          const enName = value.teamEn;
-          if (team.name.includes(key) || key.includes(team.name) ||
-            (enName && (enName.includes(team.fullName) || team.fullName.includes(enName)))) {
-            liveStats = value;
-            break;
-          }
-        }
-      }
-
-      if (!liveStats) return team;
-      return {
-        ...team,
-        points: (team.points || 0) + liveStats.points,
-        wins: (team.wins || 0) + liveStats.wins,
-        podiums: (team.podiums || 0) + liveStats.podiums,
-        poles: (team.poles || 0) + liveStats.poles,
-        _livePoints: liveStats.points
-      };
-    }).sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [state.teams, liveResults]);
-
-  if (state.loading) {
+  if (loading) {
     return (
       <div className="min-h-screen py-8 px-4">
         <div className="max-w-7xl mx-auto">

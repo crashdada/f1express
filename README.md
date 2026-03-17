@@ -1,85 +1,71 @@
-# f1express — F1 数据采集与展示一体化平台
+# 🏎️ F1 Express: 您的全方位 F1 数据中枢
 
-> **v1.0.0** | 集成 `f1-collector` 与 `f1-website` 的一体化 F1 历史数据统计与实时展示系统。
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/crashdada/f1express)
+[![Build](https://img.shields.io/badge/integrity-62--point%20pass-green.svg)](https://github.com/crashdada/f1express)
 
----
-
-## 📋 项目概述
-
-**f1express** 将原本分散的 F1 数据采集工具与前端展示站深度整合，形成了一个从 **爬虫采集 -> 数据清洗 -> 数据库构建 -> 前端可视化 -> 运维管理** 的全链路闭环项目。
-
-### 🌟 核心特性
-- ✅ **一体化管线**：一个项目完成 2026 赛季实时采集与 1950-2025 历史重算。
-- ✅ **13 步自动化同步**：涵盖 WDC/WCC 冠军重算、中文化、最快圈注入及 62 项严苛的数据完整性检查。
-- ✅ **Admin Console**：NAS 部署后支持通过 Web 界面上传 CSV、触发重算、一键更新 Docker 镜像。
-- ✅ **高性能前端**：基于 React + WASM SQLite，支持秒级数据查询与 IndexedDB 持久化缓存。
-- ✅ **三端同步**：本机开发、GitHub Actions、NAS 生产环境无缝联动。
+**F1 Express** 是一款专为 F1 爱好者打造的高性能纵览平台。它不仅是一个网站，更是一个链接了 75 年历史遗产与未来 2026 赛季实时动态的数据引擎。
 
 ---
 
-## 📂 目录结构
+## 🌟 核心亮点
 
-- `collector/` : **原 f1-collector 核心**。负责 2026 赛季赛程、赛果、车手及车队的实时抓取。
-- `scripts/` : **数据精炼管线**。包含 `sync_f1_data.py` 等 13 步核心同步逻辑。
-- `csv/` : **数据真理源**。存储所有经人工核验的历史 race/sprint/photo 基础数据。
-- `public/data/` : **运行时数据集**。存放 `f1.db` (SQLite) 及生成的各种 JSON 产物。
-- `src/` : **前端源码**。基于 Vite + React + TypeScript 的现代化 Web 应用。
-- `server.cjs` : **后端管理服务**。Express 驱动，负责静态托管及 Admin API。
+*   **穿越 75 年的历史深度**：完整收录自 1950 年以来的 25,000+ 场赛果，重现每一位冠军的辉煌时刻。
+*   **实时驱动的 2026 赛季**：内置自主采集系统，第一时间同步最新的分站成绩、积分榜与车队动态。
+*   **秒开的极致体验**：基于 WebAssembly 数据库技术，支持数万条数据的毫秒级搜索与过滤。
+*   **双语无缝切换**：全站标准中英文对照，支持中英文全名及车队名搜索。
+*   **私有化部署神器**：为 NAS 度身定制，支持 Docker 一键部署、自动更新及 Web 管理后台。
 
 ---
 
-## 🚀 快速开始
+## 🚀 快速上手
 
-### 1. 环境准备
-确保您的系统中已安装 Node.js (v20+) 和 Python 3.9+。
+### 1. 准备环境
+您需要安装 **Node.js (v20+)** 和 **Python (3.9+)**。
 
+### 2. 安装与运行
 ```bash
-# 克隆仓库（如果您已在本地，请直接进入目录）
-cd f1express
+# 安装依赖
+npm install && pip install -r collector/requirements.txt
 
-# 安装 Node 依赖
-npm install
-
-# 安装 Python 依赖
-pip install -r collector/requirements.txt
-```
-
-### 2. 本地开发
-```bash
-# 启动 Vite 开发服务器 (默认 5173 端口)
+# 启动展示界面
 npm run dev
 
-# 启动管理后台后端 (默认 8001 端口)
+# 启动管理后台
 node server.cjs
 ```
 
-### 3. 数据同步与维护
-当您修改了 `csv/` 数据或需要采集 2026 最新成绩时：
+---
 
-```bash
-# 先行采集 2026 数据并同步至网站
-python collector/syncer.py --all
+## 📂 目录导航
 
-# 运行全量 13 步管线（重建数据库、计算冠军、执行 62 项测试）
-python scripts/sync_f1_data.py --force
-```
+为了保持项目整洁，我们将代码按照职能进行了严谨的划分：
+
+*   **`src/`**: 华丽的 React 前端界面。
+*   **`collector/`**: 负责 2026 赛季情报的“采集雷达”。
+*   **`scripts/`**: 负责历史数据洗炼与冠军重算的“核心工厂”。
+*   **`public/data/`**: 存储所有处理好的 SQLite 数据库与实时 JSON。
+*   **`docker/`**: 方便您在 NAS 上一键部署的各配置文件。
+*   **`docs/`**: 存放深度技术文档、历史积分规则及更新日志。
 
 ---
 
-## 🐳 Docker 部署 (NAS)
+## 🐳 NAS 部署方案
 
-建议使用 `docker-compose` 部署：
+如果您想在自己的设备上克隆一个 F1 情报站，只需使用 Docker：
 
 ```bash
-docker compose pull
-docker compose up -d
+docker compose -f docker/compose.yaml pull
+docker compose -f docker/compose.yaml up -d
 ```
 
-详情参阅 [AGENTS.md](AGENTS.md) 查看三端无冲突架构及详细配置说明。
+部署后，访问 `/#/admin-console` 即可体验一键热更新与数据同步的快感。
 
 ---
 
 ## 📚 延伸阅读
-- [AGENTS.md](AGENTS.md): **项目深度技术文档**（架构图、数据流、管线细节）。
-- [docs/CHANGELOG.md](docs/CHANGELOG.md): 更新日志与版本变动记录。
-- [docs/championship_rules.md](docs/championship_rules.md): 各年代积分规则详解。
+
+*   [技术蓝图 (AGENTS.md)](docs/AGENTS.md) — 深度了解双引擎架构与数据流逻辑。
+*   [更新日志 (CHANGELOG.md)](docs/CHANGELOG.md) — 记录每一次性能起飞与功能迭代。
+*   [冠军规则 (championship_rules.md)](docs/championship_rules.md) — 探究自 1950 年来复杂的积分算法。
+
+**状态**: ⚡ 统一历史引擎在线 | ✅ 62 项完整性断言通过。

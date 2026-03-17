@@ -68,9 +68,13 @@ export const DriverCard = ({
                     <span className="text-sm text-secondary leading-tight">
                       {driver.firstName} {driver.lastName}
                     </span>
-                    <div className="flex items-center gap-1.5 opacity-80">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: driver.teamColor || '#6b7280' }} />
-                      <span className="text-xs text-secondary font-mono">{driver.code}</span>
+                    <div className="flex items-center gap-2 opacity-80">
+                      <div className="w-2 rounded-full h-2" style={{ backgroundColor: driver.teamColor || '#6b7280' }} />
+                      <span className="text-xs text-secondary font-medium tracking-tight whitespace-nowrap">
+                        {driver.team}
+                      </span>
+                      <span className="text-[10px] text-secondary/40 font-mono">|</span>
+                      <span className="text-[10px] text-secondary/60 font-mono">{driver.code}</span>
                     </div>
                   </div>
                 </div>

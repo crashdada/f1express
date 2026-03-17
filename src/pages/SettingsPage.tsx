@@ -190,8 +190,8 @@ const SettingsPage = () => {
                 {/* Logo Footer */}
                 <div className="mt-12 mb-8 flex flex-col items-center justify-center opacity-50">
                     <F1Logo className="w-16 h-auto mb-4 grayscale" />
-                    <p className="text-xs text-muted font-orbitron text-center">
-                        UNOFFICIAL F1 DATA HUB<br />
+                    <p className="text-xs text-muted font-orbitron text-center uppercase tracking-widest">
+                        UNOFFICIAL F1 EXPRESS<br />
                         Built with React & Capacitor
                     </p>
                 </div>

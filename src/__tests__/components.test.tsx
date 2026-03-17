@@ -31,8 +31,7 @@ describe('Layout', () => {
       </BrowserRouter>
     );
     
-    expect(screen.getByText(/F1/i)).toBeInTheDocument();
-    expect(screen.getByText(/DATA/i)).toBeInTheDocument();
+    expect(screen.getByText(/EXPRESS/i)).toBeInTheDocument();
   });
 });
 
@@ -50,7 +49,8 @@ describe('Navigation', () => {
     expect(screen.getByText('车手')).toBeInTheDocument();
     expect(screen.getByText('车队')).toBeInTheDocument();
     expect(screen.getByText('比赛')).toBeInTheDocument();
-    expect(screen.getByText('数据')).toBeInTheDocument();
+    // Use a more specific query for '数据' if needed, or keeping it as is if it's unique enough
+    expect(screen.getAllByText('数据').length).toBeGreaterThan(0);
   });
 
   it('has correct navigation structure', () => {

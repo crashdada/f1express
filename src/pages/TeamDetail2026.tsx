@@ -14,27 +14,41 @@ const TeamDetail2026 = () => {
     const liveTeamStats = useMemo(() => {
         if (!team || !allRaceResults.length) return null;
         const teamCodes = team.drivers || [];
-        const teamResults = allRaceResults.flatMap(round =>
-            round.results.filter(r => teamCodes.includes(r.code))
+        
+        // Calculate points (including Sprints)
+        const totalPoints = allRaceResults.reduce((sum, round) => {
+            const racePts = (round.results || []).filter(r => teamCodes.includes(r.code)).reduce((s, r) => s + (r.points || 0), 0);
+            const sprintPts = (round.sprintResults || []).filter(r => teamCodes.includes(r.code)).reduce((s, r) => s + (r.points || 0), 0);
+            return sum + racePts + sprintPts;
+        }, 0);
+
+        // Calculate wins/podiums (Main Race ONLY)
+        const mainTeamResults = allRaceResults.flatMap(round => 
+            (round.results || []).filter(r => teamCodes.includes(r.code))
         );
-        if (teamResults.length === 0) return null;
+        const wins = mainTeamResults.filter(r => r.pos === 1).length;
+        const podiums = mainTeamResults.filter(r => r.pos != null && r.pos <= 3).length;
 
-        const points = teamResults.reduce((sum, r) => sum + (r.points || 0), 0);
-        const wins = teamResults.filter(r => r.pos === 1).length;
-        const podiums = teamResults.filter(r => r.pos != null && r.pos <= 3).length;
-
-        // Compute team rank
+        // Compute team rank based on total points (Race + Sprint)
         const allTeamPoints: Record<string, number> = {};
-        const teamCodeMap: Record<string, string> = {};
-        allDrivers.forEach(d => { teamCodeMap[d.code] = d.team; });
-        allRaceResults.flatMap(round => round.results).forEach(r => {
-            const t = teamCodeMap[r.code] || r.team;
-            allTeamPoints[t] = (allTeamPoints[t] || 0) + (r.points || 0);
-        });
-        const sorted = Object.entries(allTeamPoints).sort((a, b) => b[1] - a[1]);
-        const rank = sorted.findIndex(([t]) => t === team.name) + 1;
+        const driverToTeamMap: Record<string, string> = {};
+        allDrivers.forEach(d => { driverToTeamMap[d.code] = d.team; });
 
-        return { points, wins, podiums, rank: rank || undefined };
+        allRaceResults.forEach(round => {
+            round.results?.forEach(r => {
+                const tName = driverToTeamMap[r.code] || r.team;
+                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
+            });
+            round.sprintResults?.forEach(r => {
+                const tName = driverToTeamMap[r.code] || r.team;
+                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
+            });
+        });
+
+        const sorted = Object.entries(allTeamPoints).sort((a, b) => b[1] - a[1]);
+        const rank = sorted.findIndex(([tName]) => tName === team.name) + 1;
+
+        return { points: totalPoints, wins, podiums, rank: rank || undefined };
     }, [team, allDrivers, allRaceResults]);
 
 
@@ -219,11 +233,15 @@ const TeamDetail2026 = () => {
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">大奖赛冠军</span>
-                                            <p className="text-4xl font-black text-primary font-sans tabular-nums">{team.history.wins}</p>
+                                            <p className="text-4xl font-black text-primary font-sans tabular-nums">
+                                                {team.history.wins + (liveTeamStats?.wins || 0)}
+                                            </p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[10px] font-bold text-secondary opacity-60 uppercase">领奖台总数</span>
-                                            <p className="text-4xl font-black text-primary font-sans tabular-nums">{team.history.podiums}</p>
+                                            <p className="text-4xl font-black text-primary font-sans tabular-nums">
+                                                {team.history.podiums + (liveTeamStats?.podiums || 0)}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

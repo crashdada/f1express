@@ -8,6 +8,12 @@ import sqlite3
 import os
 import json
 from datetime import datetime
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
 
 def normalize_team_name(name):
     """标准化车队名称，对接数据库中的中文主键"""
@@ -599,8 +605,8 @@ def create_normalized_database(csv_dir, db_path):
     print(f"DONE 基础数据库(纯CSV)构建成功: {db_path}")
 
 if __name__ == "__main__":
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    ensure_dirs()
     create_normalized_database(
-        csv_dir=os.path.join(BASE_DIR, "csv"),
-        db_path=os.path.join(BASE_DIR, "public", "data", "f1.db")
+        csv_dir=get_path('csv'),
+        db_path=get_path('db')
     )

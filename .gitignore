@@ -17,9 +17,17 @@ pnpm-debug.log*
 
 # Database backups (local only, not for repo)
 backups/
+f1_storage/backups/
+
+# Data storage separation
+f1_storage/*.db
+f1_storage/live/
+f1_storage/photos/
+f1_storage/uploads/
+# (f1_storage/csv and f1_storage/assets ARE tracked)
 
 # Temporary upload staging area
-uploads/
+docker/uploads/
 
 # Android / Capacitor - commit source, ignore build artifacts
 android/app/build/

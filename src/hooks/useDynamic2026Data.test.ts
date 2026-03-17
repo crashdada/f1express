@@ -5,6 +5,8 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 describe('useDynamic2026Data', () => {
     beforeEach(() => {
         vi.stubGlobal('fetch', vi.fn());
+        // Mock non-localhost to ensure remote sync logic is tested
+        vi.stubGlobal('location', { hostname: 'f1express.app' });
     });
 
     afterEach(() => {

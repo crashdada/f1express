@@ -8,11 +8,17 @@ import os
 import json
 
 
-def update_photo_index():
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+from pathlib import Path
 
-    # 固定从 public/photos 扫描（Step 0 下载新图片的目标目录）
-    src_dir = os.path.join(base_dir, 'public', 'photos')
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
+
+def update_photo_index():
+    ensure_dirs()
+    # 扫描 F1_STORAGE 中的 photos 目录
+    src_dir = get_path('photos')
 
     if not os.path.exists(src_dir):
         print(f"[SKIP] photos 目录不存在: {src_dir}")

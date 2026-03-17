@@ -10,9 +10,16 @@ import sqlite3
 import os
 import json
 
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
+
 def apply_special_events():
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    db_path = os.path.join(base_dir, 'public', 'data', 'f1.db')
+    ensure_dirs()
+    db_path = str(get_path('db'))
     json_path = os.path.join(os.path.dirname(__file__), 'special_events.json')
 
     if not os.path.exists(db_path):

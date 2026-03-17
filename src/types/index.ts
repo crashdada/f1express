@@ -43,6 +43,7 @@ export interface IRaceResult {
   circuit?: string;
   date?: string;
   roundNo?: number;
+  isSprint?: boolean;
 }
 
 export interface ITeam {

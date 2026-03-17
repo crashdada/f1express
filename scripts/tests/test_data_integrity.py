@@ -15,10 +15,16 @@ import sqlite3
 import os
 import sys
 import time
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'data', 'f1.db')
+ensure_dirs()
+DB_PATH = str(get_path('db'))
 
 # Known-good reference values for key drivers (source: Wikipedia/StatsF1)
 # Keys are (first_name, last_name) tuples to handle multi-word names like "Juan Manuel"

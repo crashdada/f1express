@@ -1,379 +1,221 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-    Upload,
-    FileText,
-    CheckCircle2,
-    AlertCircle,
-    Database,
-    RefreshCw,
-    ShieldCheck,
-    HardDrive,
-    Users,
-    Download,
-    RotateCcw,
-    Wifi
-} from 'lucide-react';
+import { useState } from 'react';
+import { Info, Download, RefreshCw, CheckCircle2, AlertCircle, ShieldCheck, Heart } from 'lucide-react';
+import { Capacitor } from '@capacitor/core';
+import F1Logo from '../components/F1Logo';
+import { checkForUpdates, getApkDownloadUrl } from '../components/AppUpdater';
 
-interface UploadState {
-    file: File | null;
-    status: 'idle' | 'uploading' | 'success' | 'error';
-    message: string;
-    progress: number;
-}
-
-type UpdateStatus = 'idle' | 'checking' | 'up-to-date' | 'has-update' | 'restarting' | 'error';
+type UpdateCheckStatus = 'idle' | 'checking' | 'up-to-date' | 'has-update' | 'error';
 
 const DataManagementPage = () => {
-    const [uploads, setUploads] = useState<Record<string, UploadState>>({
-        'historical_data': { file: null, status: 'idle', message: '', progress: 0 },
-        'sprint_data': { file: null, status: 'idle', message: '', progress: 0 },
-        'outline_data': { file: null, status: 'idle', message: '', progress: 0 },
-        'team_name_data': { file: null, status: 'idle', message: '', progress: 0 },
-        'driver_photos': { file: null, status: 'idle', message: '', progress: 0 },
-        'team_photos': { file: null, status: 'idle', message: '', progress: 0 },
-    });
+    const [updateStatus, setUpdateStatus] = useState<UpdateCheckStatus>('idle');
+    const [updateMsg, setUpdateMsg] = useState('');
+    const [downloadUrl, setDownloadUrl] = useState('');
+    const [releaseNotes, setReleaseNotes] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    const [updateStatus, setUpdateStatus] = useState<UpdateStatus>('idle');
-    const [updateMessage, setUpdateMessage] = useState('');
-    const [countdown, setCountdown] = useState(0);
+    const isNative = Capacitor.isNativePlatform();
+    const currentVersion = typeof (window as any).__APP_VERSION__ !== 'undefined' ? (window as any).__APP_VERSION__ : '1.0.0';
 
-    // 倒计时逻辑：restarting 状态下每秒递减，到 0 时自动刷新页面
-    useEffect(() => {
-        if (updateStatus !== 'restarting' || countdown <= 0) return;
-        if (countdown === 0) { window.location.reload(); return; }
-        const timer = setTimeout(() => setCountdown(c => c - 1), 1000);
-        return () => clearTimeout(timer);
-    }, [updateStatus, countdown]);
-
-    const checkForUpdate = async () => {
+    const handleCheckUpdate = async () => {
         setUpdateStatus('checking');
-        setUpdateMessage('正在检查 Docker Hub 最新版本...');
-        try {
-            const res = await fetch('/api/check-update');
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'check failed');
-            setUpdateStatus(data.hasUpdate ? 'has-update' : 'up-to-date');
-            setUpdateMessage(data.message);
-        } catch (e: unknown) {
-            setUpdateStatus('error');
-            setUpdateMessage(`❌ 检查失败：${e instanceof Error ? e.message : '未知错误'}`);
-        }
-    };
+        setUpdateMsg(isNative ? '正在联系 GitHub 获取最新版本...' : '正在检查 Docker Hub 镜像更新...');
+        setDownloadUrl('');
 
-    const applyUpdate = async () => {
-        setUpdateStatus('restarting');
-        setUpdateMessage('正在应用新镜像，容器即将重启...');
-        setCountdown(30);
-        try {
-            await fetch('/api/self-update', { method: 'POST' });
-        } catch {
-            // 容器重启时连接中断是预期行为，忽略网络错误
-        }
-    };
-
-    const fileInputRefs = {
-        'historical_data': useRef<HTMLInputElement>(null),
-        'sprint_data': useRef<HTMLInputElement>(null),
-        'outline_data': useRef<HTMLInputElement>(null),
-        'team_name_data': useRef<HTMLInputElement>(null),
-        'driver_photos': useRef<HTMLInputElement>(null),
-        'team_photos': useRef<HTMLInputElement>(null),
-    };
-
-    const handleFileChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        if (file) {
-            setUploads(prev => ({
-                ...prev,
-                [key]: { ...prev[key], file, status: 'idle', message: `已选择: ${file.name}` }
-            }));
-        }
-    };
-
-    // 标准文件名映射：每个上传槽对应的 csv/ 目录中的标准文件名
-    const targetFileNames: Record<string, string> = {
-        'historical_data': 'race_results.csv',
-        'sprint_data': 'sprint_results.csv',
-        'outline_data': 'race_outline.csv',
-        'team_name_data': 'team_names.csv',
-        'driver_photos': 'driver_photos.csv',
-        'team_photos': 'team_photos.csv',
-    };
-
-    const performUpload = async (key: string) => {
-        const uploadItem = uploads[key];
-        if (!uploadItem.file) return;
-
-        // 1. 设置状态为 Uploading
-        setUploads(prev => ({
-            ...prev,
-            [key]: { ...prev[key], status: 'uploading', progress: 10, message: '正在上传文件...' }
-        }));
-
-        const formData = new FormData();
-        formData.append('file', uploadItem.file);
-        // 关键：告诉服务器存为哪个标准文件名（不依赖用户本地文件名）
-        formData.append('targetName', targetFileNames[key]);
-
-        // 映射文件名为后端需要的标准名 (虽然 input accept csv, 但还是要防范)
-        // 这里我们要确保 server 拿到的是标准名，比如 race_results.csv
-        // filename 在 server 端是直接用的 originalname，所以我们在 append 时最好重命名
-        // 但目前先简单处理，假设用户选对了文件
-
-        try {
-            // 2. 发起真实请求
-            const response = await fetch('/api/upload-csv', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error(`Server responded with ${response.status}`);
+        if (isNative) {
+            // Android APK Update Logic
+            const result = await checkForUpdates();
+            if (result.error) {
+                setUpdateStatus('error');
+                setUpdateMsg('检查失败：' + result.error);
+                return;
             }
-
-            setUploads(prev => ({
-                ...prev,
-                [key]: { ...prev[key], progress: 50, message: '文件已接收，正如火如荼地同步数据库...' }
-            }));
-
-            const result = await response.json();
-
-            // 3. 处理结果
-            if (result.status === 'success' || result.data?.status === 'success') {
-                setUploads(prev => ({
-                    ...prev,
-                    [key]: {
-                        ...prev[key],
-                        status: 'success',
-                        progress: 100,
-                        message: '✅ 同步完成！数据已更新推送到 GitHub。'
-                    }
-                }));
+            if (result.hasUpdate && result.release) {
+                setUpdateStatus('has-update');
+                setUpdateMsg(`发现新版本 ${result.release.tag_name} (当前 v${result.currentVersion})`);
+                setDownloadUrl(getApkDownloadUrl(result.release));
+                setReleaseNotes(result.release.body || '');
             } else {
-                setUploads(prev => ({
-                    ...prev,
-                    [key]: {
-                        ...prev[key],
-                        status: 'error',
-                        progress: 100,
-                        message: `⚠️ 同步完成但推送失败: ${result.message}`
-                    }
-                }));
+                setUpdateStatus('up-to-date');
+                setUpdateMsg(`当前已是最新版本 v${result.currentVersion}`);
             }
-
-        } catch (error) {
-            console.error('Upload failed:', error);
-            setUploads(prev => ({
-                ...prev,
-                [key]: {
-                    ...prev[key],
-                    status: 'error',
-                    progress: 0,
-                    message: '❌ 上传或同步失败，请检查 NAS 日志。'
+        } else {
+            // NAS Docker Update Logic
+            try {
+                const res = await fetch('/api/check-update');
+                const data = await res.json();
+                if (data.hasUpdate) {
+                    setUpdateStatus('has-update');
+                    setUpdateMsg(data.message || '发现新镜像版本！');
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    setUpdateStatus('up-to-date');
+                    setUpdateMsg('当前容器已是最新镜像版本');
                 }
-            }));
+            } catch (err) {
+                setUpdateStatus('error');
+                setUpdateMsg('获取 Docker 更新失败，请检查 Docker Sock 挂载');
+            }
         }
     };
 
-    const sourceFiles = [
-        { id: 'historical_data', name: 'race_results.csv', icon: Database, description: '包含1950年至今的所有大奖赛结果（核心赛果表）' },
-        { id: 'sprint_data', name: 'sprint_results.csv', icon: RefreshCw, description: '包含2021年起的冲刺赛排名与积分（冲刺赛结果）' },
-        { id: 'outline_data', name: 'race_outline.csv', icon: FileText, description: '赛季大纲及赛次映射关系表' },
-        { id: 'team_name_data', name: 'team_names.csv', icon: ShieldCheck, description: '车队中英文对照、简称及属性映射表' },
-        { id: 'driver_photos', name: 'driver_photos.csv', icon: Users, description: '车手头像 URL 映射表（头像数据源）' },
-        { id: 'team_photos', name: 'team_photos.csv', icon: FileText, description: '车队 Logo URL 映射表（Logo 数据源）' },
-    ];
+    const handleAction = async () => {
+        if (isNative) {
+            if (downloadUrl) window.open(downloadUrl, '_system');
+        } else {
+            // Docker Self-Update
+            if (confirm('确认立即更新容器？容器将重启，约 30 秒后恢复访问。')) {
+                setIsUpdating(true);
+                setUpdateStatus('checking');
+                setUpdateMsg('更新指令已发出，正在应用镜像并重建容器...');
+                try {
+                    const res = await fetch('/api/self-update', { method: 'POST' });
+                    const data = await res.json();
+                    setUpdateMsg(data.message || '更新中，请稍后刷新页面...');
+                } catch (err) {
+                    setIsUpdating(false);
+                    setUpdateStatus('error');
+                    setUpdateMsg('发起更新失败');
+                }
+            }
+        }
+    };
 
     return (
-        <div className="min-h-screen py-12 px-4 bg-bg-primary text-primary transition-colors duration-300">
-            <div className="max-w-5xl mx-auto">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-12 border-b border-white/10 pb-8">
-                    <div>
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="p-2 bg-f1-red/10 rounded-lg">
-                                <HardDrive className="text-f1-red" size={24} />
-                            </div>
-                            <h1 className="text-3xl font-bold font-orbitron tracking-wider text-primary">
-                                <span className="text-f1-red">F1数据</span> 管控中心
-                            </h1>
-                        </div>
-                        <p className="text-secondary font-medium">核心源数据文件管理与手动热同步系统</p>
+        <div className="min-h-screen py-8 px-4 animate-fade-in">
+            <div className="max-w-2xl mx-auto">
+                <div className="mb-10 text-center">
+                    <div className="inline-block p-4 glass rounded-3xl mb-4 border border-f1-red/20">
+                        <F1Logo className="w-20 md:w-24 h-auto" />
                     </div>
-                    <div className="hidden md:block">
-                        <div className="flex gap-4">
-                            <div className="text-right">
-                                <div className="text-xs text-muted tracking-widest mb-1">系统状态</div>
-                                <div className="flex items-center gap-2 text-emerald-500 dark:text-emerald-400 font-bold text-sm">
-                                    <span className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse" />
-                                    运行正常
-                                </div>
-                            </div>
-                            <div className="text-right border-l border-border pl-4">
-                                <div className="text-xs text-muted tracking-widest mb-1">当前版本</div>
-                                <div className="text-primary font-black font-orbitron text-sm">
-                                    V{typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.1.0'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h1 className="text-4xl font-bold font-orbitron text-text-primary uppercase tracking-tighter italic">F1 <span className="text-f1-red">EXPRESS</span></h1>
+                    <p className="text-text-secondary mt-2 font-medium tracking-wide">ABOUT & SYSTEM UPDATE</p>
                 </div>
 
-                {/* Console Grid */}
-                <div className="space-y-6">
-                    {sourceFiles.map((source) => {
-                        const upState = uploads[source.id];
-                        const Icon = source.icon;
+                <div className="grid gap-6">
+                    {/* App Info Card */}
+                    <div className="glass rounded-3xl p-8 border border-border shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-5">
+                            <ShieldCheck size={120} />
+                        </div>
+                        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                            <Info className="text-accent-blue" />
+                            应用信息
+                        </h2>
+                        <div className="grid sm:grid-cols-2 gap-6 relative z-10">
+                            <div className="bg-bg-primary/20 p-4 rounded-2xl border border-border">
+                                <div className="text-sm text-text-secondary mb-1">当前版本</div>
+                                <div className="text-2xl font-mono font-bold text-accent-gold">v{currentVersion}</div>
+                            </div>
+                            <div className="bg-bg-primary/20 p-4 rounded-2xl border border-border">
+                                <div className="text-sm text-text-secondary mb-1">运行平台</div>
+                                <div className="text-2xl font-bold text-accent-purple capitalize italic">
+                                    {isNative ? Capacitor.getPlatform() : (window.location.hostname === 'localhost' ? 'Development' : 'NAS Server')}
+                                </div>
+                            </div>
+                        </div>
 
-                        return (
-                            <div
-                                key={source.id}
-                                className="glass-strong rounded-2xl border border-border p-6 hover:border-f1-red/30 transition-all duration-300 group"
-                            >
-                                <div className="flex flex-col md:flex-row md:items-center gap-6">
-                                    {/* Info */}
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <Icon className="text-secondary group-hover:text-f1-red transition-colors" size={20} />
-                                            <h3 className="text-lg font-bold text-primary tracking-tight">{source.name}</h3>
-                                        </div>
-                                        <p className="text-muted text-sm leading-relaxed">{source.description}</p>
-                                    </div>
+                        <div className="mt-8 flex items-start gap-4 p-4 rounded-2xl bg-f1-red/5 border border-f1-red/10">
+                            <Heart className="text-f1-red shrink-0 mt-1" size={20} />
+                            <div>
+                                <p className="text-sm text-text-secondary leading-relaxed font-medium">
+                                    F1 EXPRESS 是一个非官方的 Formula 1 数据中心。
+                                    我们致力于提供最纯净、最快速的赛车历史与即时赛果查询体验。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                                    {/* Actions */}
-                                    <div className="flex flex-col sm:flex-row items-center gap-4">
-                                        <input
-                                            type="file"
-                                            accept=".csv"
-                                            className="hidden"
-                                            ref={fileInputRefs[source.id as keyof typeof fileInputRefs]}
-                                            onChange={(e) => handleFileChange(source.id, e)}
-                                        />
+                    {/* Update Section */}
+                    <div className="glass rounded-3xl p-8 border border-border shadow-2xl">
+                        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                            <RefreshCw className={updateStatus === 'checking' ? "text-f1-red animate-spin" : "text-f1-red"} />
+                            {isNative ? '版本更新' : '容器维护'}
+                        </h2>
 
-                                        <button
-                                            onClick={() => fileInputRefs[source.id as keyof typeof fileInputRefs].current?.click()}
-                                            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-bg-secondary hover:bg-bg-primary border border-border transition-all text-sm font-bold w-full sm:w-auto justify-center"
-                                        >
-                                            <FileText size={16} />
-                                            选择文件
-                                        </button>
-
-                                        <button
-                                            onClick={() => performUpload(source.id)}
-                                            disabled={!upState.file || upState.status === 'uploading'}
-                                            className={`flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-bold w-full sm:w-auto justify-center shadow-lg transition-all ${!upState.file || upState.status === 'uploading'
-                                                ? 'bg-bg-secondary text-muted cursor-not-allowed opacity-50 border border-border'
-                                                : 'bg-f1-red text-white hover:bg-red-600 shadow-f1-red/20 active:scale-95'
-                                                }`}
-                                        >
-                                            {upState.status === 'uploading' ? (
-                                                <RefreshCw size={16} className="animate-spin" />
-                                            ) : (
-                                                <Upload size={16} />
-                                            )}
-                                            {upState.status === 'uploading' ? '正在同步...' : '开始更新'}
-                                        </button>
+                        <div className="flex flex-col gap-6">
+                            <div className={`flex flex-col md:flex-row items-center justify-between p-6 bg-bg-primary/20 rounded-2xl border border-border gap-4 ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}>
+                                <div className="text-center md:text-left">
+                                    <div className="text-lg font-bold mb-1">{isNative ? '检查最新版本' : '检查镜像更新'}</div>
+                                    <div className={`text-sm ${updateStatus === 'has-update' ? 'text-accent-blue font-bold animate-pulse' :
+                                        updateStatus === 'up-to-date' ? 'text-emerald-500' : 'text-text-secondary font-medium'
+                                        }`}>
+                                        {updateMsg || '检查云端是否存在更新'}
                                     </div>
                                 </div>
+                                <button
+                                    onClick={handleCheckUpdate}
+                                    disabled={updateStatus === 'checking' || isUpdating}
+                                    className="px-6 py-4 rounded-2xl bg-f1-red text-white hover:bg-red-700 transition-all shadow-lg shadow-f1-red/20 active:scale-95 disabled:opacity-50 flex items-center gap-3 font-bold"
+                                >
+                                    <RefreshCw size={20} className={updateStatus === 'checking' ? 'animate-spin' : ''} />
+                                    <span>立即检查</span>
+                                </button>
+                            </div>
 
-                                {/* Progress & Message */}
-                                {(upState.progress > 0 || upState.message) && (
-                                    <div className="mt-6 pt-6 border-t border-border animate-slide-up">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className={`flex items-center gap-2 text-sm font-bold ${upState.status === 'success' ? 'text-emerald-500 dark:text-emerald-400' :
-                                                upState.status === 'error' ? 'text-red-500 dark:text-red-400' : 'text-secondary'
-                                                }`}>
-                                                {upState.status === 'success' && <CheckCircle2 size={16} />}
-                                                {upState.status === 'error' && <AlertCircle size={16} />}
-                                                {upState.message}
-                                            </div>
-                                            {upState.status === 'uploading' && (
-                                                <div className="text-xs font-mono text-f1-red">{upState.progress}%</div>
-                                            )}
+                            {updateStatus === 'has-update' && (
+                                <div className="animate-slide-up">
+                                    {!isNative && (
+                                        <div className="bg-blue-500/10 rounded-2xl p-6 border border-accent-blue/20 mb-6">
+                                            <p className="text-sm text-accent-blue leading-relaxed font-medium">
+                                                检测到 Docker Hub 有更新版本的镜像。在线更新将触发 Watchtower 自动拉取镜像并重启当前容器。30 秒内即可完成。
+                                            </p>
                                         </div>
-                                        {upState.status === 'uploading' && (
-                                            <div className="h-1.5 w-full bg-bg-secondary rounded-full overflow-hidden border border-border">
-                                                <div
-                                                    className="h-full bg-f1-red transition-all duration-300 shadow-[0_0_10px_rgba(225,6,0,0.5)]"
-                                                    style={{ width: `${upState.progress}%` }}
-                                                />
+                                    )}
+
+                                    {isNative && releaseNotes && (
+                                        <div className="bg-bg-secondary/50 rounded-2xl p-6 border border-border mb-6">
+                                            <h3 className="font-bold mb-3 flex items-center gap-2 text-sm">
+                                                <Info size={16} className="text-accent-blue" />
+                                                更新说明
+                                            </h3>
+                                            <div className="text-xs text-text-secondary max-h-48 overflow-y-auto font-sans whitespace-pre-wrap leading-loose">
+                                                {releaseNotes}
                                             </div>
+                                        </div>
+                                    )}
+
+                                    <button
+                                        onClick={handleAction}
+                                        disabled={isUpdating}
+                                        className="w-full flex items-center justify-center gap-3 py-5 rounded-3xl bg-accent-blue text-white font-black text-lg hover:bg-blue-600 transition-all shadow-xl shadow-blue-500/20 active:scale-95 disabled:opacity-50"
+                                    >
+                                        {isUpdating ? (
+                                            <>
+                                                <RefreshCw size={24} className="animate-spin" />
+                                                正在重启应用...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Download size={24} />
+                                                {isNative ? '下载新版本 APK' : '立即在线升级镜像'}
+                                            </>
                                         )}
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
+                                    </button>
+                                </div>
+                            )}
 
-                <div className="mt-8 glass-strong rounded-2xl border border-border p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2 bg-accent-blue/10 rounded-lg">
-                            <Download className="text-accent-blue" size={20} />
+                            {updateStatus === 'up-to-date' && (
+                                <div className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 animate-fade-in font-bold justify-center">
+                                    <CheckCircle2 size={20} />
+                                    <span className="text-sm tracking-wide">您的系统已处于最新状态</span>
+                                </div>
+                            )}
+
+                            {updateStatus === 'error' && (
+                                <div className="flex items-center gap-3 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-500 animate-fade-in font-bold justify-center">
+                                    <AlertCircle size={20} />
+                                    <span className="text-sm">{updateMsg}</span>
+                                </div>
+                            )}
                         </div>
-                        <div>
-                            <h3 className="text-primary font-bold tracking-tight">系统自动更新</h3>
-                            <p className="text-muted text-xs mt-0.5">检查 Docker Hub 是否有新版本，并一键热更新容器</p>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        {/* 检查更新按钮 */}
-                        <button
-                            onClick={checkForUpdate}
-                            disabled={updateStatus === 'checking' || updateStatus === 'restarting'}
-                            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-bg-secondary hover:bg-bg-primary border border-border transition-all text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {updateStatus === 'checking'
-                                ? <RefreshCw size={16} className="animate-spin" />
-                                : <Wifi size={16} />}
-                            {updateStatus === 'checking' ? '检查中...' : '检查更新'}
-                        </button>
-
-                        {/* 立即更新按钮（仅在发现新版本时显示） */}
-                        {updateStatus === 'has-update' && (
-                            <button
-                                onClick={applyUpdate}
-                                className="flex items-center gap-2 px-8 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-bold shadow-lg shadow-sky-500/20 active:scale-95 transition-all"
-                            >
-                                <RotateCcw size={16} />
-                                立即更新并重启
-                            </button>
-                        )}
-
-                        {/* 状态消息 */}
-                        {updateMessage && (
-                            <div className={`flex items-center gap-2 text-sm font-medium ${updateStatus === 'has-update' ? 'text-accent-blue' :
-                                updateStatus === 'up-to-date' ? 'text-emerald-500 dark:text-emerald-400' :
-                                    updateStatus === 'error' ? 'text-red-500 dark:text-red-400' :
-                                        updateStatus === 'restarting' ? 'text-amber-500 dark:text-amber-400' :
-                                            'text-secondary'
-                                }`}>
-                                {updateStatus === 'up-to-date' && <CheckCircle2 size={16} />}
-                                {updateStatus === 'has-update' && <Download size={16} />}
-                                {updateStatus === 'error' && <AlertCircle size={16} />}
-                                {updateStatus === 'restarting' && <RefreshCw size={16} className="animate-spin" />}
-                                {updateMessage}
-                                {updateStatus === 'restarting' && countdown > 0 && (
-                                    <span className="ml-2 font-mono text-xs bg-amber-400/10 px-2 py-1 rounded">
-                                        {countdown}s 后自动刷新
-                                    </span>
-                                )}
-                            </div>
-                        )}
                     </div>
                 </div>
 
-                {/* Warnings */}
-                <div className="mt-6 p-6 rounded-2xl bg-f1-red/5 border border-f1-red/20 flex gap-4">
-                    <AlertCircle className="text-f1-red shrink-0" size={24} />
-                    <div>
-                        <h4 className="text-f1-red font-bold mb-1 italic tracking-wider">警告：请注意数据完整性</h4>
-                        <p className="text-secondary text-sm leading-relaxed">
-                            上传 CSV 将会触发数据库全量重算。请确保 CSV 文件格式符合规范，否则可能会导致同步管线中断。
-                            在关键操作前建议通过 <code className="bg-f1-red/10 border border-f1-red/20 px-2 py-0.5 rounded text-f1-red">python scripts/sync_f1_data.py</code> 进行本地手动校验。
-                        </p>
-                    </div>
+                <div className="mt-12 text-center opacity-30 select-none">
+                    <p className="text-xs tracking-[0.3em] uppercase font-orbitron font-bold">
+                        Powered by F1 Express Engine
+                    </p>
                 </div>
             </div>
         </div>

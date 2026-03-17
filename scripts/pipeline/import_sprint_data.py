@@ -8,6 +8,12 @@ import pandas as pd
 import sqlite3
 import os
 import re
+import sys
+from pathlib import Path
+
+# Add parent directory to sys.path to import f1_config
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from f1_config import get_path, ensure_dirs
 
 def normalize_name(name_str):
     """从人员列表中提取车手名"""
@@ -120,7 +126,7 @@ def import_sprint_data(conn):
     cursor = conn.cursor()
     
     # 读取数据
-    csv_path = os.path.join(os.path.dirname(__file__), '..', '..', 'csv', 'sprint_results.csv')
+    csv_path = get_path('csv') / "sprint_results.csv"
     df_sprint = pd.read_csv(csv_path)
     
     track_mapping = get_track_mapping()
@@ -339,7 +345,8 @@ def calculate_total_points_with_sprint(conn):
         print(f"{first_name} {last_name:<15} {race_points:<12.1f} {sprint_points:<10.1f} {total:<12.1f}")
 
 if __name__ == "__main__":
-    db_path = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'data', 'f1.db')
+    ensure_dirs()
+    db_path = str(get_path('db'))
 
     print("=" * 60)
     print("冲刺赛数据导入工具")
