@@ -84,7 +84,7 @@ app.post('/api/self-update', updateLimiter, (req, res) => {
 });
 
 // 4. SPA 路由回退 (处理前端路由刷新 404 问题)
-app.get('/*', (req, res) => {
+app.get('/:any*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
