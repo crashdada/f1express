@@ -77,5 +77,22 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`F1 Express Server (Standard f1_storage Mode)`);
     console.log(`Port: ${PORT}`);
     console.log(`Storage: ${STORAGE_ROOT}`);
+    
+    // 启动时检查关键数据文件
+    const dbPath = path.join(STORAGE_ROOT, 'f1.db');
+    if (fs.existsSync(dbPath)) {
+        const stats = fs.statSync(dbPath);
+        console.log(`✅ Database found: ${dbPath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
+    } else {
+        console.error(`❌ Database NOT found: ${dbPath}`);
+    }
+    
+    const photosPath = path.join(STORAGE_ROOT, 'photos');
+    if (fs.existsSync(photosPath)) {
+        console.log(`✅ Photos directory found: ${photosPath}`);
+    } else {
+        console.error(`❌ Photos directory NOT found: ${photosPath}`);
+    }
+    
     console.log(`=================================================`);
 });
