@@ -119,7 +119,7 @@ const SettingsPage = () => {
                                 <span className="font-medium">当前版本</span>
                             </div>
                             <span className="text-secondary font-mono text-sm">
-                                v{typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.1.1'}
+                                v{typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'Unknown'}
                             </span>
                         </div>
 
