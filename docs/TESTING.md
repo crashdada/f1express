@@ -1,68 +1,121 @@
-# f1express 测试规范与指南
+# F1 Express Testing Guide
 
-为了确保 F1 历史数据的绝对准确性以及一体化平台的稳定性，本项目采用多层次的自动化测试体系。
+This project now uses a single consolidated JavaScript/TypeScript test tree under `tests/`, split by purpose instead of being scattered across `src/`, `test-suite/`, and `tests/`.
 
-## 1. 测试层次结构
+## 1. Test Layout
 
-| 层次 | 目标 | 工具 | 执行频率 |
-| :--- | :--- | :--- | :--- |
-| **单元测试 (Unit)** | 逻辑函数、React 组件、Hook、数值计算 | Vitest / Jest | 开发阶段 / PR |
-| **API 测试 (Backend)** | Express 路由、CSV 处理逻辑、文件同步 | Vitest | 开发阶段 / PR |
-| **采集器测试 (Collector)** | 网页解析、JSON 构造、URL 提取 | Pytest | 数据采集更新时 |
-| **数据完整性 (Integrity)** | 数据库断言、历史冠军核对、统计对齐 | Python / Assertions | 管线运行后 (Step 13) |
+| Layer | Path | Scope |
+| :--- | :--- | :--- |
+| Unit tests | `tests/unit/` | Pure utilities, hooks, lightweight logic regressions |
+| Integration tests | `tests/integration/` | Rendered pages, UI flows, and server API behavior |
+| Test support | `tests/support/` | Shared render helpers and test-only utilities |
+| Python config/tests | `tests/config/`, `collector/tests/`, `scripts/tests/` | Pipeline and integrity verification |
 
----
+Current JavaScript test structure:
 
-## 2. 前端测试 (Frontend)
-
-使用 **Vitest** + **React Testing Library**。
-
-- **目录**: `src/**/__tests__/*.test.tsx`
-- **命令**: `npm run test` 或 `npm run test:ui`
-- **重点**:
-  - `useF1Data`: 数据库连接与查询转换。
-  - `useDynamic2026Data`: ghproxy 同步与本地兜底。
-  - `RaceCountdown`: 倒计时逻辑及其异常边界。
+- `tests/unit/utils/`
+- `tests/unit/hooks/`
+- `tests/integration/frontend/`
+- `tests/integration/server/`
 
 ---
 
-## 3. 后端测试 (Server)
+## 2. Commands
 
-针对 `server.cjs` 的集成测试。
+Use these commands for the frontend/server JavaScript test suite:
 
-- **目录**: `tests/server/*.test.js`
-- **重点**:
-  - `/api/upload-csv`: 文件合法性校验。
-  - `/api/check-update`: 版本比对逻辑。
-  - `/api/self-update`: 触发 Watchtower 的安全性。
+```bash
+npm run test
+npm run test:unit
+npm run test:integration
+npm run test:coverage
+npm run test:ui
+```
 
----
+Meaning:
 
-## 4. 采集器与管线测试 (Python)
-
-使用 **Pytest** 对 Python 模块进行单元测试。
-
-- **目录**: `collector/tests/*.py` 和 `scripts/tests/*.py`
-- **重点**:
-  - `scraper.py`: URL Regex 匹配。
-  - `recalculate_championships`: 历史积分规则逻辑回归。
-  - `mappings`: 映射冲突检测。
-
----
-
-## 5. 数据完整性断言 (Data Integrity Gate)
-
-这是项目的“生命线”，由 `scripts/tests/test_data_integrity.py` 执行 62+ 项断言：
-
-- **WDC 校验**: 1950-2025 年历任世界冠军 ID 与姓名必须与 F1 官方一致。
-- **统计校验**: 传奇车手（Schumacher, Hamilton 等）的生涯总分、胜场、杆位数量必须 100% 对齐。
-- **关联测试**: 所有 `race_results` 必须在 `drivers` 表有主外键关联。
+- `npm run test`
+  Runs the full Vitest suite
+- `npm run test:unit`
+  Runs tests in `tests/unit/`
+- `npm run test:integration`
+  Runs tests in `tests/integration/`
+- `npm run test:coverage`
+  Runs the full suite with coverage output
 
 ---
 
-## 6. 测试规则 (Ground Rules)
+## 3. Unit Test Scope
 
-1. **失败即停止**：在 CI/CD 中，任何测试失败都必须阻止 Docker 镜像的推送。
-2. **数据隔离**：进行数据库测试时，必须使用内存数据库或临时 DB 副本。
-3. **Mock 外部请求**：采集器测试必须使用 `responses` 或 `mock` 库，严禁测试过程中发起真实的 HTTP 请求（除非是集成环境）。
-4. **覆盖率要求**：核心业务逻辑（冠军计算、数据映射）分支覆盖率应达到 90% 以上。
+Unit tests should cover:
+
+- `src/utils/f1Data.ts`
+- `src/utils/translations.ts`
+- `src/utils/platform.ts`
+- `src/hooks/useDynamic2026Data.ts`
+- isolated logic regressions and edge-case guards
+
+Rules:
+
+- Prefer deterministic inputs and no real network access
+- Mock `fetch`, `indexedDB`, and browser globals when needed
+- Keep unit tests focused on public behavior, not internal file-private helpers
+
+---
+
+## 4. Integration Test Scope
+
+Integration tests should cover:
+
+- rendered page behavior
+- component composition
+- provider wiring
+- route-level UI flows
+- Express API endpoints
+
+Current integration areas:
+
+- `tests/integration/frontend/`
+- `tests/integration/server/`
+
+Current server API coverage focuses on:
+
+- `GET /api/health`
+- `GET /api/check-update`
+- admin token protection when `ADMIN_API_TOKEN` is configured
+
+The old `/api/upload-csv` route has been retired and is no longer part of runtime or tests.
+
+---
+
+## 5. Release Verification
+
+Before release or Docker publish, run:
+
+```bash
+npm run test
+npm run build
+npm run verify:dist
+npm run validate:docker
+```
+
+`npm run verify:dist` checks that tracked `dist/` output is aligned with the current source tree.
+
+`npm run validate:docker` checks:
+
+- required runtime files exist
+- runtime dependencies are present
+- health endpoint exists
+- Dockerfile has `HEALTHCHECK`
+- entrypoint starts `server.cjs`
+- Dockerfile copies the modular `server/` directory
+
+---
+
+## 6. Ground Rules
+
+1. New JavaScript tests should go under `tests/unit/` or `tests/integration/`, not back into `src/` or `test-suite/`.
+2. Any failing test should block release validation.
+3. Network-dependent behavior must be mocked unless the test is explicitly integration-scoped around the server.
+4. Historical data correctness still depends on Python-side integrity checks, not only browser-side tests.
+5. When architecture changes, update docs, validation scripts, and test placement in the same change.

@@ -7,9 +7,10 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    include: ['tests/unit/**/*.test.{ts,tsx,js}', 'tests/integration/**/*.test.{ts,tsx,js}'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'src/test/', 'test-suite/', '**/*.d.ts', '**/*.config.*', '**/mockData.*'],
+      exclude: ['node_modules/', 'src/test/', 'tests/config/', 'tests/support/', '**/*.d.ts', '**/*.config.*', '**/mockData.*'],
     },
   },
 });

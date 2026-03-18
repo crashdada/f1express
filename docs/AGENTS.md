@@ -1,83 +1,145 @@
 # F1 Express Technical Specification (AGENTS)
 
-> **Context ID**: `F1_EXPRESS_INTEGRATED_V1`
-> **Primary Objective**: Autonomous intelligence platform for F1 heritage (1950-2025) and real-time (2026+) data management.
-> **Status**: Production-Ready | Integrity Level: 62-Point Audit.
+> Context ID: `F1_EXPRESS_INTEGRATED_V2`
+> Primary Objective: F1 heritage (1950-2025) plus live season overlay (2026+) with a lightweight web runtime.
+> Status: Production-ready application with modular frontend data loading and modular Express server.
 
 ---
 
-## 🏗️ 1. Logic Architecture
+## 1. Logic Architecture
 
-The system operates as a **Dual-Engine Fusion** model, separating immutable heritage from high-velocity telemetry.
+The project now runs as a dual-source data product:
 
-### 1.1 Heritage Engine (Knowledge Base)
-- **Primary Store**: `f1.db` (SQLite 3.x), located in `F1_STORAGE_ROOT`.
-- **Initialization**: Multi-stage CSV ingestion (`scripts/pipeline/`).
-- **Authority**: `scripts/pipeline/recalculate_championships.cjs`.
-- **Access**: SQL.js (WASM) + IndexedDB caching. Served via `/data/` proxy to storage.
+- Heritage data comes from the SQLite database `f1.db`.
+- Live season data comes from JSON snapshots for the 2026 season.
+- The browser merges both sources at runtime for display and ranking.
 
-### 1.2 Acquisition Engine (Real-time)
-- **Module**: `collector/`.
-- **Target**: 2026+ season dynamic data (results, liveries, rankings).
-- **Pipeline**: **GitHub-Driven Stateless Model**. Scraping (GH Actions) occurs on the remote origin, syncing data into `f1_storage/` before image build.
-- **Stateless Delivery**: Latest `f1.db` and `schedule_2026.json` are baked directly into the Docker image. Volume mounting is optional (recommended for logs or manual overrides).
+### 1.1 Heritage Engine
 
----
+- Primary store: `f1_storage/f1.db`
+- Build source: `scripts/pipeline/`
+- Browser access path: `/data/f1.db`
+- Runtime access model: SQL.js in the browser plus IndexedDB cache
 
-## 🛠️ 2. Automated Pipeline Specs (`sync_f1_data.py`)
+### 1.2 Live Season Engine
 
-Machines should monitor the following 13-step refinement flow for potential failures:
+- Source pipeline: `collector/`
+- Output files:
+  - `f1_storage/schedule_2026.json`
+  - `f1_storage/results_2026.json`
+  - `f1_storage/drivers_2026.json`
+  - `f1_storage/teams_2026.json`
+- Sync model: local JSON plus GitHub-hosted mirror fallback
 
-| Step | Script Path | Action/Machine Logic |
-|:---:|:---|:---|
-| 1 | `scripts/pipeline/download_csv_assets.py` | Asset localization; MD5 verification. |
-| 2 | Internal | Rolling backup of `f1.db` (Max: 5). |
-| 3 | `scripts/pipeline/create_normalized_db.py` | Schema reconstruction; index optimization. |
-| 4 | `scripts/pipeline/patch_historical_photos.py` | Fuzzy name matching for legacy avatars. |
-| 5 | `scripts/pipeline/add_driver_chinese_names.py` | Bilingual injection (CN/EN). |
-| 6 | `scripts/pipeline/import_sprint_data.py` | Atomic association for 2021+ Sprints. |
-| 7 | `scripts/pipeline/import_fastest_lap.py` | 1950-59 Fastest Lap injection. |
-| 8 | `scripts/pipeline/apply_special_events.py` | Permanent DB fixes (DQ, overrides). |
-| 9 | `scripts/pipeline/recalculate_championships.cjs` | **Point of Truth** for WDC/WCC titles. |
-| 10 | `scripts/pipeline/recalculate_stats.py` | Global aggregation; avoids championship collision. |
-| 11 | `scripts/pipeline/update_photo_index.py` | O(1) path mapping for frontend. |
-| 12 | Internal Flow | NAS Sync / `syncer.py` execution. |
-| 13 | `scripts/tests/test_data_integrity.py` | 62-point audit. **Required for CI pass.** |
+### 1.3 Frontend Runtime Structure
 
----
+- App shell: `src/App.tsx`
+- Shared data hook: `src/hooks/useF1Data.ts`
+- Historical data loader: `src/utils/f1Data.ts`
+- Modularized data helpers:
+  - `src/utils/f1-data/cache.ts`
+  - `src/utils/f1-data/constants.ts`
+  - `src/utils/f1-data/formatters.ts`
+  - `src/utils/f1-data/processors.ts`
+  - `src/utils/f1-data/queries.ts`
+  - `src/utils/f1-data/season2026.ts`
 
-## 📂 3. Machine-Readable Path Manifest
+### 1.4 Server Runtime Structure
 
-| Handle | Path | Content/Role |
-|:---|:---|:---|
-| `DIR_CSV` | `/csv/` | Raw heritage truth (1950-2025). |
-| `STORAGE_ROOT` | `/f1_storage/` | **Integrated Data Root** (Contains DB, JSON, Photos). |
-| `ENTRY_SERVER` | `/server.cjs` | Admin Controller / Express API. |
-| `ENTRY_DOCKER` | `/docker/` | Container definitions (Stateless optimized). |
+The Express server is no longer a single-file controller. It is split into:
 
----
+- Entry point: `server.cjs`
+- App assembly: `server/app.cjs`
+- Shared config: `server/config.cjs`
+- Middleware:
+  - `server/middleware/adminAuth.cjs`
+- Routes:
+  - `server/routes/health.cjs`
+  - `server/routes/updates.cjs`
 
-## 📡 4. Admin API Interface
-Agents interacting with the server should expect environment-aware behavior:
-
-1.  **Context Recognition**: System identifies `Native Mobile` vs. `NAS Server` vs. `Development`.
-2.  **Update Logic (Mobile)**: Calls GitHub API for Release detection and APK provisioning.
-3.  **Update Logic (NAS/Docker)**: Calls `/api/check-update` for image layer verification.
-4.  **Auto-Reconstruction**: Triggers `/api/self-update` via Watchtower for zero-config container recreation.
-5.  **Local Dev Guard**: Hook `useDynamic2026Data` skips remote fetch on `localhost` to protect unsynced changes.
+The previous CSV upload API has been removed and should be considered retired.
 
 ---
 
-## ⚖️ 5. Ranking Logic (Points Calculation)
+## 2. Data Pipeline Specs
 
-- **Total Points** = `Historical DB Sum` + `2026 JSON Sum`.
-- **Match Priority**: `d2026.id` matched against `driver_id` or composite `firstName|lastName|code`.
-- **Tie-breakers**: Most wins/podiums as per FIA standard rules.
+The historical database pipeline still depends on CSV source truth and enrichment scripts:
+
+| Step | Script Path | Responsibility |
+| :--- | :--- | :--- |
+| 1 | `scripts/pipeline/download_csv_assets.py` | Asset localization and CSV-related downloads |
+| 2 | Internal | Backup of `f1.db` |
+| 3 | `scripts/pipeline/create_normalized_db.py` | Rebuild normalized SQLite database |
+| 4 | `scripts/pipeline/patch_historical_photos.py` | Historical photo matching |
+| 5 | `scripts/pipeline/add_driver_chinese_names.py` | CN/EN driver name enrichment |
+| 6 | `scripts/pipeline/import_sprint_data.py` | Sprint data import |
+| 7 | `scripts/pipeline/import_fastest_lap.py` | 1950-1959 fastest lap import |
+| 8 | `scripts/pipeline/apply_special_events.py` | Permanent historical corrections |
+| 9 | `scripts/pipeline/recalculate_championships.cjs` | Championship truth recalculation |
+| 10 | `scripts/pipeline/recalculate_stats.py` | Global stats aggregation |
+| 11 | `scripts/pipeline/update_photo_index.py` | Photo index generation |
+| 12 | Internal flow | Storage sync / deploy handoff |
+| 13 | `scripts/tests/test_data_integrity.py` | Integrity verification gate |
 
 ---
 
-## 📋 6. Knowledge Sources (KIs)
+## 3. Machine-Readable Path Manifest
 
-- **KI: CH_RULES**: detailed point rules for 1950, 1991, 2010 eras.
-- **KI: SYNC_FLOW**: Failure handling and rollback procedures for `sync_f1_data`.
-- **KI: ASSET_MAN**: Mapping and localization logic for external images.
+| Handle | Path | Role |
+| :--- | :--- | :--- |
+| `DIR_CSV` | `/csv/` | Historical source truth used by the offline build pipeline |
+| `STORAGE_ROOT` | `/f1_storage/` | Runtime data root for DB, JSON, and photos |
+| `ENTRY_SERVER` | `/server.cjs` | Node entry point for the Express server |
+| `DIR_SERVER` | `/server/` | Modularized server app, middleware, and routes |
+| `ENTRY_DOCKER` | `/docker/` | Container definitions |
+
+---
+
+## 4. Admin API Interface
+
+Current admin/server behavior:
+
+1. `GET /api/health`
+   Used for runtime health probes and Docker health checks.
+2. `GET /api/check-update`
+   Checks whether Docker Hub has a newer image.
+3. `POST /api/self-update`
+   Triggers Watchtower-based in-place container refresh.
+
+Admin endpoints support optional token protection:
+
+- Environment variable: `ADMIN_API_TOKEN`
+- Accepted headers:
+  - `x-admin-token`
+  - `Authorization: Bearer <token>`
+
+If `ADMIN_API_TOKEN` is unset, admin routes remain open for local/self-hosted usage.
+
+---
+
+## 5. Ranking Logic
+
+- Total points = historical DB totals plus 2026 JSON totals
+- Driver live-season matching uses normalized `firstName|lastName|code`
+- Tie-breakers continue to follow FIA-style ordering using wins and podiums
+
+---
+
+## 6. Delivery and CI
+
+Current verification flow:
+
+- Local:
+  - `npm run test`
+  - `npm run test:unit`
+  - `npm run test:integration`
+  - `npm run build`
+  - `npm run verify:dist`
+  - `npm run validate:docker`
+- GitHub Actions:
+  - `.github/workflows/ci.yml`
+  - `.github/workflows/docker-build.yml`
+
+Docker publication is now gated by verify-first workflow steps before image push.
+
+`dist/` remains a tracked release artifact in this repository, so CI now verifies that committed bundle output is in sync with the current source tree.

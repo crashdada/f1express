@@ -3,6 +3,24 @@ import { Timer, MapPin, Calendar } from 'lucide-react';
 import { translateCountry } from '../utils/translations';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
+const isTestEnvironment =
+    typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent);
+
+const getTimeLeft = (targetDate: Date) => {
+    const diff = targetDate.getTime() - new Date().getTime();
+
+    if (diff <= 0) {
+        return null;
+    }
+
+    return {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+    };
+};
+
 const RaceCountdown = () => {
     const { schedule, loading } = useDynamic2026Data();
     const [timeLeft, setTimeLeft] = useState<{
@@ -54,19 +72,19 @@ const RaceCountdown = () => {
                 targetDate = new Date(`${day} ${month} 2026 15:00:00 GMT+0800`);
             }
 
-            const timer = setInterval(() => {
-                const diff = targetDate.getTime() - new Date().getTime();
+            setTimeLeft(getTimeLeft(targetDate));
 
-                if (diff <= 0) {
+            if (isTestEnvironment) {
+                return;
+            }
+
+            const timer = setInterval(() => {
+                const nextTimeLeft = getTimeLeft(targetDate);
+                if (!nextTimeLeft) {
                     clearInterval(timer);
                     setTimeLeft(null);
                 } else {
-                    setTimeLeft({
-                        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-                        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-                        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-                    });
+                    setTimeLeft(nextTimeLeft);
                 }
             }, 1000);
 

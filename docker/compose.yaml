@@ -1,9 +1,7 @@
-# F1 Website — NAS Docker Compose (无状态部署)
-#
-# 这种模式下数据完全由 GitHub 镜像驱动，NAS 不需要挂载存储 Volume。
-# 每次 GitHub Actions 采集完新数据后，只需执行：
-#   docker compose pull && docker compose up -d
-# 即可更新到最新积分和赛程。
+# F1 Express NAS deployment
+# Pull the latest image built from GitHub Actions / Docker Hub, then:
+#   docker compose -f docker/compose.yaml pull
+#   docker compose -f docker/compose.yaml up -d
 
 services:
   f1express:
@@ -12,14 +10,12 @@ services:
     ports:
       - "8002:8001"
     environment:
-      # 启用存储分离模式，指向镜像内的存储目录
       - F1_STORAGE_ROOT=/app/f1_storage
       - NAS_MODE=true
-      - TZ=Asia/Shanghai
-      - HTTP_PROXY=http://192.168.31.251:1082
-      - HTTPS_PROXY=http://192.168.31.251:1082
+      - TZ=${TZ:-Asia/Shanghai}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
     volumes:
-      # 必须挂载 docker.sock 才能使 Admin Console 的“检查更新”和“自更新”功能生效
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     logging:

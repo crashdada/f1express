@@ -2,7 +2,7 @@
 node_modules/
 
 # Build output (committed intentionally for NAS direct hosting)
-# dist/  <- do NOT ignore, dist is committed
+# dist/ is tracked on purpose. Rebuild and commit it when source changes affect the web bundle.
 
 # Local dev artifacts
 dist-ssr/
