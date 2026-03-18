@@ -38,6 +38,7 @@ describe('Server API', () => {
     expect(response.body).toEqual(
       expect.objectContaining({
         ok: expect.any(Boolean),
+        appVersion: expect.any(String),
         storageRoot: expect.any(String),
         checks: expect.objectContaining({
           database: expect.any(Boolean),
@@ -45,6 +46,16 @@ describe('Server API', () => {
         }),
       }),
     );
+
+    if (response.body.checks.database) {
+      expect(response.body.database).toEqual(
+        expect.objectContaining({
+          path: expect.any(String),
+          sizeBytes: expect.any(Number),
+          modifiedAt: expect.any(String),
+        }),
+      );
+    }
   });
 
   it('GET /api/check-update should require an admin token when configured', async () => {
