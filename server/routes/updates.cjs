@@ -14,6 +14,22 @@ const updateLimiter = rateLimit({
   message: { error: 'Update requests are too frequent. Please try again later.' },
 });
 
+function summarizeExecError(err, stdout = '', stderr = '') {
+  const parts = [];
+
+  if (err?.message) {
+    parts.push(err.message.trim());
+  }
+
+  if (stderr && stderr.trim()) {
+    parts.push(stderr.trim());
+  } else if (stdout && stdout.trim()) {
+    parts.push(stdout.trim());
+  }
+
+  return parts.join(' | ').slice(0, 500);
+}
+
 router.get('/check-update', requireAdminAuth, updateLimiter, (req, res) => {
   if (isVitestRuntime) {
     return res.json({
@@ -24,12 +40,14 @@ router.get('/check-update', requireAdminAuth, updateLimiter, (req, res) => {
   }
 
   console.log(`[Update] Checking for new image: ${DOCKER_IMAGE}`);
-  exec(`docker pull ${DOCKER_IMAGE}`, { env: dockerEnv }, (err, stdout = '') => {
+  exec(`docker pull ${DOCKER_IMAGE}`, { env: dockerEnv }, (err, stdout = '', stderr = '') => {
     if (err) {
-      console.error('[Update] docker pull failed:', err.message);
+      const detail = summarizeExecError(err, stdout, stderr);
+      console.error('[Update] docker pull failed:', detail);
       return res.status(500).json({
         hasUpdate: false,
         error: 'Unable to check for Docker updates. Please verify Docker access.',
+        detail,
       });
     }
 
@@ -47,7 +65,10 @@ router.get('/check-update', requireAdminAuth, updateLimiter, (req, res) => {
 
 router.post('/self-update', requireAdminAuth, updateLimiter, (req, res) => {
   if (!fs.existsSync('/var/run/docker.sock')) {
-    return res.status(500).json({ error: 'Docker socket is not mounted.' });
+    return res.status(500).json({
+      error: 'Docker socket is not mounted.',
+      detail: 'Expected /var/run/docker.sock to be available inside the container.',
+    });
   }
 
   console.log('[Update] Self-update triggered via Watchtower...');
