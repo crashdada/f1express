@@ -1,5 +1,13 @@
 import { DB_FILE_KEY, DB_NAME, DB_VERSION, STORE_NAME } from './constants';
 
+const DB_META_STORAGE_KEY = 'f1express-db-meta';
+
+export type CachedDbMeta = {
+  sizeBytes: number;
+  modifiedAt: string;
+  appVersion?: string;
+};
+
 const openDb = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -56,3 +64,59 @@ export const saveDbToCache = async (data: Uint8Array) => {
 export const resetCachedDb = () => {
   indexedDB.deleteDatabase(DB_NAME);
 };
+
+export const getCachedDbMeta = (): CachedDbMeta | null => {
+  try {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const raw = window.localStorage.getItem(DB_META_STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+
+    return JSON.parse(raw) as CachedDbMeta;
+  } catch {
+    return null;
+  }
+};
+
+export const saveDbMeta = (meta: CachedDbMeta) => {
+  try {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.localStorage.setItem(DB_META_STORAGE_KEY, JSON.stringify(meta));
+  } catch {
+    // Ignore localStorage failures
+  }
+};
+
+export const resetCachedDbMeta = () => {
+  try {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.localStorage.removeItem(DB_META_STORAGE_KEY);
+  } catch {
+    // Ignore localStorage failures
+  }
+};
+
+export function shouldRefreshCachedDb(
+  cachedMeta: CachedDbMeta | null,
+  remoteMeta: CachedDbMeta | null
+) {
+  if (!cachedMeta || !remoteMeta) {
+    return false;
+  }
+
+  return (
+    cachedMeta.sizeBytes !== remoteMeta.sizeBytes ||
+    cachedMeta.modifiedAt !== remoteMeta.modifiedAt ||
+    cachedMeta.appVersion !== remoteMeta.appVersion
+  );
+}

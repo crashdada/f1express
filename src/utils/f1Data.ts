@@ -1,5 +1,13 @@
 import { ProcessedDriverData } from '../types';
-import { getCachedDb, resetCachedDb, saveDbToCache } from './f1-data/cache';
+import {
+  getCachedDb,
+  getCachedDbMeta,
+  resetCachedDb,
+  resetCachedDbMeta,
+  saveDbMeta,
+  saveDbToCache,
+  shouldRefreshCachedDb,
+} from './f1-data/cache';
 import { DB_NAME, EMPTY_PROCESSED_DATA } from './f1-data/constants';
 import { getCurrentSeason, getDriverDisplayName, getTeamDisplayName } from './f1-data/formatters';
 import {
@@ -23,6 +31,28 @@ import { loadPhotosIndex, loadSeason2026Data } from './f1-data/season2026';
 
 let dbInitialized = false;
 
+async function getRemoteDbMeta() {
+  try {
+    const response = await fetch('/api/health', { cache: 'no-store' });
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    if (!data?.database?.sizeBytes || !data?.database?.modifiedAt) {
+      return null;
+    }
+
+    return {
+      sizeBytes: Number(data.database.sizeBytes),
+      modifiedAt: String(data.database.modifiedAt),
+      appVersion: data.appVersion ? String(data.appVersion) : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function ensureDatabase() {
   if (dbInitialized) {
     return (window as any).f1Db;
@@ -36,6 +66,15 @@ async function ensureDatabase() {
   const SQL = await initSqlJs({
     locateFile: (file: string) => `/libs/sql.js/${file}`,
   }) as any;
+
+  const remoteMeta = await getRemoteDbMeta();
+  const cachedMeta = getCachedDbMeta();
+
+  if (shouldRefreshCachedDb(cachedMeta, remoteMeta)) {
+    console.log('Database metadata changed, clearing stale IndexedDB cache.');
+    resetCachedDb();
+    resetCachedDbMeta();
+  }
 
   let buffer: Uint8Array | null = await getCachedDb();
 
@@ -51,6 +90,10 @@ async function ensureDatabase() {
     const arrayBuffer = await response.arrayBuffer();
     buffer = new Uint8Array(arrayBuffer);
     await saveDbToCache(buffer);
+
+    if (remoteMeta) {
+      saveDbMeta(remoteMeta);
+    }
   }
 
   const db = new SQL.Database(buffer);
@@ -65,6 +108,7 @@ function safeExec(db: any, sql: string) {
   } catch (error: any) {
     if (error.message?.includes('malformed') || error.toString().includes('malformed')) {
       resetCachedDb();
+      resetCachedDbMeta();
       window.location.reload();
     }
 
