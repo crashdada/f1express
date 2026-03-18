@@ -42,13 +42,13 @@ jobs:
         run: |
           # 运行赛果采集
           if [ "${{ github.event.inputs.force_results }}" = "true" ]; then
-            python collector/scraper_results.py --force
+            python collector/scrapers/scraper_results.py --force
           else
-            python collector/scraper_results.py
+            python collector/scrapers/scraper_results.py
           fi
           
           # 导出 JSON 并同步到 public/data
-          python collector/export_results_json.py
+          python collector/exporters/export_results_json.py
           python collector/syncer.py --all
 
       - name: Commit and Push changes
