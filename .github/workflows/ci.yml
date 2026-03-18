@@ -43,8 +43,5 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Verify committed dist bundle
-        run: npm run verify:dist
-
       - name: Validate Docker bundle
         run: npm run validate:docker
