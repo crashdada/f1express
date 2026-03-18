@@ -39,7 +39,7 @@ const DataManagementPage = () => {
     const [adminToken, setAdminToken] = useState(() => getStoredAdminToken());
 
     const isNative = Capacitor.isNativePlatform();
-    const currentVersion = typeof (window as any).__APP_VERSION__ !== 'undefined' ? (window as any).__APP_VERSION__ : '1.0.0';
+    const currentVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'Unknown';
 
     const handleAdminTokenChange = (value: string) => {
         setAdminToken(value);

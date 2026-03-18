@@ -4,11 +4,11 @@ import { DB_NAME, EMPTY_PROCESSED_DATA } from './f1-data/constants';
 import { getCurrentSeason, getDriverDisplayName, getTeamDisplayName } from './f1-data/formatters';
 import {
   DRIVER_CHAMPIONSHIPS_QUERY,
-  DRIVERS_QUERY,
   RACE_INFO_QUERY,
   RACE_RESULTS_QUERY,
   SEASON_STATS_QUERY,
   TEAMS_QUERY,
+  buildDriversQuery,
 } from './f1-data/queries';
 import {
   convertQueryToData,
@@ -72,11 +72,24 @@ function safeExec(db: any, sql: string) {
   }
 }
 
+function getTableColumns(db: any, tableName: string) {
+  const result = safeExec(db, `PRAGMA table_info(${tableName})`);
+  const columns = new Set<string>();
+
+  for (const row of convertQueryToData(result)) {
+    if (row.name) {
+      columns.add(String(row.name));
+    }
+  }
+
+  return columns;
+}
+
 export const loadF1Data = async (): Promise<ProcessedDriverData> => {
   try {
     const db = await ensureDatabase();
-
-    const driversQuery = safeExec(db, DRIVERS_QUERY);
+    const driverColumns = getTableColumns(db, 'drivers');
+    const driversQuery = safeExec(db, buildDriversQuery(driverColumns));
     const teamsQuery = safeExec(db, TEAMS_QUERY);
     const raceResultsQuery = safeExec(db, RACE_RESULTS_QUERY);
     const driverChampionshipsQuery = safeExec(db, DRIVER_CHAMPIONSHIPS_QUERY);

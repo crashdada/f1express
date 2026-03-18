@@ -1,7 +1,29 @@
-export const DRIVERS_QUERY = `
+function selectDriverColumn(
+  availableColumns: Set<string> | null,
+  column: string,
+  fallbackSql = 'NULL'
+) {
+  if (!availableColumns || availableColumns.has(column)) {
+    return `d.${column}`;
+  }
+
+  return `${fallbackSql} as ${column}`;
+}
+
+export function buildDriversQuery(driverColumns: Set<string> | null = null) {
+  return `
   SELECT 
-    d.driver_id, d.code, d.first_name, d.last_name, d.first_name_cn, d.last_name_cn,
-    d.nationality, d.birth_date, d.birth_place, d.age, d.number,
+    ${selectDriverColumn(driverColumns, 'driver_id')},
+    ${selectDriverColumn(driverColumns, 'code')},
+    ${selectDriverColumn(driverColumns, 'first_name')},
+    ${selectDriverColumn(driverColumns, 'last_name')},
+    ${selectDriverColumn(driverColumns, 'first_name_cn')},
+    ${selectDriverColumn(driverColumns, 'last_name_cn')},
+    ${selectDriverColumn(driverColumns, 'nationality')},
+    ${selectDriverColumn(driverColumns, 'birth_date')},
+    ${selectDriverColumn(driverColumns, 'birth_place')},
+    ${selectDriverColumn(driverColumns, 'age')},
+    ${selectDriverColumn(driverColumns, 'number', '0')},
     COALESCE(stats.total_points, 0) as total_points,
     COALESCE(stats.total_wins, 0) as total_wins,
     COALESCE(stats.total_podiums, 0) as total_podiums,
@@ -41,6 +63,9 @@ export const DRIVERS_QUERY = `
   GROUP BY d.driver_id
   ORDER BY total_points DESC
 `;
+}
+
+export const DRIVERS_QUERY = buildDriversQuery();
 
 export const TEAMS_QUERY = `
   SELECT 
