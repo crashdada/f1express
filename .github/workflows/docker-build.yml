@@ -68,6 +68,11 @@ jobs:
       - name: Checkout f1express
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -82,7 +87,10 @@ jobs:
 
       - name: Get package version
         id: package_version
-        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+        shell: bash
+        run: |
+          version="$(python3 -c "import json; print(json.load(open('package.json', encoding='utf-8'))['version'])")"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Validate package version
         run: |
