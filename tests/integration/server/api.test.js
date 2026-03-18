@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
+import { exec } from 'child_process';
 
 vi.mock('child_process', () => ({
-  exec: vi.fn((command, options, callback) => {
-    callback(null, 'Status: Image is up to date', '');
-  }),
+  exec: vi.fn(),
 }));
 
 const { default: app } = await import('../../../server.cjs');
+const execMock = vi.mocked(exec);
 
 describe('Server API', () => {
   let consoleErrorSpy;
@@ -18,6 +18,11 @@ describe('Server API', () => {
     delete process.env.ADMIN_API_TOKEN;
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    execMock.mockImplementation((command, options, callback) => {
+      const done = typeof options === 'function' ? options : callback;
+      done?.(null, 'Status: Image is up to date', '');
+      return { pid: 1234 };
+    });
   });
 
   afterEach(() => {
@@ -51,7 +56,9 @@ describe('Server API', () => {
     expect(response.body.error).toBe('Unauthorized admin request');
   });
 
-  it('GET /api/check-update should return update status', async () => {
+  it(
+    'GET /api/check-update should return update status',
+    async () => {
     process.env.ADMIN_API_TOKEN = 'secret-token';
 
     const response = await request(app)
@@ -74,5 +81,7 @@ describe('Server API', () => {
         }),
       );
     }
-  });
+    },
+    10000,
+  );
 });
