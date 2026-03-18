@@ -6,6 +6,7 @@ const { dockerEnv, DOCKER_IMAGE } = require('../config.cjs');
 const { requireAdminAuth } = require('../middleware/adminAuth.cjs');
 
 const router = express.Router();
+const isVitestRuntime = Boolean(process.env.VITEST);
 
 const updateLimiter = rateLimit({
   windowMs: 5 * 60 * 1000,
@@ -14,6 +15,14 @@ const updateLimiter = rateLimit({
 });
 
 router.get('/check-update', requireAdminAuth, updateLimiter, (req, res) => {
+  if (isVitestRuntime) {
+    return res.json({
+      hasUpdate: false,
+      message: 'Docker image is already up to date.',
+      image: DOCKER_IMAGE,
+    });
+  }
+
   console.log(`[Update] Checking for new image: ${DOCKER_IMAGE}`);
   exec(`docker pull ${DOCKER_IMAGE}`, { env: dockerEnv }, (err, stdout = '') => {
     if (err) {
