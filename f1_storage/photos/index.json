@@ -1075,12 +1075,15 @@
   "custom/teams/logo_Aston_Martin.webp",
   "custom/teams/logo_Ferrari.webp",
   "custom/teams/logo_Haas_F1_Team.webp",
-  "custom/teams/logo_Kick_Sauber.webp",
   "custom/teams/logo_McLaren.webp",
   "custom/teams/logo_Mercedes.webp",
   "custom/teams/logo_Racing_Bulls.webp",
   "custom/teams/logo_Red_Bull_Racing.webp",
   "custom/teams/logo_Williams.webp",
+  "icon-background.png",
+  "icon-foreground.png",
+  "icon.png",
+  "logo.svg",
   "seasons/2026/drivers/alexander_albon.webp",
   "seasons/2026/drivers/arvid_lindblad.webp",
   "seasons/2026/drivers/carlos_sainz.webp",
@@ -1181,6 +1184,7 @@
   "seasons/flags/Brazil.svg",
   "seasons/flags/Canada.svg",
   "seasons/flags/China.svg",
+  "seasons/flags/GB_Fixed.svg",
   "seasons/flags/Great_Britain.svg",
   "seasons/flags/Hungary.svg",
   "seasons/flags/Italy.svg",
@@ -1193,5 +1197,6 @@
   "seasons/flags/Singapore.svg",
   "seasons/flags/Spain.svg",
   "seasons/flags/UAE.svg",
-  "seasons/flags/USA.svg"
+  "seasons/flags/USA.svg",
+  "splash.png"
 ]

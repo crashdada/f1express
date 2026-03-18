@@ -1,6 +1,6 @@
 # F1 Express
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/crashdada/f1express)
+[![Version](https://img.shields.io/badge/version-1.2.1-blue.svg)](https://github.com/crashdada/f1express)
 [![Integrity](https://img.shields.io/badge/integrity-62--point%20pass-green.svg)](https://github.com/crashdada/f1express)
 
 F1 Express is a full-stack F1 data application that combines a historical SQLite knowledge base with live 2026 season JSON overlays. The frontend runs on React + Vite, while a lightweight Express server serves runtime assets, health checks, and container update APIs.
@@ -37,6 +37,20 @@ Run the local server:
 
 ```bash
 node server.cjs
+```
+
+Run the staged data pipeline:
+
+```bash
+npm run pipeline:sync
+```
+
+Useful options:
+
+```bash
+npm run pipeline:sync:full
+npm run pipeline:sync:validate
+python scripts/sync_f1_data.py --skip-integrity
 ```
 
 ## Project Structure
@@ -94,6 +108,22 @@ npm run validate:docker
 ```
 
 `dist/` is intentionally committed in this repository for direct hosting workflows, so source changes that affect the frontend bundle should include refreshed `dist/` output as part of the same change.
+
+## Data Pipeline
+
+The historical/live data flow is now organized into six phases instead of
+treating the old numbered script list as the main abstraction:
+
+1. Prepare: source downloads and pre-rebuild backup
+2. Build: normalized database rebuild
+3. Enrich: Chinese names, sprint data, fastest lap history, special events
+4. Derive: championships, season stats, photo index
+5. Publish: collector refinement and runtime sync
+6. Validate: integrity checks and optional constructor cross-check
+
+`scripts/pipeline/create_normalized_db.py` only builds normalized base tables.
+Final season aggregates are produced later by
+`scripts/pipeline/recalculate_stats.py`.
 
 ## Further Reading
 

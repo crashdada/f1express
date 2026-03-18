@@ -63,23 +63,55 @@ The previous CSV upload API has been removed and should be considered retired.
 
 ## 2. Data Pipeline Specs
 
-The historical database pipeline still depends on CSV source truth and enrichment scripts:
+The historical and live-data build now run as a staged pipeline orchestrated by
+`scripts/sync_f1_data.py`.
 
-| Step | Script Path | Responsibility |
-| :--- | :--- | :--- |
-| 1 | `scripts/pipeline/download_csv_assets.py` | Asset localization and CSV-related downloads |
-| 2 | Internal | Backup of `f1.db` |
-| 3 | `scripts/pipeline/create_normalized_db.py` | Rebuild normalized SQLite database |
-| 4 | `scripts/pipeline/patch_historical_photos.py` | Historical photo matching |
-| 5 | `scripts/pipeline/add_driver_chinese_names.py` | CN/EN driver name enrichment |
-| 6 | `scripts/pipeline/import_sprint_data.py` | Sprint data import |
-| 7 | `scripts/pipeline/import_fastest_lap.py` | 1950-1959 fastest lap import |
-| 8 | `scripts/pipeline/apply_special_events.py` | Permanent historical corrections |
-| 9 | `scripts/pipeline/recalculate_championships.cjs` | Championship truth recalculation |
-| 10 | `scripts/pipeline/recalculate_stats.py` | Global stats aggregation |
-| 11 | `scripts/pipeline/update_photo_index.py` | Photo index generation |
-| 12 | Internal flow | Storage sync / deploy handoff |
-| 13 | `scripts/tests/test_data_integrity.py` | Integrity verification gate |
+### 2.1 Phase 1: Prepare
+
+- `scripts/pipeline/download_csv_assets.py`
+  Pulls CSV-related remote assets and localizes photo/source files when needed.
+- Internal backup flow
+  Creates a backup of `f1.db` before a full rebuild.
+
+### 2.2 Phase 2: Build
+
+- `scripts/pipeline/create_normalized_db.py`
+  Rebuilds normalized base tables from CSV source truth.
+  This stage no longer owns final season aggregates.
+
+### 2.3 Phase 3: Enrich
+
+- `scripts/pipeline/patch_historical_photos.py`
+- `scripts/pipeline/add_driver_chinese_names.py`
+- `scripts/pipeline/import_sprint_data.py`
+- `scripts/pipeline/import_fastest_lap.py`
+- `scripts/pipeline/apply_special_events.py`
+
+These scripts enrich the normalized database and runtime assets before standings
+are recalculated.
+
+### 2.4 Phase 4: Derive
+
+- `scripts/pipeline/recalculate_championships.cjs`
+- `scripts/pipeline/recalculate_stats.py`
+- `scripts/pipeline/update_photo_index.py`
+
+`recalculate_stats.py` is the single aggregate-generation step for
+`driver_season_stats` and `team_season_stats`.
+
+### 2.5 Phase 5: Publish
+
+- `collector/processors/refine_with_stats.py`
+- `collector/syncer.py`
+- Internal NAS hot-update path when `NAS_MODE=true`
+
+### 2.6 Phase 6: Validate
+
+- `scripts/tests/test_data_integrity.py`
+- `scripts/pipeline/validate_constructor_totals.py` (check-only)
+
+`constructors_full.csv` is validation-only and must not be treated as the
+production source for constructor standings.
 
 ---
 

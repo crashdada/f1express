@@ -32,6 +32,15 @@ npm run test:coverage
 npm run test:ui
 ```
 
+Useful pipeline commands:
+
+```bash
+npm run pipeline:sync
+npm run pipeline:sync:full
+npm run pipeline:sync:validate
+python scripts/tests/test_data_integrity.py --quick
+```
+
 Meaning:
 
 - `npm run test`
@@ -97,6 +106,14 @@ npm run test
 npm run build
 npm run verify:dist
 npm run validate:docker
+```
+
+For data rebuild work, the recommended order is:
+
+```bash
+npm run pipeline:sync
+python scripts/tests/test_data_integrity.py --quick
+npm run test
 ```
 
 `npm run verify:dist` checks that tracked `dist/` output is aligned with the current source tree.

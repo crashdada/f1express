@@ -2,6 +2,30 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-03-18: v1.2.1 - 流水线收敛、历史统计修正与现役筛选
+
+- 数据流水线与历史统计
+  - 将原有同步脚本重构为分阶段 pipeline，总控入口收敛到 [scripts/sync_f1_data.py](D:\oc\f1express\scripts\sync_f1_data.py)。
+  - 让 [scripts/pipeline/create_normalized_db.py](D:\oc\f1express\scripts\pipeline\create_normalized_db.py) 只负责基础建库，[scripts/pipeline/recalculate_stats.py](D:\oc\f1express\scripts\pipeline\recalculate_stats.py) 成为赛季统计的统一出口。
+  - 接通 [scripts/pipeline/import_fastest_lap.py](D:\oc\f1express\scripts\pipeline\import_fastest_lap.py) 对 `fastest_lap_1950_1959.csv` 的导入，修正 1958-1959 早期积分偏差。
+  - 新增 [scripts/pipeline/lib](D:\oc\f1express\scripts\pipeline\lib) 规则模块、[scripts/pipeline/validate_constructor_totals.py](D:\oc\f1express\scripts\pipeline\validate_constructor_totals.py) 对账脚本，以及对应报告产物。
+
+- 历史实体与数据库修正
+  - 修复历史车队别名与多实体统计问题，补齐迈凯伦 1966-1968 多引擎实体规则。
+  - 将 `Copersucar` 与 `Fittipaldi` 按赛季拆分为不同历史车队实体，避免错误合并。
+  - 重新纳入 [scripts/pipeline/add_driver_chinese_names.py](D:\oc\f1express\scripts\pipeline\add_driver_chinese_names.py) 并扩充中文名映射，恢复历史车手中文显示。
+  - 刷新 [f1.db](D:\oc\f1express\f1_storage\f1.db) 与相关图片索引、2026 赛程资源。
+
+- 前端数据与交互
+  - 修复车手与车队页面对 2026 动态数据的合并逻辑，避免历史实体误继承当前赛季分数。
+  - 让 `Audi`、`Cadillac` 等 2026 新车队以独立新车队显示，并只叠加当季实时结果。
+  - 在 [src/pages/DriversPage.tsx](D:\oc\f1express\src\pages\DriversPage.tsx) 和 [src/pages/TeamsPage.tsx](D:\oc\f1express\src\pages\TeamsPage.tsx) 新增“现役”开关，基于新赛季采集结果筛选现役车手与车队。
+  - 优化现役开关样式与标题区布局，并修复本地缓存导致的旧数据库展示问题。
+
+- 发布与验证
+  - 完整跑通全量 pipeline、前端构建与测试。
+  - 项目版本提升至 `1.2.1`。
+
 ## 2026-03-18: v1.2.0 - 架构收敛、测试统一、发布链路完善
 
 - 架构重构

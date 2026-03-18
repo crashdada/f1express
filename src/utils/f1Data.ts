@@ -69,17 +69,21 @@ async function ensureDatabase() {
 
   const remoteMeta = await getRemoteDbMeta();
   const cachedMeta = getCachedDbMeta();
+  let buffer: Uint8Array | null = await getCachedDb();
 
-  if (shouldRefreshCachedDb(cachedMeta, remoteMeta)) {
+  const missingMetaForCachedDb = Boolean(buffer && remoteMeta && !cachedMeta);
+  if (missingMetaForCachedDb || shouldRefreshCachedDb(cachedMeta, remoteMeta)) {
     console.log('Database metadata changed, clearing stale IndexedDB cache.');
     resetCachedDb();
     resetCachedDbMeta();
+    buffer = null;
   }
-
-  let buffer: Uint8Array | null = await getCachedDb();
 
   if (buffer) {
     console.log('Using cached database from IndexedDB, size:', buffer.byteLength);
+    if (remoteMeta && !cachedMeta) {
+      saveDbMeta(remoteMeta);
+    }
   } else {
     console.log('Fetching database from /data/f1.db...');
     const response = await fetch(`/data/f1.db?t=${Date.now()}`);

@@ -13,6 +13,18 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from f1_config import get_path, ensure_dirs
 
+
+def resolve_fastest_lap_csv():
+    csv_dir = get_path('csv')
+    candidates = [
+        csv_dir / "fastest_lap_historical.csv",
+        csv_dir / "fastest_lap_1950_1959.csv",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
+
 def import_fastest_laps(csv_path, db_path):
     if not os.path.exists(csv_path):
         print(f"  [Error] {csv_path} 不存在。")
@@ -91,6 +103,6 @@ def import_fastest_laps(csv_path, db_path):
 if __name__ == "__main__":
     ensure_dirs()
     import_fastest_laps(
-        csv_path=get_path('csv') / "fastest_lap_historical.csv",
+        csv_path=resolve_fastest_lap_csv(),
         db_path=get_path('db')
     )

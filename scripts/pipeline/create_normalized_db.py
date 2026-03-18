@@ -1,183 +1,23 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-规范化 F1 数据库设计
-从 Excel 导入数据到规范化的 SQLite 数据库
+Build the normalized F1 SQLite database from raw CSV source files.
+
+This script creates and populates normalized base tables only.
+Season standings and aggregate statistics are derived later by the
+recalculation stage.
 """
 import pandas as pd
 import sqlite3
 import os
 import json
-from datetime import datetime
 import sys
 from pathlib import Path
 
 # Add parent directory to sys.path to import f1_config
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from f1_config import get_path, ensure_dirs
+from lib.team_mapping import load_team_name_map, resolve_team_name
 
-def normalize_team_name(name):
-    """标准化车队名称，对接数据库中的中文主键"""
-    if not name or str(name).lower() == 'nan':
-        return 'Unknown'
-    
-    name = str(name).strip()
-    lower_name = name.lower()
-    
-    # 映射到数据库中实际存在的 (中文) 车队名
-    if 'red bull' in lower_name:
-        return '红牛'
-    if 'aston martin' in lower_name or '阿斯顿马丁' in lower_name:
-        return '阿斯顿马丁'
-    if 'mclaren' in lower_name:
-        return '迈凯伦'
-    if 'mercedes' in lower_name:
-        return '梅赛德斯'
-    if 'ferrari' in lower_name:
-        return '法拉利'
-    if 'alpine' in lower_name:
-        return '阿尔派'
-    if 'williams' in lower_name:
-        return '威廉姆斯'
-    if 'sauber' in lower_name and 'bmw' in lower_name:
-        return 'BMW Sauber'
-    if 'alfa romeo' in lower_name or 'sauber' in lower_name or 'kick sauber' in lower_name:
-        return name # Now keep as is
-    if 'haas' in lower_name:
-        return '哈斯'
-    
-    return name
-
-def calculate_season_stats(cursor):
-    """计算每个赛季的统计数据（包含冲刺赛积分）"""
-    print("  计算赛季统计表...")
-    
-    # 获取所有赛季
-    cursor.execute('SELECT season FROM seasons')
-    seasons = [row[0] for row in cursor.fetchall()]
-    
-    # 检查是否存在冲刺赛表
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='sprint_results'")
-    has_sprint = cursor.fetchone() is not None
-    
-    for season in seasons:
-        # 计算车手统计（全赛季聚合）
-        # 使用子查询来为每个车手选择该赛季获得积分最多的车队作为代表车队
-        if has_sprint and season >= 2021:
-            cursor.execute('''
-                SELECT 
-                    t1.driver_id,
-                    (SELECT team_id FROM race_results rr2 JOIN races r2 ON rr2.race_id = r2.race_id 
-                     WHERE rr2.driver_id = t1.driver_id AND r2.season = ? 
-                     GROUP BY team_id ORDER BY SUM(points) DESC LIMIT 1) as main_team_id,
-                    COUNT(*) as races,
-                    SUM(CASE WHEN t1.position = 1 THEN 1 ELSE 0 END) as wins,
-                    SUM(CASE WHEN t1.position <= 3 THEN 1 ELSE 0 END) as podiums,
-                    SUM(CASE WHEN q.position = 1 THEN 1 ELSE 0 END) as poles,
-                    SUM(t1.points) + COALESCE(sprint.sprint_points, 0) as total_points
-                FROM race_results t1
-                LEFT JOIN qualifying q ON t1.race_id = q.race_id AND t1.driver_id = q.driver_id
-                JOIN races ra ON t1.race_id = ra.race_id
-                LEFT JOIN (
-                    SELECT spr.driver_id, SUM(spr.points) as sprint_points
-                    FROM sprint_results spr
-                    JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
-                    WHERE sr.season = ?
-                    GROUP BY spr.driver_id
-                ) sprint ON t1.driver_id = sprint.driver_id
-                WHERE ra.season = ?
-                GROUP BY t1.driver_id
-                ORDER BY total_points DESC
-            ''', (season, season, season))
-        else:
-            cursor.execute('''
-                SELECT 
-                    t1.driver_id,
-                    (SELECT team_id FROM race_results rr2 JOIN races r2 ON rr2.race_id = r2.race_id 
-                     WHERE rr2.driver_id = t1.driver_id AND r2.season = ? 
-                     GROUP BY team_id ORDER BY SUM(points) DESC LIMIT 1) as main_team_id,
-                    COUNT(*) as races,
-                    SUM(CASE WHEN t1.position = 1 THEN 1 ELSE 0 END) as wins,
-                    SUM(CASE WHEN t1.position <= 3 THEN 1 ELSE 0 END) as podiums,
-                    SUM(CASE WHEN q.position = 1 THEN 1 ELSE 0 END) as poles,
-                    SUM(t1.points) as total_points
-                FROM race_results t1
-                LEFT JOIN qualifying q ON t1.race_id = q.race_id AND t1.driver_id = q.driver_id
-                JOIN races ra ON t1.race_id = ra.race_id
-                WHERE ra.season = ?
-                GROUP BY t1.driver_id
-                ORDER BY total_points DESC
-            ''', (season, season))
-        
-        driver_stats = cursor.fetchall()
-        for position, stat in enumerate(driver_stats, 1):
-            driver_id, team_id, races, wins, podiums, poles, points = stat
-            cursor.execute('''
-                INSERT OR REPLACE INTO driver_season_stats
-                (driver_id, season, team_id, races, wins, podiums, poles, points, position)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (driver_id, season, team_id, races, wins, podiums, poles, points, position))
-        
-        # 计算车队统计（正赛 + 冲刺赛）
-        if has_sprint and season >= 2021:
-            # 包含冲刺赛积分
-            cursor.execute('''
-                SELECT 
-                    r.team_id,
-                    COUNT(DISTINCT r.race_id) as races,
-                    SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins,
-                    SUM(CASE WHEN r.position <= 3 THEN 1 ELSE 0 END) as podiums,
-                    SUM(CASE WHEN q.position = 1 THEN 1 ELSE 0 END) as poles,
-                    SUM(r.points) + COALESCE(sprint.sprint_points, 0) as points
-                FROM race_results r
-                LEFT JOIN qualifying q ON r.race_id = q.race_id AND r.driver_id = q.driver_id
-                JOIN races ra ON r.race_id = ra.race_id
-                LEFT JOIN (
-                    SELECT d.driver_id, SUM(spr.points) as sprint_points
-                    FROM sprint_results spr
-                    JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
-                    JOIN drivers d ON spr.driver_id = d.driver_id
-                    WHERE sr.season = ?
-                    GROUP BY d.driver_id
-                ) sprint ON r.driver_id = sprint.driver_id
-                WHERE ra.season = ? AND r.team_id IS NOT NULL
-                GROUP BY r.team_id
-                ORDER BY points DESC
-            ''', (season, season))
-        else:
-            # 仅正赛积分
-            cursor.execute('''
-                SELECT 
-                    r.team_id,
-                    COUNT(DISTINCT r.race_id) as races,
-                    SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins,
-                    SUM(CASE WHEN r.position <= 3 THEN 1 ELSE 0 END) as podiums,
-                    SUM(CASE WHEN q.position = 1 THEN 1 ELSE 0 END) as poles,
-                    SUM(r.points) as points
-                FROM race_results r
-                LEFT JOIN qualifying q ON r.race_id = q.race_id AND r.driver_id = q.driver_id
-                JOIN races ra ON r.race_id = ra.race_id
-                WHERE ra.season = ? AND r.team_id IS NOT NULL
-                GROUP BY r.team_id
-                ORDER BY points DESC
-            ''', (season,))
-        
-        team_stats = cursor.fetchall()
-        for position, stat in enumerate(team_stats, 1):
-            team_id, races, wins, podiums, poles, points = stat
-            cursor.execute('''
-                INSERT OR REPLACE INTO team_season_stats
-                (team_id, season, races, wins, podiums, poles, points, position)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (team_id, season, races, wins, podiums, poles, points, position))
-        
-        # 更新赛季冠军
-        if driver_stats:
-            champion_driver_id = driver_stats[0][0]
-            cursor.execute('UPDATE seasons SET champion_driver_id = ? WHERE season = ?', (champion_driver_id, season))
-        
-        if team_stats:
-            champion_team_id = team_stats[0][0]
-            cursor.execute('UPDATE seasons SET champion_team_id = ? WHERE season = ?', (champion_team_id, season))
 
 def create_normalized_database(csv_dir, db_path):
     """从 CSV 文件创建规范化的 F1 数据库"""
@@ -395,13 +235,7 @@ def create_normalized_database(csv_dir, db_path):
     
     # 3. 读取车队映射
     print(f"3. 读取车队映射: {team_mapping_path}")
-    df_team_mapping = pd.read_csv(team_mapping_path)
-    team_name_map = {}
-    for idx, row in df_team_mapping.iterrows():
-        cols = df_team_mapping.columns
-        orig = str(row[cols[0]]).strip() if pd.notna(row[cols[0]]) else ''
-        std = str(row[cols[1]]).strip() if pd.notna(row[cols[1]]) else ''
-        if orig and std: team_name_map[orig] = std
+    team_name_map = load_team_name_map(Path(csv_dir))
 
     # 4. 导入车手
     print("4. 导入车手...")
@@ -483,9 +317,13 @@ def create_normalized_database(csv_dir, db_path):
         '印度力量': '#f596c8',
         'Force India': '#f596c8'
     }
-    for raw_team in df_results['车队'].drop_duplicates():
-        if pd.isna(raw_team): continue
-        std_name = team_name_map.get(str(raw_team), str(raw_team))
+    team_pairs = df_results[['年份', '车队']].dropna().drop_duplicates().sort_values(['年份', '车队'])
+    for _, team_row in team_pairs.iterrows():
+        raw_team = team_row['车队']
+        season = int(team_row['年份'])
+        if pd.isna(raw_team):
+            continue
+        std_name = resolve_team_name(raw_team, team_name_map, season=season)
         if std_name not in teams_dict:
             color = team_colors.get(std_name, '#e10600')
             cursor.execute('INSERT OR IGNORE INTO teams (name, name_cn, color) VALUES (?, ?, ?)', (std_name, std_name, color))
@@ -533,7 +371,7 @@ def create_normalized_database(csv_dir, db_path):
         f, l = str(row['名']).strip(), str(row['姓']).strip()
         rid = races_dict.get((s, global_to_round.get((s, eid))))
         did = drivers_dict.get((f, l))
-        tid = teams_dict.get(team_name_map.get(str(row['车队']), str(row['车队'])))
+        tid = teams_dict.get(resolve_team_name(row['车队'], team_name_map, teams_dict.keys(), season=s))
         
         # 2010年Sauber特殊处理: StatsF1将其记为BMW Sauber (为了平滑过渡及符合参赛商名义)
         if s == 2010 and str(row['车队']) == 'Sauber Ferrari':
@@ -588,17 +426,17 @@ def create_normalized_database(csv_dir, db_path):
                     
     if os.path.exists(photo_teams_path):
         df_p_t = pd.read_csv(photo_teams_path)
+        team_lookup_names = set(teams_dict.keys())
         for _, row in df_p_t.iterrows():
             tn, url = str(row.get('车队', '')).strip(), str(row.get('网址', '')).strip()
             if url and url != 'nan':
-                std_tn = normalize_team_name(tn)
+                std_tn = resolve_team_name(tn, team_name_map, team_lookup_names)
                 cursor.execute('SELECT team_id FROM teams WHERE name = ?', (std_tn,))
                 res = cursor.fetchone()
                 if res: cursor.execute('INSERT OR REPLACE INTO team_photos (team_id, url) VALUES (?, ?)', (res[0], url))
 
-    # 11. 计算赛季统计 (初步同步)
-    print("11. 计算聚合统计 (Initial Schema Validation)...")
-    calculate_season_stats(cursor)
+    # 11. 聚合统计由后续 derive 阶段统一重算，避免和最终规则重复
+    print("11. 跳过聚合统计生成，后续 derive 阶段会统一重算...")
     
     conn.commit()
     conn.close()

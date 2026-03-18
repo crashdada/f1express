@@ -1,86 +1,105 @@
 #!/usr/bin/env python3
 """
-第 8 步：应用特殊历史事件修正 (Apply Special Events)
-从 special_events.json 读取规则并对数据库进行永久性修正。
-主要处理：
-1. 积分手动加成 (points_additions)
-2. 车队 ID 合并 (team_id_merges)
-"""
-import sqlite3
-import os
-import json
+Apply durable historical corrections from special_events.json.
 
+This stage only mutates raw fact tables for corrections that cannot be
+represented cleanly in the source CSV files.
+"""
+import os
+import sqlite3
 import sys
 from pathlib import Path
 
-# Add parent directory to sys.path to import f1_config
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from f1_config import get_path, ensure_dirs
+from f1_config import ensure_dirs, get_path
+from lib.special_events import build_team_merge_rules, load_special_events
+
 
 def apply_special_events():
     ensure_dirs()
     db_path = str(get_path('db'))
-    json_path = os.path.join(os.path.dirname(__file__), 'special_events.json')
 
     if not os.path.exists(db_path):
-        print(f"  [Error] 数据库不存在: {db_path}")
-        return
-    if not os.path.exists(json_path):
-        print(f"  [SKIP] 配置文件不存在: {json_path}")
+        print(f"  [Error] Database not found: {db_path}")
         return
 
-    print(f"  正在从 {os.path.basename(json_path)} 应用永久性数据库修正...")
-    
+    events = load_special_events(Path(__file__).resolve().parent)
+    if not events:
+        print("  [SKIP] special_events.json not found")
+        return
+
+    print("  Applying durable database corrections from special_events.json...")
+
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    with open(json_path, 'r', encoding='utf-8') as f:
-        events = json.load(f)
-
-    # 1. 应用积分加成 (Points Additions)
-    # 处理 CSV 中缺失或需要手动调整的原始分数
     additions = events.get('points_additions', [])
     if additions:
-        print(f"  -> 应用 {len(additions)} 条积分修正规则...")
-        for add in additions:
-            yr = add.get('year')
-            rnd = add.get('round')
-            pts = add.get('added_points')
-            driver = add.get('driver')
-            parts = driver.split(' ', 1)
-            fname, lname = parts[0], parts[1] if len(parts) > 1 else ''
-
-            cursor.execute('''
+        print(f"  -> Applying {len(additions)} point-addition rules...")
+        for addition in additions:
+            driver_name = addition.get('driver', '')
+            first_name, _, last_name = driver_name.partition(' ')
+            cursor.execute(
+                '''
                 UPDATE race_results
                 SET points = COALESCE(points, 0) + ?
                 WHERE race_id = (SELECT race_id FROM races WHERE season = ? AND round_number = ?)
                   AND driver_id = (SELECT driver_id FROM drivers WHERE first_name = ? AND last_name = ?)
-            ''', (pts, yr, rnd, fname, lname))
+                ''',
+                (
+                    addition.get('added_points'),
+                    addition.get('year'),
+                    addition.get('round'),
+                    first_name,
+                    last_name,
+                ),
+            )
 
-    # 2. 合并车队 ID (Team ID Merges)
-    # 处理历史重名、引擎供应商变体或合并实体的 ID 统一
     merges = events.get('team_id_merges', [])
     if merges:
-        print(f"  -> 应用 {len(merges)} 条车队 ID 合并规则...")
-        for m in merges:
-            fid, tid = m['from'], m['to']
-            reason = m.get('reason', 'Merged history')
-            
-            # 更新正赛表
-            cursor.execute("UPDATE race_results SET team_id = ? WHERE team_id = ?", (tid, fid))
-            # 更新冲刺赛表 (如果存在)
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='sprint_results'")
-            if cursor.fetchone():
-                cursor.execute("UPDATE sprint_results SET team_id = ? WHERE team_id = ?", (tid, fid))
-            
-            # 更新车手统计关联
-            cursor.execute("UPDATE driver_season_stats SET team_id = ? WHERE team_id = ?", (tid, fid))
-            
-            print(f"     [Merge] ID {fid} -> {tid} ({reason})")
+        print(f"  -> Applying {len(merges)} team-id merge rules...")
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='sprint_results'")
+        has_sprint = cursor.fetchone() is not None
+        resolved_merges = build_team_merge_rules(events, cursor, get_path('csv'))
+
+        for merge in resolved_merges:
+            from_id = merge['from_id']
+            to_id = merge['to_id']
+            reason = merge['reason']
+            start_year = merge.get('start_year')
+            end_year = merge.get('end_year')
+
+            if not from_id or not to_id:
+                print(f"     [Skip] Could not resolve merge target for {reason}")
+                continue
+            if from_id == to_id:
+                print(f"     [Skip] Merge already normalized for {reason}")
+                continue
+
+            year_clause = ""
+            params = [to_id, from_id]
+            if start_year is not None or end_year is not None:
+                if start_year is None:
+                    start_year = 0
+                if end_year is None:
+                    end_year = 9999
+                year_clause = " AND race_id IN (SELECT race_id FROM races WHERE season BETWEEN ? AND ?)"
+                params.extend([start_year, end_year])
+
+            cursor.execute(f"UPDATE race_results SET team_id = ? WHERE team_id = ?{year_clause}", params)
+            if has_sprint:
+                sprint_params = [to_id, from_id]
+                sprint_clause = ""
+                if start_year is not None or end_year is not None:
+                    sprint_clause = " AND sprint_race_id IN (SELECT sprint_race_id FROM sprint_races WHERE season BETWEEN ? AND ?)"
+                    sprint_params.extend([start_year, end_year])
+                cursor.execute(f"UPDATE sprint_results SET team_id = ? WHERE team_id = ?{sprint_clause}", sprint_params)
+            print(f"     [Merge] ID {from_id} -> {to_id} ({reason})")
 
     conn.commit()
     conn.close()
-    print("  [OK] 特殊事件永久修正应用完成。")
+    print("  [OK] Special-event corrections applied.")
+
 
 if __name__ == "__main__":
     apply_special_events()

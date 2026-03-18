@@ -2,6 +2,36 @@ import { Driver, RaceInfo, RaceResult, SeasonStats, Team } from '../../types';
 import { CIRCUIT_TRANSLATIONS, COUNTRY_TRANSLATIONS, TEAM_TRANSLATIONS } from '../translations';
 import { normalizeName } from './formatters';
 
+const HIDDEN_INDY_SPECIAL_TEAMS = new Set([
+  'Adams',
+  'Deidt',
+  'Snowberger',
+  'Kurtis Kraft',
+  'Watson',
+  'Stevens',
+  'Langley',
+  'Lesovsky',
+  'Olson',
+  'Wetteroth',
+  'Ewing',
+  'Moore',
+  'Marchese',
+  'Nichels',
+  'Rae',
+  'Schroeder',
+  'Sherman',
+  'Hall',
+  'Trevis',
+  'Epperly',
+  'Phillips',
+  'Dunn',
+  'Christensen',
+  'Elder',
+  'Sutton',
+  'Meskowski',
+  'Kuzma',
+]);
+
 function getLocalDriverPhotoPath(
   driver: { firstName: string; lastName: string },
   photoMap: Map<string, string>
@@ -68,17 +98,13 @@ export function processDrivers(
     const lastName = normalizeName(driver.last_name || '').toLowerCase();
     const driver2026 = drivers2026Map.get(`${firstName}|${lastName}|${code}`);
 
-    let points = Number(driver.total_points || 0);
-    let wins = Number(driver.total_wins || 0);
-    let podiums = Number(driver.total_podiums || 0);
-    let poles = Number(driver.total_poles || 0);
-
-    if (driver2026?.careerStats) {
-      points = Number(driver2026.careerStats.points);
-      wins = Number(driver2026.careerStats.wins);
-      podiums = Number(driver2026.careerStats.podiums);
-      poles = Number(driver2026.careerStats.poles);
-    }
+    // Historical career totals come from the local database.
+    // 2026 datasets only supply live-season roster metadata and should not
+    // overwrite authoritative historical aggregates from SQLite.
+    const points = Number(driver.total_points || 0);
+    const wins = Number(driver.total_wins || 0);
+    const podiums = Number(driver.total_podiums || 0);
+    const poles = Number(driver.total_poles || 0);
 
     const teamName = driver2026?.team || driver.team_name || '';
     const team2026 = [...teams2026Map.values()].find((team) =>
@@ -92,8 +118,8 @@ export function processDrivers(
       number: driver2026?.number || driver.number || 0,
       firstName: driver.first_name || '',
       lastName: driver.last_name || '',
-      firstNameCn: driver.first_name_cn || '',
-      lastNameCn: driver.last_name_cn || '',
+      firstNameCn: driver.first_name_cn || driver2026?.firstNameCn || '',
+      lastNameCn: driver.last_name_cn || driver2026?.lastNameCn || '',
       code,
       team: driver2026?.teamCn || team2026?.nameCn || driver.team_name_cn || TEAM_TRANSLATIONS[teamName] || teamName,
       nationality: driver.nationality || '',
@@ -145,7 +171,7 @@ export function processTeams(teamsData: any[], teams2026: any[] = []): Team[] {
       color: team2026?.color || team.color || '#e10600',
       logo: team2026?.logo || team.logo || '',
     };
-  });
+  }).filter((team) => !HIDDEN_INDY_SPECIAL_TEAMS.has(team.name));
 }
 
 export function processRaceResults(raceResultsData: any[]): RaceResult[] {

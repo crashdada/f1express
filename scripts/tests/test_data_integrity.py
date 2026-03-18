@@ -38,6 +38,23 @@ REFERENCE_DRIVERS = {
     ("Alain", "Prost"):          {"wins_min": 51,  "podiums_min": 106, "poles_min": 33,  "wdc": 4},
 }
 
+REFERENCE_DRIVER_CHINESE_NAMES = {
+    ("Lewis", "Hamilton"): ("刘易斯", "汉密尔顿"),
+    ("Max", "Verstappen"): ("马克斯", "维斯塔潘"),
+    ("Fernando", "Alonso"): ("费尔南多", "阿隆索"),
+    ("Sebastian", "Vettel"): ("塞巴斯蒂安", "维特尔"),
+    ("Michael", "Schumacher"): ("迈克尔", "舒马赫"),
+    ("Ayrton", "Senna"): ("艾尔顿", "塞纳"),
+    ("Alain", "Prost"): ("阿兰", "普罗斯特"),
+    ("Nico", "Rosberg"): ("尼科", "罗斯伯格"),
+}
+
+REFERENCE_CONSTRUCTOR_MULTI_ENTITY_POINTS = {
+    ("迈凯伦", 1966): 3.0,
+    ("迈凯伦", 1967): 3.0,
+    ("迈凯伦", 1968): 52.0,
+}
+
 # Known WDC champions for validation
 KNOWN_CHAMPIONS = {
     2024: "Max Verstappen",
@@ -362,7 +379,67 @@ def test_chinese_names(conn):
         results.ok("Coverage: Chinese names", f"{with_cn}/{total} ({pct}%)")
 
 
+@test("Coverage: Key driver Chinese names")
+def test_key_driver_chinese_names(conn):
+    missing = []
+    mismatched = []
+
+    for (first, last), (expected_first_cn, expected_last_cn) in REFERENCE_DRIVER_CHINESE_NAMES.items():
+        row = conn.execute("""
+            SELECT first_name_cn, last_name_cn
+            FROM drivers
+            WHERE first_name = ? AND last_name = ?
+        """, (first, last)).fetchone()
+
+        if not row:
+            missing.append(f"{first} {last}")
+            continue
+
+        first_cn, last_cn = row
+        if first_cn != expected_first_cn or last_cn != expected_last_cn:
+            mismatched.append(
+                f"{first} {last}: expected {expected_first_cn} {expected_last_cn}, got {first_cn} {last_cn}"
+            )
+
+    if missing or mismatched:
+        details = []
+        if missing:
+            details.append(f"missing rows: {missing}")
+        if mismatched:
+            details.append(f"mismatched translations: {mismatched}")
+        results.fail("Coverage: key driver Chinese names", "; ".join(details))
+    else:
+        results.ok("Coverage: key driver Chinese names", f"{len(REFERENCE_DRIVER_CHINESE_NAMES)} verified")
+
+
 # ── Cross-Table Consistency Tests ─────────────────────────────────────────────
+
+@test("Constructor rules: Multi-entity season totals")
+def test_constructor_multi_entity_points(conn):
+    for (team_name, season), expected_points in REFERENCE_CONSTRUCTOR_MULTI_ENTITY_POINTS.items():
+        row = conn.execute(
+            """
+            SELECT tss.points
+            FROM team_season_stats tss
+            JOIN teams t ON tss.team_id = t.team_id
+            WHERE t.name = ? AND tss.season = ?
+            """,
+            (team_name, season),
+        ).fetchone()
+
+        if not row:
+            results.fail(f"Constructor multi-entity: {team_name} {season}", "Missing team season row")
+            continue
+
+        actual_points = float(row[0] or 0)
+        if abs(actual_points - expected_points) > 1e-9:
+            results.fail(
+                f"Constructor multi-entity: {team_name} {season}",
+                f"Expected {expected_points}, got {actual_points}",
+            )
+        else:
+            results.ok(f"Constructor multi-entity: {team_name} {season}", str(actual_points))
+
 
 @test("Consistency: Season stats covers all active seasons")
 def test_stats_cover_seasons(conn):

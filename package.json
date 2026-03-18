@@ -1,6 +1,6 @@
 {
   "name": "f1express",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,10 @@
     "test:integration": "vitest --run tests/integration",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "pipeline:sync": "python scripts/sync_f1_data.py",
+    "pipeline:sync:full": "python scripts/sync_f1_data.py --force",
+    "pipeline:sync:validate": "python scripts/sync_f1_data.py --validate-constructors",
+    "validate:constructors": "python scripts/pipeline/validate_constructor_totals.py",
     "verify:dist": "node scripts/verify_dist_freshness.cjs",
     "validate:docker": "node scripts/validate_docker_bundle.cjs",
     "prepare": "husky"

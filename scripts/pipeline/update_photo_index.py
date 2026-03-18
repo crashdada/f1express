@@ -17,6 +17,7 @@ from f1_config import get_path, ensure_dirs
 
 def update_photo_index():
     ensure_dirs()
+    base_dir = str(Path(__file__).resolve().parents[2])
     # 扫描 F1_STORAGE 中的 photos 目录
     src_dir = get_path('photos')
 

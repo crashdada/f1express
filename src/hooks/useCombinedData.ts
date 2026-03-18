@@ -1,120 +1,324 @@
 import { useMemo } from 'react';
 import { useF1 } from '../context/F1Context';
-import { useDynamic2026Data } from './useDynamic2026Data';
-import { Team, Driver } from '../types';
+import { useDynamic2026Data, IRaceRound2026 } from './useDynamic2026Data';
+import { Driver, Team } from '../types';
+
+type TeamWithActive = Team & { isActive2026?: boolean };
+type DriverWithActive = Driver & { isActive2026?: boolean };
+
+function normalizeText(value?: string | null) {
+  return (value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[\s\-_.·'()]/g, '')
+    .trim();
+}
+
+function getTeamMatchKeys(...values: Array<string | null | undefined>) {
+  const keys = new Set<string>();
+
+  values.forEach((value) => {
+    const raw = value || '';
+    const normalized = normalizeText(raw);
+    if (normalized) {
+      keys.add(normalized);
+    }
+
+    const withoutCommonSuffix = raw
+      .replace(/\bF1 Team\b/gi, '')
+      .replace(/\bTeam\b/gi, '')
+      .trim();
+    const normalizedWithoutSuffix = normalizeText(withoutCommonSuffix);
+    if (normalizedWithoutSuffix) {
+      keys.add(normalizedWithoutSuffix);
+    }
+  });
+
+  return [...keys];
+}
+
+function getDriverMatchKeys(driver: {
+  firstName?: string | null;
+  lastName?: string | null;
+  firstNameCn?: string | null;
+  lastNameCn?: string | null;
+}) {
+  const keys = new Set<string>();
+
+  const englishKey = normalizeText([driver.firstName, driver.lastName].filter(Boolean).join(' '));
+  if (englishKey) {
+    keys.add(englishKey);
+  }
+
+  const chineseKey = normalizeText([driver.firstNameCn, driver.lastNameCn].filter(Boolean).join(''));
+  if (chineseKey) {
+    keys.add(chineseKey);
+  }
+
+  return [...keys];
+}
+
+function hasChineseCharacter(value?: string | null) {
+  return /[\u4e00-\u9fff]/.test(value || '');
+}
+
+function getEnglishLikeValues(...values: Array<string | null | undefined>) {
+  return values.filter((value): value is string => Boolean(value) && !hasChineseCharacter(value));
+}
+
+function getChineseLikeValues(...values: Array<string | null | undefined>) {
+  return values.filter((value): value is string => Boolean(value) && hasChineseCharacter(value));
+}
+
+function getEnglishTeamKeys(team: {
+  name?: string | null;
+  fullName?: string | null;
+}) {
+  return getEnglishLikeValues(team.name, team.fullName).flatMap((value) => getTeamMatchKeys(value));
+}
+
+function getChineseTeamKeys(team: {
+  name?: string | null;
+  nameCn?: string | null;
+}) {
+  return getChineseLikeValues(team.nameCn, team.name).flatMap((value) => getTeamMatchKeys(value));
+}
+
+function matchesLiveTeam(
+  team: Pick<Team, 'name' | 'nameCn' | 'fullName'>,
+  liveTeam: { name?: string | null; nameCn?: string | null }
+) {
+  const teamEnglishKeys = getEnglishTeamKeys(team);
+  const liveEnglishKeys = getEnglishTeamKeys({ name: liveTeam.name });
+
+  if (teamEnglishKeys.length > 0 && liveEnglishKeys.length > 0) {
+    return intersects(teamEnglishKeys, liveEnglishKeys);
+  }
+
+  const teamChineseKeys = getChineseTeamKeys(team);
+  const liveChineseKeys = getChineseTeamKeys({ name: liveTeam.name, nameCn: liveTeam.nameCn });
+
+  return teamChineseKeys.length > 0 && liveChineseKeys.length > 0
+    ? intersects(teamChineseKeys, liveChineseKeys)
+    : false;
+}
+
+function intersects(left: string[], right: string[]) {
+  const rightSet = new Set(right);
+  return left.some((value) => rightSet.has(value));
+}
+
+function buildLiveTeamStatsMap(liveResults: IRaceRound2026[]) {
+  const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number }>();
+
+  const ensureTeam = (keys: string[]) => {
+    const primaryKey = keys[0];
+    if (!primaryKey) {
+      return null;
+    }
+
+    if (!liveStatsMap.has(primaryKey)) {
+      liveStatsMap.set(primaryKey, { points: 0, wins: 0, podiums: 0, poles: 0 });
+    }
+
+    keys.slice(1).forEach((key) => {
+      if (key && !liveStatsMap.has(key)) {
+        liveStatsMap.set(key, liveStatsMap.get(primaryKey)!);
+      }
+    });
+
+    return liveStatsMap.get(primaryKey)!;
+  };
+
+  liveResults.forEach((round) => {
+    if (round.polePosition?.code) {
+      const poleDriver = round.results.find((result) => result.code === round.polePosition?.code);
+      if (poleDriver) {
+        const stats = ensureTeam(getTeamMatchKeys(poleDriver.team, poleDriver.teamCn));
+        if (stats) {
+          stats.poles += 1;
+        }
+      }
+    }
+
+    round.results.forEach((result) => {
+      const stats = ensureTeam(getTeamMatchKeys(result.team, result.teamCn));
+      if (!stats) {
+        return;
+      }
+
+      stats.points += result.points || 0;
+      if (result.pos === 1) stats.wins += 1;
+      if (result.pos && result.pos <= 3) stats.podiums += 1;
+    });
+
+    round.sprintResults?.forEach((result) => {
+      const stats = ensureTeam(getTeamMatchKeys(result.team, result.teamCn));
+      if (stats) {
+        stats.points += result.points || 0;
+      }
+    });
+  });
+
+  return liveStatsMap;
+}
+
+function buildLiveDriverStatsMap(liveResults: IRaceRound2026[]) {
+  const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number }>();
+
+  const ensureDriver = (keys: string[]) => {
+    const primaryKey = keys[0];
+    if (!primaryKey) {
+      return null;
+    }
+
+    if (!liveStatsMap.has(primaryKey)) {
+      liveStatsMap.set(primaryKey, { points: 0, wins: 0, podiums: 0, poles: 0 });
+    }
+
+    keys.slice(1).forEach((key) => {
+      if (key && !liveStatsMap.has(key)) {
+        liveStatsMap.set(key, liveStatsMap.get(primaryKey)!);
+      }
+    });
+
+    return liveStatsMap.get(primaryKey)!;
+  };
+
+  liveResults.forEach((round) => {
+    round.results.forEach((result) => {
+      const stats = ensureDriver(getDriverMatchKeys(result));
+      if (!stats) {
+        return;
+      }
+
+      stats.points += result.points || 0;
+      if (result.pos === 1) stats.wins += 1;
+      if (result.pos && result.pos <= 3) stats.podiums += 1;
+    });
+
+    round.sprintResults?.forEach((result) => {
+      const stats = ensureDriver(getDriverMatchKeys(result));
+      if (stats) {
+        stats.points += result.points || 0;
+      }
+    });
+
+    if (round.polePosition) {
+      const stats = ensureDriver(getDriverMatchKeys(round.polePosition));
+      if (stats) {
+        stats.poles += 1;
+      }
+    }
+  });
+
+  return liveStatsMap;
+}
 
 export function useCombinedData() {
   const { state } = useF1();
-  const { raceResults: liveResults } = useDynamic2026Data();
+  const { raceResults: liveResults, teams: liveTeams, drivers: liveDrivers } = useDynamic2026Data();
+
+  const activeDriverKeys = useMemo(
+    () => new Set(liveDrivers.flatMap((driver) => getDriverMatchKeys(driver))),
+    [liveDrivers]
+  );
+
+  const activeTeamKeys = useMemo(
+    () => new Set(liveTeams.flatMap((team) => getTeamMatchKeys(team.name, team.nameCn))),
+    [liveTeams]
+  );
 
   const combinedTeams = useMemo(() => {
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number; teamEn: string }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        if (r.polePosition && r.polePosition.code) {
-          const poleDriver = r.results.find(res => res.code === r.polePosition!.code);
-          if (poleDriver && poleDriver.team) {
-            const teamCn = poleDriver.teamCn || poleDriver.team;
-            if (!liveStatsMap.has(teamCn)) {
-              liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: poleDriver.team });
-            }
-            liveStatsMap.get(teamCn)!.poles += 1;
-          }
-        }
+    const liveTeamStatsMap = buildLiveTeamStatsMap(liveResults);
 
-        r.results.forEach(res => {
-          const teamCn = res.teamCn || res.team;
-          if (!liveStatsMap.has(teamCn)) {
-            liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: res.team });
-          }
-          const stats = liveStatsMap.get(teamCn)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
-
-        if (r.sprintResults) {
-          r.sprintResults.forEach(res => {
-            const teamCn = res.teamCn || res.team;
-            if (!liveStatsMap.has(teamCn)) {
-              liveStatsMap.set(teamCn, { points: 0, wins: 0, podiums: 0, poles: 0, teamEn: res.team });
-            }
-            const stats = liveStatsMap.get(teamCn)!;
-            stats.points += res.points || 0;
-          });
-        }
-      });
-    }
-
-    return state.teams.map(team => {
-      let liveStats = liveStatsMap.get(team.name) || liveStatsMap.get(team.nameCn);
+    const mergedTeams = state.teams.map((team) => {
+      const teamKeys = getTeamMatchKeys(team.name, team.nameCn, team.fullName);
+      const isActive2026 = liveTeams.some((liveTeam) => matchesLiveTeam(team, liveTeam));
+      const liveStats = teamKeys.map((key) => liveTeamStatsMap.get(key)).find(Boolean);
 
       if (!liveStats) {
-        for (const [key, value] of liveStatsMap.entries()) {
-          const enName = value.teamEn;
-          if (team.name.includes(key) || key.includes(team.name) ||
-            (enName && (enName.includes(team.fullName) || team.fullName.includes(enName)))) {
-            liveStats = value;
-            break;
-          }
-        }
+        return {
+          ...team,
+          isActive2026,
+        } as TeamWithActive;
       }
 
-      if (!liveStats) return team;
       return {
         ...team,
         points: (team.points || 0) + liveStats.points,
         wins: (team.wins || 0) + liveStats.wins,
         podiums: (team.podiums || 0) + liveStats.podiums,
         poles: (team.poles || 0) + liveStats.poles,
-      } as Team;
-    }).sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [state.teams, liveResults]);
+        isActive2026,
+      } as TeamWithActive;
+    });
+
+    const liveOnlyTeams = liveTeams.flatMap((team2026) => {
+      const candidateKeys = getTeamMatchKeys(team2026.name, team2026.nameCn);
+
+      if (mergedTeams.some((team) => matchesLiveTeam(team, team2026))) {
+        return [];
+      }
+
+      const liveStats = candidateKeys.map((key) => liveTeamStatsMap.get(key)).find(Boolean);
+
+      return [{
+        id: team2026.id || team2026.name,
+        name: team2026.name,
+        fullName: team2026.name,
+        nameCn: team2026.nameCn || team2026.name,
+        points: Number(liveStats?.points || 0),
+        wins: Number(liveStats?.wins || 0),
+        podiums: Number(liveStats?.podiums || 0),
+        poles: Number(liveStats?.poles || 0),
+        championships: 0,
+        driverChampionships: 0,
+        championshipYears: [],
+        color: team2026.color || '#e10600',
+        logo: team2026.logo || '',
+        isActive2026: true,
+      } as TeamWithActive];
+    });
+
+    return [...mergedTeams, ...liveOnlyTeams].sort((a, b) => (b.points || 0) - (a.points || 0));
+  }, [activeTeamKeys, liveResults, liveTeams, state.teams]);
 
   const combinedDrivers = useMemo(() => {
-    const liveStatsMap = new Map<string, { points: number; wins: number; podiums: number; poles: number }>();
-    if (liveResults && liveResults.length > 0) {
-      liveResults.forEach(r => {
-        r.results.forEach(res => {
-          if (!liveStatsMap.has(res.code)) {
-            liveStatsMap.set(res.code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          const stats = liveStatsMap.get(res.code)!;
-          stats.points += res.points || 0;
-          if (res.pos === 1) stats.wins += 1;
-          if (res.pos && res.pos <= 3) stats.podiums += 1;
-        });
+    const liveDriverStatsMap = buildLiveDriverStatsMap(liveResults);
 
-        if (r.sprintResults) {
-          r.sprintResults.forEach(res => {
-            if (!liveStatsMap.has(res.code)) {
-              liveStatsMap.set(res.code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-            }
-            liveStatsMap.get(res.code)!.points += res.points || 0;
-          });
+    return state.drivers
+      .map((driver) => {
+        const driverKeys = getDriverMatchKeys(driver);
+        const isActive2026 = intersects(driverKeys, [...activeDriverKeys]);
+        const liveStats = driverKeys.map((key) => liveDriverStatsMap.get(key)).find(Boolean);
+
+        if (!liveStats) {
+          return {
+            ...driver,
+            isActive2026,
+          } as DriverWithActive;
         }
 
-        if (r.polePosition?.code) {
-          if (!liveStatsMap.has(r.polePosition.code)) {
-            liveStatsMap.set(r.polePosition.code, { points: 0, wins: 0, podiums: 0, poles: 0 });
-          }
-          liveStatsMap.get(r.polePosition.code)!.poles += 1;
-        }
-      });
-    }
+        return {
+          ...driver,
+          points: (driver.points || 0) + liveStats.points,
+          wins: (driver.wins || 0) + liveStats.wins,
+          podiums: (driver.podiums || 0) + liveStats.podiums,
+          poles: (driver.poles || 0) + liveStats.poles,
+          isActive2026,
+        } as DriverWithActive;
+      })
+      .sort((a, b) => (b.points || 0) - (a.points || 0));
+  }, [activeDriverKeys, liveResults, state.drivers]);
 
-    return state.drivers.map(driver => {
-      const live = liveStatsMap.get(driver.code);
-      if (!live) return driver;
-      return {
-        ...driver,
-        points: (driver.points || 0) + live.points,
-        wins: (driver.wins || 0) + live.wins,
-        podiums: (driver.podiums || 0) + live.podiums,
-        poles: (driver.poles || 0) + live.poles,
-      } as Driver;
-    }).sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [state.drivers, liveResults]);
-
-  return { combinedTeams, combinedDrivers, liveResults, loading: state.loading };
+  return {
+    combinedTeams,
+    combinedDrivers,
+    activeDriverKeys,
+    activeTeamKeys,
+    liveResults,
+    loading: state.loading,
+  };
 }
