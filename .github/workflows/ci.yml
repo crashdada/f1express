@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       HUSKY: 0
 
@@ -26,11 +26,13 @@ jobs:
         run: npm ci
 
       - name: Internal data prep
+        shell: pwsh
         run: |
-          mkdir -p public/data
-          if [ -d "collector/data" ]; then
-            cp collector/data/*.json public/data/ 2>/dev/null || true
-          fi
+          New-Item -ItemType Directory -Force -Path public/data | Out-Null
+          if (Test-Path 'collector/data') {
+            Get-ChildItem 'collector/data' -Filter *.json -ErrorAction SilentlyContinue |
+              Copy-Item -Destination 'public/data' -Force
+          }
 
       - name: Run unit tests
         run: npm run test:unit

@@ -13,7 +13,7 @@ on:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       HUSKY: 0
 
@@ -31,12 +31,20 @@ jobs:
         run: npm ci
 
       - name: Internal data prep
+        shell: pwsh
         run: |
-          mkdir -p public/data
-          if [ -d "collector/data" ]; then
-            cp collector/data/*.json public/data/ 2>/dev/null || true
-            echo "Internal JSONs synced: $(ls public/data/*.json 2>/dev/null || echo 'none')"
-          fi
+          New-Item -ItemType Directory -Force -Path public/data | Out-Null
+          if (Test-Path 'collector/data') {
+            Get-ChildItem 'collector/data' -Filter *.json -ErrorAction SilentlyContinue |
+              Copy-Item -Destination 'public/data' -Force
+            $synced = Get-ChildItem 'public/data' -Filter *.json -ErrorAction SilentlyContinue |
+              Select-Object -ExpandProperty Name
+            if ($synced) {
+              Write-Host "Internal JSONs synced: $($synced -join ', ')"
+            } else {
+              Write-Host 'Internal JSONs synced: none'
+            }
+          }
 
       - name: Run unit tests
         run: npm run test:unit
