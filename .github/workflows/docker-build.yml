@@ -82,7 +82,15 @@ jobs:
 
       - name: Get package version
         id: package_version
-        run: echo "VERSION=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Validate package version
+        run: |
+          if [ -z "${{ steps.package_version.outputs.version }}" ]; then
+            echo "::error::Package version output is empty."
+            exit 1
+          fi
+          echo "Publishing Docker tags for version ${{ steps.package_version.outputs.version }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -91,5 +99,5 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/f1express:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/f1express:${{ steps.package_version.outputs.VERSION }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/f1express:${{ steps.package_version.outputs.VERSION }}.${{ github.run_number }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/f1express:${{ steps.package_version.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/f1express:${{ steps.package_version.outputs.version }}.${{ github.run_number }}
