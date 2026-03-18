@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 
 try {
-  const output = execSync('git status --porcelain -- dist', {
+  const output = execSync('git status --porcelain --untracked-files=no -- dist', {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
   }).trim();
