@@ -102,6 +102,83 @@ const scoringRules = {
     2025: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
 };
 
+// Constructors' Championship (WCC) rules are not identical to Drivers' Championship (WDC):
+// - 1958-1978: only the highest-scoring car of each constructor counts per race
+// - 1958-1978: WCC still uses the historical Best Results Rule
+// - 1958-1959: fastest lap point counts for drivers only, not constructors
+// - 1961: WCC uses 8-6-4-3-2-1 while WDC uses 9-6-4-3-2-1
+// - Indianapolis 500 points do not count towards WCC
+const constructorScoringRules = {
+    1958: { positions: 5, points: [8, 6, 4, 3, 2], bestResults: 6 },
+    1959: { positions: 5, points: [8, 6, 4, 3, 2], bestResults: 5 },
+    1960: { positions: 6, points: [8, 6, 4, 3, 2, 1], bestResults: 6 },
+    1961: { positions: 6, points: [8, 6, 4, 3, 2, 1], bestResults: 5 },
+    1962: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 5 },
+    1963: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 6 },
+    1964: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 6 },
+    1965: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 6 },
+    1966: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 5 },
+    1967: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [6, 5], last: [5, 4] } },
+    1968: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [6, 5], last: [6, 5] } },
+    1969: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [6, 5], last: [5, 4] } },
+    1970: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [7, 6], last: [6, 5] } },
+    1971: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [6, 5], last: [5, 4] } },
+    1972: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [6, 5], last: [6, 5] } },
+    1973: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [8, 7], last: [7, 6] } },
+    1974: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [8, 7], last: [7, 6] } },
+    1975: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [7, 6], last: [7, 6] } },
+    1976: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [8, 7], last: [8, 7] } },
+    1977: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [9, 8], last: [8, 7] } },
+    1978: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: { type: 'split', first: [8, 7], last: [8, 7] } },
+    1979: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1980: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1981: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1982: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1983: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1984: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1985: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1986: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1987: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1988: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1989: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1990: { positions: 6, points: [9, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1991: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1992: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1993: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1994: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1995: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1996: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1997: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1998: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    1999: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    2000: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    2001: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    2002: { positions: 6, points: [10, 6, 4, 3, 2, 1], bestResults: 'all' },
+    2003: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2004: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2005: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2006: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2007: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2008: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2009: { positions: 8, points: [10, 8, 6, 5, 4, 3, 2, 1], bestResults: 'all' },
+    2010: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2011: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2012: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2013: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2014: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2015: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2016: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2017: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2018: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2019: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2020: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2021: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2022: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2023: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2024: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+    2025: { positions: 10, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], bestResults: 'all' },
+};
+
 function getPointsForPosition(position, season) {
     if (!position || position === 'DNF' || position === 'NC' || position === 'DNS') {
         return 0;
@@ -115,6 +192,22 @@ function getPointsForPosition(position, season) {
 
 function getBestResultsLimit(season) {
     const rules = scoringRules[season] || scoringRules[2020];
+    return rules.bestResults;
+}
+
+function getConstructorPointsForPosition(position, season) {
+    if (!position || position === 'DNF' || position === 'NC' || position === 'DNS') {
+        return 0;
+    }
+    const rules = constructorScoringRules[season] || constructorScoringRules[2020];
+    if (position <= rules.positions) {
+        return rules.points[position - 1];
+    }
+    return 0;
+}
+
+function getConstructorBestResultsLimit(season) {
+    const rules = constructorScoringRules[season] || constructorScoringRules[2020];
     return rules.bestResults;
 }
 
@@ -136,10 +229,11 @@ console.log('=== F1 Championships Calculator (Corrected Historical Rules) ===\n'
 
 // Get all race results
 const results = db.prepare(`
-  SELECT rr.driver_id, t.team_id, r.season, r.round_number, rr.position, rr.points
+  SELECT rr.driver_id, t.team_id, r.season, r.round_number, rr.position, rr.points, r.event_id, c.name as circuit_name
   FROM race_results rr
   JOIN races r ON rr.race_id = r.race_id
   JOIN teams t ON rr.team_id = t.team_id
+  LEFT JOIN circuits c ON r.circuit_id = c.circuit_id
   ORDER BY r.season, r.round_number, rr.position
 `).all();
 
@@ -215,9 +309,11 @@ results.forEach(r => {
         teamSeasons[key].races[r.round_number] = [];
     }
 
-    let points = r.points;
-    if (points === null || points === undefined) {
-        points = getPointsForPosition(r.position, r.season);
+    let points = getConstructorPointsForPosition(r.position, r.season);
+
+    // Indianapolis 500 never counted towards the Constructors' Championship.
+    if (r.circuit_name && r.circuit_name.toLowerCase().includes('indianapolis')) {
+        points = 0;
     }
 
     teamSeasons[key].races[r.round_number].push({ points });
@@ -251,7 +347,7 @@ Object.values(teamSeasons).forEach(ts => {
     });
 
     // Apply "Best N Results" rule to team points (same as drivers)
-    const limit = getBestResultsLimit(ts.season);
+    const limit = getConstructorBestResultsLimit(ts.season);
     let totalPoints = 0;
 
     // Handle split scoring (1967-1980)

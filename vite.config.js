@@ -21,10 +21,18 @@ export default defineConfig({
       }
     },
     {
-      name: 'bundle-f1-storage-db',
+      name: 'bundle-f1-storage-runtime-data',
       closeBundle() {
         const sourceDbPath = path.resolve(__dirname, 'storage', 'f1.db');
         const bundledDbPath = path.resolve(__dirname, 'dist', 'f1.db');
+        const sourceDataDir = path.resolve(__dirname, 'storage');
+        const bundledDataDir = path.resolve(__dirname, 'dist', 'data');
+        const runtimeJsonFiles = [
+          'schedule_2026.json',
+          'results_2026.json',
+          'drivers_2026.json',
+          'teams_2026.json'
+        ];
 
         if (!fs.existsSync(sourceDbPath)) {
           throw new Error(`Missing storage database: ${sourceDbPath}`);
@@ -37,6 +45,23 @@ export default defineConfig({
 
         fs.copyFileSync(sourceDbPath, bundledDbPath);
         console.log(`Bundled storage database into dist/f1.db (${stats.size} bytes)`);
+
+        fs.mkdirSync(bundledDataDir, { recursive: true });
+        for (const filename of runtimeJsonFiles) {
+          const sourcePath = path.join(sourceDataDir, filename);
+          const targetPath = path.join(bundledDataDir, filename);
+
+          if (!fs.existsSync(sourcePath)) {
+            throw new Error(`Missing runtime dataset: ${sourcePath}`);
+          }
+
+          fs.copyFileSync(sourcePath, targetPath);
+          const fileStats = fs.statSync(targetPath);
+          if (fileStats.size === 0) {
+            throw new Error(`Bundled runtime dataset is empty: ${targetPath}`);
+          }
+          console.log(`Bundled runtime dataset into dist/data/${filename} (${fileStats.size} bytes)`);
+        }
       }
     }
   ],

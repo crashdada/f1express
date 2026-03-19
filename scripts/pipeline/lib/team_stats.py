@@ -12,6 +12,11 @@ def has_table(cursor, table_name):
     return cursor.fetchone() is not None
 
 
+def has_column(cursor, table_name, column_name):
+    cursor.execute(f"PRAGMA table_info({table_name})")
+    return any(row[1] == column_name for row in cursor.fetchall())
+
+
 def fetch_team_ids_for_season(cursor, season):
     cursor.execute(
         '''
@@ -90,17 +95,40 @@ def calculate_team_points(
         total_points += round_points
 
     if has_sprint and season >= 2021:
-        cursor.execute(
-            '''
-            SELECT SUM(spr.points)
-            FROM sprint_results spr
-            JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
-            JOIN races r ON sr.season = r.season AND sr.round_number = r.round_number
-            JOIN race_results rr ON r.race_id = rr.race_id AND spr.driver_id = rr.driver_id
-            WHERE sr.season = ? AND rr.team_id = ?
-            ''',
-            (season, team_id),
-        )
+        if has_column(cursor, "sprint_races", "race_id"):
+            cursor.execute(
+                '''
+                SELECT SUM(sprint_points)
+                FROM (
+                    SELECT spr.points AS sprint_points
+                    FROM sprint_results spr
+                    JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
+                    WHERE sr.season = ? AND spr.team_id = ?
+
+                    UNION ALL
+
+                    SELECT spr.points AS sprint_points
+                    FROM sprint_results spr
+                    JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
+                    JOIN races r ON sr.race_id = r.race_id
+                    JOIN race_results rr ON r.race_id = rr.race_id AND spr.driver_id = rr.driver_id
+                    WHERE sr.season = ? AND spr.team_id IS NULL AND rr.team_id = ?
+                )
+                ''',
+                (season, team_id, season, team_id),
+            )
+        else:
+            cursor.execute(
+                '''
+                SELECT SUM(spr.points)
+                FROM sprint_results spr
+                JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
+                JOIN races r ON sr.season = r.season AND sr.round_number = r.round_number
+                JOIN race_results rr ON r.race_id = rr.race_id AND spr.driver_id = rr.driver_id
+                WHERE sr.season = ? AND rr.team_id = ?
+                ''',
+                (season, team_id),
+            )
         total_points += cursor.fetchone()[0] or 0
 
     if (season, team_id) in constructor_dsq_map:

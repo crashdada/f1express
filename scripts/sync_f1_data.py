@@ -10,6 +10,15 @@ clearer phases:
 4. Derive standings and aggregates
 5. Publish runtime artifacts
 6. Validate outputs
+
+Constructor / historical points notes:
+- 正式库必须由这条完整流水线重建，不能只依赖旧库做局部修补。
+- race_results.csv 中的历史半分、修正后的原始积分，只有在 create_normalized_db.py
+  全量重建后才会进入正式库；旧库直接沿用会保留陈旧值。
+- sprint_results.csv 的车队积分不是从 race_results.csv 推导出来的补丁，而是独立导入：
+  需要 import_sprint_data.py 在导入时补齐 race_id / round_number / team_id，
+  后续 recalculate_stats.py 才能把 2021+ 冲刺积分正确并入车队积分。
+- constructors_full.csv 是验证表，不是正式展示源；对账时必须优先取 outof，再回退 points。
 """
 from __future__ import annotations
 

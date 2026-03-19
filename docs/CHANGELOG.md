@@ -1,6 +1,21 @@
 # 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-03-19: v1.2.6 - Constructor rules, database rebuild, and Android 2026 bundle
+- Constructor data and validation
+  - Rebuilt [storage/f1.db](D:\oc\f1express\storage\f1.db) from current CSV sources, restoring corrected historical values such as Ferrari `1984 = 57.5`, Ferrari `2025 = 398.0`, and Ferrari `1958-2025 = 10722.0`.
+  - Updated [scripts/pipeline/import_sprint_data.py](D:\oc\f1express\scripts\pipeline\import_sprint_data.py) to persist `race_id`, `round_number`, and `team_id` during sprint import so constructor totals do not depend on fragile post-hoc joins.
+  - Updated [scripts/pipeline/lib/team_stats.py](D:\oc\f1express\scripts\pipeline\lib\team_stats.py) so 2021+ sprint points are merged into constructor season totals through the stronger sprint linkage.
+  - Updated [scripts/pipeline/validate_constructor_totals.py](D:\oc\f1express\scripts\pipeline\validate_constructor_totals.py) to document the validator rules, prefer `outof` over `points`, and report `point differences` separately from `rank-only differences`.
+- WCC championship logic
+  - Updated [scripts/pipeline/recalculate_championships.cjs](D:\oc\f1express\scripts\pipeline\recalculate_championships.cjs) to calculate WCC independently from season totals, including 1958-1978 single-car counting, historical Best Results Rule, 1958-1959 fastest-lap exclusion for constructors, 1961 WCC-specific scoring, and Indianapolis 500 exclusion.
+  - Rewrote [docs/championship_rules.md](D:\oc\f1express\docs\championship_rules.md) to clearly separate `race_results.points`, `team_season_stats.points`, and `team_championships.points`.
+- Android 2026 runtime data
+  - Updated [vite.config.js](D:\oc\f1express\vite.config.js) to bundle `schedule_2026.json`, `results_2026.json`, `drivers_2026.json`, and `teams_2026.json` into `dist/data/`.
+  - Updated [scripts/sync_android_assets.cjs](D:\oc\f1express\scripts\sync_android_assets.cjs) to copy those 2026 datasets into Android assets alongside `f1.db`, fixing the Android app missing 2026 season data.
+- Release
+  - Bumped the project version to `1.2.6` and refreshed release artifacts for this push.
+
 ## 2026-03-19: v1.2.5 - Android packaging fix and 2026 season card polish
 - Android packaging and release pipeline
   - Added post-build database bundling in [vite.config.js](D:\oc\f1express\vite.config.js) so `storage/f1.db` is copied into `dist/f1.db`.

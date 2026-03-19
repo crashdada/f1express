@@ -231,6 +231,10 @@ export function useCombinedData() {
   );
 
   const combinedTeams = useMemo(() => {
+    // Teams page follows the product ranking rule, not the validator-only DB rule:
+    // - validation scripts compare historical DB aggregates in team_season_stats
+    // - runtime standings show historical totals overlaid with the current 2026 live season
+    // Example: Ferrari = 11521 (DB historical total) + 67 (2026 live race/sprint points) = 11588.
     const liveTeamStatsMap = buildLiveTeamStatsMap(liveResults);
 
     const mergedTeams = state.teams.map((team) => {

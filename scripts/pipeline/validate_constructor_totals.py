@@ -1,10 +1,26 @@
 #!/usr/bin/env python3
 """
-Validate constructor season totals in the database against constructors_full.csv.
+校验 team_season_stats 与 constructors_full.csv 的车队赛季积分。
 
-This script is intentionally read-only:
-- database totals remain the production source of truth
-- constructors_full.csv is used only as a consistency check
+这份脚本只负责“校验”，不负责修库，规则务必固定如下：
+
+1. 正式展示源
+   - 生产库以 team_season_stats 为准。
+   - 前端、collector 派生数据都基于正式库，不直接读 constructors_full.csv。
+
+2. 验证表口径
+   - constructors_full.csv 仅作为对账基准。
+   - 读取 CSV 时必须优先使用 outof；仅当 outof 为空时，才回退到 points。
+   - 这是历史 WCC 口径，不能简单只累加 points。
+
+3. 差异解释
+   - points 不同：这是“积分差异”，必须优先处理。
+   - points 相同但 rank 不同：这是“排名差异”，单独看，不要和积分问题混淆。
+   - DB-only rows：数据库存在、验证表不存在的赛季条目，属于覆盖范围差异，不代表已对上的积分错误。
+
+4. 当前项目约定
+   - 先清积分差异，再看排名差异。
+   - Ferrari 1958-2025 的正确验证口径应为 10722.0。
 """
 import csv
 import json
@@ -44,6 +60,8 @@ def load_csv_totals(cursor):
                 unmatched_rows += 1
                 continue
 
+            # constructors_full.csv 的验证口径：
+            # 优先 outof（历史 WCC 官方口径），为空时再回退到 points。
             points_raw = str(row.get('outof', '')).strip() or str(row.get('points', '')).strip() or '0'
             rank_raw = str(row.get('rank', '')).strip()
 
@@ -148,6 +166,12 @@ def main():
             'db_rank': db_row['rank'],
         })
 
+    point_diffs = [
+        diff for diff in diffs
+        if abs(float(diff['db_points'] or 0) - float(diff['csv_points'] or 0)) > 1e-9
+    ]
+    rank_only_diffs = [diff for diff in diffs if diff not in point_diffs]
+
     report_path = write_report(
         {
             'summary': {
@@ -156,10 +180,14 @@ def main():
                 'csv_unmatched_rows': unmatched_rows,
                 'missing_in_db': len(missing_in_db),
                 'differences': len(diffs),
+                'point_differences': len(point_diffs),
+                'rank_only_differences': len(rank_only_diffs),
                 'db_only_rows': len(extra_db_rows),
             },
             'missing_in_db': missing_in_db,
             'differences': diffs,
+            'point_differences': point_diffs,
+            'rank_only_differences': rank_only_diffs,
             'db_only_rows': extra_db_rows,
         }
     )
@@ -170,6 +198,8 @@ def main():
     print(f'CSV unmatched rows: {unmatched_rows}')
     print(f'Missing in DB: {len(missing_in_db)}')
     print(f'Differences found: {len(diffs)}')
+    print(f'Point differences: {len(point_diffs)}')
+    print(f'Rank-only differences: {len(rank_only_diffs)}')
     print(f'DB-only rows (reported separately): {len(extra_db_rows)}')
     print(f'Report written to: {report_path}')
 

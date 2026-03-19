@@ -6,6 +6,7 @@ export type CachedDbMeta = {
   sizeBytes: number;
   modifiedAt: string;
   appVersion?: string;
+  etag?: string;
 };
 
 const openDb = (): Promise<IDBDatabase> => {
@@ -117,6 +118,7 @@ export function shouldRefreshCachedDb(
   return (
     cachedMeta.sizeBytes !== remoteMeta.sizeBytes ||
     cachedMeta.modifiedAt !== remoteMeta.modifiedAt ||
-    cachedMeta.appVersion !== remoteMeta.appVersion
+    cachedMeta.appVersion !== remoteMeta.appVersion ||
+    cachedMeta.etag !== remoteMeta.etag
   );
 }

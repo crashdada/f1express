@@ -101,6 +101,37 @@ async function getRemoteDbMeta() {
   }
 }
 
+async function getRouteDbMeta() {
+  const candidates = getDatabaseCandidates().map((candidate) => candidate.split('?')[0]);
+
+  for (const candidate of candidates) {
+    try {
+      const response = await fetch(candidate, { method: 'HEAD', cache: 'no-store' });
+      if (!response.ok) {
+        continue;
+      }
+
+      const sizeHeader = response.headers.get('content-length');
+      const modifiedAt = response.headers.get('last-modified') || response.headers.get('date');
+      const etag = response.headers.get('etag') || undefined;
+
+      if (!sizeHeader || !modifiedAt) {
+        continue;
+      }
+
+      return {
+        sizeBytes: Number(sizeHeader),
+        modifiedAt,
+        etag,
+      };
+    } catch {
+      // Try the next candidate route
+    }
+  }
+
+  return null;
+}
+
 async function ensureDatabase() {
   if (dbInitialized) {
     return (window as any).f1Db;
@@ -115,7 +146,7 @@ async function ensureDatabase() {
     locateFile: (file: string) => `/libs/sql.js/${file}`,
   })) as any;
 
-  const remoteMeta = await getRemoteDbMeta();
+  const remoteMeta = (await getRemoteDbMeta()) || (await getRouteDbMeta());
   const cachedMeta = getCachedDbMeta();
   let buffer: Uint8Array | null = await getCachedDb();
 
