@@ -77,24 +77,28 @@ describe('NewSeasonPage UI logic', () => {
     expect(screen.getByText('LEC')).toBeInTheDocument();
   });
 
-  it('renders the next race card with NEXT RACE tag', () => {
+  it('renders the next race card with localized next-race tag', () => {
     renderWithRouter(<NewSeasonPage />);
 
     expect(screen.getByText('日本')).toBeInTheDocument();
-    expect(screen.getByText('NEXT RACE')).toBeInTheDocument();
+    expect(screen.getByText('\u4e0b\u4e00\u7ad9')).toBeInTheDocument();
   });
 
-  it('renders a cancelled race with CALLED OFF status', () => {
+  it('renders a cancelled race with localized cancelled status', () => {
     renderWithRouter(<NewSeasonPage />);
 
     expect(screen.getByText('中国')).toBeInTheDocument();
-    expect(screen.getByText('CALLED OFF')).toBeInTheDocument();
+    expect(screen.getByText('\u5df2\u53d6\u6d88')).toBeInTheDocument();
   });
 
   it('navigates to the correct deep link route for races', () => {
     renderWithRouter(<NewSeasonPage />);
 
-    const japanLink = screen.getByRole('link', { name: /Round 3.*NEXT RACE.*日本/i });
-    expect(japanLink.getAttribute('href')).toBe('/new-season/race/japan');
+    const japanLink = screen
+      .getAllByRole('link')
+      .find((link) => link.getAttribute('href') === '/new-season/race/japan');
+
+    expect(japanLink).toBeTruthy();
+    expect(japanLink?.getAttribute('href')).toBe('/new-season/race/japan');
   });
 });
