@@ -97,6 +97,13 @@ async function loadF1DataModule() {
   return import('../../../src/utils/f1Data');
 }
 
+function getDbFetchCalls() {
+  return vi
+    .mocked(global.fetch)
+    .mock.calls.filter(([url, init]) => String(url).includes('.db') && init?.method !== 'HEAD')
+    .map(([url]) => String(url));
+}
+
 describe('f1Data utils', () => {
   let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
@@ -253,7 +260,7 @@ describe('f1Data utils', () => {
 
       await loadF1Data();
 
-      const fetchCalls = vi.mocked(global.fetch).mock.calls.map(([url]) => String(url));
+      const fetchCalls = getDbFetchCalls();
       expect(fetchCalls.some((url) => url.includes('/data/f1.db'))).toBe(true);
       expect(fetchCalls.some((url) => url.includes('/f1.db') && !url.includes('/data/f1.db'))).toBe(false);
     });
@@ -268,7 +275,7 @@ describe('f1Data utils', () => {
 
       await loadF1Data();
 
-      const fetchCalls = vi.mocked(global.fetch).mock.calls.map(([url]) => String(url));
+      const fetchCalls = getDbFetchCalls();
       expect(fetchCalls.some((url) => url.includes('/f1.db') && !url.includes('/data/f1.db'))).toBe(true);
       expect(fetchCalls.some((url) => url.includes('/data/f1.db'))).toBe(false);
     });
@@ -283,7 +290,7 @@ describe('f1Data utils', () => {
 
       await loadF1Data();
 
-      const fetchCalls = vi.mocked(global.fetch).mock.calls.map(([url]) => String(url));
+      const fetchCalls = getDbFetchCalls();
       expect(fetchCalls.some((url) => url.includes('/f1.db') && !url.includes('/data/f1.db'))).toBe(true);
       expect(fetchCalls.some((url) => url.includes('/data/f1.db'))).toBe(true);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
