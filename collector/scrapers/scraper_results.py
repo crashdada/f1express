@@ -30,12 +30,13 @@ from scraper import F1DataCollector
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+COLLECTOR_DIR = os.path.dirname(SCRIPT_DIR)
 
 def get_schedule_file(season):
-    return os.path.join(SCRIPT_DIR, 'data', f'schedule_{season}.json')
+    return os.path.join(COLLECTOR_DIR, 'data', f'schedule_{season}.json')
 
 def get_results_dir(season):
-    return os.path.join(SCRIPT_DIR, f'results_{season}')
+    return os.path.join(COLLECTOR_DIR, f'results_{season}')
 
 def load_schedule(season):
     """加载赛历"""

@@ -25,8 +25,9 @@ import re
 from datetime import datetime
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-RESULTS_DIR = os.path.join(CURRENT_DIR, 'results_2026')
-DATA_DIR = os.path.join(CURRENT_DIR, 'data')
+COLLECTOR_DIR = os.path.dirname(CURRENT_DIR)
+RESULTS_DIR = os.path.join(COLLECTOR_DIR, 'results_2026')
+DATA_DIR = os.path.join(COLLECTOR_DIR, 'data')
 DRIVERS_JSON = os.path.join(DATA_DIR, 'drivers_2026.json')
 SCHEDULE_JSON = os.path.join(DATA_DIR, 'schedule_2026.json')
 OUTPUT_JSON = os.path.join(DATA_DIR, 'results_2026.json')
