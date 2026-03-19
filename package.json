@@ -1,6 +1,6 @@
 {
   "name": "f1express",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
     "pipeline:sync": "python scripts/sync_f1_data.py",
     "pipeline:sync:full": "python scripts/sync_f1_data.py --force",
     "pipeline:sync:validate": "python scripts/sync_f1_data.py --validate-constructors",
+    "android:sync": "npx cap sync android && node scripts/sync_android_assets.cjs",
     "validate:constructors": "python scripts/pipeline/validate_constructor_totals.py",
     "verify:dist": "node scripts/verify_dist_freshness.cjs",
     "validate:docker": "node scripts/validate_docker_bundle.cjs",

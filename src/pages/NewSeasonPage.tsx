@@ -9,6 +9,38 @@ import { isAndroid } from '../utils/platform';
 type TabType = 'schedule' | 'drivers' | 'teams' | 'standings';
 type StandingsView = 'drivers' | 'teams';
 
+const SCHEDULE_COPY = {
+  nextRace: '下一站',
+  calledOff: '已取消',
+  grandPrixDates: '比赛日期',
+};
+
+const SEASON_2026_GP_TRANSLATIONS: Record<string, string> = {
+  'Australian Grand Prix': '澳大利亚大奖赛',
+  'Chinese Grand Prix': '中国大奖赛',
+  'Japanese Grand Prix': '日本大奖赛',
+  '[CANCELLED] Bahrain Grand Prix': '[已取消] 巴林大奖赛',
+  '[CANCELLED] Saudi Arabian Grand Prix': '[已取消] 沙特阿拉伯大奖赛',
+  'Miami Grand Prix': '迈阿密大奖赛',
+  'Canadian Grand Prix': '加拿大大奖赛',
+  'Monaco Grand Prix': '摩纳哥大奖赛',
+  'Spanish Grand Prix': '西班牙大奖赛',
+  'Austrian Grand Prix': '奥地利大奖赛',
+  'British Grand Prix': '英国大奖赛',
+  'Belgian Grand Prix': '比利时大奖赛',
+  'Hungarian Grand Prix': '匈牙利大奖赛',
+  'Dutch Grand Prix': '荷兰大奖赛',
+  'Italian Grand Prix': '意大利大奖赛',
+  'Azerbaijan Grand Prix': '阿塞拜疆大奖赛',
+  'Singapore Grand Prix': '新加坡大奖赛',
+  'United States Grand Prix': '美国大奖赛',
+  'Mexico City Grand Prix': '墨西哥城大奖赛',
+  'Sao Paulo Grand Prix': '圣保罗大奖赛',
+  'Las Vegas Grand Prix': '拉斯维加斯大奖赛',
+  'Qatar Grand Prix': '卡塔尔大奖赛',
+  'Abu Dhabi Grand Prix': '阿布扎比大奖赛',
+};
+
 const NewSeasonPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [standingsView, setStandingsView] = useState<StandingsView>('drivers');
@@ -339,7 +371,7 @@ const NewSeasonPage = () => {
                         </div>
                         {isNext ? (
                             <div className="bg-white text-f1-red text-[11px] font-black px-4 py-2 rounded-xl flex items-center gap-2 uppercase tracking-widest shadow-2xl animate-pulse">
-                                <span>NEXT RACE</span>
+                                <span>{SCHEDULE_COPY.nextRace}</span>
                                 <ChevronRight size={16} />
                             </div>
                         ) : (
@@ -360,8 +392,12 @@ const NewSeasonPage = () => {
                             {isNext ? (
                                 <Target className="text-white animate-spin-slow" size={28} />
                             ) : (
-                                <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white/20 shadow-lg bg-white/10 shrink-0 relative">
-                                    <img src={event.flag} alt="" className="w-full h-full object-contain p-1 absolute inset-0" />
+                                <div className="w-11 h-11 md:w-12 md:h-12 flex items-center justify-center shrink-0 self-center">
+                                    <img
+                                      src={event.flag}
+                                      alt={`${translateCountry(event.country)}国旗`}
+                                      className="block w-full h-full object-contain scale-50 origin-center"
+                                    />
                                 </div>
                             )}
                             <h3 className={`text-4xl md:text-5xl font-black font-orbitron italic tracking-tighter leading-none ${isNext ? 'text-white' : 'text-primary'}`}>
@@ -369,7 +405,7 @@ const NewSeasonPage = () => {
                             </h3>
                         </div>
                         <p className={`text-xs font-bold uppercase tracking-[0.2em] line-clamp-1 h-4 ${isNext ? 'text-white/70' : 'text-secondary opacity-70'}`}>
-                            {GP_TRANSLATIONS[event.gpName] || event.gpName}
+                            {SEASON_2026_GP_TRANSLATIONS[event.gpName] || GP_TRANSLATIONS[event.gpName] || event.gpName}
                         </p>
                     </div>
 
@@ -405,13 +441,13 @@ const NewSeasonPage = () => {
                             </div>
                         ) : isCancelled ? (
                             <div className="p-10 flex items-center justify-center bg-f1-red/5 border-t border-f1-red/10 relative overflow-hidden">
-                                <span className="text-3xl font-black font-orbitron italic tracking-[0.4em] text-f1-red/30 uppercase z-10">CALLED OFF</span>
+                                <span className="text-3xl font-black font-orbitron italic tracking-[0.4em] text-f1-red/30 z-10">{SCHEDULE_COPY.calledOff}</span>
                                 <XCircle className="absolute -right-4 -bottom-4 text-f1-red opacity-[0.03]" size={120} />
                             </div>
                         ) : (
                             <div className="px-6 py-6 md:px-8 md:py-8 border-t border-white/5 flex items-end justify-between bg-white/2 overflow-hidden group/footer relative">
                                 <div className={`flex flex-col gap-1.5 ${isNext ? 'text-white' : 'text-secondary'}`}>
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Grand Prix Dates</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">{SCHEDULE_COPY.grandPrixDates}</span>
                                     <span className="text-2xl font-black font-orbitron italic tracking-wide">{event.dates}</span>
                                 </div>
                                 {event.image ? (

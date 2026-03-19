@@ -17,6 +17,7 @@ pnpm-debug.log*
 
 # Local temp/debug artifacts
 .tmp_*
+tmp_*
 
 # Database backups (local only, not for repo)
 backups/

@@ -74,7 +74,7 @@ jobs:
       - name: Capacitor sync
         id: cap_sync
         run: |
-          if ! npx cap sync android > sync_log.txt 2>&1; then
+          if ! npm run android:sync > sync_log.txt 2>&1; then
              echo "::error::Capacitor sync failed"
              echo "### ❌ Capacitor Sync Error" >> $GITHUB_STEP_SUMMARY
              echo '```text' >> $GITHUB_STEP_SUMMARY

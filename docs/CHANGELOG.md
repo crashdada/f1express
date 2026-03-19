@@ -1,6 +1,16 @@
 # 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-03-19: v1.2.5 - Android packaging fix and 2026 season card polish
+- Android packaging and release pipeline
+  - Added post-build database bundling in [vite.config.js](D:\oc\f1express\vite.config.js) so `storage/f1.db` is copied into `dist/f1.db`.
+  - Added [scripts/sync_android_assets.cjs](D:\oc\f1express\scripts\sync_android_assets.cjs) to validate and sync the bundled database into Android assets after Capacitor sync.
+  - Updated [package.json](D:\oc\f1express\package.json) and [.github/workflows/android-build.yml](D:\oc\f1express\.github\workflows\android-build.yml) to use `npm run android:sync` in CI and release builds.
+- 2026 season schedule cards
+  - Updated [src/pages/NewSeasonPage.tsx](D:\oc\f1express\src\pages\NewSeasonPage.tsx) to keep SVG flags visible while scaling the artwork down inside the card.
+  - Completed the 2026 schedule card Grand Prix name mapping and localized card labels such as `next race`, `called off`, and `grand prix dates`.
+- Release
+  - Bumped the project version to `1.2.5` and refreshed release artifacts for this push.
 
 ## 2026-03-19: v1.2.4 - 主题联动修复、数据加载回退与回归测试补强
 
