@@ -2,6 +2,23 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-03-19: v1.2.3 - storage 迁移、Collector 工具分区与发布校验
+
+- 存储目录统一
+  - 将项目运行数据根目录从 `f1_storage/` 统一迁移为 [storage](D:\oc\f1express\storage)。
+  - 同步更新服务端、Vite、本地脚本、Docker、Compose 与文档中的存储路径引用，避免新旧目录名混用。
+  - 完成历史资源、图片、JSON 快照与数据库文件的目录迁移，并清理旧目录残留。
+
+- Collector 工具整理
+  - 将 [collector/tools](D:\oc\f1express\collector\tools) 拆分为 `debug/`、`inspect/`、`oneoff/` 三类，降低脚本堆积造成的查找成本。
+  - 新增 [collector/tools/README.md](D:\oc\f1express\collector\tools\README.md) 作为索引文档，明确分类和运行方式。
+  - 新增 [collector/tools/_shared.py](D:\oc\f1express\collector\tools\_shared.py)，统一解析 `f1.db` 与 `schedule_2026.json` 路径，修复脚本对旧仓库绝对路径的依赖。
+
+- 工程校验与发布
+  - 调整 ESLint 范围，排除第三方静态产物并补充 Node 全局变量支持，使校验聚焦项目源码与测试代码。
+  - 刷新前端构建产物 `dist/`，并确认 `verify:dist` 与 Docker 运行内容校验通过。
+  - 完成 `1.2.3` 版本发布、Git 标签更新与远端推送。
+
 ## 2026-03-18: v1.2.1 - 流水线收敛、历史统计修正与现役筛选
 
 - 数据流水线与历史统计

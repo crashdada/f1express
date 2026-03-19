@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Users, Shield, Calendar, Sparkles } from 'lucide-react';
+import { Capacitor } from '@capacitor/core';
 
 const BottomNav = () => {
     const location = useLocation();
+    const isAndroidShell = Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
 
     const navItems = [
         { path: '/', icon: Home, label: '首页' },
@@ -13,8 +15,12 @@ const BottomNav = () => {
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-bg-secondary/80 backdrop-blur-xl border-t border-border pb-[env(safe-area-inset-bottom)]">
-            <div className="flex justify-around items-center h-16 px-2">
+        <div className="md:hidden fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+            <div
+                className={`mx-auto flex max-w-md items-center justify-around gap-1 rounded-[30px] border border-border/80 px-2 py-2 backdrop-blur-2xl ${isAndroidShell ? 'android-bottom-dock' : 'glass-strong'
+                    }`}
+                style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.18)' }}
+            >
                 {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -23,13 +29,17 @@ const BottomNav = () => {
                         <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${isActive ? 'text-f1-red' : 'text-secondary hover:text-primary'
+                            className={`flex min-w-0 flex-1 items-center justify-center rounded-[22px] px-2 py-2 transition-all duration-300 ${isActive
+                                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/30'
+                                : 'text-secondary hover:text-primary'
                                 }`}
                         >
-                            <div className={`p-1 rounded-xl transition-all duration-300 ${isActive ? 'bg-f1-red/10' : ''}`}>
-                                <Icon size={22} className={isActive ? 'animate-pulse-slow' : ''} />
+                            <div className={`flex flex-col items-center gap-1 ${isActive ? 'scale-[1.02]' : ''}`}>
+                                <div className={`rounded-2xl p-1.5 transition-all duration-300 ${isActive ? 'bg-white/12' : ''}`}>
+                                    <Icon size={20} className={isActive ? 'animate-pulse-slow' : ''} />
+                                </div>
+                                <span className="text-[11px] font-semibold tracking-wide">{item.label}</span>
                             </div>
-                            <span className="text-[10px] font-medium">{item.label}</span>
                         </Link>
                     );
                 })}

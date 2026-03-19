@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, Home, Users, Calendar, BarChart3, Sparkles, Settings } from 'lucide-react';
+import { Shield, Home, Users, Calendar, BarChart3, Sparkles, Settings, ChevronRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import F1Logo from './F1Logo';
 import { Capacitor } from '@capacitor/core';
@@ -8,6 +8,8 @@ import { Capacitor } from '@capacitor/core';
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const isNative = Capacitor.isNativePlatform();
+  const isAndroidShell = isNative && Capacitor.getPlatform() === 'android';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,25 +28,45 @@ const Navigation = () => {
     { path: '/analytics', label: '数据', icon: BarChart3 },
   ];
 
+  const activeMobileLabel = navItems.find((item) =>
+    item.path === '/'
+      ? location.pathname === '/'
+      : location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
+  )?.label ?? '设置';
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? 'bg-nav backdrop-blur-lg shadow-lg dark:shadow-black/20 shadow-slate-200/50'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isAndroidShell
+        ? 'bg-nav/90 backdrop-blur-2xl shadow-lg dark:shadow-black/20 shadow-slate-200/50 border-b border-border/70'
         : 'bg-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-4 group">
+        <div className={`flex items-center justify-between ${isAndroidShell ? 'h-[72px]' : 'h-16'}`}>
+          <Link
+            to="/"
+            className={`flex items-center group ${isAndroidShell ? 'gap-3 rounded-[22px] border border-white/10 bg-black/10 px-3 py-2 backdrop-blur-xl dark:bg-white/5' : 'space-x-4'
+              }`}
+          >
             <div className="relative">
               <div className="absolute inset-0 bg-f1-red/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="p-1 group-hover:scale-110 transition-all duration-300">
                 <F1Logo className="w-10 md:w-12 h-auto" />
               </div>
             </div>
-            <span className="text-primary font-black text-2xl hidden sm:block font-orbitron tracking-tighter group-hover:text-f1-red transition-colors italic">
-              F1 <span className="text-f1-red">EXPRESS</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="text-primary font-black text-2xl hidden sm:block font-orbitron tracking-tighter group-hover:text-f1-red transition-colors italic">
+                F1 <span className="text-f1-red">EXPRESS</span>
+              </span>
+              <span className="md:hidden text-primary text-sm font-semibold tracking-wide">
+                F1 Express
+              </span>
+              {isAndroidShell && (
+                <span className="md:hidden text-[11px] uppercase tracking-[0.28em] text-secondary">
+                  Android cockpit
+                </span>
+              )}
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -86,16 +108,31 @@ const Navigation = () => {
 
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center space-x-2">
-            {Capacitor.isNativePlatform() ? (
+            {isNative ? (
+              <>
+                <div className="hidden min-[380px]:flex flex-col items-end mr-1">
+                  <span className="text-xs font-semibold text-primary">{activeMobileLabel}</span>
+                  <span className="text-[11px] text-secondary">已针对 Android 收紧布局</span>
+                </div>
+                <Link
+                  to="/settings"
+                  className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 flex items-center justify-center border border-black/10 dark:border-white/10 group"
+                  aria-label="Settings"
+                >
+                  <Settings size={20} className="text-secondary group-hover:text-primary transition-colors" />
+                </Link>
+              </>
+            ) : (
+              <ThemeToggle />
+            )}
+            {!isNative && (
               <Link
                 to="/settings"
                 className="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-300 flex items-center justify-center border border-black/10 dark:border-white/10 group"
                 aria-label="Settings"
               >
-                <Settings size={20} className="text-secondary group-hover:text-primary transition-colors" />
+                <ChevronRight size={18} className="text-secondary group-hover:text-primary transition-colors" />
               </Link>
-            ) : (
-              <ThemeToggle />
             )}
           </div>
         </div>

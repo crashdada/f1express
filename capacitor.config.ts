@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
     appId: 'com.f1datahub.app',
-    appName: 'F1 Data Hub',
+    appName: 'F1 Express',
     webDir: 'dist',
     server: {
         androidScheme: 'https',
@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
     plugins: {
         SplashScreen: {
             launchShowDuration: 2000,
-            backgroundColor: '#0a0a0a',
+            backgroundColor: '#0B101A',
             showSpinner: false,
         },
     },

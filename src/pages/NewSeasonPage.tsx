@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
+import { isAndroid } from '../utils/platform';
 
 type TabType = 'schedule' | 'drivers' | 'teams' | 'standings';
 type StandingsView = 'drivers' | 'teams';
@@ -12,6 +13,7 @@ const NewSeasonPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [standingsView, setStandingsView] = useState<StandingsView>('drivers');
   const { schedule, drivers, teams, loading, raceResults } = useDynamic2026Data();
+  const isAndroidShell = isAndroid();
 
   // Get active tab from search params or default to schedule
   const activeTab = (searchParams.get('tab') as TabType) || 'schedule';
@@ -203,6 +205,12 @@ const NewSeasonPage = () => {
 
   const driverLeader = driverStandings[0];
   const teamLeader = teamStandings[0];
+  const tabs = [
+    { key: 'schedule' as const, label: '赛历', icon: Calendar },
+    { key: 'drivers' as const, label: '车手', icon: Users },
+    { key: 'teams' as const, label: '车队', icon: Trophy },
+    { key: 'standings' as const, label: '积分榜', icon: BarChart3 },
+  ];
 
   // Calculate Next Race
   const CheckeredFlagIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
@@ -243,71 +251,67 @@ const NewSeasonPage = () => {
   }
 
   return (
-    <div className="min-h-screen py-10 px-4 bg-bg-primary animate-fade-in">
+    <div className={`min-h-screen px-4 py-6 md:py-10 bg-bg-primary animate-fade-in ${isAndroidShell ? 'android-shell' : ''}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="flex-1">
-            <h1 className="text-5xl md:text-7xl font-black text-primary mb-4 flex items-center justify-center md:justify-start font-orbitron tracking-tight gap-6 italic">
-              <div className="p-2 flex items-center justify-center">
-                <F1Logo className="w-16 md:w-20 h-8" />
+        <div className="mb-8 md:mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
+          <div className={`flex-1 ${isAndroidShell ? 'android-surface rounded-[32px] px-5 py-5 md:bg-transparent md:border-0 md:shadow-none md:p-0 md:backdrop-blur-none' : ''}`}>
+            <div className="inline-flex items-center rounded-full border border-f1-red/15 bg-f1-red/6 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-f1-red md:hidden">
+              Season Control
+            </div>
+            <h1 className="mt-4 md:mt-0 text-4xl md:text-7xl font-black text-primary mb-4 flex items-center justify-center md:justify-start font-orbitron tracking-tight gap-4 md:gap-6 italic">
+              <div className="p-2 flex items-center justify-center rounded-[22px] border border-white/10 bg-black/5 dark:bg-white/5 md:border-0 md:bg-transparent">
+                <F1Logo className="w-14 md:w-20 h-8" />
               </div>
               2026
             </h1>
-            <p className="text-secondary text-xl font-medium max-w-2xl border-l-4 border-f1-red pl-6 py-1">
+            <p className={`text-secondary font-medium max-w-2xl py-1 ${isAndroidShell ? 'text-base md:text-xl md:border-l-4 md:border-f1-red md:pl-6' : 'text-xl border-l-4 border-f1-red pl-6'}`}>
               规则革命，全新时代。探索 2026 赛季 F1 的全貌。
             </p>
+            <div className="mt-5 grid grid-cols-3 gap-3 md:hidden">
+              <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
+                <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Rounds</div>
+                <div className="mt-2 text-2xl font-black font-orbitron text-primary">{schedule.length}</div>
+              </div>
+              <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
+                <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Drivers</div>
+                <div className="mt-2 text-2xl font-black font-orbitron text-primary">{drivers.length}</div>
+              </div>
+              <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
+                <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Done</div>
+                <div className="mt-2 text-2xl font-black font-orbitron text-primary">{completedRounds}</div>
+              </div>
+            </div>
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-bg-secondary p-1.5 rounded-2xl border border-border self-center md:self-end shadow-lg">
-            <button
-              onClick={() => setActiveTab('schedule')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'schedule'
-                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
-                : 'text-secondary hover:text-primary hover:bg-bg-primary'
-                }`}
-            >
-              <Calendar size={18} />
-              <span>赛历</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('drivers')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'drivers'
-                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
-                : 'text-secondary hover:text-primary hover:bg-bg-primary'
-                }`}
-            >
-              <Users size={18} />
-              <span>车手</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('teams')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'teams'
-                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
-                : 'text-secondary hover:text-primary hover:bg-bg-primary'
-                }`}
-            >
-              <Trophy size={18} />
-              <span>车队</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('standings')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'standings'
-                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
-                : 'text-secondary hover:text-primary hover:bg-bg-primary'
-                }`}
-            >
-              <BarChart3 size={18} />
-              <span>积分榜</span>
-            </button>
+          <div className="self-center md:self-end w-full md:w-auto">
+            <div className="flex overflow-x-auto no-scrollbar gap-2 rounded-[26px] border border-border bg-bg-secondary/70 p-2 shadow-lg md:flex-wrap md:justify-end">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                    className={`flex shrink-0 items-center gap-2 rounded-[18px] px-4 py-3 font-bold transition-all duration-300 ${activeTab === tab.key
+                      ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
+                      : 'text-secondary hover:text-primary hover:bg-bg-primary'
+                      }`}
+                  >
+                    <Icon size={18} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="mt-12 transition-all duration-500">
+        <div className="mt-8 md:mt-12 transition-all duration-500">
           {activeTab === 'schedule' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 animate-slide-up">
               {schedule.map((event) => {
                 const roundNumber = event.roundNumber || parseInt(event.round.match(/\d+/)?.[0] || '0');
                 const roundResults = raceResults.find(r => Number(r.round) === roundNumber);
@@ -320,7 +324,7 @@ const NewSeasonPage = () => {
                   <Link
                     key={event.round}
                     to={`/new-season/race/${event.slug}`}
-                    className={`group relative overflow-hidden rounded-[2.5rem] transition-all duration-700 shadow-2xl flex flex-col h-full min-h-[340px] ${
+                    className={`group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] transition-all duration-700 shadow-2xl flex flex-col h-full min-h-[320px] md:min-h-[340px] ${
                         isNext 
                           ? 'bg-gradient-to-br from-[#e10600] via-[#c40500] to-[#990400] scale-[1.03] z-10 border-4 border-white/20' 
                           : isCancelled 
@@ -329,7 +333,7 @@ const NewSeasonPage = () => {
                     }`}
                   >
                     {/* Card Header */}
-                    <div className="p-8 flex justify-between items-start">
+                    <div className="p-6 md:p-8 flex justify-between items-start">
                         <div className={`text-xs font-black uppercase tracking-[0.2em] ${isNext ? 'text-white/80' : 'text-secondary'}`}>
                             {event.round}
                         </div>
@@ -351,7 +355,7 @@ const NewSeasonPage = () => {
                     </div>
 
                     {/* Card Body */}
-                    <div className="px-8 pb-8">
+                    <div className="px-6 pb-6 md:px-8 md:pb-8">
                         <div className="flex items-center gap-4 mb-3">
                             {isNext ? (
                                 <Target className="text-white animate-spin-slow" size={28} />
@@ -372,7 +376,7 @@ const NewSeasonPage = () => {
                     {/* Card Footer */}
                     <div className="mt-auto relative">
                         {isFinished ? (
-                            <div className="bg-bg-primary/40 backdrop-blur-xl p-6 grid grid-cols-3 gap-3 border-t border-white/10">
+                            <div className="bg-bg-primary/40 backdrop-blur-xl p-4 md:p-6 grid grid-cols-3 gap-3 border-t border-white/10">
                                 {top3?.sort((a,b) => (a.pos || 0) - (b.pos || 0)).map((driver, idx) => {
                                     const driverPhoto = drivers.find(d => d.code === driver.code)?.image;
                                     return (
@@ -405,7 +409,7 @@ const NewSeasonPage = () => {
                                 <XCircle className="absolute -right-4 -bottom-4 text-f1-red opacity-[0.03]" size={120} />
                             </div>
                         ) : (
-                            <div className="px-8 py-8 border-t border-white/5 flex items-end justify-between bg-white/2 overflow-hidden group/footer relative">
+                            <div className="px-6 py-6 md:px-8 md:py-8 border-t border-white/5 flex items-end justify-between bg-white/2 overflow-hidden group/footer relative">
                                 <div className={`flex flex-col gap-1.5 ${isNext ? 'text-white' : 'text-secondary'}`}>
                                     <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Grand Prix Dates</span>
                                     <span className="text-2xl font-black font-orbitron italic tracking-wide">{event.dates}</span>
@@ -436,12 +440,12 @@ const NewSeasonPage = () => {
           )}
 
           {activeTab === 'drivers' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 animate-slide-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 animate-slide-up">
               {sortedDrivers.map((driver) => (
                 <Link
                   key={driver.id}
                   to={`/new-season/driver/${driver.id}`}
-                  className="group relative glass rounded-3xl overflow-hidden border-b-4 hover:border-f1-red/50 transition-all duration-700 shadow-2xl"
+                  className="group relative glass rounded-[2rem] md:rounded-3xl overflow-hidden border-b-4 hover:border-f1-red/50 transition-all duration-700 shadow-2xl"
                   style={{ borderBottomColor: getTeamColor(driver.team) }}
                 >
                   <div className="h-64 relative overflow-hidden bg-bg-primary/50">
@@ -466,7 +470,7 @@ const NewSeasonPage = () => {
                     />
                     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg-secondary via-bg-secondary/40 to-transparent z-30"></div>
                   </div>
-                  <div className="p-8 relative">
+                  <div className="p-6 md:p-8 relative">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: getTeamColor(driver.team) }}></div>
                       <span className="text-xs font-black uppercase tracking-[0.2em] text-secondary">{driver.teamCn}</span>
@@ -488,14 +492,14 @@ const NewSeasonPage = () => {
           )}
 
           {activeTab === 'teams' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-slide-up">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 animate-slide-up">
               {teams.map((team) => (
                 <Link
                   key={team.id}
                   to={`/new-season/team/${team.id}`}
-                  className="group relative glass rounded-3xl overflow-hidden border border-border hover:border-f1-red/50 transition-all duration-500 shadow-2xl flex flex-col"
+                  className="group relative glass rounded-[2rem] md:rounded-3xl overflow-hidden border border-border hover:border-f1-red/50 transition-all duration-500 shadow-2xl flex flex-col"
                 >
-                  <div className="p-8">
+                  <div className="p-6 md:p-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                       <div>
                         <div className="flex items-center gap-3 mb-4">
@@ -515,7 +519,7 @@ const NewSeasonPage = () => {
                         {team.drivers.map(dCode => {
                           const driverObj = drivers.find(d => d.code === dCode);
                           return (
-                            <div key={dCode} className="bg-bg-primary/40 backdrop-blur-sm px-4 py-2 rounded-xl text-[10px] font-bold font-orbitron text-primary border border-border/50 group-hover:border-f1-red/30 transition-colors flex flex-col items-center min-w-[70px]">
+                            <div key={dCode} className="bg-bg-primary/40 backdrop-blur-sm px-3 md:px-4 py-2 rounded-xl text-[10px] font-bold font-orbitron text-primary border border-border/50 group-hover:border-f1-red/30 transition-colors flex flex-col items-center min-w-[64px] md:min-w-[70px]">
                               <span className="opacity-60 text-[8px] mb-0.5">{dCode}</span>
                               <span className="text-sm">{driverObj?.lastNameCn || dCode}</span>
                             </div>
@@ -552,9 +556,9 @@ const NewSeasonPage = () => {
           )}
 
           {activeTab === 'standings' && (
-            <div className="space-y-8 animate-slide-up">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="glass rounded-3xl border border-border p-6 lg:col-span-2">
+            <div className="space-y-6 md:space-y-8 animate-slide-up">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                <div className="glass rounded-[2rem] md:rounded-3xl border border-border p-5 md:p-6 lg:col-span-2">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                       <p className="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-2">2026 Standings</p>
@@ -583,7 +587,7 @@ const NewSeasonPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="glass rounded-3xl border border-border p-6">
+                <div className="glass rounded-[2rem] md:rounded-3xl border border-border p-5 md:p-6">
                   <p className="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-3">
                     {standingsView === 'drivers' ? 'Leader' : 'Constructor Leader'}
                   </p>
@@ -617,71 +621,79 @@ const NewSeasonPage = () => {
 
               {standingsView === 'drivers' ? (
                 <div className="glass rounded-[2rem] border border-border overflow-hidden shadow-2xl">
-                  <div className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
-                    <span>排名</span>
-                    <span>车手</span>
-                    <span className="text-right">积分</span>
-                    <span className="text-right">胜场</span>
-                    <span className="text-right">领奖台</span>
-                    <span className="text-right">冲刺胜</span>
-                  </div>
-                  {driverStandings.map((driver, index) => (
-                    <div key={driver.code} className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
-                        {index + 1}
+                  <div className="overflow-x-auto no-scrollbar">
+                    <div className="min-w-[760px]">
+                      <div className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
+                        <span>排名</span>
+                        <span>车手</span>
+                        <span className="text-right">积分</span>
+                        <span className="text-right">胜场</span>
+                        <span className="text-right">领奖台</span>
+                        <span className="text-right">冲刺胜</span>
                       </div>
-                      <div className="flex items-center gap-4 min-w-0">
-                        <div className="w-14 h-14 rounded-full overflow-hidden border border-white/10 bg-bg-secondary shrink-0">
-                          {driver.image ? (
-                            <img src={driver.image} alt={driver.code} className="w-full h-full object-cover object-top scale-110" />
-                          ) : (
-                            <Users className="w-full h-full p-4 text-white/20" />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-lg font-black text-primary truncate">{driver.firstNameCn} {driver.lastNameCn}</p>
-                          <div className="flex items-center gap-2 text-sm text-secondary truncate">
-                            <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: driver.teamColor }}></span>
-                            <span>{driver.teamCn}</span>
-                            <span className="font-black uppercase tracking-widest">{driver.code}</span>
+                      {driverStandings.map((driver, index) => (
+                        <div key={driver.code} className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                            {index + 1}
                           </div>
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div className="w-14 h-14 rounded-full overflow-hidden border border-white/10 bg-bg-secondary shrink-0">
+                              {driver.image ? (
+                                <img src={driver.image} alt={driver.code} className="w-full h-full object-cover object-top scale-110" />
+                              ) : (
+                                <Users className="w-full h-full p-4 text-white/20" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-lg font-black text-primary truncate">{driver.firstNameCn} {driver.lastNameCn}</p>
+                              <div className="flex items-center gap-2 text-sm text-secondary truncate">
+                                <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: driver.teamColor }}></span>
+                                <span>{driver.teamCn}</span>
+                                <span className="font-black uppercase tracking-widest">{driver.code}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right text-2xl font-black font-orbitron italic text-primary">{driver.points}</div>
+                          <div className="text-right text-lg font-black text-primary">{driver.wins}</div>
+                          <div className="text-right text-lg font-black text-primary">{driver.podiums}</div>
+                          <div className="text-right text-lg font-black text-primary">{driver.sprintWins}</div>
                         </div>
-                      </div>
-                      <div className="text-right text-2xl font-black font-orbitron italic text-primary">{driver.points}</div>
-                      <div className="text-right text-lg font-black text-primary">{driver.wins}</div>
-                      <div className="text-right text-lg font-black text-primary">{driver.podiums}</div>
-                      <div className="text-right text-lg font-black text-primary">{driver.sprintWins}</div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               ) : (
                 <div className="glass rounded-[2rem] border border-border overflow-hidden shadow-2xl">
-                  <div className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
-                    <span>排名</span>
-                    <span>车队</span>
-                    <span className="text-right">积分</span>
-                    <span className="text-right">胜场</span>
-                    <span className="text-right">领奖台</span>
-                    <span className="text-right">冲刺胜</span>
-                  </div>
-                  {teamStandings.map((team, index) => (
-                    <div key={team.id} className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
-                        {index + 1}
+                  <div className="overflow-x-auto no-scrollbar">
+                    <div className="min-w-[800px]">
+                      <div className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
+                        <span>排名</span>
+                        <span>车队</span>
+                        <span className="text-right">积分</span>
+                        <span className="text-right">胜场</span>
+                        <span className="text-right">领奖台</span>
+                        <span className="text-right">冲刺胜</span>
                       </div>
-                      <div className="flex items-center gap-4 min-w-0">
-                        <div className="w-3 self-stretch rounded-full shrink-0" style={{ backgroundColor: team.color }}></div>
-                        <div className="min-w-0">
-                          <p className="text-lg font-black text-primary truncate">{team.nameCn}</p>
-                          <p className="text-sm text-secondary truncate">{team.name}</p>
+                      {teamStandings.map((team, index) => (
+                        <div key={team.id} className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                            {index + 1}
+                          </div>
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div className="w-3 self-stretch rounded-full shrink-0" style={{ backgroundColor: team.color }}></div>
+                            <div className="min-w-0">
+                              <p className="text-lg font-black text-primary truncate">{team.nameCn}</p>
+                              <p className="text-sm text-secondary truncate">{team.name}</p>
+                            </div>
+                          </div>
+                          <div className="text-right text-2xl font-black font-orbitron italic text-primary">{team.points}</div>
+                          <div className="text-right text-lg font-black text-primary">{team.wins}</div>
+                          <div className="text-right text-lg font-black text-primary">{team.podiums}</div>
+                          <div className="text-right text-lg font-black text-primary">{team.sprintWins}</div>
                         </div>
-                      </div>
-                      <div className="text-right text-2xl font-black font-orbitron italic text-primary">{team.points}</div>
-                      <div className="text-right text-lg font-black text-primary">{team.wins}</div>
-                      <div className="text-right text-lg font-black text-primary">{team.podiums}</div>
-                      <div className="text-right text-lg font-black text-primary">{team.sprintWins}</div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>

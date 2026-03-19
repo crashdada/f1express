@@ -21,10 +21,31 @@ import { useF1Data } from './hooks/useF1Data';
 import { LoadingSpinner } from './components/Skeletons';
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
-import { StatusBar } from '@capacitor/status-bar';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { useF1 } from './context/F1Context';
 
 function AppContent() {
   const { loading, error } = useF1Data();
+  const { state } = useF1();
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    const syncStatusBar = async () => {
+      try {
+        await StatusBar.setOverlaysWebView({ overlay: true });
+        await StatusBar.setStyle({
+          style: state.theme === 'dark' ? Style.Dark : Style.Light,
+        });
+      } catch (err) {
+        console.warn('Status bar configuration failed', err);
+      }
+    };
+
+    void syncStatusBar();
+  }, [state.theme]);
 
   if (loading) {
     return <LoadingSpinner />;
@@ -73,16 +94,6 @@ function AppContent() {
 import { AppUpdater } from './components/AppUpdater';
 
 function App() {
-  useEffect(() => {
-    if (Capacitor.isNativePlatform()) {
-      try {
-        StatusBar.setOverlaysWebView({ overlay: true });
-      } catch (err) {
-        console.warn('Status bar configuration failed', err);
-      }
-    }
-  }, []);
-
   return (
     <ErrorBoundary>
       <Router>
