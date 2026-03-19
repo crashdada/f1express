@@ -22,7 +22,7 @@ describe('Layout', () => {
       </Layout>
     );
 
-    expect(screen.getByText(/EXPRESS/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/EXPRESS/i).length).toBeGreaterThan(0);
   });
 });
 

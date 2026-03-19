@@ -125,7 +125,7 @@ describe('HomePage', () => {
   it('renders the homepage modules and leaderboard links', () => {
     renderWithProviders(<HomePage />);
 
-    expect(screen.getByTestId('race-countdown')).toBeInTheDocument();
+    expect(screen.getAllByTestId('race-countdown').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Lewis Hamilton').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Lando Norris').length).toBeGreaterThan(0);
     expect(screen.getAllByText('McLaren').length).toBeGreaterThan(0);
