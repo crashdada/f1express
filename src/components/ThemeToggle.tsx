@@ -2,8 +2,8 @@ import { Moon, Sun } from 'lucide-react';
 import { useF1 } from '../context/F1Context';
 
 const ThemeToggle = () => {
-    const { state, dispatch } = useF1();
-    const isDark = state.theme === 'dark';
+    const { dispatch, resolvedTheme } = useF1();
+    const isDark = resolvedTheme === 'dark';
 
     return (
         <button

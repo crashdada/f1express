@@ -22,7 +22,7 @@ export function useF1Data() {
       console.error('Error fetching F1 data:', error);
       dispatch({
         type: 'SET_ERROR',
-        payload: error instanceof Error ? error.message : '加载数据失败'
+        payload: error instanceof Error ? error.message : '加载数据失败',
       });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
@@ -30,10 +30,10 @@ export function useF1Data() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (state.drivers.length === 0 && !state.loading) {
+    if (state.drivers.length === 0 && !state.loading && !state.error) {
       fetchData();
     }
-  }, [state.drivers.length, state.loading, fetchData]);
+  }, [state.drivers.length, state.loading, state.error, fetchData]);
 
   const refetch = useCallback(() => {
     fetchData();
@@ -48,8 +48,9 @@ export function useF1Data() {
 export function useFilteredDrivers() {
   const { state } = useF1();
 
-  return state.drivers.filter(driver => {
-    const matchesSearch = !state.searchQuery ||
+  return state.drivers.filter((driver) => {
+    const matchesSearch =
+      !state.searchQuery ||
       driver.firstName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
       driver.lastName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
       driver.code.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
@@ -62,8 +63,9 @@ export function useFilteredDrivers() {
 export function useFilteredRaces() {
   const { state } = useF1();
 
-  return state.raceResults.filter(result => {
-    const matchesSearch = !state.searchQuery ||
+  return state.raceResults.filter((result) => {
+    const matchesSearch =
+      !state.searchQuery ||
       result.grandPrix?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
       result.circuit?.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
       result.firstName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||

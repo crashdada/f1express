@@ -9,8 +9,8 @@ import { isAndroid } from '../utils/platform';
 type UpdateCheckStatus = 'idle' | 'checking' | 'up-to-date' | 'has-update' | 'error';
 
 const SettingsPage = () => {
-    const { state, dispatch } = useF1();
-    const isDark = state.theme === 'dark';
+    const { state, dispatch, resolvedTheme } = useF1();
+    const isDark = resolvedTheme === 'dark';
     const isAndroidShell = isAndroid();
     const [updateStatus, setUpdateStatus] = useState<UpdateCheckStatus>('idle');
     const [updateMsg, setUpdateMsg] = useState('');
@@ -22,7 +22,7 @@ const SettingsPage = () => {
             label: '浅色模式',
             description: '更亮、更轻，适合白天和强光环境。',
             icon: Sun,
-            active: !isDark,
+            active: state.theme === 'light',
             accent: 'text-f1-red',
             ring: 'border-f1-red',
             dot: 'bg-f1-red',
@@ -32,7 +32,7 @@ const SettingsPage = () => {
             label: '深色模式',
             description: '压低对比和眩光，更贴近 Android 夜间观感。',
             icon: Moon,
-            active: isDark,
+            active: state.theme === 'dark',
             accent: 'text-blue-500',
             ring: 'border-blue-500',
             dot: 'bg-blue-500',
@@ -40,9 +40,9 @@ const SettingsPage = () => {
         {
             key: 'system' as const,
             label: '跟随系统',
-            description: '让 App 与设备主题保持同步切换。',
+            description: `让 App 与设备主题保持同步切换，当前跟随为${isDark ? '深色' : '浅色'}。`,
             icon: Monitor,
-            active: false,
+            active: state.theme === 'system',
             accent: 'text-secondary',
             ring: 'border-border',
             dot: 'bg-secondary',
@@ -50,12 +50,7 @@ const SettingsPage = () => {
     ];
 
     const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
-        if (newTheme === 'system') {
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            dispatch({ type: 'SET_THEME', payload: systemPrefersDark ? 'dark' : 'light' });
-        } else {
-            dispatch({ type: 'SET_THEME', payload: newTheme });
-        }
+        dispatch({ type: 'SET_THEME', payload: newTheme });
     };
 
     const handleCheckUpdate = async () => {
@@ -146,7 +141,7 @@ const SettingsPage = () => {
                         <div className="space-y-3">
                             {themeOptions.map((option) => {
                                 const Icon = option.icon;
-                                const isSelected = option.key === 'system' ? false : option.active;
+                                const isSelected = option.active;
 
                                 return (
                                     <button

@@ -26,7 +26,7 @@ import { useF1 } from './context/F1Context';
 
 function AppContent() {
   const { loading, error } = useF1Data();
-  const { state } = useF1();
+  const { resolvedTheme } = useF1();
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) {
@@ -37,7 +37,7 @@ function AppContent() {
       try {
         await StatusBar.setOverlaysWebView({ overlay: true });
         await StatusBar.setStyle({
-          style: state.theme === 'dark' ? Style.Dark : Style.Light,
+          style: resolvedTheme === 'dark' ? Style.Dark : Style.Light,
         });
       } catch (err) {
         console.warn('Status bar configuration failed', err);
@@ -45,7 +45,7 @@ function AppContent() {
     };
 
     void syncStatusBar();
-  }, [state.theme]);
+  }, [resolvedTheme]);
 
   if (loading) {
     return <LoadingSpinner />;

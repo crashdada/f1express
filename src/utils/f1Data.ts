@@ -8,7 +8,7 @@ import {
   saveDbToCache,
   shouldRefreshCachedDb,
 } from './f1-data/cache';
-import { DB_NAME, EMPTY_PROCESSED_DATA } from './f1-data/constants';
+import { DB_NAME } from './f1-data/constants';
 import { getCurrentSeason, getDriverDisplayName, getTeamDisplayName } from './f1-data/formatters';
 import {
   DRIVER_CHAMPIONSHIPS_QUERY,
@@ -30,6 +30,54 @@ import {
 import { loadPhotosIndex, loadSeason2026Data } from './f1-data/season2026';
 
 let dbInitialized = false;
+const REQUIRED_TABLES = ['drivers', 'teams', 'races'] as const;
+
+async function fetchFirstAvailable(paths: string[]) {
+  let lastStatus: number | null = null;
+  let lastError: unknown = null;
+
+  for (const path of paths) {
+    try {
+      const response = await fetch(path, { cache: 'no-store' });
+      if (response.ok) {
+        return response;
+      }
+      lastStatus = response.status;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (lastError instanceof Error) {
+    throw lastError;
+  }
+
+  throw new Error(`Failed to fetch resource: ${lastStatus ?? 'network error'}`);
+}
+
+function getDatabaseCandidates() {
+  const timestamp = Date.now();
+  const packagedDb = `/f1.db?t=${timestamp}`;
+  const mappedDb = `/data/f1.db?t=${timestamp}`;
+  const isNative =
+    typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor?.isNativePlatform?.();
+  const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+  return isNative || !isLocalDev ? [packagedDb, mappedDb] : [mappedDb, packagedDb];
+}
+
+function hasRequiredTables(db: any) {
+  try {
+    const result = db.exec(
+      `SELECT name FROM sqlite_master WHERE type='table' AND name IN (${REQUIRED_TABLES.map((name) => `'${name}'`).join(', ')})`
+    );
+    const rows = convertQueryToData(result);
+    const tableNames = new Set(rows.map((row) => String(row.name)));
+    return REQUIRED_TABLES.every((name) => tableNames.has(name));
+  } catch {
+    return false;
+  }
+}
 
 async function getRemoteDbMeta() {
   try {
@@ -63,9 +111,9 @@ async function ensureDatabase() {
     throw new Error('sql.js not loaded');
   }
 
-  const SQL = await initSqlJs({
+  const SQL = (await initSqlJs({
     locateFile: (file: string) => `/libs/sql.js/${file}`,
-  }) as any;
+  })) as any;
 
   const remoteMeta = await getRemoteDbMeta();
   const cachedMeta = getCachedDbMeta();
@@ -80,19 +128,50 @@ async function ensureDatabase() {
   }
 
   if (buffer) {
+    const cachedDb = new SQL.Database(buffer);
+    const isValidCachedDb = hasRequiredTables(cachedDb);
+    cachedDb.close();
+
+    if (!isValidCachedDb) {
+      console.warn('Cached database is incompatible, clearing IndexedDB cache.');
+      resetCachedDb();
+      resetCachedDbMeta();
+      buffer = null;
+    }
+  }
+
+  if (buffer) {
     console.log('Using cached database from IndexedDB, size:', buffer.byteLength);
     if (remoteMeta && !cachedMeta) {
       saveDbMeta(remoteMeta);
     }
   } else {
-    console.log('Fetching database from /data/f1.db...');
-    const response = await fetch(`/data/f1.db?t=${Date.now()}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch database: ${response.status}`);
+    console.log('Fetching database from preferred route...');
+    const candidates = getDatabaseCandidates();
+    let validatedBuffer: Uint8Array | null = null;
+
+    for (const candidate of candidates) {
+      const response = await fetchFirstAvailable([candidate]);
+      const arrayBuffer = await response.arrayBuffer();
+      const nextBuffer = new Uint8Array(arrayBuffer);
+      const candidateDb = new SQL.Database(nextBuffer);
+
+      if (hasRequiredTables(candidateDb)) {
+        validatedBuffer = nextBuffer;
+        candidateDb.close();
+        console.log('Using database source:', candidate);
+        break;
+      }
+
+      candidateDb.close();
+      console.warn('Skipping incompatible database source:', candidate);
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    buffer = new Uint8Array(arrayBuffer);
+    if (!validatedBuffer) {
+      throw new Error('未找到包含 drivers/teams/races 表的有效数据库');
+    }
+
+    buffer = validatedBuffer;
     await saveDbToCache(buffer);
 
     if (remoteMeta) {
@@ -195,7 +274,7 @@ export const loadF1Data = async (): Promise<ProcessedDriverData> => {
     };
   } catch (error) {
     console.error('Error loading F1 data:', error);
-    return { ...EMPTY_PROCESSED_DATA };
+    throw error instanceof Error ? error : new Error('加载 F1 数据失败');
   }
 };
 

@@ -34,7 +34,7 @@ ChartJS.register(
 );
 
 const AnalyticsPage = () => {
-  const { state } = useF1();
+  const { state, resolvedTheme } = useF1();
   const [timeRange, setTimeRange] = useState<'all' | number>('all');
 
   // 获取所有可用的年份选项
@@ -341,7 +341,7 @@ const AnalyticsPage = () => {
     };
   }, [filteredData]);
 
-  const isDark = state.theme === 'dark';
+  const isDark = resolvedTheme === 'dark';
   const labelColor = isDark ? '#9ca3af' : '#64748b';
   const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
 
