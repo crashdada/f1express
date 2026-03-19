@@ -2,6 +2,22 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-03-19: v1.2.4 - 主题联动修复、数据加载回退与回归测试补强
+
+- Android / Web 主题体验修复
+  - 修复 [src/context/F1Context.tsx](D:\oc\f1express\src\context\F1Context.tsx) 中“跟随系统”主题只在切换当下生效、后续不再跟随系统深浅色变化的问题。
+  - 同步更新 [src/App.tsx](D:\oc\f1express\src\App.tsx)、[src/components/ThemeToggle.tsx](D:\oc\f1express\src\components\ThemeToggle.tsx)、[src/pages/AnalyticsPage.tsx](D:\oc\f1express\src\pages\AnalyticsPage.tsx) 与 [src/pages/SettingsPage.tsx](D:\oc\f1express\src\pages\SettingsPage.tsx)，统一使用实际生效主题，避免状态栏、图表和设置页显示不一致。
+
+- 数据加载稳定性修复
+  - 在 [src/utils/f1Data.ts](D:\oc\f1express\src\utils\f1Data.ts) 中区分本地开发态与原生 / 非本地环境的数据源优先级，避免网页端误读错误数据库导致 `#/new-season` 打不开。
+  - 为数据库加载增加必需表校验与坏缓存清理逻辑，当首选库不兼容时自动回退到候选路径，避免 Android 安装后长期停留在 loading。
+  - 修复 [src/hooks/useF1Data.ts](D:\oc\f1express\src\hooks\useF1Data.ts) 在加载失败后的重复自动重试，确保错误态能稳定落地而不是无限 loading。
+
+- 验证与发布
+  - 新增 [tests/unit/hooks/useF1Data.test.ts](D:\oc\f1express\tests\unit\hooks\useF1Data.test.ts)，覆盖加载失败后不再无限重试的回归场景。
+  - 扩充 [tests/unit/utils/f1Data.test.ts](D:\oc\f1express\tests\unit\utils\f1Data.test.ts)，覆盖数据源选择、坏缓存清理与数据库回退逻辑。
+  - 完成 `1.2.4` 版本发布、构建校验与 Git 标签推送。
+
 ## 2026-03-19: v1.2.3 - storage 迁移、Collector 工具分区与发布校验
 
 - 存储目录统一
