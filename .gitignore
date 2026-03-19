@@ -15,16 +15,19 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local temp/debug artifacts
+.tmp_*
+
 # Database backups (local only, not for repo)
 backups/
-f1_storage/backups/
+storage/backups/
 
 # Data storage separation (Tracked for stateless image bundling)
-!f1_storage/f1.db
-!f1_storage/photos/
-f1_storage/live/
-f1_storage/uploads/
-# (f1_storage/csv and f1_storage/assets ARE tracked)
+!storage/f1.db
+!storage/photos/
+storage/live/
+storage/uploads/
+# (storage/csv and storage/assets ARE tracked)
 
 # Temporary upload staging area
 docker/uploads/

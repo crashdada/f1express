@@ -14,7 +14,7 @@
   - 修复历史车队别名与多实体统计问题，补齐迈凯伦 1966-1968 多引擎实体规则。
   - 将 `Copersucar` 与 `Fittipaldi` 按赛季拆分为不同历史车队实体，避免错误合并。
   - 重新纳入 [scripts/pipeline/add_driver_chinese_names.py](D:\oc\f1express\scripts\pipeline\add_driver_chinese_names.py) 并扩充中文名映射，恢复历史车手中文显示。
-  - 刷新 [f1.db](D:\oc\f1express\f1_storage\f1.db) 与相关图片索引、2026 赛程资源。
+  - 刷新 [f1.db](D:\oc\f1express\storage\f1.db) 与相关图片索引、2026 赛程资源。
 
 - 前端数据与交互
   - 修复车手与车队页面对 2026 动态数据的合并逻辑，避免历史实体误继承当前赛季分数。

@@ -1,6 +1,6 @@
 const path = require('path');
 
-const STORAGE_ROOT = process.env.F1_STORAGE_ROOT || path.join(__dirname, '..', 'f1_storage');
+const STORAGE_ROOT = process.env.F1_STORAGE_ROOT || path.join(__dirname, '..', 'storage');
 const DIST_ROOT = path.join(__dirname, '..', 'dist');
 const PHOTOS_ROOT = path.join(STORAGE_ROOT, 'photos');
 const DOCKER_IMAGE = process.env.DOCKER_IMAGE || 'dudumin/f1express:latest';

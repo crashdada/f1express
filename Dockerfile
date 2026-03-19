@@ -24,7 +24,7 @@ COPY --from=builder /app/dist ./dist
 COPY server.cjs ./
 COPY server ./server
 COPY entrypoint.sh ./
-COPY f1_storage ./f1_storage
+COPY storage ./storage
 
 RUN chmod +x entrypoint.sh
 

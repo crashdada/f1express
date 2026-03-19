@@ -1,14 +1,16 @@
-import { Calendar, Users, Trophy, ChevronRight, Target, XCircle } from 'lucide-react';
+import { Calendar, Users, Trophy, ChevronRight, Target, XCircle, BarChart3 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 
-type TabType = 'schedule' | 'drivers' | 'teams';
+type TabType = 'schedule' | 'drivers' | 'teams' | 'standings';
+type StandingsView = 'drivers' | 'teams';
 
 const NewSeasonPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [standingsView, setStandingsView] = useState<StandingsView>('drivers');
   const { schedule, drivers, teams, loading, raceResults } = useDynamic2026Data();
 
   // Get active tab from search params or default to schedule
@@ -39,6 +41,168 @@ const NewSeasonPage = () => {
     const team = teams.find(t => t.name === teamName || t.nameCn === teamName || t.id === teamName.toLowerCase().replace(/\s+/g, '_'));
     return team?.color || "#5e5e5e";
   };
+
+  const driverStandings = useMemo(() => {
+    const totals = new Map<string, {
+      code: string;
+      points: number;
+      wins: number;
+      podiums: number;
+      sprintWins: number;
+      bestFinish: number;
+    }>();
+
+    raceResults.forEach((round) => {
+      (round.results || []).forEach((result) => {
+        const current = totals.get(result.code) || {
+          code: result.code,
+          points: 0,
+          wins: 0,
+          podiums: 0,
+          sprintWins: 0,
+          bestFinish: Number.POSITIVE_INFINITY,
+        };
+
+        current.points += Number(result.points || 0);
+        if (typeof result.pos === 'number' && result.pos > 0) {
+          current.bestFinish = Math.min(current.bestFinish, result.pos);
+          if (result.pos === 1) current.wins += 1;
+          if (result.pos <= 3) current.podiums += 1;
+        }
+        totals.set(result.code, current);
+      });
+
+      (round.sprintResults || []).forEach((result) => {
+        const current = totals.get(result.code) || {
+          code: result.code,
+          points: 0,
+          wins: 0,
+          podiums: 0,
+          sprintWins: 0,
+          bestFinish: Number.POSITIVE_INFINITY,
+        };
+
+        current.points += Number(result.points || 0);
+        if (result.pos === 1) current.sprintWins += 1;
+        if (typeof result.pos === 'number' && result.pos > 0) {
+          current.bestFinish = Math.min(current.bestFinish, result.pos);
+        }
+        totals.set(result.code, current);
+      });
+    });
+
+    return Array.from(totals.values())
+      .map((entry) => {
+        const driver = drivers.find((item) => item.code === entry.code);
+        return {
+          ...entry,
+          id: driver?.id || entry.code,
+          firstNameCn: driver?.firstNameCn || driver?.firstName || entry.code,
+          lastNameCn: driver?.lastNameCn || driver?.lastName || '',
+          image: driver?.image,
+          teamCn: driver?.teamCn || driver?.team || '',
+          teamColor: driver ? getTeamColor(driver.team) : '#5e5e5e',
+        };
+      })
+      .sort((a, b) =>
+        b.points - a.points ||
+        b.wins - a.wins ||
+        b.podiums - a.podiums ||
+        a.bestFinish - b.bestFinish ||
+        a.code.localeCompare(b.code)
+      );
+  }, [drivers, raceResults]);
+
+  const teamStandings = useMemo(() => {
+    const totals = new Map<string, {
+      key: string;
+      points: number;
+      wins: number;
+      podiums: number;
+      sprintWins: number;
+      bestFinish: number;
+    }>();
+
+    const resolveTeam = (teamName: string, teamNameCn?: string) =>
+      teams.find((team) =>
+        team.name === teamName ||
+        team.nameCn === teamNameCn ||
+        team.nameCn === teamName ||
+        team.name === teamNameCn ||
+        team.id === teamName.toLowerCase().replace(/\s+/g, '_')
+      );
+
+    raceResults.forEach((round) => {
+      (round.results || []).forEach((result) => {
+        const matchedTeam = resolveTeam(result.team, result.teamCn);
+        const key = matchedTeam?.id || result.team;
+        const current = totals.get(key) || {
+          key,
+          points: 0,
+          wins: 0,
+          podiums: 0,
+          sprintWins: 0,
+          bestFinish: Number.POSITIVE_INFINITY,
+        };
+
+        current.points += Number(result.points || 0);
+        if (typeof result.pos === 'number' && result.pos > 0) {
+          current.bestFinish = Math.min(current.bestFinish, result.pos);
+          if (result.pos === 1) current.wins += 1;
+          if (result.pos <= 3) current.podiums += 1;
+        }
+        totals.set(key, current);
+      });
+
+      (round.sprintResults || []).forEach((result) => {
+        const matchedTeam = resolveTeam(result.team, result.teamCn);
+        const key = matchedTeam?.id || result.team;
+        const current = totals.get(key) || {
+          key,
+          points: 0,
+          wins: 0,
+          podiums: 0,
+          sprintWins: 0,
+          bestFinish: Number.POSITIVE_INFINITY,
+        };
+
+        current.points += Number(result.points || 0);
+        if (result.pos === 1) current.sprintWins += 1;
+        if (typeof result.pos === 'number' && result.pos > 0) {
+          current.bestFinish = Math.min(current.bestFinish, result.pos);
+        }
+        totals.set(key, current);
+      });
+    });
+
+    return Array.from(totals.values())
+      .map((entry) => {
+        const team = teams.find((item) => item.id === entry.key || item.name === entry.key || item.nameCn === entry.key);
+        return {
+          ...entry,
+          id: team?.id || entry.key,
+          name: team?.name || entry.key,
+          nameCn: team?.nameCn || team?.name || entry.key,
+          color: team?.color || '#5e5e5e',
+          logo: team?.logo,
+          drivers: team?.drivers || [],
+        };
+      })
+      .sort((a, b) =>
+        b.points - a.points ||
+        b.wins - a.wins ||
+        b.podiums - a.podiums ||
+        a.bestFinish - b.bestFinish ||
+        a.name.localeCompare(b.name)
+      );
+  }, [raceResults, teams]);
+
+  const completedRounds = useMemo(() => {
+    return raceResults.filter((round) => (round.results || []).length > 0).length;
+  }, [raceResults]);
+
+  const driverLeader = driverStandings[0];
+  const teamLeader = teamStandings[0];
 
   // Calculate Next Race
   const CheckeredFlagIcon = ({ size = 16, className = "" }: { size?: number, className?: string }) => (
@@ -127,6 +291,16 @@ const NewSeasonPage = () => {
               <Trophy size={18} />
               <span>车队</span>
             </button>
+            <button
+              onClick={() => setActiveTab('standings')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'standings'
+                ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
+                : 'text-secondary hover:text-primary hover:bg-bg-primary'
+                }`}
+            >
+              <BarChart3 size={18} />
+              <span>积分榜</span>
+            </button>
           </div>
         </div>
 
@@ -183,7 +357,7 @@ const NewSeasonPage = () => {
                                 <Target className="text-white animate-spin-slow" size={28} />
                             ) : (
                                 <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white/20 shadow-lg bg-white/10 shrink-0 relative">
-                                    <img src={event.flag} alt="" className="w-full h-full object-cover scale-125 absolute inset-0" />
+                                    <img src={event.flag} alt="" className="w-full h-full object-contain p-1 absolute inset-0" />
                                 </div>
                             )}
                             <h3 className={`text-4xl md:text-5xl font-black font-orbitron italic tracking-tighter leading-none ${isNext ? 'text-white' : 'text-primary'}`}>
@@ -374,6 +548,142 @@ const NewSeasonPage = () => {
                   </div>
                 </Link>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'standings' && (
+            <div className="space-y-8 animate-slide-up">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="glass rounded-3xl border border-border p-6 lg:col-span-2">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-2">2026 Standings</p>
+                      <h2 className="text-3xl font-black font-orbitron italic text-primary tracking-tight">积分榜</h2>
+                      <p className="text-secondary mt-2">已完成 {completedRounds} 站，实时汇总正赛与冲刺积分。</p>
+                    </div>
+                    <div className="inline-flex self-start rounded-2xl border border-border bg-bg-secondary p-1.5 shadow-lg">
+                      <button
+                        onClick={() => setStandingsView('drivers')}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${standingsView === 'drivers'
+                          ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
+                          : 'text-secondary hover:text-primary hover:bg-bg-primary'
+                        }`}
+                      >
+                        车手榜
+                      </button>
+                      <button
+                        onClick={() => setStandingsView('teams')}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${standingsView === 'teams'
+                          ? 'bg-f1-red text-white shadow-lg shadow-f1-red/20'
+                          : 'text-secondary hover:text-primary hover:bg-bg-primary'
+                        }`}
+                      >
+                        车队榜
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="glass rounded-3xl border border-border p-6">
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-secondary mb-3">
+                    {standingsView === 'drivers' ? 'Leader' : 'Constructor Leader'}
+                  </p>
+                  {standingsView === 'drivers' && driverLeader ? (
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 bg-bg-secondary shrink-0">
+                        {driverLeader.image ? (
+                          <img src={driverLeader.image} alt={driverLeader.code} className="w-full h-full object-cover object-top scale-110" />
+                        ) : (
+                          <Users className="w-full h-full p-4 text-white/20" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-2xl font-black font-orbitron italic text-primary">{driverLeader.points}</p>
+                        <p className="text-lg font-black text-primary">{driverLeader.firstNameCn} {driverLeader.lastNameCn}</p>
+                        <p className="text-secondary text-sm">{driverLeader.teamCn}</p>
+                      </div>
+                    </div>
+                  ) : standingsView === 'teams' && teamLeader ? (
+                    <div className="flex items-center gap-4">
+                      <div className="w-4 self-stretch rounded-full" style={{ backgroundColor: teamLeader.color }}></div>
+                      <div>
+                        <p className="text-2xl font-black font-orbitron italic text-primary">{teamLeader.points}</p>
+                        <p className="text-lg font-black text-primary">{teamLeader.nameCn}</p>
+                        <p className="text-secondary text-sm">{teamLeader.wins} 胜 / {teamLeader.podiums} 次领奖台</p>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              {standingsView === 'drivers' ? (
+                <div className="glass rounded-[2rem] border border-border overflow-hidden shadow-2xl">
+                  <div className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
+                    <span>排名</span>
+                    <span>车手</span>
+                    <span className="text-right">积分</span>
+                    <span className="text-right">胜场</span>
+                    <span className="text-right">领奖台</span>
+                    <span className="text-right">冲刺胜</span>
+                  </div>
+                  {driverStandings.map((driver, index) => (
+                    <div key={driver.code} className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                        {index + 1}
+                      </div>
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div className="w-14 h-14 rounded-full overflow-hidden border border-white/10 bg-bg-secondary shrink-0">
+                          {driver.image ? (
+                            <img src={driver.image} alt={driver.code} className="w-full h-full object-cover object-top scale-110" />
+                          ) : (
+                            <Users className="w-full h-full p-4 text-white/20" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-lg font-black text-primary truncate">{driver.firstNameCn} {driver.lastNameCn}</p>
+                          <div className="flex items-center gap-2 text-sm text-secondary truncate">
+                            <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: driver.teamColor }}></span>
+                            <span>{driver.teamCn}</span>
+                            <span className="font-black uppercase tracking-widest">{driver.code}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right text-2xl font-black font-orbitron italic text-primary">{driver.points}</div>
+                      <div className="text-right text-lg font-black text-primary">{driver.wins}</div>
+                      <div className="text-right text-lg font-black text-primary">{driver.podiums}</div>
+                      <div className="text-right text-lg font-black text-primary">{driver.sprintWins}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="glass rounded-[2rem] border border-border overflow-hidden shadow-2xl">
+                  <div className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-4 bg-bg-secondary/80 border-b border-border text-xs font-black uppercase tracking-[0.2em] text-secondary">
+                    <span>排名</span>
+                    <span>车队</span>
+                    <span className="text-right">积分</span>
+                    <span className="text-right">胜场</span>
+                    <span className="text-right">领奖台</span>
+                    <span className="text-right">冲刺胜</span>
+                  </div>
+                  {teamStandings.map((team, index) => (
+                    <div key={team.id} className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                        {index + 1}
+                      </div>
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div className="w-3 self-stretch rounded-full shrink-0" style={{ backgroundColor: team.color }}></div>
+                        <div className="min-w-0">
+                          <p className="text-lg font-black text-primary truncate">{team.nameCn}</p>
+                          <p className="text-sm text-secondary truncate">{team.name}</p>
+                        </div>
+                      </div>
+                      <div className="text-right text-2xl font-black font-orbitron italic text-primary">{team.points}</div>
+                      <div className="text-right text-lg font-black text-primary">{team.wins}</div>
+                      <div className="text-right text-lg font-black text-primary">{team.podiums}</div>
+                      <div className="text-right text-lg font-black text-primary">{team.sprintWins}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

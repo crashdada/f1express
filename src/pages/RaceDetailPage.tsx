@@ -181,8 +181,8 @@ const RaceDetailPage = () => {
                                     {event.round.includes('TESTING') ? 'Pre-Season' : `Round ${event.roundNumber}`}
                                 </span>
                                 {event.flag && (
-                                    <div className="w-14 h-14 rounded-full border-2 border-border overflow-hidden shadow-lg bg-bg-secondary flex items-center justify-center relative">
-                                        <img src={event.flag} className="w-full h-full object-cover scale-150 absolute inset-0" alt="flag" />
+                                    <div className="w-14 h-14 rounded-full border-2 border-border overflow-hidden shadow-lg bg-white flex items-center justify-center p-1">
+                                        <img src={event.flag} className="w-full h-full object-contain" alt="flag" />
                                     </div>
                                 )}
                             </div>

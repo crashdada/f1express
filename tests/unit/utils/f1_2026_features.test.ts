@@ -96,10 +96,9 @@ describe('F1 2026 feature logic', () => {
   });
 
   describe('UI fix regressions', () => {
-    it('should use object-cover and scaling for flags in circles', () => {
-      const flagClassName = 'w-full h-full object-cover scale-125';
-      expect(flagClassName).toContain('object-cover');
-      expect(flagClassName).toContain('scale-125');
+    it('should use object-contain for circular flag badges', () => {
+      const flagClassName = 'w-full h-full object-contain';
+      expect(flagClassName).toContain('object-contain');
     });
   });
 });

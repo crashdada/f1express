@@ -10,7 +10,7 @@ if STORAGE_ROOT_ENV:
     STORAGE_ROOT = Path(STORAGE_ROOT_ENV).resolve()
 else:
     # Auto-detect logic
-    LOCAL_STORAGE = BASE_DIR / "f1_storage"
+    LOCAL_STORAGE = BASE_DIR / "storage"
     if LOCAL_STORAGE.exists():
         STORAGE_ROOT = LOCAL_STORAGE
     else:

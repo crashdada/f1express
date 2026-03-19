@@ -14,7 +14,7 @@ export default defineConfig({
     {
       name: 'serve-f1-storage',
       configureServer(server) {
-        const storagePath = path.resolve(__dirname, 'f1_storage');
+        const storagePath = path.resolve(__dirname, 'storage');
         server.middlewares.use('/data', express.static(storagePath));
         server.middlewares.use('/photos', express.static(path.join(storagePath, 'photos')));
       }

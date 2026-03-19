@@ -16,12 +16,12 @@ const requiredPaths = [
   'package-lock.json',
   'dist/index.html',
   'dist/assets',
-  'f1_storage/f1.db',
-  'f1_storage/photos',
-  'f1_storage/drivers_2026.json',
-  'f1_storage/teams_2026.json',
-  'f1_storage/schedule_2026.json',
-  'f1_storage/results_2026.json',
+  'storage/f1.db',
+  'storage/photos',
+  'storage/drivers_2026.json',
+  'storage/teams_2026.json',
+  'storage/schedule_2026.json',
+  'storage/results_2026.json',
 ];
 
 const missing = requiredPaths.filter((rel) => !fs.existsSync(path.join(root, rel)));

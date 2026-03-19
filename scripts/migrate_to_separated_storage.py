@@ -4,7 +4,7 @@ from pathlib import Path
 
 def migrate():
     base_dir = Path(__file__).resolve().parent.parent
-    storage_root = base_dir / "f1_storage"
+    storage_root = base_dir / "storage"
     
     print(f"[*] Starting migration to {storage_root}...")
     

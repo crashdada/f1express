@@ -16,7 +16,7 @@ The project now runs as a dual-source data product:
 
 ### 1.1 Heritage Engine
 
-- Primary store: `f1_storage/f1.db`
+- Primary store: `storage/f1.db`
 - Build source: `scripts/pipeline/`
 - Browser access path: `/data/f1.db`
 - Runtime access model: SQL.js in the browser plus IndexedDB cache
@@ -25,10 +25,10 @@ The project now runs as a dual-source data product:
 
 - Source pipeline: `collector/`
 - Output files:
-  - `f1_storage/schedule_2026.json`
-  - `f1_storage/results_2026.json`
-  - `f1_storage/drivers_2026.json`
-  - `f1_storage/teams_2026.json`
+  - `storage/schedule_2026.json`
+  - `storage/results_2026.json`
+  - `storage/drivers_2026.json`
+  - `storage/teams_2026.json`
 - Sync model: local JSON plus GitHub-hosted mirror fallback
 
 ### 1.3 Frontend Runtime Structure
@@ -120,7 +120,7 @@ production source for constructor standings.
 | Handle | Path | Role |
 | :--- | :--- | :--- |
 | `DIR_CSV` | `/csv/` | Historical source truth used by the offline build pipeline |
-| `STORAGE_ROOT` | `/f1_storage/` | Runtime data root for DB, JSON, and photos |
+| `STORAGE_ROOT` | `/storage/` | Runtime data root for DB, JSON, and photos |
 | `ENTRY_SERVER` | `/server.cjs` | Node entry point for the Express server |
 | `DIR_SERVER` | `/server/` | Modularized server app, middleware, and routes |
 | `ENTRY_DOCKER` | `/docker/` | Container definitions |

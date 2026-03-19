@@ -10,7 +10,7 @@ services:
     ports:
       - "8002:8001"
     environment:
-      - F1_STORAGE_ROOT=/app/f1_storage
+      - F1_STORAGE_ROOT=/app/storage
       - NAS_MODE=true
       - TZ=${TZ:-Asia/Shanghai}
       - HTTP_PROXY=${HTTP_PROXY:-}

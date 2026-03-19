@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8001;
 
 function logStartup() {
   console.log('=================================================');
-  console.log('F1 Express Server (Standard f1_storage Mode)');
+  console.log('F1 Express Server (Standard storage Mode)');
   console.log(`Port: ${PORT}`);
   console.log(`Storage: ${STORAGE_ROOT}`);
 

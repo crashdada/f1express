@@ -6,12 +6,12 @@ set -e
 
 echo "================================================="
 echo "[Entrypoint] F1 Website (Stateless) Starting..."
-echo "[Entrypoint] Source: Internal f1_storage"
+echo "[Entrypoint] Source: Internal storage"
 echo "================================================="
 
 # 检查并设置存储根目录环境变量（如果 Compose 未提供）
 if [ -z "$F1_STORAGE_ROOT" ]; then
-    export F1_STORAGE_ROOT=/app/f1_storage
+    export F1_STORAGE_ROOT=/app/storage
 fi
 
 echo "[Entrypoint] F1_STORAGE_ROOT: $F1_STORAGE_ROOT"
