@@ -2,62 +2,10 @@ import { useMemo } from 'react';
 import { useF1 } from '../context/F1Context';
 import { useDynamic2026Data, IRaceRound2026 } from './useDynamic2026Data';
 import { Driver, Team } from '../types';
+import { getDriverMatchKeys, getTeamMatchKeys } from '../utils/entityMappings';
 
 type TeamWithActive = Team & { isActive2026?: boolean };
 type DriverWithActive = Driver & { isActive2026?: boolean };
-
-function normalizeText(value?: string | null) {
-  return (value || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[\s\-_.·'()]/g, '')
-    .trim();
-}
-
-function getTeamMatchKeys(...values: Array<string | null | undefined>) {
-  const keys = new Set<string>();
-
-  values.forEach((value) => {
-    const raw = value || '';
-    const normalized = normalizeText(raw);
-    if (normalized) {
-      keys.add(normalized);
-    }
-
-    const withoutCommonSuffix = raw
-      .replace(/\bF1 Team\b/gi, '')
-      .replace(/\bTeam\b/gi, '')
-      .trim();
-    const normalizedWithoutSuffix = normalizeText(withoutCommonSuffix);
-    if (normalizedWithoutSuffix) {
-      keys.add(normalizedWithoutSuffix);
-    }
-  });
-
-  return [...keys];
-}
-
-function getDriverMatchKeys(driver: {
-  firstName?: string | null;
-  lastName?: string | null;
-  firstNameCn?: string | null;
-  lastNameCn?: string | null;
-}) {
-  const keys = new Set<string>();
-
-  const englishKey = normalizeText([driver.firstName, driver.lastName].filter(Boolean).join(' '));
-  if (englishKey) {
-    keys.add(englishKey);
-  }
-
-  const chineseKey = normalizeText([driver.firstNameCn, driver.lastNameCn].filter(Boolean).join(''));
-  if (chineseKey) {
-    keys.add(chineseKey);
-  }
-
-  return [...keys];
-}
 
 function hasChineseCharacter(value?: string | null) {
   return /[\u4e00-\u9fff]/.test(value || '');
@@ -132,8 +80,10 @@ function buildLiveTeamStatsMap(liveResults: IRaceRound2026[]) {
   };
 
   liveResults.forEach((round) => {
-    if (round.polePosition?.code) {
-      const poleDriver = round.results.find((result) => result.code === round.polePosition?.code);
+    if (round.polePosition) {
+      const poleDriver = round.results.find((result) =>
+        intersects(getDriverMatchKeys(result), getDriverMatchKeys(round.polePosition))
+      );
       if (poleDriver) {
         const stats = ensureTeam(getTeamMatchKeys(poleDriver.team, poleDriver.teamCn));
         if (stats) {

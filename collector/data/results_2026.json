@@ -1,6 +1,7 @@
 [
   {
     "round": 1,
+    "eventId": 1279,
     "country": "Australia",
     "slug": "australia",
     "date": "2026-03-08",
@@ -16,7 +17,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 25,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "1:23:06.801"
       },
       {
         "pos": 2,
@@ -29,7 +32,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 18,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "+2.974s"
       },
       {
         "pos": 3,
@@ -42,7 +47,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 15,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "+15.519s"
       },
       {
         "pos": 4,
@@ -55,7 +62,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 12,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "+16.144s"
       },
       {
         "pos": 5,
@@ -68,7 +77,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 10,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "+51.741s"
       },
       {
         "pos": 6,
@@ -81,7 +92,9 @@
         "team": "Red Bull",
         "teamCn": "红牛",
         "points": 8,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "58",
+        "time": "+54.617s"
       },
       {
         "pos": 7,
@@ -94,7 +107,9 @@
         "team": "Haas",
         "teamCn": "哈斯",
         "points": 6,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 8,
@@ -107,7 +122,9 @@
         "team": "Racing Bulls",
         "teamCn": "Racing Bulls",
         "points": 4,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 9,
@@ -120,7 +137,9 @@
         "team": "Audi",
         "teamCn": "Audi",
         "points": 2,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 10,
@@ -133,7 +152,9 @@
         "team": "Alpine",
         "teamCn": "Alpine",
         "points": 1,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 11,
@@ -146,7 +167,9 @@
         "team": "Haas",
         "teamCn": "哈斯",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 12,
@@ -159,7 +182,9 @@
         "team": "Williams",
         "teamCn": "威廉姆斯",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 13,
@@ -172,7 +197,9 @@
         "team": "Racing Bulls",
         "teamCn": "Racing Bulls",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "57",
+        "time": "+1 lap"
       },
       {
         "pos": 14,
@@ -185,7 +212,9 @@
         "team": "Alpine",
         "teamCn": "Alpine",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+2 laps"
       },
       {
         "pos": 15,
@@ -198,7 +227,9 @@
         "team": "Williams",
         "teamCn": "威廉姆斯",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+2 laps"
       },
       {
         "pos": 16,
@@ -211,7 +242,9 @@
         "team": "Cadillac",
         "teamCn": "Cadillac",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+3 laps"
       },
       {
         "pos": null,
@@ -224,7 +257,9 @@
         "team": "Aston Martin",
         "teamCn": "阿斯顿马丁",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "43",
+        "time": "+15 laps"
       },
       {
         "pos": null,
@@ -237,7 +272,9 @@
         "team": "Aston Martin",
         "teamCn": "阿斯顿马丁",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "21",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -250,7 +287,9 @@
         "team": "Cadillac",
         "teamCn": "Cadillac",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "15",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -263,7 +302,9 @@
         "team": "Red Bull",
         "teamCn": "红牛",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "10",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -276,7 +317,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       },
       {
         "pos": null,
@@ -289,7 +332,9 @@
         "team": "Audi",
         "teamCn": "Audi",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       }
     ],
     "polePosition": {
@@ -299,10 +344,55 @@
       "lastName": "Russell",
       "firstNameCn": "乔治",
       "lastNameCn": "拉塞尔"
-    }
+    },
+    "qualifyingResults": [
+      {
+        "position": 1,
+        "number": 63,
+        "code": "RUS",
+        "firstName": "George",
+        "lastName": "Russell",
+        "firstNameCn": "乔治",
+        "lastNameCn": "拉塞尔",
+        "time": "1:18.518",
+        "q1": "1:19.507",
+        "q2": "1:18.934",
+        "q3": "1:18.518",
+        "laps": "22"
+      },
+      {
+        "position": 2,
+        "number": 12,
+        "code": "ANT",
+        "firstName": "Kimi",
+        "lastName": "Antonelli",
+        "firstNameCn": "安德里亚",
+        "lastNameCn": "安东内利",
+        "time": "1:18.811",
+        "q1": "1:20.120",
+        "q2": "1:19.435",
+        "q3": "1:18.811",
+        "laps": "18"
+      },
+      {
+        "position": 3,
+        "number": 6,
+        "code": "HAD",
+        "firstName": "Isack",
+        "lastName": "Hadjar",
+        "firstNameCn": "艾萨克",
+        "lastNameCn": "哈贾尔",
+        "time": "1:19.303",
+        "q1": "1:20.023",
+        "q2": "1:19.653",
+        "q3": "1:19.303",
+        "laps": "19"
+      }
+    ]
   },
   {
     "round": 2,
+    "eventId": 1280,
     "country": "China",
     "slug": "china",
     "date": "2026-03-15",
@@ -318,7 +408,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 25,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "1:33:15.607"
       },
       {
         "pos": 2,
@@ -331,7 +423,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 18,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+5.515s"
       },
       {
         "pos": 3,
@@ -344,7 +438,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 15,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+25.267s"
       },
       {
         "pos": 4,
@@ -357,7 +453,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 12,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+28.894s"
       },
       {
         "pos": 5,
@@ -370,7 +468,9 @@
         "team": "Haas",
         "teamCn": "哈斯",
         "points": 10,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+57.268s"
       },
       {
         "pos": 6,
@@ -383,7 +483,9 @@
         "team": "Alpine",
         "teamCn": "Alpine",
         "points": 8,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+59.647s"
       },
       {
         "pos": 7,
@@ -396,7 +498,9 @@
         "team": "Racing Bulls",
         "teamCn": "Racing Bulls",
         "points": 6,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+80.588s"
       },
       {
         "pos": 8,
@@ -409,7 +513,9 @@
         "team": "Red Bull",
         "teamCn": "红牛",
         "points": 4,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "56",
+        "time": "+87.247s"
       },
       {
         "pos": 9,
@@ -422,7 +528,9 @@
         "team": "Williams",
         "teamCn": "威廉姆斯",
         "points": 2,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 10,
@@ -435,7 +543,9 @@
         "team": "Alpine",
         "teamCn": "Alpine",
         "points": 1,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 11,
@@ -448,7 +558,9 @@
         "team": "Audi",
         "teamCn": "Audi",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 12,
@@ -461,7 +573,9 @@
         "team": "Racing Bulls",
         "teamCn": "Racing Bulls",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 13,
@@ -474,7 +588,9 @@
         "team": "Cadillac",
         "teamCn": "Cadillac",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 14,
@@ -487,7 +603,9 @@
         "team": "Haas",
         "teamCn": "哈斯",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": 15,
@@ -500,7 +618,9 @@
         "team": "Cadillac",
         "teamCn": "Cadillac",
         "points": 0,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "55",
+        "time": "+1 lap"
       },
       {
         "pos": null,
@@ -513,7 +633,9 @@
         "team": "Red Bull",
         "teamCn": "红牛",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "45",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -526,7 +648,9 @@
         "team": "Aston Martin",
         "teamCn": "阿斯顿马丁",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "32",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -539,7 +663,9 @@
         "team": "Aston Martin",
         "teamCn": "阿斯顿马丁",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "9",
+        "time": "DNF"
       },
       {
         "pos": null,
@@ -552,7 +678,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       },
       {
         "pos": null,
@@ -565,7 +693,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       },
       {
         "pos": null,
@@ -578,7 +708,9 @@
         "team": "Audi",
         "teamCn": "Audi",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       },
       {
         "pos": null,
@@ -591,7 +723,9 @@
         "team": "Williams",
         "teamCn": "威廉姆斯",
         "points": 0,
-        "status": "DNF"
+        "status": "DNF",
+        "laps": "0",
+        "time": "DNS"
       }
     ],
     "sprintResults": [
@@ -606,7 +740,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 8,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "33:38.998"
       },
       {
         "pos": 2,
@@ -619,7 +755,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 7,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+0.674s"
       },
       {
         "pos": 3,
@@ -632,7 +770,9 @@
         "team": "Ferrari",
         "teamCn": "法拉利",
         "points": 6,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+2.554s"
       },
       {
         "pos": 4,
@@ -645,7 +785,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 5,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+4.433s"
       },
       {
         "pos": 5,
@@ -658,7 +800,9 @@
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
         "points": 4,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+5.688s"
       },
       {
         "pos": 6,
@@ -671,7 +815,9 @@
         "team": "McLaren",
         "teamCn": "迈凯伦",
         "points": 3,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+6.809s"
       },
       {
         "pos": 7,
@@ -684,7 +830,9 @@
         "team": "Racing Bulls",
         "teamCn": "Racing Bulls",
         "points": 2,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+10.900s"
       },
       {
         "pos": 8,
@@ -697,7 +845,9 @@
         "team": "Haas",
         "teamCn": "哈斯",
         "points": 1,
-        "status": "Finished"
+        "status": "Finished",
+        "laps": "19",
+        "time": "+11.271s"
       }
     ],
     "polePosition": {
@@ -707,6 +857,50 @@
       "lastName": "Antonelli",
       "firstNameCn": "安德里亚",
       "lastNameCn": "安东内利"
-    }
+    },
+    "qualifyingResults": [
+      {
+        "position": 1,
+        "number": 12,
+        "code": "ANT",
+        "firstName": "Kimi",
+        "lastName": "Antonelli",
+        "firstNameCn": "安德里亚",
+        "lastNameCn": "安东内利",
+        "time": "1:32.064",
+        "q1": "1:33.305",
+        "q2": "1:32.443",
+        "q3": "1:32.064",
+        "laps": "15"
+      },
+      {
+        "position": 2,
+        "number": 63,
+        "code": "RUS",
+        "firstName": "George",
+        "lastName": "Russell",
+        "firstNameCn": "乔治",
+        "lastNameCn": "拉塞尔",
+        "time": "1:32.286",
+        "q1": "1:33.262",
+        "q2": "1:32.523",
+        "q3": "1:32.286",
+        "laps": "13"
+      },
+      {
+        "position": 3,
+        "number": 44,
+        "code": "HAM",
+        "firstName": "Lewis",
+        "lastName": "Hamilton",
+        "firstNameCn": "刘易斯",
+        "lastNameCn": "汉密尔顿",
+        "time": "1:32.415",
+        "q1": "1:33.522",
+        "q2": "1:32.567",
+        "q3": "1:32.415",
+        "laps": "19"
+      }
+    ]
   }
 ]

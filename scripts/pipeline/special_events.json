@@ -291,6 +291,7 @@
             "to": 79,
             "from_team_en": "McLaren BRM",
             "to_team": "迈凯伦",
+            "to_team_en": "McLaren",
             "reason": "McLaren BRM (1967-1968) 统一并入主迈凯伦ID"
         }
     ]

@@ -238,8 +238,7 @@ def main() -> int:
         record(phase, "Cloud asset sync", None, 0.0)
         record(phase, "Database backup", None, 0.0)
     else:
-        ok, elapsed = run_command([sys.executable, str(pipeline_dir / "download_csv_assets.py")], cwd=repo_root)
-        record(phase, "Cloud asset sync", ok, elapsed)
+        record(phase, "Cloud asset sync", None, 0.0)
 
         if args.skip_backup:
             record(phase, "Database backup", None, 0.0)

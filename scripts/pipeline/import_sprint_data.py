@@ -81,150 +81,6 @@ def create_sprint_tables(conn: sqlite3.Connection) -> None:
     print("[OK] 已重建 sprint_races / sprint_results")
 
 
-def get_track_mapping() -> dict[str, str]:
-    """赛道中文名到英文关键字映射。"""
-    return {
-        "英国 (银石)": "Silverstone",
-        "意大利 (蒙扎)": "Monza",
-        "意大利 (伊莫拉)": "Enzo",
-        "巴西 (圣保罗)": "Carlos Pace",
-        "比利时 (斯帕)": "Spa",
-        "奥地利 (红牛环)": "Spielberg",
-        "美国 (奥斯汀)": "Austin",
-        "美国 (迈阿密)": "Miami",
-        "阿塞拜疆 (巴库)": "Baku",
-        "卡塔尔 (卢赛尔)": "Lusail",
-        "中国 (上海)": "Shanghai",
-    }
-
-
-def get_driver_mapping() -> dict[str, tuple[str, str]]:
-    """中文车手名到英文 first_name / last_name 映射。"""
-    return {
-        "维斯塔潘": ("Max", "Verstappen"),
-        "汉密尔顿": ("Lewis", "Hamilton"),
-        "博塔斯": ("Valtteri", "Bottas"),
-        "里卡多": ("Daniel", "Ricciardo"),
-        "赛恩斯": ("Carlos", "Sainz"),
-        "勒克莱尔": ("Charles", "Leclerc"),
-        "佩雷兹": ("Sergio", "Perez"),
-        "诺里斯": ("Lando", "Norris"),
-        "马格努森": ("Kevin", "Magnussen"),
-        "拉塞尔": ("George", "Russell"),
-        "奥康": ("Esteban", "Ocon"),
-        "阿隆索": ("Fernando", "Alonso"),
-        "斯特罗尔": ("Lance", "Stroll"),
-        "斯托尔": ("Lance", "Stroll"),
-        "霍肯伯格": ("Nico", "Hulkenberg"),
-        "胡肯伯格": ("Nico", "Hulkenberg"),
-        "皮亚斯特里": ("Oscar", "Piastri"),
-        "阿尔本": ("Alexander", "Albon"),
-        "加斯利": ("Pierre", "Gasly"),
-        "周冠宇": ("Guanyu", "Zhou"),
-        "角田": ("Yuki", "Tsunoda"),
-        "角田裕毅": ("Yuki", "Tsunoda"),
-        "德弗里斯": ("Nyck", "De Vries"),
-        "劳森": ("Liam", "Lawson"),
-        "科拉平托": ("Franco", "Colapinto"),
-        "杜汉": ("Jack", "Doohan"),
-        "安东内利": ("Kimi", "Antonelli"),
-        "哈贾尔": ("Isack", "Hadjar"),
-        "贝尔曼": ("Oliver", "Bearman"),
-        "博托莱托": ("Gabriel", "Bortoleto"),
-        "Hadjar": ("Isack", "Hadjar"),
-        "Antonelli": ("Kimi", "Antonelli"),
-        "Bearman": ("Oliver", "Bearman"),
-        "Bortoleto": ("Gabriel", "Bortoleto"),
-        "Doohan": ("Jack", "Doohan"),
-        "Lawson": ("Liam", "Lawson"),
-    }
-
-
-def resolve_circuit_id(cursor: sqlite3.Cursor, track_en: str) -> int | None:
-    cursor.execute(
-        """
-        SELECT circuit_id
-        FROM circuits
-        WHERE name LIKE ?
-        LIMIT 1
-        """,
-        (f"%{track_en}%",),
-    )
-    row = cursor.fetchone()
-    return row[0] if row else None
-
-
-def resolve_race_for_sprint(
-    cursor: sqlite3.Cursor,
-    season: int,
-    circuit_id: int,
-    track_en: str,
-) -> tuple[int | None, int | None, str | None]:
-    """优先按赛季+circuit_id 关联正赛，回退到赛道名模糊匹配。"""
-    cursor.execute(
-        """
-        SELECT race_id, round_number, race_date
-        FROM races
-        WHERE season = ? AND circuit_id = ?
-        LIMIT 1
-        """,
-        (season, circuit_id),
-    )
-    row = cursor.fetchone()
-    if row:
-        return row[0], row[1], row[2]
-
-    cursor.execute(
-        """
-        SELECT r.race_id, r.round_number, r.race_date
-        FROM races r
-        JOIN circuits c ON r.circuit_id = c.circuit_id
-        WHERE r.season = ? AND c.name LIKE ?
-        LIMIT 1
-        """,
-        (season, f"%{track_en}%"),
-    )
-    row = cursor.fetchone()
-    if row:
-        return row[0], row[1], row[2]
-    return None, None, None
-
-
-def resolve_driver_id(
-    cursor: sqlite3.Cursor,
-    raw_name: str,
-    driver_mapping: dict[str, tuple[str, str]],
-) -> int | None:
-    driver_tuple = driver_mapping.get(raw_name)
-
-    if driver_tuple:
-        cursor.execute(
-            """
-            SELECT driver_id
-            FROM drivers
-            WHERE first_name = ? AND last_name = ?
-            LIMIT 1
-            """,
-            driver_tuple,
-        )
-        row = cursor.fetchone()
-        if row:
-            return row[0]
-
-    search_name = driver_tuple[1] if driver_tuple else raw_name
-    cursor.execute(
-        """
-        SELECT driver_id
-        FROM drivers
-        WHERE last_name = ? OR last_name_cn = ?
-        LIMIT 1
-        """,
-        (search_name, search_name),
-    )
-    row = cursor.fetchone()
-    return row[0] if row else None
-
-
 def resolve_team_id_for_sprint_result(
     cursor: sqlite3.Cursor,
     race_id: int | None,
@@ -265,52 +121,52 @@ def resolve_team_id_for_sprint_result(
 def import_sprint_data(conn: sqlite3.Connection) -> tuple[int, list[str]]:
     """导入冲刺赛数据。"""
     cursor = conn.cursor()
+    # 1. Load data
     csv_path = get_path("csv") / "sprint_results.csv"
     df_sprint = pd.read_csv(csv_path)
-
-    track_mapping = get_track_mapping()
-    driver_mapping = get_driver_mapping()
 
     total_records = len(df_sprint)
     success_count = 0
     failed_records: list[str] = []
 
-    grouped = df_sprint.groupby(["年份", "赛道"])
-    for (season, track_cn), group in grouped:
+    # 新结构：year, round, position, number, first_name, last_name, code, team, points, status
+    grouped = df_sprint.groupby(["year", "round"])
+    for (season, target_round), group in grouped:
         season = int(season)
-        track_en = track_mapping.get(track_cn)
-        if not track_en:
-            failed_records.append(f"未找到赛道映射: {track_cn}")
+        target_round = int(target_round)
+        
+        # 从 races_meta 获取赛道信息
+        cursor.execute("SELECT circuit_id, race_id, race_date FROM races WHERE season = ? AND round_number = ?", (season, target_round))
+        race_row = cursor.fetchone()
+        if not race_row:
+            failed_records.append(f"未找到赛站: {season} R{target_round}")
             continue
-
-        circuit_id = resolve_circuit_id(cursor, track_en)
-        if circuit_id is None:
-            failed_records.append(f"数据库未找到赛道: {track_cn} -> {track_en}")
-            continue
-
-        race_id, round_number, race_date = resolve_race_for_sprint(cursor, season, circuit_id, track_en)
-        if round_number is None:
-            print(f"[WARN] {season} {track_cn} 未能关联到正赛 round_number，将保留为空")
+        
+        circuit_id, race_id, race_date = race_row
 
         cursor.execute(
             """
-            INSERT INTO sprint_races (season, race_id, round_number, circuit_id, race_date, track_name_cn)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO sprint_races (season, race_id, round_number, circuit_id, race_date)
+            VALUES (?, ?, ?, ?, ?)
             """,
-            (season, race_id, round_number, circuit_id, race_date, track_cn),
+            (season, race_id, target_round, circuit_id, race_date),
         )
         sprint_race_id = cursor.lastrowid
 
         for _, row in group.iterrows():
-            raw_name = normalize_name(row["人员列表"])
-            driver_id = resolve_driver_id(cursor, raw_name, driver_mapping)
-            if driver_id is None:
-                failed_records.append(f"数据库未找到车手: {raw_name}")
+            f_name, l_name = str(row["first_name"]).strip(), str(row["last_name"]).strip()
+            
+            # 使用 first_name / last_name 直接锁定 driver_id
+            cursor.execute("SELECT driver_id FROM drivers WHERE first_name = ? AND last_name = ?", (f_name, l_name))
+            d_row = cursor.fetchone()
+            if not d_row:
+                failed_records.append(f"数据库未找到车手: {f_name} {l_name}")
                 continue
-
+            
+            driver_id = d_row[0]
             team_id = resolve_team_id_for_sprint_result(cursor, race_id, season, driver_id)
-            position = int(row["真实排名"])
-            points = float(row["得分"])
+            position = int(row["position"])
+            points = float(row["points"])
 
             cursor.execute(
                 """
@@ -318,7 +174,7 @@ def import_sprint_data(conn: sqlite3.Connection) -> tuple[int, list[str]]:
                 (sprint_race_id, driver_id, team_id, position, points, driver_name_cn)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """,
-                (sprint_race_id, driver_id, team_id, position, points, raw_name),
+                (sprint_race_id, driver_id, team_id, position, points, f"{f_name} {l_name}"),
             )
             success_count += 1
 

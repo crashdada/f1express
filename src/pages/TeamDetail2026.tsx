@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { IDriver2026, ITeam2026 } from '../types';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
+import { getDriverMatchKeys, matchesTeam } from '../utils/entityMappings';
 
 const TeamDetail2026 = () => {
     const { id } = useParams<{ id: string }>();
@@ -13,34 +14,56 @@ const TeamDetail2026 = () => {
     // Compute live 2026 team stats from JSON results
     const liveTeamStats = useMemo(() => {
         if (!team || !allRaceResults.length) return null;
-        const teamCodes = team.drivers || [];
+        const teamDrivers = allDrivers.filter((driver) =>
+            team.drivers.includes(driver.code) ||
+            matchesTeam(
+                { name: driver.team, nameCn: driver.teamCn, fullName: driver.team },
+                { name: team.name, nameCn: team.nameCn, fullName: team.name }
+            )
+        );
+        const teamDriverKeys = new Set(teamDrivers.flatMap((driver) => getDriverMatchKeys(driver)));
         
         // Calculate points (including Sprints)
         const totalPoints = allRaceResults.reduce((sum, round) => {
-            const racePts = (round.results || []).filter(r => teamCodes.includes(r.code)).reduce((s, r) => s + (r.points || 0), 0);
-            const sprintPts = (round.sprintResults || []).filter(r => teamCodes.includes(r.code)).reduce((s, r) => s + (r.points || 0), 0);
+            const racePts = (round.results || [])
+                .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
+                .reduce((s, r) => s + (r.points || 0), 0);
+            const sprintPts = (round.sprintResults || [])
+                .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
+                .reduce((s, r) => s + (r.points || 0), 0);
             return sum + racePts + sprintPts;
         }, 0);
 
         // Calculate wins/podiums (Main Race ONLY)
         const mainTeamResults = allRaceResults.flatMap(round => 
-            (round.results || []).filter(r => teamCodes.includes(r.code))
+            (round.results || []).filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
         );
         const wins = mainTeamResults.filter(r => r.pos === 1).length;
         const podiums = mainTeamResults.filter(r => r.pos != null && r.pos <= 3).length;
 
         // Compute team rank based on total points (Race + Sprint)
         const allTeamPoints: Record<string, number> = {};
-        const driverToTeamMap: Record<string, string> = {};
-        allDrivers.forEach(d => { driverToTeamMap[d.code] = d.team; });
+        const driverToTeamMap = new Map<string, string>();
+        allDrivers.forEach((driver) => {
+            const teamName = driver.team || '';
+            if (!teamName) {
+                return;
+            }
+
+            getDriverMatchKeys(driver).forEach((key) => {
+                if (!driverToTeamMap.has(key)) {
+                    driverToTeamMap.set(key, teamName);
+                }
+            });
+        });
 
         allRaceResults.forEach(round => {
             round.results?.forEach(r => {
-                const tName = driverToTeamMap[r.code] || r.team;
+                const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
                 if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
             });
             round.sprintResults?.forEach(r => {
-                const tName = driverToTeamMap[r.code] || r.team;
+                const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
                 if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
             });
         });
@@ -58,7 +81,11 @@ const TeamDetail2026 = () => {
             if (foundTeam) {
                 setTeam(foundTeam);
                 const teamDrivers = allDrivers.filter((d: IDriver2026) =>
-                    foundTeam.drivers.includes(d.code)
+                    foundTeam.drivers.includes(d.code) ||
+                    matchesTeam(
+                        { name: d.team, nameCn: d.teamCn, fullName: d.team },
+                        { name: foundTeam.name, nameCn: foundTeam.nameCn, fullName: foundTeam.name }
+                    )
                 );
                 setDrivers(teamDrivers);
             }

@@ -1,0 +1,513 @@
+[
+    {
+        "slug": "alfa_romeo",
+        "name": "Alfa Romeo",
+        "nameCn": "阿尔法·罗密欧",
+        "color": "#900000",
+        "isHidden": false
+    },
+    {
+        "slug": "alphatauri",
+        "name": "AlphaTauri",
+        "nameCn": "阿尔法托利",
+        "color": "#2B4562",
+        "isHidden": false
+    },
+    {
+        "slug": "arrows",
+        "name": "Arrows",
+        "nameCn": "飞箭",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "aston_martin",
+        "name": "Aston Martin",
+        "nameCn": "阿斯顿马丁",
+        "color": "#229971",
+        "isHidden": false
+    },
+    {
+        "slug": "benetton",
+        "name": "Benetton",
+        "nameCn": "贝纳通",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "bmw",
+        "name": "BMW",
+        "nameCn": "宝马",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "caterham",
+        "name": "Caterham",
+        "nameCn": "卡特汉姆",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "cooper",
+        "name": "Cooper",
+        "nameCn": "库珀",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "dallara",
+        "name": "Dallara",
+        "nameCn": "达拉拉",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "eagle",
+        "name": "Eagle",
+        "nameCn": "老鹰",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "ferrari",
+        "name": "Ferrari",
+        "nameCn": "法拉利",
+        "color": "#ED1131",
+        "isHidden": false
+    },
+    {
+        "slug": "ferrari_jaguar",
+        "name": "Ferrari Jaguar",
+        "nameCn": "法拉利捷豹",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "force_india",
+        "name": "Force India",
+        "nameCn": "印度力量",
+        "color": "#f596c8",
+        "isHidden": false
+    },
+    {
+        "slug": "williams",
+        "name": "Williams",
+        "nameCn": "威廉姆斯",
+        "color": "#1868DB",
+        "isHidden": false
+    },
+    {
+        "slug": "haas",
+        "name": "Haas",
+        "nameCn": "哈斯",
+        "color": "#B6BABD",
+        "isHidden": false
+    },
+    {
+        "slug": "honda",
+        "name": "Honda",
+        "nameCn": "本田",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "jordan",
+        "name": "Jordan",
+        "nameCn": "乔丹",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "sauber",
+        "name": "Sauber",
+        "nameCn": "索伯",
+        "color": "#52E252",
+        "isHidden": false
+    },
+    {
+        "slug": "kick_sauber",
+        "name": "Kick Sauber",
+        "nameCn": "Kick Sauber",
+        "color": "#52E252",
+        "isHidden": false
+    },
+    {
+        "slug": "lola",
+        "name": "Lola",
+        "nameCn": "罗拉",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "lotus",
+        "name": "Lotus",
+        "nameCn": "莲花",
+        "color": "#c5a059",
+        "isHidden": false
+    },
+    {
+        "slug": "marussia",
+        "name": "Marussia",
+        "nameCn": "玛鲁西亚",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "maserati",
+        "name": "Maserati",
+        "nameCn": "玛莎拉蒂",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "mclaren",
+        "name": "McLaren",
+        "nameCn": "迈凯伦",
+        "color": "#FF8000",
+        "isHidden": false
+    },
+    {
+        "slug": "mercedes",
+        "name": "Mercedes",
+        "nameCn": "梅赛德斯",
+        "color": "#27F4D2",
+        "isHidden": false
+    },
+    {
+        "slug": "minardi",
+        "name": "Minardi",
+        "nameCn": "米纳尔迪",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "manor",
+        "name": "Manor",
+        "nameCn": "马诺",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "porsche",
+        "name": "Porsche",
+        "nameCn": "保时捷",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "red_bull_racing",
+        "name": "Red Bull Racing",
+        "nameCn": "红牛",
+        "color": "#3671C1",
+        "isHidden": false
+    },
+    {
+        "slug": "toro_rosso",
+        "name": "Toro Rosso",
+        "nameCn": "红牛二队",
+        "color": "#6692FF",
+        "isHidden": false
+    },
+    {
+        "slug": "renault",
+        "name": "Renault",
+        "nameCn": "雷诺",
+        "color": "#fff000",
+        "isHidden": false
+    },
+    {
+        "slug": "racing_point",
+        "name": "Racing Point",
+        "nameCn": "赛点",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "spyker",
+        "name": "Spyker",
+        "nameCn": "世爵",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "toyota",
+        "name": "Toyota",
+        "nameCn": "丰田",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "wolf",
+        "name": "Wolf",
+        "nameCn": "沃尔夫",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "wolf_williams",
+        "name": "Wolf-Williams",
+        "nameCn": "沃尔夫-威廉姆斯",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "thin_wall_special",
+        "name": "Thin Wall Special",
+        "nameCn": "薄壁-法拉利",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "lamborghini",
+        "name": "Lamborghini",
+        "nameCn": "兰博基尼",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "jaguar",
+        "name": "Jaguar",
+        "nameCn": "捷豹",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "racing_bulls",
+        "name": "Racing Bulls",
+        "nameCn": "小红牛",
+        "color": "#6692FF",
+        "isHidden": false
+    },
+    {
+        "slug": "rb",
+        "name": "RB",
+        "nameCn": "影角",
+        "color": "#6692FF",
+        "isHidden": false
+    },
+    {
+        "slug": "alpine",
+        "name": "Alpine",
+        "nameCn": "阿尔派",
+        "color": "#0093CC",
+        "isHidden": false
+    },
+    {
+        "slug": "brawn_gp",
+        "name": "Brawn GP",
+        "nameCn": "布朗",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "tyrrell",
+        "name": "Tyrrell",
+        "nameCn": "泰瑞尔",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "brabham",
+        "name": "Brabham",
+        "nameCn": "布拉汉姆",
+        "color": "",
+        "isHidden": false
+    },
+    {
+        "slug": "bmw_sauber",
+        "name": "BMW Sauber",
+        "nameCn": "宝马索伯",
+        "color": "#00008B",
+        "isHidden": false
+    },
+    {
+        "slug": "adams",
+        "name": "Adams",
+        "nameCn": "Adams",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "deidt",
+        "name": "Deidt",
+        "nameCn": "Deidt",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "snowberger",
+        "name": "Snowberger",
+        "nameCn": "Snowberger",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "kurtis_kraft",
+        "name": "Kurtis Kraft",
+        "nameCn": "Kurtis Kraft",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "watson",
+        "name": "Watson",
+        "nameCn": "Watson",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "stevens",
+        "name": "Stevens",
+        "nameCn": "Stevens",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "langley",
+        "name": "Langley",
+        "nameCn": "Langley",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "lesovsky",
+        "name": "Lesovsky",
+        "nameCn": "Lesovsky",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "olson",
+        "name": "Olson",
+        "nameCn": "Olson",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "wetteroth",
+        "name": "Wetteroth",
+        "nameCn": "Wetteroth",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "ewing",
+        "name": "Ewing",
+        "nameCn": "Ewing",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "moore",
+        "name": "Moore",
+        "nameCn": "Moore",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "marchese",
+        "name": "Marchese",
+        "nameCn": "Marchese",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "nichels",
+        "name": "Nichels",
+        "nameCn": "Nichels",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "rae",
+        "name": "Rae",
+        "nameCn": "Rae",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "schroeder",
+        "name": "Schroeder",
+        "nameCn": "Schroeder",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "sherman",
+        "name": "Sherman",
+        "nameCn": "Sherman",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "hall",
+        "name": "Hall",
+        "nameCn": "Hall",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "trevis",
+        "name": "Trevis",
+        "nameCn": "Trevis",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "epperly",
+        "name": "Epperly",
+        "nameCn": "Epperly",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "phillips",
+        "name": "Phillips",
+        "nameCn": "Phillips",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "dunn",
+        "name": "Dunn",
+        "nameCn": "Dunn",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "christensen",
+        "name": "Christensen",
+        "nameCn": "Christensen",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "elder",
+        "name": "Elder",
+        "nameCn": "Elder",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "sutton",
+        "name": "Sutton",
+        "nameCn": "Sutton",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "meskowski",
+        "name": "Meskowski",
+        "nameCn": "Meskowski",
+        "color": "",
+        "isHidden": true
+    },
+    {
+        "slug": "kuzma",
+        "name": "Kuzma",
+        "nameCn": "Kuzma",
+        "color": "",
+        "isHidden": true
+    }
+]

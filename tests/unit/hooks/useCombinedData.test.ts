@@ -105,4 +105,130 @@ describe('useCombinedData', () => {
     expect(ferrari?.poles).toBe(246);
     expect(ferrari?.isActive2026).toBe(true);
   });
+
+  it('matches live driver points by name before code when historical codes collide', () => {
+    vi.mocked(useF1).mockReturnValue({
+      state: {
+        teams: [],
+        drivers: [
+          {
+            id: 1923,
+            firstName: 'Denny',
+            lastName: 'Hulme',
+            firstNameCn: '',
+            lastNameCn: '',
+            code: 'HUL',
+            team: 'McLaren',
+            nationality: 'New Zealand',
+            points: 112,
+            wins: 8,
+            podiums: 33,
+            poles: 1,
+            championships: 1,
+            championshipYears: [1967],
+          },
+          {
+            id: 3672,
+            firstName: 'Nico',
+            lastName: 'Hulkenberg',
+            firstNameCn: '尼科',
+            lastNameCn: '霍肯伯格',
+            code: 'HUL',
+            team: 'Kick Sauber',
+            nationality: 'Germany',
+            points: 571,
+            wins: 0,
+            podiums: 1,
+            poles: 1,
+            championships: 0,
+            championshipYears: [],
+          },
+        ],
+        raceResults: [],
+        schedule: [],
+        raceInfo: [],
+        loading: false,
+        error: null,
+        selectedDriver: null,
+        selectedTeam: null,
+        selectedSeason: null,
+        searchQuery: '',
+        viewMode: 'grid',
+        theme: 'light',
+        photosIndex: [],
+        driverChampionships: [],
+      },
+      dispatch: vi.fn(),
+      resolvedTheme: 'light',
+    } as any);
+
+    vi.mocked(useDynamic2026Data).mockReturnValue({
+      schedule: [],
+      drivers: [
+        {
+          id: 'nico-hulkenberg',
+          firstName: 'Nico',
+          lastName: 'Hulkenberg',
+          firstNameCn: '尼科',
+          lastNameCn: '霍肯伯格',
+          code: 'HUL',
+          number: 27,
+          team: 'Kick Sauber',
+          teamCn: '索伯',
+          country: 'Germany',
+          image: '',
+        },
+      ],
+      teams: [],
+      raceResults: [
+        {
+          round: 1,
+          country: 'Australia',
+          slug: 'australia',
+          date: '2026-03-08',
+          results: [
+            {
+              pos: 6,
+              code: 'HUL',
+              firstName: 'Nico',
+              lastName: 'Hulkenberg',
+              firstNameCn: '尼科',
+              lastNameCn: '霍肯伯格',
+              number: 27,
+              team: 'Kick Sauber',
+              teamCn: '索伯',
+              points: 8,
+              status: 'Finished',
+            },
+          ],
+          sprintResults: [
+            {
+              pos: 7,
+              code: 'HUL',
+              firstName: 'Nico',
+              lastName: 'Hulkenberg',
+              firstNameCn: '尼科',
+              lastNameCn: '霍肯伯格',
+              number: 27,
+              team: 'Kick Sauber',
+              teamCn: '索伯',
+              points: 2,
+              status: 'Finished',
+            },
+          ],
+          polePosition: undefined,
+        },
+      ],
+      loading: false,
+      error: null,
+    } as any);
+
+    const { result } = renderHook(() => useCombinedData());
+    const hulme = result.current.combinedDrivers.find((driver) => driver.id === 1923);
+    const hulkenberg = result.current.combinedDrivers.find((driver) => driver.id === 3672);
+
+    expect(hulme?.points).toBe(112);
+    expect(hulkenberg?.points).toBe(581);
+    expect(hulkenberg?.isActive2026).toBe(true);
+  });
 });

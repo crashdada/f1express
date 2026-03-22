@@ -1,20 +1,20 @@
 {
   "summary": {
-    "csv_rows": 506,
+    "csv_rows": 659,
     "db_rows": 879,
-    "csv_unmatched_rows": 189,
+    "csv_unmatched_rows": 26,
     "missing_in_db": 0,
-    "differences": 61,
+    "differences": 82,
     "point_differences": 0,
-    "rank_only_differences": 61,
-    "db_only_rows": 373
+    "rank_only_differences": 82,
+    "db_only_rows": 220
   },
   "missing_in_db": [],
   "differences": [
     {
       "season": 1958,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 57.0,
       "csv_points": 57.0,
       "db_rank": 1,
@@ -23,7 +23,7 @@
     {
       "season": 1958,
       "team_id": 14,
-      "team_name": "玛莎拉蒂",
+      "team_name": "Maserati",
       "db_points": 6.0,
       "csv_points": 6.0,
       "db_rank": 6,
@@ -39,9 +39,27 @@
       "csv_rank": 1
     },
     {
+      "season": 1958,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 3.0,
+      "csv_points": 3.0,
+      "db_rank": 8,
+      "csv_rank": 6
+    },
+    {
+      "season": 1959,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 5.0,
+      "csv_points": 5.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
       "season": 1960,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 1.0,
       "csv_points": 1.0,
       "db_rank": 10,
@@ -50,16 +68,34 @@
     {
       "season": 1962,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 19.0,
       "csv_points": 19.0,
       "db_rank": 4,
       "csv_rank": 5
     },
     {
+      "season": 1962,
+      "team_id": 72,
+      "team_name": "Lola",
+      "db_points": 19.0,
+      "csv_points": 19.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
+      "season": 1963,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 26.0,
+      "csv_points": 26.0,
+      "db_rank": 4,
+      "csv_rank": 5
+    },
+    {
       "season": 1963,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 26.0,
       "csv_points": 26.0,
       "db_rank": 5,
@@ -68,7 +104,7 @@
     {
       "season": 1964,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 49.0,
       "csv_points": 49.0,
       "db_rank": 2,
@@ -102,9 +138,27 @@
       "csv_rank": 2
     },
     {
+      "season": 1965,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 60.0,
+      "csv_points": 60.0,
+      "db_rank": 2,
+      "csv_rank": 1
+    },
+    {
+      "season": 1966,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 35.0,
+      "csv_points": 35.0,
+      "db_rank": 2,
+      "csv_rank": 3
+    },
+    {
       "season": 1966,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 32.0,
       "csv_points": 32.0,
       "db_rank": 3,
@@ -112,8 +166,17 @@
     },
     {
       "season": 1966,
+      "team_id": 79,
+      "team_name": "Eagle",
+      "db_points": 4.0,
+      "csv_points": 4.0,
+      "db_rank": 6,
+      "csv_rank": 7
+    },
+    {
+      "season": 1966,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 7,
@@ -122,7 +185,7 @@
     {
       "season": 1967,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 8,
@@ -130,8 +193,17 @@
     },
     {
       "season": 1968,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 14.0,
+      "csv_points": 14.0,
+      "db_rank": 6,
+      "csv_rank": 7
+    },
+    {
+      "season": 1968,
       "team_id": 78,
-      "team_name": "本田",
+      "team_name": "Honda",
       "db_points": 14.0,
       "csv_points": 14.0,
       "db_rank": 7,
@@ -149,7 +221,7 @@
     {
       "season": 1968,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 52.0,
       "csv_points": 52.0,
       "db_rank": 3,
@@ -158,7 +230,7 @@
     {
       "season": 1969,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 7.0,
       "csv_points": 7.0,
       "db_rank": 5,
@@ -185,7 +257,7 @@
     {
       "season": 1970,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 35.0,
       "csv_points": 35.0,
       "db_rank": 4,
@@ -194,7 +266,7 @@
     {
       "season": 1971,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 33.0,
       "csv_points": 33.0,
       "db_rank": 4,
@@ -248,7 +320,7 @@
     {
       "season": 1980,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 7,
@@ -257,7 +329,7 @@
     {
       "season": 1980,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 9,
@@ -266,7 +338,7 @@
     {
       "season": 1981,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 10.0,
       "csv_points": 10.0,
       "db_rank": 8,
@@ -293,7 +365,7 @@
     {
       "season": 1981,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 10.0,
       "csv_points": 10.0,
       "db_rank": 10,
@@ -311,11 +383,20 @@
     {
       "season": 1982,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 7.0,
       "csv_points": 7.0,
       "db_rank": 9,
       "csv_rank": 10
+    },
+    {
+      "season": 1982,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 30.0,
+      "csv_points": 30.0,
+      "db_rank": 6,
+      "csv_rank": 5
     },
     {
       "season": 1982,
@@ -347,7 +428,7 @@
     {
       "season": 1982,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 5.0,
       "csv_points": 5.0,
       "db_rank": 10,
@@ -392,7 +473,7 @@
     {
       "season": 1984,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 6.0,
       "csv_points": 6.0,
       "db_rank": 9,
@@ -409,8 +490,17 @@
     },
     {
       "season": 1985,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 71.0,
+      "csv_points": 71.0,
+      "db_rank": 3,
+      "csv_rank": 4
+    },
+    {
+      "season": 1985,
       "team_id": 102,
-      "team_name": "威廉姆斯",
+      "team_name": "Williams",
       "db_points": 71.0,
       "csv_points": 71.0,
       "db_rank": 4,
@@ -446,7 +536,7 @@
     {
       "season": 1987,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 6,
@@ -463,12 +553,39 @@
     },
     {
       "season": 1988,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 23.0,
+      "csv_points": 23.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
+      "season": 1988,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 23.0,
       "csv_points": 23.0,
       "db_rank": 4,
       "csv_rank": 5
+    },
+    {
+      "season": 1989,
+      "team_id": 72,
+      "team_name": "Lola",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 15,
+      "csv_rank": 16
+    },
+    {
+      "season": 1989,
+      "team_id": 122,
+      "team_name": "Minardi",
+      "db_points": 6.0,
+      "csv_points": 6.0,
+      "db_rank": 10,
+      "csv_rank": 11
     },
     {
       "season": 1989,
@@ -490,12 +607,30 @@
     },
     {
       "season": 1991,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 3.0,
+      "csv_points": 3.0,
+      "db_rank": 10,
+      "csv_rank": 9
+    },
+    {
+      "season": 1991,
       "team_id": 69,
       "team_name": "Brabham",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 9,
       "csv_rank": 10
+    },
+    {
+      "season": 1992,
+      "team_id": 134,
+      "team_name": "Jordan",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 13,
+      "csv_rank": 11
     },
     {
       "season": 1992,
@@ -509,11 +644,29 @@
     {
       "season": 1999,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 1.0,
       "csv_points": 1.0,
       "db_rank": 10,
       "csv_rank": 9
+    },
+    {
+      "season": 1999,
+      "team_id": 122,
+      "team_name": "Minardi",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 9,
+      "csv_rank": 10
+    },
+    {
+      "season": 2010,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
     },
     {
       "season": 2010,
@@ -543,9 +696,45 @@
       "csv_rank": 12
     },
     {
+      "season": 2012,
+      "team_id": 158,
+      "team_name": "Caterham",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
+    },
+    {
+      "season": 2012,
+      "team_id": 159,
+      "team_name": "Marussia",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 10,
+      "csv_rank": 11
+    },
+    {
+      "season": 2013,
+      "team_id": 158,
+      "team_name": "Caterham",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 10,
+      "csv_rank": 11
+    },
+    {
+      "season": 2013,
+      "team_id": 159,
+      "team_name": "Marussia",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
+    },
+    {
       "season": 2022,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 55.0,
       "csv_points": 55.0,
       "db_rank": 7,
@@ -554,7 +743,7 @@
     {
       "season": 2022,
       "team_id": 57,
-      "team_name": "阿斯顿马丁",
+      "team_name": "Aston Martin",
       "db_points": 55.0,
       "csv_points": 55.0,
       "db_rank": 6,
@@ -566,7 +755,7 @@
     {
       "season": 1958,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 57.0,
       "csv_points": 57.0,
       "db_rank": 1,
@@ -575,7 +764,7 @@
     {
       "season": 1958,
       "team_id": 14,
-      "team_name": "玛莎拉蒂",
+      "team_name": "Maserati",
       "db_points": 6.0,
       "csv_points": 6.0,
       "db_rank": 6,
@@ -591,9 +780,27 @@
       "csv_rank": 1
     },
     {
+      "season": 1958,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 3.0,
+      "csv_points": 3.0,
+      "db_rank": 8,
+      "csv_rank": 6
+    },
+    {
+      "season": 1959,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 5.0,
+      "csv_points": 5.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
       "season": 1960,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 1.0,
       "csv_points": 1.0,
       "db_rank": 10,
@@ -602,16 +809,34 @@
     {
       "season": 1962,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 19.0,
       "csv_points": 19.0,
       "db_rank": 4,
       "csv_rank": 5
     },
     {
+      "season": 1962,
+      "team_id": 72,
+      "team_name": "Lola",
+      "db_points": 19.0,
+      "csv_points": 19.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
+      "season": 1963,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 26.0,
+      "csv_points": 26.0,
+      "db_rank": 4,
+      "csv_rank": 5
+    },
+    {
       "season": 1963,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 26.0,
       "csv_points": 26.0,
       "db_rank": 5,
@@ -620,7 +845,7 @@
     {
       "season": 1964,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 49.0,
       "csv_points": 49.0,
       "db_rank": 2,
@@ -654,9 +879,27 @@
       "csv_rank": 2
     },
     {
+      "season": 1965,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 60.0,
+      "csv_points": 60.0,
+      "db_rank": 2,
+      "csv_rank": 1
+    },
+    {
+      "season": 1966,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 35.0,
+      "csv_points": 35.0,
+      "db_rank": 2,
+      "csv_rank": 3
+    },
+    {
       "season": 1966,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 32.0,
       "csv_points": 32.0,
       "db_rank": 3,
@@ -664,8 +907,17 @@
     },
     {
       "season": 1966,
+      "team_id": 79,
+      "team_name": "Eagle",
+      "db_points": 4.0,
+      "csv_points": 4.0,
+      "db_rank": 6,
+      "csv_rank": 7
+    },
+    {
+      "season": 1966,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 7,
@@ -674,7 +926,7 @@
     {
       "season": 1967,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 8,
@@ -682,8 +934,17 @@
     },
     {
       "season": 1968,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 14.0,
+      "csv_points": 14.0,
+      "db_rank": 6,
+      "csv_rank": 7
+    },
+    {
+      "season": 1968,
       "team_id": 78,
-      "team_name": "本田",
+      "team_name": "Honda",
       "db_points": 14.0,
       "csv_points": 14.0,
       "db_rank": 7,
@@ -701,7 +962,7 @@
     {
       "season": 1968,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 52.0,
       "csv_points": 52.0,
       "db_rank": 3,
@@ -710,7 +971,7 @@
     {
       "season": 1969,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 7.0,
       "csv_points": 7.0,
       "db_rank": 5,
@@ -737,7 +998,7 @@
     {
       "season": 1970,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 35.0,
       "csv_points": 35.0,
       "db_rank": 4,
@@ -746,7 +1007,7 @@
     {
       "season": 1971,
       "team_id": 8,
-      "team_name": "法拉利",
+      "team_name": "Ferrari",
       "db_points": 33.0,
       "csv_points": 33.0,
       "db_rank": 4,
@@ -800,7 +1061,7 @@
     {
       "season": 1980,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 7,
@@ -809,7 +1070,7 @@
     {
       "season": 1980,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 9,
@@ -818,7 +1079,7 @@
     {
       "season": 1981,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 10.0,
       "csv_points": 10.0,
       "db_rank": 8,
@@ -845,7 +1106,7 @@
     {
       "season": 1981,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 10.0,
       "csv_points": 10.0,
       "db_rank": 10,
@@ -863,11 +1124,20 @@
     {
       "season": 1982,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 7.0,
       "csv_points": 7.0,
       "db_rank": 9,
       "csv_rank": 10
+    },
+    {
+      "season": 1982,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 30.0,
+      "csv_points": 30.0,
+      "db_rank": 6,
+      "csv_rank": 5
     },
     {
       "season": 1982,
@@ -899,7 +1169,7 @@
     {
       "season": 1982,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 5.0,
       "csv_points": 5.0,
       "db_rank": 10,
@@ -944,7 +1214,7 @@
     {
       "season": 1984,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 6.0,
       "csv_points": 6.0,
       "db_rank": 9,
@@ -961,8 +1231,17 @@
     },
     {
       "season": 1985,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 71.0,
+      "csv_points": 71.0,
+      "db_rank": 3,
+      "csv_rank": 4
+    },
+    {
+      "season": 1985,
       "team_id": 102,
-      "team_name": "威廉姆斯",
+      "team_name": "Williams",
       "db_points": 71.0,
       "csv_points": 71.0,
       "db_rank": 4,
@@ -998,7 +1277,7 @@
     {
       "season": 1987,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 11.0,
       "csv_points": 11.0,
       "db_rank": 6,
@@ -1015,12 +1294,39 @@
     },
     {
       "season": 1988,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 23.0,
+      "csv_points": 23.0,
+      "db_rank": 5,
+      "csv_rank": 4
+    },
+    {
+      "season": 1988,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 23.0,
       "csv_points": 23.0,
       "db_rank": 4,
       "csv_rank": 5
+    },
+    {
+      "season": 1989,
+      "team_id": 72,
+      "team_name": "Lola",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 15,
+      "csv_rank": 16
+    },
+    {
+      "season": 1989,
+      "team_id": 122,
+      "team_name": "Minardi",
+      "db_points": 6.0,
+      "csv_points": 6.0,
+      "db_rank": 10,
+      "csv_rank": 11
     },
     {
       "season": 1989,
@@ -1042,12 +1348,30 @@
     },
     {
       "season": 1991,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 3.0,
+      "csv_points": 3.0,
+      "db_rank": 10,
+      "csv_rank": 9
+    },
+    {
+      "season": 1991,
       "team_id": 69,
       "team_name": "Brabham",
       "db_points": 3.0,
       "csv_points": 3.0,
       "db_rank": 9,
       "csv_rank": 10
+    },
+    {
+      "season": 1992,
+      "team_id": 134,
+      "team_name": "Jordan",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 13,
+      "csv_rank": 11
     },
     {
       "season": 1992,
@@ -1061,11 +1385,29 @@
     {
       "season": 1999,
       "team_id": 112,
-      "team_name": "飞箭",
+      "team_name": "Arrows",
       "db_points": 1.0,
       "csv_points": 1.0,
       "db_rank": 10,
       "csv_rank": 9
+    },
+    {
+      "season": 1999,
+      "team_id": 122,
+      "team_name": "Minardi",
+      "db_points": 1.0,
+      "csv_points": 1.0,
+      "db_rank": 9,
+      "csv_rank": 10
+    },
+    {
+      "season": 2010,
+      "team_id": 56,
+      "team_name": "Lotus",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
     },
     {
       "season": 2010,
@@ -1095,9 +1437,45 @@
       "csv_rank": 12
     },
     {
+      "season": 2012,
+      "team_id": 158,
+      "team_name": "Caterham",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
+    },
+    {
+      "season": 2012,
+      "team_id": 159,
+      "team_name": "Marussia",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 10,
+      "csv_rank": 11
+    },
+    {
+      "season": 2013,
+      "team_id": 158,
+      "team_name": "Caterham",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 10,
+      "csv_rank": 11
+    },
+    {
+      "season": 2013,
+      "team_id": 159,
+      "team_name": "Marussia",
+      "db_points": 0.0,
+      "csv_points": 0.0,
+      "db_rank": 11,
+      "csv_rank": 10
+    },
+    {
       "season": 2022,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 55.0,
       "csv_points": 55.0,
       "db_rank": 7,
@@ -1106,7 +1484,7 @@
     {
       "season": 2022,
       "team_id": 57,
-      "team_name": "阿斯顿马丁",
+      "team_name": "Aston Martin",
       "db_points": 55.0,
       "csv_points": 55.0,
       "db_rank": 6,
@@ -1114,13 +1492,6 @@
     }
   ],
   "db_only_rows": [
-    {
-      "season": 1958,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 31.0,
-      "db_rank": 3
-    },
     {
       "season": 1958,
       "team_id": 10,
@@ -1180,23 +1551,9 @@
     {
       "season": 1958,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 0.0,
       "db_rank": 9
-    },
-    {
-      "season": 1958,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 3.0,
-      "db_rank": 8
-    },
-    {
-      "season": 1959,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 53.0,
-      "db_rank": 1
     },
     {
       "season": 1959,
@@ -1215,7 +1572,7 @@
     {
       "season": 1959,
       "team_id": 14,
-      "team_name": "玛莎拉蒂",
+      "team_name": "Maserati",
       "db_points": 0.0,
       "db_rank": 18
     },
@@ -1278,21 +1635,14 @@
     {
       "season": 1959,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 0.0,
       "db_rank": 8
     },
     {
       "season": 1959,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 5.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1959,
       "team_id": 57,
-      "team_name": "阿斯顿马丁",
+      "team_name": "Aston Martin",
       "db_points": 0.0,
       "db_rank": 17
     },
@@ -1333,13 +1683,6 @@
     },
     {
       "season": 1960,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 64.0,
-      "db_rank": 1
-    },
-    {
-      "season": 1960,
       "team_id": 7,
       "team_name": "Ewing",
       "db_points": 0.0,
@@ -1362,7 +1705,7 @@
     {
       "season": 1960,
       "team_id": 14,
-      "team_name": "玛莎拉蒂",
+      "team_name": "Maserati",
       "db_points": 0.0,
       "db_rank": 11
     },
@@ -1410,15 +1753,8 @@
     },
     {
       "season": 1960,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 37.0,
-      "db_rank": 2
-    },
-    {
-      "season": 1960,
       "team_id": 57,
-      "team_name": "阿斯顿马丁",
+      "team_name": "Aston Martin",
       "db_points": 0.0,
       "db_rank": 21
     },
@@ -1459,20 +1795,6 @@
     },
     {
       "season": 1961,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 18.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1961,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 32.0,
-      "db_rank": 2
-    },
-    {
-      "season": 1961,
       "team_id": 60,
       "team_name": "JBW",
       "db_points": 0.0,
@@ -1501,24 +1823,10 @@
     },
     {
       "season": 1962,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 37.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1962,
       "team_id": 53,
       "team_name": "Emeryson",
       "db_points": 0.0,
       "db_rank": 8
-    },
-    {
-      "season": 1962,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 39.0,
-      "db_rank": 2
     },
     {
       "season": 1962,
@@ -1542,32 +1850,11 @@
       "db_rank": 11
     },
     {
-      "season": 1962,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 19.0,
-      "db_rank": 5
-    },
-    {
       "season": 1963,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 0.0,
       "db_rank": 14
-    },
-    {
-      "season": 1963,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 26.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1963,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 78.0,
-      "db_rank": 1
     },
     {
       "season": 1963,
@@ -1586,7 +1873,7 @@
     {
       "season": 1963,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 8
     },
@@ -1613,24 +1900,10 @@
     },
     {
       "season": 1964,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 16.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1964,
       "team_id": 55,
-      "team_name": "保时捷",
+      "team_name": "Porsche",
       "db_points": 0.0,
       "db_rank": 7
-    },
-    {
-      "season": 1964,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 43.0,
-      "db_rank": 3
     },
     {
       "season": 1964,
@@ -1649,30 +1922,16 @@
     {
       "season": 1964,
       "team_id": 78,
-      "team_name": "本田",
+      "team_name": "Honda",
       "db_points": 0.0,
       "db_rank": 9
     },
     {
       "season": 1965,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 0.0,
       "db_rank": 7
-    },
-    {
-      "season": 1965,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 14.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1965,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 60.0,
-      "db_rank": 2
     },
     {
       "season": 1965,
@@ -1680,27 +1939,6 @@
       "team_name": "LDS",
       "db_points": 0.0,
       "db_rank": 8
-    },
-    {
-      "season": 1966,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 35.0,
-      "db_rank": 2
-    },
-    {
-      "season": 1966,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 21.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1966,
-      "team_id": 79,
-      "team_name": "老鹰",
-      "db_points": 4.0,
-      "db_rank": 6
     },
     {
       "season": 1966,
@@ -1718,20 +1956,6 @@
     },
     {
       "season": 1967,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 34.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1967,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 50.0,
-      "db_rank": 2
-    },
-    {
-      "season": 1967,
       "team_id": 71,
       "team_name": "LDS",
       "db_points": 0.0,
@@ -1740,16 +1964,9 @@
     {
       "season": 1967,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 12
-    },
-    {
-      "season": 1967,
-      "team_id": 79,
-      "team_name": "老鹰",
-      "db_points": 13.0,
-      "db_rank": 7
     },
     {
       "season": 1967,
@@ -1767,20 +1984,6 @@
     },
     {
       "season": 1968,
-      "team_id": 4,
-      "team_name": "库珀",
-      "db_points": 14.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1968,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 62.0,
-      "db_rank": 1
-    },
-    {
-      "season": 1968,
       "team_id": 71,
       "team_name": "LDS",
       "db_points": 0.0,
@@ -1789,35 +1992,28 @@
     {
       "season": 1968,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 11
     },
     {
       "season": 1968,
       "team_id": 79,
-      "team_name": "老鹰",
+      "team_name": "Eagle",
       "db_points": 0.0,
       "db_rank": 9
     },
     {
       "season": 1969,
       "team_id": 4,
-      "team_name": "库珀",
+      "team_name": "Cooper",
       "db_points": 0.0,
       "db_rank": 7
     },
     {
       "season": 1969,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 47.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1969,
       "team_id": 79,
-      "team_name": "老鹰",
+      "team_name": "Eagle",
       "db_points": 0.0,
       "db_rank": 9
     },
@@ -1827,13 +2023,6 @@
       "team_name": "Tecno",
       "db_points": 0.0,
       "db_rank": 8
-    },
-    {
-      "season": 1970,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 59.0,
-      "db_rank": 1
     },
     {
       "season": 1970,
@@ -1858,24 +2047,10 @@
     },
     {
       "season": 1971,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 21.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1971,
       "team_id": 85,
       "team_name": "Bellasi",
       "db_points": 0.0,
       "db_rank": 10
-    },
-    {
-      "season": 1972,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 61.0,
-      "db_rank": 1
     },
     {
       "season": 1972,
@@ -1907,13 +2082,6 @@
     },
     {
       "season": 1973,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 96.0,
-      "db_rank": 1
-    },
-    {
-      "season": 1973,
       "team_id": 92,
       "team_name": "Ensign",
       "db_points": 0.0,
@@ -1925,20 +2093,6 @@
       "team_name": "Iso Marlboro",
       "db_points": 2.0,
       "db_rank": 10
-    },
-    {
-      "season": 1974,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 42.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1974,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 1.0,
-      "db_rank": 12
     },
     {
       "season": 1974,
@@ -1998,15 +2152,8 @@
     },
     {
       "season": 1975,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 9.0,
-      "db_rank": 7
-    },
-    {
-      "season": 1975,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 14
     },
@@ -2040,13 +2187,6 @@
     },
     {
       "season": 1976,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 29.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1976,
       "team_id": 96,
       "team_name": "Hesketh",
       "db_points": 0.0,
@@ -2069,7 +2209,7 @@
     {
       "season": 1976,
       "team_id": 108,
-      "team_name": "沃尔夫-威廉姆斯",
+      "team_name": "Wolf-Williams",
       "db_points": 0.0,
       "db_rank": 15
     },
@@ -2079,13 +2219,6 @@
       "team_name": "BRM",
       "db_points": 0.0,
       "db_rank": 14
-    },
-    {
-      "season": 1977,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 62.0,
-      "db_rank": 2
     },
     {
       "season": 1977,
@@ -2125,23 +2258,9 @@
     {
       "season": 1977,
       "team_id": 110,
-      "team_name": "雷诺",
+      "team_name": "Renault",
       "db_points": 0.0,
       "db_rank": 17
-    },
-    {
-      "season": 1977,
-      "team_id": 111,
-      "team_name": "沃尔夫",
-      "db_points": 55.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1978,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 86.0,
-      "db_rank": 1
     },
     {
       "season": 1978,
@@ -2156,13 +2275,6 @@
       "team_name": "Hesketh",
       "db_points": 0.0,
       "db_rank": 17
-    },
-    {
-      "season": 1978,
-      "team_id": 111,
-      "team_name": "沃尔夫",
-      "db_points": 24.0,
-      "db_rank": 5
     },
     {
       "season": 1978,
@@ -2188,16 +2300,9 @@
     {
       "season": 1979,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 0.0,
       "db_rank": 16
-    },
-    {
-      "season": 1979,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 39.0,
-      "db_rank": 4
     },
     {
       "season": 1979,
@@ -2209,7 +2314,7 @@
     {
       "season": 1979,
       "team_id": 111,
-      "team_name": "沃尔夫",
+      "team_name": "Wolf",
       "db_points": 0.0,
       "db_rank": 15
     },
@@ -2226,13 +2331,6 @@
       "team_name": "Rebaque",
       "db_points": 0.0,
       "db_rank": 17
-    },
-    {
-      "season": 1980,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 14.0,
-      "db_rank": 5
     },
     {
       "season": 1980,
@@ -2264,13 +2362,6 @@
     },
     {
       "season": 1981,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 22.0,
-      "db_rank": 7
-    },
-    {
-      "season": 1981,
       "team_id": 86,
       "team_name": "March",
       "db_points": 0.0,
@@ -2299,13 +2390,6 @@
     },
     {
       "season": 1982,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 30.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1982,
       "team_id": 86,
       "team_name": "March",
       "db_points": 0.0,
@@ -2331,13 +2415,6 @@
       "team_name": "Toleman Hart",
       "db_points": 0.0,
       "db_rank": 15
-    },
-    {
-      "season": 1983,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 12.0,
-      "db_rank": 8
     },
     {
       "season": 1983,
@@ -2380,13 +2457,6 @@
       "team_name": "Spirit",
       "db_points": 0.0,
       "db_rank": 16
-    },
-    {
-      "season": 1984,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 47.0,
-      "db_rank": 3
     },
     {
       "season": 1984,
@@ -2419,21 +2489,14 @@
     {
       "season": 1985,
       "team_id": 2,
-      "team_name": "阿尔法·罗密欧",
+      "team_name": "Alfa Romeo",
       "db_points": 0.0,
       "db_rank": 10
     },
     {
       "season": 1985,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 71.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1985,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 17
     },
@@ -2468,7 +2531,7 @@
     {
       "season": 1985,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 14
     },
@@ -2481,20 +2544,6 @@
     },
     {
       "season": 1986,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 58.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1986,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 6.0,
-      "db_rank": 8
-    },
-    {
-      "season": 1986,
       "team_id": 118,
       "team_name": "Osella",
       "db_points": 0.0,
@@ -2503,7 +2552,7 @@
     {
       "season": 1986,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 11
     },
@@ -2522,27 +2571,6 @@
       "db_rank": 14
     },
     {
-      "season": 1986,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 19.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1987,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 64.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1987,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 3.0,
-      "db_rank": 9
-    },
-    {
       "season": 1987,
       "team_id": 118,
       "team_name": "Osella",
@@ -2552,16 +2580,9 @@
     {
       "season": 1987,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 14
-    },
-    {
-      "season": 1987,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 28.0,
-      "db_rank": 5
     },
     {
       "season": 1987,
@@ -2572,15 +2593,8 @@
     },
     {
       "season": 1988,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 23.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1988,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 12
     },
@@ -2600,13 +2614,6 @@
     },
     {
       "season": 1988,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 1.0,
-      "db_rank": 10
-    },
-    {
-      "season": 1988,
       "team_id": 123,
       "team_name": "Zakspeed",
       "db_points": 0.0,
@@ -2621,13 +2628,6 @@
     },
     {
       "season": 1988,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 39.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1988,
       "team_id": 126,
       "team_name": "Coloni",
       "db_points": 0.0,
@@ -2636,7 +2636,7 @@
     {
       "season": 1988,
       "team_id": 127,
-      "team_name": "达拉拉",
+      "team_name": "Dallara",
       "db_points": 0.0,
       "db_rank": 16
     },
@@ -2649,31 +2649,10 @@
     },
     {
       "season": 1989,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 15.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1989,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 1.0,
-      "db_rank": 15
-    },
-    {
-      "season": 1989,
       "team_id": 118,
       "team_name": "Osella",
       "db_points": 0.0,
       "db_rank": 18
-    },
-    {
-      "season": 1989,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 6.0,
-      "db_rank": 10
     },
     {
       "season": 1989,
@@ -2684,38 +2663,10 @@
     },
     {
       "season": 1989,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 39.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1989,
       "team_id": 126,
       "team_name": "Coloni",
       "db_points": 0.0,
       "db_rank": 19
-    },
-    {
-      "season": 1989,
-      "team_id": 127,
-      "team_name": "达拉拉",
-      "db_points": 8.0,
-      "db_rank": 8
-    },
-    {
-      "season": 1990,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 3.0,
-      "db_rank": 8
-    },
-    {
-      "season": 1990,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 11.0,
-      "db_rank": 6
     },
     {
       "season": 1990,
@@ -2734,7 +2685,7 @@
     {
       "season": 1990,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 14
     },
@@ -2747,15 +2698,8 @@
     },
     {
       "season": 1990,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 71.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1990,
       "team_id": 127,
-      "team_name": "达拉拉",
+      "team_name": "Dallara",
       "db_points": 0.0,
       "db_rank": 11
     },
@@ -2775,20 +2719,6 @@
     },
     {
       "season": 1991,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 3.0,
-      "db_rank": 10
-    },
-    {
-      "season": 1991,
-      "team_id": 72,
-      "team_name": "罗拉",
-      "db_points": 2.0,
-      "db_rank": 11
-    },
-    {
-      "season": 1991,
       "team_id": 107,
       "team_name": "Ligier",
       "db_points": 0.0,
@@ -2796,31 +2726,10 @@
     },
     {
       "season": 1991,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 6.0,
-      "db_rank": 7
-    },
-    {
-      "season": 1991,
       "team_id": 124,
       "team_name": "AGS",
       "db_points": 0.0,
       "db_rank": 13
-    },
-    {
-      "season": 1991,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 38.5,
-      "db_rank": 4
-    },
-    {
-      "season": 1991,
-      "team_id": 127,
-      "team_name": "达拉拉",
-      "db_points": 5.0,
-      "db_rank": 8
     },
     {
       "season": 1991,
@@ -2838,24 +2747,10 @@
     },
     {
       "season": 1991,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 13.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1991,
       "team_id": 135,
-      "team_name": "兰博基尼",
+      "team_name": "Lamborghini",
       "db_points": 0.0,
       "db_rank": 15
-    },
-    {
-      "season": 1992,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 13.0,
-      "db_rank": 5
     },
     {
       "season": 1992,
@@ -2866,38 +2761,10 @@
     },
     {
       "season": 1992,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 1.0,
-      "db_rank": 12
-    },
-    {
-      "season": 1992,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 91.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1992,
-      "team_id": 127,
-      "team_name": "达拉拉",
-      "db_points": 2.0,
-      "db_rank": 10
-    },
-    {
-      "season": 1992,
       "team_id": 132,
       "team_name": "Fondmetal",
       "db_points": 0.0,
       "db_rank": 15
-    },
-    {
-      "season": 1992,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 1.0,
-      "db_rank": 13
     },
     {
       "season": 1992,
@@ -2908,15 +2775,8 @@
     },
     {
       "season": 1993,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 12.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1993,
       "team_id": 72,
-      "team_name": "罗拉",
+      "team_name": "Lola",
       "db_points": 0.0,
       "db_rank": 13
     },
@@ -2928,56 +2788,14 @@
       "db_rank": 12
     },
     {
-      "season": 1993,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 7.0,
-      "db_rank": 8
-    },
-    {
-      "season": 1993,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 72.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1993,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 3.0,
-      "db_rank": 11
-    },
-    {
       "season": 1994,
       "team_id": 56,
-      "team_name": "莲花",
+      "team_name": "Lotus",
       "db_points": 0.0,
       "db_rank": 14
     },
     {
       "season": 1994,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 5.0,
-      "db_rank": 10
-    },
-    {
-      "season": 1994,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 103.0,
-      "db_rank": 2
-    },
-    {
-      "season": 1994,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 28.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1994,
       "team_id": 140,
       "team_name": "Pacific",
       "db_points": 0.0,
@@ -2989,27 +2807,6 @@
       "team_name": "Simtek",
       "db_points": 0.0,
       "db_rank": 13
-    },
-    {
-      "season": 1995,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 1.0,
-      "db_rank": 10
-    },
-    {
-      "season": 1995,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 137.0,
-      "db_rank": 1
-    },
-    {
-      "season": 1995,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 21.0,
-      "db_rank": 6
     },
     {
       "season": 1995,
@@ -3035,23 +2832,9 @@
     {
       "season": 1996,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 10
-    },
-    {
-      "season": 1996,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 68.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1996,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 22.0,
-      "db_rank": 5
     },
     {
       "season": 1996,
@@ -3063,23 +2846,9 @@
     {
       "season": 1997,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 11
-    },
-    {
-      "season": 1997,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 67.0,
-      "db_rank": 3
-    },
-    {
-      "season": 1997,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 33.0,
-      "db_rank": 5
     },
     {
       "season": 1998,
@@ -3091,44 +2860,9 @@
     {
       "season": 1998,
       "team_id": 122,
-      "team_name": "米纳尔迪",
+      "team_name": "Minardi",
       "db_points": 0.0,
       "db_rank": 10
-    },
-    {
-      "season": 1998,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 33.0,
-      "db_rank": 5
-    },
-    {
-      "season": 1998,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 34.0,
-      "db_rank": 4
-    },
-    {
-      "season": 1999,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 1.0,
-      "db_rank": 9
-    },
-    {
-      "season": 1999,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 16.0,
-      "db_rank": 6
-    },
-    {
-      "season": 1999,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 61.0,
-      "db_rank": 3
     },
     {
       "season": 1999,
@@ -3138,149 +2872,16 @@
       "db_rank": 11
     },
     {
-      "season": 2000,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2000,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 20.0,
-      "db_rank": 4
-    },
-    {
-      "season": 2000,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 17.0,
-      "db_rank": 6
-    },
-    {
-      "season": 2000,
-      "team_id": 146,
-      "team_name": "捷豹",
-      "db_points": 4.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2001,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 0.0,
-      "db_rank": 11
-    },
-    {
-      "season": 2001,
-      "team_id": 125,
-      "team_name": "贝纳通",
-      "db_points": 10.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2001,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 19.0,
-      "db_rank": 5
-    },
-    {
-      "season": 2001,
-      "team_id": 146,
-      "team_name": "捷豹",
-      "db_points": 9.0,
-      "db_rank": 8
-    },
-    {
-      "season": 2002,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 2.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2002,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 9.0,
-      "db_rank": 6
-    },
-    {
-      "season": 2002,
-      "team_id": 146,
-      "team_name": "捷豹",
-      "db_points": 8.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2003,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2003,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 13.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2003,
-      "team_id": 146,
-      "team_name": "捷豹",
-      "db_points": 18.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2004,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 1.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2004,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 5.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2004,
-      "team_id": 146,
-      "team_name": "捷豹",
-      "db_points": 10.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2005,
-      "team_id": 122,
-      "team_name": "米纳尔迪",
-      "db_points": 7.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2005,
-      "team_id": 134,
-      "team_name": "乔丹",
-      "db_points": 12.0,
-      "db_rank": 9
-    },
-    {
       "season": 2005,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 34.0,
       "db_rank": 7
     },
     {
       "season": 2006,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 16.0,
       "db_rank": 7
     },
@@ -3294,436 +2895,142 @@
     {
       "season": 2007,
       "team_id": 81,
-      "team_name": "迈凯伦",
+      "team_name": "McLaren",
       "db_points": 0.0,
       "db_rank": 11
     },
     {
       "season": 2007,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 24.0,
       "db_rank": 5
     },
     {
-      "season": 2007,
-      "team_id": 153,
-      "team_name": "世爵",
-      "db_points": 1.0,
-      "db_rank": 10
-    },
-    {
       "season": 2008,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 29.0,
       "db_rank": 7
     },
     {
-      "season": 2008,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
       "season": 2009,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 153.5,
       "db_rank": 2
     },
     {
-      "season": 2009,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 13.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2010,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 0.0,
-      "db_rank": 11
-    },
-    {
       "season": 2010,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 498.0,
       "db_rank": 1
     },
     {
-      "season": 2010,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 68.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2011,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
       "season": 2011,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 650.0,
       "db_rank": 1
     },
     {
-      "season": 2011,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 69.0,
-      "db_rank": 6
-    },
-    {
-      "season": 2012,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 303.0,
-      "db_rank": 4
-    },
-    {
       "season": 2012,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 460.0,
       "db_rank": 1
     },
     {
-      "season": 2012,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 109.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2012,
-      "team_id": 158,
-      "team_name": "卡特汉姆",
-      "db_points": 0.0,
-      "db_rank": 11
-    },
-    {
-      "season": 2012,
-      "team_id": 159,
-      "team_name": "玛鲁西亚",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2013,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 315.0,
-      "db_rank": 4
-    },
-    {
       "season": 2013,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 596.0,
       "db_rank": 1
     },
     {
-      "season": 2013,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 77.0,
-      "db_rank": 6
-    },
-    {
-      "season": 2013,
-      "team_id": 158,
-      "team_name": "卡特汉姆",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2013,
-      "team_id": 159,
-      "team_name": "玛鲁西亚",
-      "db_points": 0.0,
-      "db_rank": 11
-    },
-    {
-      "season": 2014,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 10.0,
-      "db_rank": 8
-    },
-    {
       "season": 2014,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 405.0,
       "db_rank": 2
     },
     {
-      "season": 2014,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 155.0,
-      "db_rank": 6
-    },
-    {
-      "season": 2014,
-      "team_id": 158,
-      "team_name": "卡特汉姆",
-      "db_points": 0.0,
-      "db_rank": 11
-    },
-    {
-      "season": 2014,
-      "team_id": 159,
-      "team_name": "玛鲁西亚",
-      "db_points": 2.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2015,
-      "team_id": 56,
-      "team_name": "莲花",
-      "db_points": 78.0,
-      "db_rank": 6
-    },
-    {
       "season": 2015,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 187.0,
       "db_rank": 4
     },
     {
-      "season": 2015,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 136.0,
-      "db_rank": 5
-    },
-    {
-      "season": 2015,
-      "team_id": 159,
-      "team_name": "玛鲁西亚",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
       "season": 2016,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 468.0,
       "db_rank": 2
     },
     {
-      "season": 2016,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 173.0,
-      "db_rank": 4
-    },
-    {
-      "season": 2016,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 29.0,
-      "db_rank": 8
-    },
-    {
-      "season": 2016,
-      "team_id": 161,
-      "team_name": "马诺",
-      "db_points": 1.0,
-      "db_rank": 11
-    },
-    {
       "season": 2017,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 368.0,
       "db_rank": 3
     },
     {
-      "season": 2017,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 187.0,
-      "db_rank": 4
-    },
-    {
-      "season": 2017,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 47.0,
-      "db_rank": 8
-    },
-    {
       "season": 2018,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 419.0,
       "db_rank": 3
     },
     {
-      "season": 2018,
-      "team_id": 154,
-      "team_name": "印度力量",
-      "db_points": 52.0,
-      "db_rank": 7
-    },
-    {
-      "season": 2018,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 93.0,
-      "db_rank": 5
-    },
-    {
       "season": 2019,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 417.0,
       "db_rank": 3
     },
     {
-      "season": 2019,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 28.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2019,
-      "team_id": 162,
-      "team_name": "赛点",
-      "db_points": 73.0,
-      "db_rank": 7
-    },
-    {
       "season": 2020,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 319.0,
       "db_rank": 2
     },
     {
-      "season": 2020,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 3.0,
-      "db_rank": 9
-    },
-    {
-      "season": 2020,
-      "team_id": 162,
-      "team_name": "赛点",
-      "db_points": 195.0,
-      "db_rank": 4
-    },
-    {
-      "season": 2020,
-      "team_id": 163,
-      "team_name": "阿尔法托利",
-      "db_points": 107.0,
-      "db_rank": 7
-    },
-    {
       "season": 2021,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 585.5,
       "db_rank": 2
     },
     {
-      "season": 2021,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 0.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2021,
-      "team_id": 163,
-      "team_name": "阿尔法托利",
-      "db_points": 142.0,
-      "db_rank": 6
-    },
-    {
       "season": 2022,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 759.0,
       "db_rank": 1
     },
     {
-      "season": 2022,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 37.0,
-      "db_rank": 8
-    },
-    {
-      "season": 2022,
-      "team_id": 163,
-      "team_name": "阿尔法托利",
-      "db_points": 35.0,
-      "db_rank": 9
-    },
-    {
       "season": 2023,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 860.0,
       "db_rank": 1
     },
     {
-      "season": 2023,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 9.0,
-      "db_rank": 10
-    },
-    {
-      "season": 2023,
-      "team_id": 163,
-      "team_name": "阿尔法托利",
-      "db_points": 25.0,
-      "db_rank": 8
-    },
-    {
       "season": 2024,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 589.0,
       "db_rank": 3
     },
     {
-      "season": 2024,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 53.0,
-      "db_rank": 7
-    },
-    {
       "season": 2025,
       "team_id": 148,
-      "team_name": "红牛",
+      "team_name": "Red Bull Racing",
       "db_points": 451.0,
       "db_rank": 3
-    },
-    {
-      "season": 2025,
-      "team_id": 160,
-      "team_name": "哈斯",
-      "db_points": 79.0,
-      "db_rank": 8
     }
   ]
 }

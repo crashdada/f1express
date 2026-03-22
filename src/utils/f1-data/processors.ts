@@ -1,38 +1,9 @@
 import { Driver, RaceInfo, RaceResult, SeasonStats, Team } from '../../types';
 import { CIRCUIT_TRANSLATIONS, COUNTRY_TRANSLATIONS, TEAM_TRANSLATIONS } from '../translations';
 import { normalizeName } from './formatters';
+import { getDriverMatchKeys, matchesTeam } from '../entityMappings';
 
-const HIDDEN_INDY_SPECIAL_TEAMS = new Set([
-  'Adams',
-  'Deidt',
-  'Snowberger',
-  'Kurtis Kraft',
-  'Watson',
-  'Stevens',
-  'Langley',
-  'Lesovsky',
-  'Olson',
-  'Wetteroth',
-  'Ewing',
-  'Moore',
-  'Marchese',
-  'Nichels',
-  'Rae',
-  'Schroeder',
-  'Sherman',
-  'Hall',
-  'Trevis',
-  'Epperly',
-  'Phillips',
-  'Dunn',
-  'Christensen',
-  'Elder',
-  'Sutton',
-  'Meskowski',
-  'Kuzma',
-]);
-
-function getLocalDriverPhotoPath(
+export function getLocalDriverPhotoPath(
   driver: { firstName: string; lastName: string },
   photoMap: Map<string, string>
 ): string | null {
@@ -61,6 +32,26 @@ function getLocalDriverPhotoPath(
   return null;
 }
 
+function findDriverByMatchKeys<T>(
+  driverMap: Map<string, T>,
+  target: {
+    firstName?: string | null;
+    lastName?: string | null;
+    firstNameCn?: string | null;
+    lastNameCn?: string | null;
+    code?: string | null;
+  }
+) {
+  for (const key of getDriverMatchKeys(target)) {
+    const matchedDriver = driverMap.get(key);
+    if (matchedDriver) {
+      return matchedDriver;
+    }
+  }
+
+  return undefined;
+}
+
 export function processDrivers(
   driversData: any[],
   photosIndex: string[],
@@ -69,12 +60,11 @@ export function processDrivers(
 ): Driver[] {
   const drivers2026Map = new Map<string, any>();
   for (const driver of drivers2026) {
-    if (!driver.code) {
-      continue;
+    for (const key of getDriverMatchKeys(driver)) {
+      if (!drivers2026Map.has(key)) {
+        drivers2026Map.set(key, driver);
+      }
     }
-
-    const key = `${normalizeName(driver.firstName).toLowerCase()}|${normalizeName(driver.lastName).toLowerCase()}|${driver.code.toUpperCase()}`;
-    drivers2026Map.set(key, driver);
   }
 
   const teams2026Map = new Map<string, any>();
@@ -94,9 +84,13 @@ export function processDrivers(
 
   return driversData.map((driver) => {
     const code = (driver.code || '').toUpperCase();
-    const firstName = normalizeName(driver.first_name || '').toLowerCase();
-    const lastName = normalizeName(driver.last_name || '').toLowerCase();
-    const driver2026 = drivers2026Map.get(`${firstName}|${lastName}|${code}`);
+    const driver2026 = findDriverByMatchKeys(drivers2026Map, {
+      firstName: driver.first_name,
+      lastName: driver.last_name,
+      firstNameCn: driver.first_name_cn,
+      lastNameCn: driver.last_name_cn,
+      code,
+    });
 
     // Historical career totals come from the local database.
     // 2026 datasets only supply live-season roster metadata and should not
@@ -108,9 +102,10 @@ export function processDrivers(
 
     const teamName = driver2026?.team || driver.team_name || '';
     const team2026 = [...teams2026Map.values()].find((team) =>
-      team.name.toLowerCase() === teamName.toLowerCase() ||
-      team.name.toLowerCase().includes(teamName.toLowerCase()) ||
-      teamName.toLowerCase().includes(team.name.toLowerCase())
+      matchesTeam(
+        { name: team.name, nameCn: team.nameCn, fullName: team.fullName || team.name },
+        { name: teamName, nameCn: driver2026?.teamCn || driver.team_name_cn, fullName: teamName }
+      )
     );
 
     const processedDriver: Driver = {
@@ -145,22 +140,22 @@ export function processDrivers(
 }
 
 export function processTeams(teamsData: any[], teams2026: any[] = []): Team[] {
-  const teams2026Map = new Map<string, any>();
-  for (const team of teams2026) {
-    if (team.name) {
-      teams2026Map.set(team.name.toLowerCase(), team);
-    }
-  }
-
   return teamsData.map((team) => {
     const name = team.name || '';
-    const team2026 = teams2026Map.get(name.toLowerCase());
+    
+    // Attempt robust match against the 2026 dataset
+    const team2026 = teams2026.find((t) =>
+      matchesTeam(
+        { name, nameCn: team.name_cn || TEAM_TRANSLATIONS[name] || '', fullName: team.full_name || name },
+        { name: t.name, nameCn: t.nameCn, fullName: t.fullName || t.name }
+      )
+    );
 
     return {
       id: name,
       name,
       fullName: team.full_name || name || team2026?.fullName || '',
-      nameCn: team2026?.nameCn || TEAM_TRANSLATIONS[name] || name,
+      nameCn: team.name_cn || team2026?.nameCn || TEAM_TRANSLATIONS[name] || name,
       points: Number(team.total_points || 0),
       wins: Number(team.total_wins || 0),
       podiums: Number(team.total_podiums || 0),
@@ -171,7 +166,7 @@ export function processTeams(teamsData: any[], teams2026: any[] = []): Team[] {
       color: team2026?.color || team.color || '#e10600',
       logo: team2026?.logo || team.logo || '',
     };
-  }).filter((team) => !HIDDEN_INDY_SPECIAL_TEAMS.has(team.name));
+  });
 }
 
 export function processRaceResults(raceResultsData: any[]): RaceResult[] {
@@ -255,17 +250,24 @@ export function mergeDynamicRaceResults(drivers: Driver[], raceResults: RaceResu
     return raceResults;
   }
 
-  const codeToIdMap = new Map<string, number>();
+  const driverLookupMap = new Map<string, number>();
   for (const driver of drivers) {
-    if (driver.code) {
-      codeToIdMap.set(driver.code, driver.id as number);
+    const driverId = Number(driver.id || 0);
+    if (!driverId) {
+      continue;
+    }
+
+    for (const key of getDriverMatchKeys(driver)) {
+      if (!driverLookupMap.has(key)) {
+        driverLookupMap.set(key, driverId);
+      }
     }
   }
 
   const dynamicRaceResults = results2026.flatMap((round: any) => {
     const roundResults = (round.results || []).map((result: any) => ({
       resultId: 2026000 + round.round * 100 + (result.pos || 99),
-      driverId: codeToIdMap.get(result.code) || 0,
+      driverId: findDriverByMatchKeys(driverLookupMap, result) || 0,
       position: result.pos || 0,
       points: Number(result.points || 0),
       firstName: result.firstName || '',
@@ -285,7 +287,7 @@ export function mergeDynamicRaceResults(drivers: Driver[], raceResults: RaceResu
 
     const sprintResults = (round.sprintResults || []).map((result: any) => ({
       resultId: 2026500 + round.round * 100 + (result.pos || 99),
-      driverId: codeToIdMap.get(result.code) || 0,
+      driverId: findDriverByMatchKeys(driverLookupMap, result) || 0,
       position: result.pos || 0,
       points: Number(result.points || 0),
       firstName: result.firstName || '',

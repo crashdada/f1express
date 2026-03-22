@@ -5,6 +5,7 @@ import re
 from bs4 import BeautifulSoup
 import datetime
 import os
+from pathlib import Path
 
 class F1DataCollector:
     def __init__(self, season=None):
@@ -46,7 +47,8 @@ class F1DataCollector:
         # 加载静态赛道参数 metadata
         self.circuit_metadata = {}
         try:
-            with open('config/circuit_metadata.json', 'r', encoding='utf-8') as f:
+            config_path = Path(__file__).resolve().parent.parent / 'config' / 'circuit_metadata.json'
+            with open(config_path, 'r', encoding='utf-8') as f:
                 self.circuit_metadata = json.load(f)
         except:
             print("Warning: circuit_metadata.json not found, using empty metadata")
@@ -288,6 +290,55 @@ class F1DataCollector:
                     'laps':   row[4].get('content', [None])[0] if len(row) > 4 else None,
                     'time':   row[5].get('content', [None])[0] if len(row) > 5 else None,
                     'points': row[6].get('content', [0])[0]    if len(row) > 6 else 0,
+                })
+            return results
+        except:
+            return []
+
+    def get_qualifying_results(self, html, limit=3):
+        """解析排位赛结果，默认返回前 3，保留 Q1/Q2/Q3 与最佳时间。"""
+        full_text = self._reconstruct_next_data(html)
+        start_tag = '"rows":['
+        start_idx = full_text.find(start_tag)
+        if start_idx == -1:
+            return []
+
+        content = full_text[start_idx + len(start_tag) - 1:]
+        brace_count, end_idx = 0, 0
+        for i, char in enumerate(content):
+            if char == '[':
+                brace_count += 1
+            elif char == ']':
+                brace_count -= 1
+            if brace_count == 0:
+                end_idx = i + 1
+                break
+
+        def cell_text(row, index):
+            if len(row) <= index:
+                return None
+            value = row[index].get('content')
+            if isinstance(value, list) and value:
+                first = value[0]
+                return first if isinstance(first, str) else None
+            return value if isinstance(value, str) else None
+
+        try:
+            rows = json.loads(content[:end_idx])
+            results = []
+            for row in rows[:limit]:
+                q1 = cell_text(row, 4)
+                q2 = cell_text(row, 5)
+                q3 = cell_text(row, 6)
+                pos = cell_text(row, 0)
+                results.append({
+                    'position': int(pos) if str(pos).isdigit() else None,
+                    'no': cell_text(row, 1),
+                    'q1': q1,
+                    'q2': q2,
+                    'q3': q3,
+                    'time': q3 or q2 or q1,
+                    'laps': cell_text(row, 7),
                 })
             return results
         except:

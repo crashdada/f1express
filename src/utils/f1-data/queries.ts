@@ -32,7 +32,8 @@ export function buildDriversQuery(driverColumns: Set<string> | null = null) {
     COALESCE(champ.years, '') as championship_years,
     COALESCE(dp.url, '') as avatar,
     COALESCE(lt.color, '#6b7280') as team_color,
-    COALESCE(lt.team_name, '') as team_name
+    COALESCE(lt.team_name, '') as team_name,
+    COALESCE(lt.team_name_cn, '') as team_name_cn
   FROM drivers d
   LEFT JOIN (
     SELECT driver_id, 
@@ -52,7 +53,7 @@ export function buildDriversQuery(driverColumns: Set<string> | null = null) {
     GROUP BY driver_id
   ) champ ON d.driver_id = champ.driver_id
   LEFT JOIN (
-    SELECT dss2.driver_id, t.color, t.name as team_name
+    SELECT dss2.driver_id, t.color, t.name as team_name, t.name_cn as team_name_cn
     FROM driver_season_stats dss2
     JOIN teams t ON dss2.team_id = t.team_id
     WHERE (dss2.driver_id, dss2.season) IN (
@@ -69,7 +70,7 @@ export const DRIVERS_QUERY = buildDriversQuery();
 
 export const TEAMS_QUERY = `
   SELECT 
-    t.team_id, t.name, t.full_name, t.color,
+    t.team_id, t.name, t.name_cn, t.full_name, t.color,
     COALESCE(tp.url, '') as logo,
     COALESCE(SUM(tss.points), 0) as total_points,
     COALESCE(SUM(tss.wins), 0) as total_wins,
@@ -80,6 +81,7 @@ export const TEAMS_QUERY = `
   FROM teams t
   LEFT JOIN team_season_stats tss ON t.team_id = tss.team_id
   LEFT JOIN team_photos tp ON t.team_id = tp.team_id
+  WHERE t.is_hidden = 0
   GROUP BY t.team_id
   ORDER BY total_points DESC
 `;

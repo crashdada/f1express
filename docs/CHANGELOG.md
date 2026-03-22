@@ -1,6 +1,22 @@
-# 更新日志 (Changelog)
+﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-03-22: v1.3.0 - Unified entity mappings, 2026 readiness, and round/event_id normalization
+- Pipeline and data normalization
+  - Unified the CSV identity contract so `round = season round number` and `event_id = Formula1.com event id`, and updated [scripts/pipeline/create_normalized_db.py](D:\oc\f1express\scripts\pipeline\create_normalized_db.py) plus the tracked CSV sources to follow that rule.
+  - Added [scripts/migrate_csv_round_event_id.py](D:\oc\f1express\scripts\migrate_csv_round_event_id.py) to migrate legacy CSV files into the normalized `round + event_id` schema.
+  - Fixed qualifying import after the schema transition so full qualifying history lands correctly in the normalized database build.
+- 2026 collection and archive readiness
+  - Reworked [collector/scrapers/scraper_results.py](D:\oc\f1express\collector\scrapers\scraper_results.py) and [collector/exporters/export_results_json.py](D:\oc\f1express\collector\exporters\export_results_json.py) so 2026 race JSON keeps `eventId`, race `laps/time`, sprint top-8, and qualifying top-3.
+  - Added [scripts/validate_2026_json_readiness.py](D:\oc\f1express\scripts\validate_2026_json_readiness.py) to verify future JSON archive completeness without importing 2026 into DB/CSV.
+  - Corrected 2025 sprint source rows in [sprint_results.csv](D:\oc\f1express\storage\csv\sprint_results.csv), removing the final constructor point mismatch and leaving constructor validation with rank-only historical differences.
+- Frontend identity unification
+  - Added [src/utils/entityMappings.ts](D:\oc\f1express\src\utils\entityMappings.ts) as the shared source of truth for driver and team aliases.
+  - Updated [src/hooks/useCombinedData.ts](D:\oc\f1express\src\hooks\useCombinedData.ts), [src/utils/f1-data/processors.ts](D:\oc\f1express\src\utils\f1-data\processors.ts), [src/pages/DriverDetail2026.tsx](D:\oc\f1express\src\pages\DriverDetail2026.tsx), and [src/pages/TeamDetail2026.tsx](D:\oc\f1express\src\pages\TeamDetail2026.tsx) to use those mappings, fixing duplicate live/historical team rows such as `Mercedes` vs `Mercedes-AMG`.
+  - Tightened [src/components/TeamCard.tsx](D:\oc\f1express\src\components\TeamCard.tsx) so duplicated secondary labels are not rendered when they repeat the visible team name.
+- Release
+  - Bumped the project version to `1.3.0`, refreshed release artifacts, and reran pipeline plus frontend test coverage for this push.
+
 ## 2026-03-19: v1.2.6 - Constructor rules, database rebuild, and Android 2026 bundle
 - Constructor data and validation
   - Rebuilt [storage/f1.db](D:\oc\f1express\storage\f1.db) from current CSV sources, restoring corrected historical values such as Ferrari `1984 = 57.5`, Ferrari `2025 = 398.0`, and Ferrari `1958-2025 = 10722.0`.

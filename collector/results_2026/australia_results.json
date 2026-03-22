@@ -1,9 +1,10 @@
 {
     "round": "ROUND 1",
+    "eventId": 1279,
     "country": "AUSTRALIA",
     "slug": "australia",
     "url": "https://www.formula1.com/en/results/2026/races/1279/australia/race-result",
-    "scraped_at": "2026-03-08T23:46:02.169901",
+    "scraped_at": "2026-03-22T12:53:23.950875",
     "results": [
         {
             "pos": "1",
@@ -158,6 +159,35 @@
             "laps": "0",
             "time": "DNS",
             "points": 0
+        }
+    ],
+    "qualifyingResults": [
+        {
+            "position": 1,
+            "no": "63",
+            "q1": "1:19.507",
+            "q2": "1:18.934",
+            "q3": "1:18.518",
+            "time": "1:18.518",
+            "laps": "22"
+        },
+        {
+            "position": 2,
+            "no": "12",
+            "q1": "1:20.120",
+            "q2": "1:19.435",
+            "q3": "1:18.811",
+            "time": "1:18.811",
+            "laps": "18"
+        },
+        {
+            "position": 3,
+            "no": "6",
+            "q1": "1:20.023",
+            "q2": "1:19.653",
+            "q3": "1:19.303",
+            "time": "1:19.303",
+            "laps": "19"
         }
     ],
     "polePosition": {

@@ -67,6 +67,13 @@ describe('Server API', () => {
     expect(response.body.error).toBe('Unauthorized admin request');
   });
 
+  it('GET /api/check-update should reject requests when no admin token is configured', async () => {
+    const response = await request(app).get('/api/check-update');
+
+    expect(response.status).toBe(503);
+    expect(response.body.error).toBe('ADMIN_API_TOKEN is required for update endpoints.');
+  });
+
   it(
     'GET /api/check-update should return update status',
     async () => {

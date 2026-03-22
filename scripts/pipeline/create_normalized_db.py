@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Build the normalized F1 SQLite database from raw CSV source files.
 
@@ -69,6 +69,7 @@ def create_normalized_database(csv_dir, db_path):
             full_name TEXT,
             team_group TEXT,
             color TEXT,
+            is_hidden INTEGER DEFAULT 0,
             UNIQUE(name)
         );
         CREATE TABLE circuits (
@@ -202,11 +203,22 @@ def create_normalized_database(csv_dir, db_path):
     # 2. 读取 CSV 数据
     print(f"2. 从 {csv_dir} 读取数据...")
     results_path = os.path.join(csv_dir, "race_results.csv")
-    outline_path = os.path.join(csv_dir, "race_outline.csv")
+    meta_path = os.path.join(csv_dir, "races_meta.csv")
+    quali_results_path = os.path.join(csv_dir, "qualifying_results.csv")
     team_mapping_path = os.path.join(csv_dir, "team_names.csv")
     
     df_results_raw = pd.read_csv(results_path)
-    df_outline = pd.read_csv(outline_path)
+    df_meta = pd.read_csv(meta_path)
+    df_quali_results = pd.read_csv(quali_results_path)
+
+    required_event_id_files = [
+        ("race_results.csv", df_results_raw),
+        ("races_meta.csv", df_meta),
+        ("qualifying_results.csv", df_quali_results),
+    ]
+    for filename, df in required_event_id_files:
+        if 'event_id' not in df.columns:
+            raise ValueError(f"{filename} 缺少 event_id 列；当前规范要求 round=赛季轮次、event_id=官网编号")
 
     # --- 预聚合：合并同一车手同一场次的重复行 ---
     # 背景：早期 F1（1950-1968）存在「换车」历史，同一车手同一场次有多行记录
@@ -216,16 +228,17 @@ def create_normalized_database(csv_dir, db_path):
     def _parse_pos(p):
         try: return int(p)
         except: return 9999
-    df_results_raw['_pos_num'] = df_results_raw['名次'].apply(_parse_pos)
-    df_results_raw = df_results_raw.sort_values(['年份', '场次', '名', '姓', '_pos_num'])
-    df_results = df_results_raw.groupby(['年份', '场次', '名', '姓'], sort=False).agg(
-        得分=('得分', 'sum'),       # 累加积分（处理换车共享积分场景）
-        名次=('名次', 'first'),     # 已排序，first = 最好名次
-        车队=('车队', 'first'),
-        圈数=('圈数', 'max'),
-        完成时间=('完成时间', 'first'),
-        缩写=('缩写', 'first'),
-        NO=('NO', 'first'),
+    df_results_raw['_pos_num'] = df_results_raw['position'].apply(_parse_pos)
+    df_results_raw = df_results_raw.sort_values(['year', 'round', 'first_name', 'last_name', '_pos_num'])
+    df_results = df_results_raw.groupby(['year', 'round', 'first_name', 'last_name'], sort=False).agg(
+        points=('points', 'sum'),       # 累加积分（处理换车共享积分场景）
+        position=('position', 'first'),     # 已排序，first = 最好名次
+        team=('team', 'first'),
+        laps=('laps', 'max'),
+        time=('time', 'first'),
+        code=('code', 'first'),
+        number=('number', 'first'),
+        event_id=('event_id', 'first'),
     ).reset_index()
     _raw_rows = len(df_results_raw)
     _dedup_rows = len(df_results)
@@ -240,10 +253,10 @@ def create_normalized_database(csv_dir, db_path):
     # 4. 导入车手
     print("4. 导入车手...")
     drivers_dict = {}
-    for _, row in df_results[['名', '姓', '缩写', 'NO']].drop_duplicates().iterrows():
-        f, l = str(row['名']).strip(), str(row['姓']).strip()
-        c = str(row['缩写']).strip() if pd.notna(row['缩写']) else None
-        n = int(row['NO']) if pd.notna(row['NO']) else None
+    for _, row in df_results[['first_name', 'last_name', 'code', 'number']].drop_duplicates().iterrows():
+        f, l = str(row['first_name']).strip(), str(row['last_name']).strip()
+        c = str(row['code']).strip() if pd.notna(row['code']) else None
+        n = int(row['number']) if pd.notna(row['number']) else None
         if f and l:
             cursor.execute('INSERT OR IGNORE INTO drivers (first_name, last_name, code, number) VALUES (?, ?, ?, ?)', (f, l, c, n))
             cursor.execute('SELECT driver_id FROM drivers WHERE first_name = ? AND last_name = ?', (f, l))
@@ -287,154 +300,121 @@ def create_normalized_database(csv_dir, db_path):
     # 5. 导入车队
     print("5. 导入车队...")
     teams_dict = {}
-    team_colors = {
-        '迈凯伦': '#FF8000',      # rgb(255, 128, 0)
-        '红牛': '#3671C1',        # rgb(54, 113, 193)
-        '梅赛德斯': '#27F4D2',    # rgb(39, 244, 210)
-        '法拉利': '#ED1131',      # rgb(237, 17, 49)
-        '阿斯顿马丁': '#229971',  # rgb(34, 153, 113)
-        '阿尔派': '#0093CC',      # rgb(0, 147, 204)
-        '威廉姆斯': '#1868DB',    # rgb(24, 104, 219)
-        '红牛二队': '#6692FF',    # rgb(102, 146, 255)
-        '阿尔法托利': '#2B4562',  # AlphaTauri navy blue
-        'RB': '#6692FF',
-        'Racing Bulls': '#6692FF',
-        '索伯': '#52E252',        # rgb(82, 226, 82)
-        'Alfa Romeo': '#900000',
-        'BMW Sauber': '#00008B',
-        'Kick Sauber': '#52E252',
-        '哈斯': '#B6BABD',        # rgb(182, 186, 189)
-        'Alpine': '#0093CC',
-        'McLaren': '#FF8000',
-        'Williams': '#1868DB',
-        'Ferrari': '#ED1131',
-        'Red Bull': '#3671C1',
-        '奔驰': '#27F4D2',
-        '莲花': '#c5a059',
-        'Lotus': '#c5a059',
-        '雷诺': '#fff000',
-        'Renault': '#fff000',
-        '印度力量': '#f596c8',
-        'Force India': '#f596c8'
-    }
-    team_pairs = df_results[['年份', '车队']].dropna().drop_duplicates().sort_values(['年份', '车队'])
+    teams_config_path = os.path.join(Path(__file__).resolve().parent.parent, 'teams_config.json')
+    try:
+        with open(teams_config_path, 'r', encoding='utf-8') as f:
+            teams_config = json.load(f)
+    except FileNotFoundError:
+        teams_config = []
+    
+    team_metadata = {t['name']: {
+        "color": t.get('color', '#e10600') or '#e10600', 
+        "nameCn": t.get('nameCn', t['name']),
+        "isHidden": 1 if t.get('isHidden') else 0
+    } for t in teams_config}
+
+    team_pairs = df_results[['year', 'team']].dropna().drop_duplicates().sort_values(['year', 'team'])
     for _, team_row in team_pairs.iterrows():
-        raw_team = team_row['车队']
-        season = int(team_row['年份'])
+        raw_team = team_row['team']
+        season = int(team_row['year'])
         if pd.isna(raw_team):
             continue
         std_name = resolve_team_name(raw_team, team_name_map, season=season)
         if std_name not in teams_dict:
-            color = team_colors.get(std_name, '#e10600')
-            cursor.execute('INSERT OR IGNORE INTO teams (name, name_cn, color) VALUES (?, ?, ?)', (std_name, std_name, color))
+            metadata = team_metadata.get(std_name, {})
+            name_cn = metadata.get('nameCn', std_name)
+            color = metadata.get('color', '#e10600')
+            is_hidden = metadata.get('isHidden', 0)
+            cursor.execute('INSERT OR IGNORE INTO teams (name, name_cn, color, is_hidden) VALUES (?, ?, ?, ?)', (std_name, name_cn, color, is_hidden))
             cursor.execute('SELECT team_id FROM teams WHERE name = ?', (std_name,))
             teams_dict[std_name] = cursor.fetchone()[0]
 
     # 6. 导入赛道与赛季
     print("6. 导入赛道与赛季...")
     circuits_dict = {}
-    for _, row in df_outline.iterrows():
-        cn, co = str(row['赛道']).strip(), str(row['国家地区']).strip()
+    for _, row in df_meta.iterrows():
+        cn, co = str(row['circuit']).strip(), str(row['country']).strip()
         if cn:
+            # 记录历史数据和现代数据的赛道字典 (由赛道名+国家唯一标识)
             cursor.execute('INSERT OR IGNORE INTO circuits (name, country) VALUES (?, ?)', (cn, co))
             cursor.execute('SELECT circuit_id FROM circuits WHERE name = ? AND country = ?', (cn, co))
             circuits_dict[(cn, co)] = cursor.fetchone()[0]
     
-    for season in df_results['年份'].unique():
+    for season in df_meta['year'].unique():
         if pd.notna(season): cursor.execute('INSERT OR IGNORE INTO seasons (season) VALUES (?)', (int(season),))
 
     # 7. 导入比赛
     print("7. 导入比赛...")
     races_dict = {} 
     global_to_round = {}
-    for season in sorted(df_results['年份'].dropna().unique()):
-        season_races = df_results[df_results['年份'] == season][['年份', '场次']].drop_duplicates().sort_values('场次')
-        for i, (_, row) in enumerate(season_races.iterrows(), 1):
-            s, eid = int(row['年份']), int(row['场次'])
-            global_to_round[(s, eid)] = i
-            url = f"https://www.formula1.com/en/results/{s}/races/{i}"
+    
+    # 我们以 df_meta 作为赛站基础（涵盖了 2026 等预排期比赛）
+    for season in sorted(df_meta['year'].dropna().unique()):
+        season_races = df_meta[df_meta['year'] == season].sort_values('round')
+        for _, row in season_races.iterrows():
+            s = int(row['year'])
+            round_number = int(row['round'])
+            event_id = int(row['event_id'])
+            global_to_round[(s, event_id)] = round_number
             
-            # 赛道信息
-            cid = None
-            out_row = df_outline[(df_outline['年份'] == s) & (df_outline['场次'] == eid)]
-            if not out_row.empty:
-                cid = circuits_dict.get((str(out_row.iloc[0]['赛道']).strip(), str(out_row.iloc[0]['国家地区']).strip()))
+            # 优先使用 CSV 中的 URL，没有则拼凑
+            url = row['url'] if pd.notna(row['url']) else f"https://www.formula1.com/en/results/{s}/races/{event_id}"
             
-            cursor.execute('INSERT OR IGNORE INTO races (season, round_number, circuit_id, event_id, url) VALUES (?, ?, ?, ?, ?)', (s, i, cid, eid, url))
-            cursor.execute('SELECT race_id FROM races WHERE season = ? AND round_number = ?', (s, i))
-            races_dict[(s, i)] = cursor.fetchone()[0]
+            # 赛道信息 (从 df_meta 直接获取)
+            cid = circuits_dict.get((str(row['circuit']).strip(), str(row['country']).strip()))
+            
+            try:
+                cursor.execute('INSERT OR IGNORE INTO races (season, round_number, circuit_id, event_id, url) VALUES (?, ?, ?, ?, ?)', (s, round_number, cid, event_id, url))
+            except sqlite3.IntegrityError as e:
+                print(f"   [Error] {s} R{i} {row['circuit']} 导入失败: {e} (cid={cid})")
+                raise
+                
+            cursor.execute('SELECT race_id FROM races WHERE season = ? AND round_number = ?', (s, round_number))
+            races_dict[(s, round_number)] = cursor.fetchone()[0]
 
     # 8. 导入比赛结果
     print("8. 导入比赛结果...")
     for _, row in df_results.iterrows():
-        s, eid = int(row['年份']), int(row['场次'])
-        f, l = str(row['名']).strip(), str(row['姓']).strip()
-        rid = races_dict.get((s, global_to_round.get((s, eid))))
+        s, round_number = int(row['year']), int(row['round'])
+        event_id = int(row['event_id'])
+        f, l = str(row['first_name']).strip(), str(row['last_name']).strip()
+        rid = races_dict.get((s, round_number))
         did = drivers_dict.get((f, l))
-        tid = teams_dict.get(resolve_team_name(row['车队'], team_name_map, teams_dict.keys(), season=s))
+        tid = teams_dict.get(resolve_team_name(row['team'], team_name_map, teams_dict.keys(), season=s))
         
         # 2010年Sauber特殊处理: StatsF1将其记为BMW Sauber (为了平滑过渡及符合参赛商名义)
-        if s == 2010 and str(row['车队']) == 'Sauber Ferrari':
+        if s == 2010 and str(row['team']) == 'Sauber Ferrari':
             tid = teams_dict.get('BMW Sauber')
         
         if rid and did:
-            pos_str = str(row['名次']).strip()
+            pos_str = str(row['position']).strip()
             pos = int(pos_str) if pos_str.isdigit() else None
             status = 'Finished' if pos else ('DSQ' if pos_str == 'DQ' else 'DNF')
-            pts = float(row['得分']) if pd.notna(row['得分']) else 0
-            laps = int(row['圈数']) if pd.notna(row['圈数']) else 0
-            time = str(row['完成时间']).strip() if pd.notna(row['完成时间']) else None
+            pts = float(row['points']) if pd.notna(row['points']) else 0
+            laps = int(row['laps']) if pd.notna(row['laps']) else 0
+            time = str(row['time']).strip() if pd.notna(row['time']) else None
             
             cursor.execute(
                 'INSERT OR IGNORE INTO race_results '
                 '(race_id, driver_id, team_id, position, laps, time, status, points, event_id) '
                 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                (rid, did, tid, pos, laps, time, status, pts, eid)
+                (rid, did, tid, pos, laps, time, status, pts, event_id)
             )
 
 
-    # 9. 导入杆位 (从大纲)
-    print("9. 导入杆位记录...")
-    for _, row in df_outline.iterrows():
-        s, eid = int(row['年份']), int(row['场次'])
-        f, l = str(row['名']).strip(), str(row['姓']).strip()
-        rid = races_dict.get((s, global_to_round.get((s, eid))))
+    # 9. 导入排位赛记录
+    print("9. 导入排位赛记录 (支持 1-20 位)...")
+    for _, row in df_quali_results.iterrows():
+        s, round_number = int(row['year']), int(row['round'])
+        f, l = str(row['first_name']).strip(), str(row['last_name']).strip()
+        rid = races_dict.get((s, round_number))
         did = drivers_dict.get((f, l))
+        pos = int(row['position'])
         if rid and did:
-            cursor.execute('INSERT OR REPLACE INTO qualifying (race_id, driver_id, position, pole_time) VALUES (?, ?, 1, ?)', (rid, did, str(row['Time'])))
+            cursor.execute('INSERT OR REPLACE INTO qualifying (race_id, driver_id, position, pole_time) VALUES (?, ?, ?, ?)', 
+                           (rid, did, pos, str(row['pole_time'])))
 
-    # 10. 导入照片 (从 CSV)
-    print("10. 导入照片数据...")
-    photo_drivers_path = os.path.join(csv_dir, "driver_photos.csv")
-    photo_teams_path = os.path.join(csv_dir, "team_photos.csv")
-    
-    if os.path.exists(photo_drivers_path):
-        df_p_d = pd.read_csv(photo_drivers_path)
-        for _, row in df_p_d.iterrows():
-            f, l = str(row.get('名', '')).strip(), str(row.get('姓', '')).strip()
-            code = str(row.get('缩写', '')).strip()
-            url = str(row.get('网址', '')).strip()
-            if url and url != 'nan':
-                if f and l:
-                    cursor.execute('SELECT driver_id FROM drivers WHERE first_name = ? AND last_name = ?', (f, l))
-                else:
-                    cursor.execute('SELECT driver_id FROM drivers WHERE code = ?', (code,))
-                
-                res = cursor.fetchone()
-                if res:
-                    cursor.execute('INSERT OR REPLACE INTO driver_photos (driver_id, url) VALUES (?, ?)', (res[0], url))
-                    
-    if os.path.exists(photo_teams_path):
-        df_p_t = pd.read_csv(photo_teams_path)
-        team_lookup_names = set(teams_dict.keys())
-        for _, row in df_p_t.iterrows():
-            tn, url = str(row.get('车队', '')).strip(), str(row.get('网址', '')).strip()
-            if url and url != 'nan':
-                std_tn = resolve_team_name(tn, team_name_map, team_lookup_names)
-                cursor.execute('SELECT team_id FROM teams WHERE name = ?', (std_tn,))
-                res = cursor.fetchone()
-                if res: cursor.execute('INSERT OR REPLACE INTO team_photos (team_id, url) VALUES (?, ?)', (res[0], url))
-
+    # 10. 导入车队照片 (从 CSV) (已临时取消，测试不再使用 team_photos.csv)
     # 11. 聚合统计由后续 derive 阶段统一重算，避免和最终规则重复
     print("11. 跳过聚合统计生成，后续 derive 阶段会统一重算...")
     

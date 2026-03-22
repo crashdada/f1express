@@ -50,9 +50,9 @@ REFERENCE_DRIVER_CHINESE_NAMES = {
 }
 
 REFERENCE_CONSTRUCTOR_MULTI_ENTITY_POINTS = {
-    ("迈凯伦", 1966): 3.0,
-    ("迈凯伦", 1967): 3.0,
-    ("迈凯伦", 1968): 52.0,
+    ("McLaren", 1966): 3.0,
+    ("McLaren", 1967): 3.0,
+    ("McLaren", 1968): 52.0,
 }
 
 # Known WDC champions for validation

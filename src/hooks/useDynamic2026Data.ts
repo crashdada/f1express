@@ -1,169 +1,107 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IDriver2026, ITeam2026 } from '../types';
+import { REMOTE_DATA_BASE_URL } from '../utils/f1-data/constants';
+import { decorateSeason2026Assets, loadSeason2026Data } from '../utils/f1-data/season2026';
 
-export const REMOTE_DATA_BASE_URL = 'https://ghproxy.net/https://raw.githubusercontent.com/crashdada/f1-collector/main/data';
+export { REMOTE_DATA_BASE_URL };
 
 interface F1Event {
-    round: string;
-    country: string;
-    gpName: string;
-    dates: string;
-    image: string | null;
-    flag?: string;
-    slug?: string;
-    sessions?: { name: string; time: string }[];
-    roundNumber?: number;
-    status?: string;
+  round: string;
+  country: string;
+  gpName: string;
+  dates: string;
+  image: string | null;
+  flag?: string;
+  slug?: string;
+  sessions?: { name: string; time: string }[];
+  roundNumber?: number;
+  status?: string;
 }
 
 export interface IRaceResult2026 {
-    pos: number | null;
+  pos: number | null;
+  firstName: string;
+  lastName: string;
+  firstNameCn: string;
+  lastNameCn: string;
+  code: string;
+  number: number;
+  team: string;
+  teamCn: string;
+  points: number;
+  status: string;
+}
+
+export interface IRaceRound2026 {
+  round: number;
+  country: string;
+  slug: string;
+  date: string;
+  polePosition?: {
+    time: string;
+    code: string;
     firstName: string;
     lastName: string;
     firstNameCn: string;
     lastNameCn: string;
-    code: string;
-    number: number;
-    team: string;
-    teamCn: string;
-    points: number;
-    status: string;
-}
-
-export interface IRaceRound2026 {
-    round: number;
-    country: string;
-    slug: string;
-    date: string;
-    polePosition?: {
-        time: string;
-        code: string;
-        firstName: string;
-        lastName: string;
-        firstNameCn: string;
-        lastNameCn: string;
-    };
-    results: IRaceResult2026[];
-    sprintResults?: IRaceResult2026[];
+  };
+  results: IRaceResult2026[];
+  sprintResults?: IRaceResult2026[];
 }
 
 interface DynamicDataState {
-    schedule: F1Event[];
-    drivers: IDriver2026[];
-    teams: ITeam2026[];
-    raceResults: IRaceRound2026[];
-    loading: boolean;
-    error: Error | null;
+  schedule: F1Event[];
+  drivers: IDriver2026[];
+  teams: ITeam2026[];
+  raceResults: IRaceRound2026[];
+  loading: boolean;
+  error: Error | null;
 }
 
 export function useDynamic2026Data() {
-    const [data, setData] = useState<DynamicDataState>({
-        schedule: [],
-        drivers: [],
-        teams: [],
-        raceResults: [],
-        loading: true,
-        error: null,
-    });
+  const [data, setData] = useState<DynamicDataState>({
+    schedule: [],
+    drivers: [],
+    teams: [],
+    raceResults: [],
+    loading: true,
+    error: null,
+  });
 
-    useEffect(() => {
-        let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-        const loadData = async () => {
-            try {
-                const timestamp = Date.now();
-                // 1. 优先加载本地打包好的基础数据 (Local fallback)
-                const [sRes, dRes, tRes, rRes] = await Promise.all([
-                    fetch(`/data/schedule_2026.json?t=${timestamp}`),
-                    fetch(`/data/drivers_2026.json?t=${timestamp}`),
-                    fetch(`/data/teams_2026.json?t=${timestamp}`),
-                    fetch(`/data/results_2026.json?t=${timestamp}`).catch(() => null),
-                ]);
+    const loadData = async () => {
+      try {
+        const assetVersion = Date.now();
+        const season2026Data = await loadSeason2026Data();
 
-                const processAssets = (items: any[]) => items.map(item => {
-                    const addTs = (url: string | null | undefined) => {
-                        if (!url) return url;
-                        if (url.startsWith('http')) return url; // Don't add timestamp to remote F1 CDN assets
-                        return `${url}?v=${timestamp}`;
-                    };
-                    return {
-                        ...item,
-                        image: addTs(item.image),
-                        detailedImage: addTs(item.detailedImage),
-                        flag: addTs(item.flag),
-                        officialImage: addTs(item.officialImage),
-                        logo: addTs(item.logo),
-                        carImage: addTs(item.carImage)
-                    };
-                });
+        if (!isMounted) {
+          return;
+        }
 
-                const raceResults: IRaceRound2026[] = (rRes && rRes.ok) ? await rRes.json() : [];
+        setData({
+          schedule: decorateSeason2026Assets(season2026Data.schedule, assetVersion),
+          drivers: decorateSeason2026Assets(season2026Data.drivers2026, assetVersion),
+          teams: decorateSeason2026Assets(season2026Data.teams2026, assetVersion),
+          raceResults: season2026Data.results2026 as IRaceRound2026[],
+          loading: false,
+          error: null,
+        });
+      } catch (err) {
+        console.error('Failed to load local baseline data', err);
+        if (isMounted) {
+          setData((prev) => ({ ...prev, loading: false, error: err as Error }));
+        }
+      }
+    };
 
-                if (isMounted) {
-                    setData({
-                        schedule: processAssets(await sRes.json()),
-                        drivers: processAssets(await dRes.json()),
-                        teams: processAssets(await tRes.json()),
-                        raceResults,
-                        loading: false,
-                        error: null,
-                    });
-                }
+    loadData();
 
-                // 2. 后台静默拉取 GitHub 上的最新数据 (Remote update) - 仅限非本地环境
-                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                
-                if (!isLocalhost) {
-                    try {
-                        const [sRem, dRem, tRem, rRem] = await Promise.all([
-                            fetch(`${REMOTE_DATA_BASE_URL}/schedule_2026.json?t=${timestamp}`),
-                            fetch(`${REMOTE_DATA_BASE_URL}/drivers_2026.json?t=${timestamp}`),
-                            fetch(`${REMOTE_DATA_BASE_URL}/teams_2026.json?t=${timestamp}`),
-                            fetch(`${REMOTE_DATA_BASE_URL}/results_2026.json?t=${timestamp}`).catch(() => null),
-                        ]);
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-                        if (isMounted && sRem.ok && dRem.ok && tRem.ok) {
-                            const newSchedule = await sRem.json();
-                            const newDrivers = processAssets(await dRem.json());
-                            const newTeams = processAssets(await tRem.json());
-                            const newResults: IRaceRound2026[] = (rRem && rRem.ok) ? await rRem.json() : [];
-
-                            // 防护机制: 检查远端数据完整性
-                            if (newSchedule.length < 20 || newDrivers.length === 0 || newTeams.length === 0) {
-                                console.warn('⚠️ 远端 GitHub 数据完整性校验失败，继续使用本地数据。');
-                                return;
-                            }
-
-                            if (isMounted) {
-                                setData(prev => ({
-                                    ...prev,
-                                    schedule: processAssets(newSchedule),
-                                    drivers: newDrivers,
-                                    teams: newTeams,
-                                    raceResults: newResults.length > prev.raceResults.length ? newResults : prev.raceResults,
-                                }));
-                                console.log('🔄 Data successfully synced and seamlessly updated from GitHub');
-                            }
-                        }
-                    } catch (remoteErr) {
-                        console.warn('⚠️ 后台数据静默拉取失败，继续使用本地数据', remoteErr);
-                    }
-                } else {
-                    console.log('🚀 Localhost detected, skipping remote data sync to preserve local changes.');
-                }
-
-            } catch (err) {
-                console.error('Failed to load local baseline data', err);
-                if (isMounted) {
-                    setData(prev => ({ ...prev, loading: false, error: err as Error }));
-                }
-            }
-        };
-
-        loadData();
-
-        return () => { isMounted = false; };
-    }, []);
-
-    return data;
+  return data;
 }

@@ -5,6 +5,7 @@ import { IDriver2026, ITeam2026 } from '../types';
 import { translateCountry } from '../utils/translations';
 
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
+import { getDriverMatchKeys, matchesDriver, matchesTeam } from '../utils/entityMappings';
 
 const DriverDetail2026 = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,31 +19,40 @@ const DriverDetail2026 = () => {
 
         // Calculate points (including Sprints)
         const totalPoints = allRaceResults.reduce((sum, round) => {
-            const racePt = round.results?.find(r => r.code === driver.code)?.points || 0;
-            const sprintPt = round.sprintResults?.find(r => r.code === driver.code)?.points || 0;
+            const racePt = round.results?.find(r => matchesDriver(r, driver))?.points || 0;
+            const sprintPt = round.sprintResults?.find(r => matchesDriver(r, driver))?.points || 0;
             return sum + racePt + sprintPt;
         }, 0);
 
         // Calculate wins/podiums (Main Race ONLY)
         const mainResults = allRaceResults.flatMap(round => 
-            (round.results || []).filter(r => r.code === driver.code)
+            (round.results || []).filter(r => matchesDriver(r, driver))
         );
         const wins = mainResults.filter(r => r.pos === 1).length;
         const podiums = mainResults.filter(r => r.pos != null && r.pos <= 3).length;
-        const poles = allRaceResults.filter(r => r.polePosition && r.polePosition.code === driver.code).length;
+        const poles = allRaceResults.filter(r => r.polePosition && matchesDriver(r.polePosition, driver)).length;
 
         // Compute rank based on total points (Race + Sprint)
         const allDriverPoints: Record<string, number> = {};
         allRaceResults.forEach(round => {
             round.results?.forEach(r => {
-                allDriverPoints[r.code] = (allDriverPoints[r.code] || 0) + (r.points || 0);
+                const driverKey = getDriverMatchKeys(r)[0];
+                if (!driverKey) {
+                    return;
+                }
+                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + (r.points || 0);
             });
             round.sprintResults?.forEach(r => {
-                allDriverPoints[r.code] = (allDriverPoints[r.code] || 0) + (r.points || 0);
+                const driverKey = getDriverMatchKeys(r)[0];
+                if (!driverKey) {
+                    return;
+                }
+                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + (r.points || 0);
             });
         });
         const sortedPoints = Object.entries(allDriverPoints).sort((a, b) => b[1] - a[1]);
-        const rank = sortedPoints.findIndex(([code]) => code === driver.code) + 1;
+        const driverKeys = getDriverMatchKeys(driver);
+        const rank = sortedPoints.findIndex(([key]) => driverKeys.includes(key)) + 1;
 
         return { points: totalPoints, wins, podiums, rank: rank || undefined, poles, fastestLaps: 0 };
     }, [driver, allRaceResults]);
@@ -54,9 +64,10 @@ const DriverDetail2026 = () => {
             if (foundDriver) {
                 setDriver(foundDriver);
                 const foundTeam = teams.find((t: ITeam2026) =>
-                    t.name.includes(foundDriver.team) ||
-                    t.nameCn === foundDriver.teamCn ||
-                    foundDriver.team.includes(t.name)
+                    matchesTeam(
+                        { name: t.name, nameCn: t.nameCn, fullName: t.name },
+                        { name: foundDriver.team, nameCn: foundDriver.teamCn, fullName: foundDriver.team }
+                    )
                 );
                 setTeam(foundTeam || null);
             }

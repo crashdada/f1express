@@ -41,7 +41,31 @@ interface TeamCardProps {
   variant?: 'compact' | 'full';
 }
 
+const normalizeTeamLabel = (value?: string | null) =>
+  (value || '').trim().toLowerCase();
+
+const getInlineEnglishName = (team: Team) => {
+  const chinese = normalizeTeamLabel(team.nameCn);
+  const english = (team.name || '').trim();
+  return english && normalizeTeamLabel(english) !== chinese ? english : '';
+};
+
+const getSecondaryTeamLabel = (team: Team) => {
+  const secondary = (team.fullName || '').trim();
+  const inlineEnglish = getInlineEnglishName(team);
+
+  if (!secondary) return '';
+  if (normalizeTeamLabel(secondary) === normalizeTeamLabel(inlineEnglish)) return '';
+  if (normalizeTeamLabel(secondary) === normalizeTeamLabel(team.name)) return '';
+  if (normalizeTeamLabel(secondary) === normalizeTeamLabel(team.nameCn)) return '';
+
+  return secondary;
+};
+
 export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
+  const inlineEnglishName = getInlineEnglishName(team);
+  const secondaryTeamLabel = getSecondaryTeamLabel(team);
+
   if (variant === 'compact') {
     return (
       <Link
@@ -90,7 +114,7 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: team.color || '#6b7280' }} />
             <span className="font-semibold text-primary truncate group-hover:text-f1-red transition-colors">
-              {team.nameCn} {team.name !== team.nameCn && <span className="text-secondary text-xs font-normal">({team.name})</span>}
+              {team.nameCn} {inlineEnglishName && <span className="text-secondary text-xs font-normal">({inlineEnglishName})</span>}
             </span>
             {team.championships > 0 && (
               <span className="flex items-center text-accent-gold text-xs">
@@ -157,12 +181,12 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
             <h3 className="text-xl font-bold text-primary mb-1 group-hover:text-f1-red transition-colors">
               {team.nameCn}
             </h3>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: team.color || '#6b7280' }} />
-              <span className="text-xs text-secondary font-medium">{team.fullName}</span>
-            </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: team.color || '#6b7280' }} />
+              {secondaryTeamLabel && <span className="text-xs text-secondary font-medium">{secondaryTeamLabel}</span>}
           </div>
         </div>
+      </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
@@ -215,89 +239,94 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
   );
 };
 
-export const TeamRow = ({ team, index }: { team: Team; index: number }) => (
-  <tr className="border-t border-border hover:bg-primary/5 transition-colors group">
-    <td className="py-4 px-6">
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${index === 0 ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20' :
-        index === 1 ? 'bg-gray-400 text-black' :
-          index === 2 ? 'bg-orange-500 text-black' :
-            'bg-primary/20 text-primary'
-        }`}>
-        {index + 1}
-      </div>
-    </td>
-    <td className="py-4 px-6">
-      <div className="flex items-center space-x-3">
-        {team.logo ? (
-          <div
-            className={`w-12 h-12 rounded-full overflow-hidden p-2 shadow-md flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-105 border ${(team.id || team.name)?.toLowerCase().includes('ferrari') ? 'border-f1-red/20' : ''
-              }`}
-            style={{ backgroundColor: getAccessibleBgColor(team) }}
-          >
-            <img
-              src={team.logo}
-              alt={team.name}
-              className={`w-full h-full object-contain ${shouldInvertLogo(team.id || '', team.name) ? 'filter brightness-0 invert' : ''
-                }`}
-            />
-          </div>
-        ) : (
-          <div
-            className="w-12 h-12 rounded-full flex items-center justify-center font-bold p-1 shadow-md flex-shrink-0"
-            style={{
-              backgroundColor: team.color || '#6b7280',
-              color: getContrastTextColor(team.color || '#6b7280')
-            }}
-          >
-            <span className="text-[10px] leading-tight text-center">{getTeamDisplayName(team)}</span>
-          </div>
-        )}
-        <div className="min-w-0">
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-primary truncate group-hover:text-f1-red transition-colors">
-              {team.nameCn}
-              {team.name !== team.nameCn && <span className="text-secondary text-xs font-normal ml-2">({team.name})</span>}
-            </span>
-            {team.championships > 0 && (
-              <Crown size={12} className="text-accent-gold shrink-0" />
-            )}
-          </div>
-          <div className="text-[10px] text-secondary truncate">{team.fullName}</div>
+export const TeamRow = ({ team, index }: { team: Team; index: number }) => {
+  const inlineEnglishName = getInlineEnglishName(team);
+  const secondaryTeamLabel = getSecondaryTeamLabel(team);
+
+  return (
+    <tr className="border-t border-border hover:bg-primary/5 transition-colors group">
+      <td className="py-4 px-6">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${index === 0 ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20' :
+          index === 1 ? 'bg-gray-400 text-black' :
+            index === 2 ? 'bg-orange-500 text-black' :
+              'bg-primary/20 text-primary'
+          }`}>
+          {index + 1}
         </div>
-      </div>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <span className="text-xl font-bold text-accent-blue">{team.points.toLocaleString()}</span>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <div className="flex items-center justify-end space-x-1 text-primary">
-        <Trophy size={16} className="text-accent-gold" />
-        <span className="font-bold">{team.wins}</span>
-      </div>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <div className="flex items-center justify-end space-x-1 text-primary">
-        <Medal size={16} className="text-accent-purple" />
-        <span className="font-bold">{team.podiums}</span>
-      </div>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <div className="flex items-center justify-end space-x-1 text-primary">
-        <Timer size={16} className={team.poles > 0 ? 'text-accent-pink' : 'text-secondary'} />
-        <span className="font-bold">{team.poles}</span>
-      </div>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <div className="flex items-center justify-end space-x-1 text-primary">
-        <Crown size={16} className={team.driverChampionships > 0 ? 'text-accent-gold' : 'text-secondary'} />
-        <span className="font-bold">{team.driverChampionships}</span>
-      </div>
-    </td>
-    <td className="py-4 px-6 text-right">
-      <div className="flex items-center justify-end space-x-1 text-primary">
-        <Crown size={16} className={team.championships > 0 ? 'text-accent-gold' : 'text-secondary'} />
-        <span className="font-bold">{team.championships}</span>
-      </div>
-    </td>
-  </tr>
-);
+      </td>
+      <td className="py-4 px-6">
+        <div className="flex items-center space-x-3">
+          {team.logo ? (
+            <div
+              className={`w-12 h-12 rounded-full overflow-hidden p-2 shadow-md flex-shrink-0 flex items-center justify-center transition-transform group-hover:scale-105 border ${(team.id || team.name)?.toLowerCase().includes('ferrari') ? 'border-f1-red/20' : ''
+                }`}
+              style={{ backgroundColor: getAccessibleBgColor(team) }}
+            >
+              <img
+                src={team.logo}
+                alt={team.name}
+                className={`w-full h-full object-contain ${shouldInvertLogo(team.id || '', team.name) ? 'filter brightness-0 invert' : ''
+                  }`}
+              />
+            </div>
+          ) : (
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center font-bold p-1 shadow-md flex-shrink-0"
+              style={{
+                backgroundColor: team.color || '#6b7280',
+                color: getContrastTextColor(team.color || '#6b7280')
+              }}
+            >
+              <span className="text-[10px] leading-tight text-center">{getTeamDisplayName(team)}</span>
+            </div>
+          )}
+          <div className="min-w-0">
+            <div className="flex items-center space-x-2">
+              <span className="font-bold text-primary truncate group-hover:text-f1-red transition-colors">
+                {team.nameCn}
+                {inlineEnglishName && <span className="text-secondary text-xs font-normal ml-2">({inlineEnglishName})</span>}
+              </span>
+              {team.championships > 0 && (
+                <Crown size={12} className="text-accent-gold shrink-0" />
+              )}
+            </div>
+            {secondaryTeamLabel && <div className="text-[10px] text-secondary truncate">{secondaryTeamLabel}</div>}
+          </div>
+        </div>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <span className="text-xl font-bold text-accent-blue">{team.points.toLocaleString()}</span>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <div className="flex items-center justify-end space-x-1 text-primary">
+          <Trophy size={16} className="text-accent-gold" />
+          <span className="font-bold">{team.wins}</span>
+        </div>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <div className="flex items-center justify-end space-x-1 text-primary">
+          <Medal size={16} className="text-accent-purple" />
+          <span className="font-bold">{team.podiums}</span>
+        </div>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <div className="flex items-center justify-end space-x-1 text-primary">
+          <Timer size={16} className={team.poles > 0 ? 'text-accent-pink' : 'text-secondary'} />
+          <span className="font-bold">{team.poles}</span>
+        </div>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <div className="flex items-center justify-end space-x-1 text-primary">
+          <Crown size={16} className={team.driverChampionships > 0 ? 'text-accent-gold' : 'text-secondary'} />
+          <span className="font-bold">{team.driverChampionships}</span>
+        </div>
+      </td>
+      <td className="py-4 px-6 text-right">
+        <div className="flex items-center justify-end space-x-1 text-primary">
+          <Crown size={16} className={team.championships > 0 ? 'text-accent-gold' : 'text-secondary'} />
+          <span className="font-bold">{team.championships}</span>
+        </div>
+      </td>
+    </tr>
+  );
+};
