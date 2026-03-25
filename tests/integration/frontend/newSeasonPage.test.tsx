@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import NewSeasonPage from '../../../src/pages/NewSeasonPage';
 import * as dynamicDataHook from '../../../src/hooks/useDynamic2026Data';
 import { renderWithRouter } from '../../support/render';
@@ -47,15 +48,46 @@ const mockData = {
     { code: 'ANT', lastNameCn: '瀹変笢鍐呭埄', image: 'ant.png', team: 'Mercedes' },
     { code: 'LEC', lastNameCn: '勒克莱尔', image: 'lec.png', team: 'Ferrari' },
   ],
-  teams: [],
+  teams: [
+    {
+      id: 'mercedes',
+      name: 'Mercedes',
+      nameCn: '梅赛德斯',
+      color: '#27f4d2',
+      logo: '/logos/mercedes.png',
+      drivers: ['RUS', 'ANT'],
+      carImage: '',
+      engine: 'Mercedes',
+      engineCn: '梅赛德斯',
+      base: 'Brackley',
+      baseCn: '布拉克利',
+    },
+    {
+      id: 'ferrari',
+      name: 'Ferrari',
+      nameCn: '法拉利',
+      color: '#e8002d',
+      logo: '/logos/ferrari.png',
+      drivers: ['LEC'],
+      carImage: '',
+      engine: 'Ferrari',
+      engineCn: '法拉利',
+      base: 'Maranello',
+      baseCn: '马拉内罗',
+    },
+  ],
   raceResults: [
     {
       round: 1,
       slug: 'australia',
       results: [
-        { pos: 1, code: 'RUS', status: 'Finished' },
-        { pos: 2, code: 'ANT', status: '+5.515' },
-        { pos: 3, code: 'LEC', status: '+15.200' },
+        { pos: 1, code: 'RUS', team: 'Mercedes', teamCn: '梅赛德斯', points: 25, status: 'Finished' },
+        { pos: 2, code: 'ANT', team: 'Mercedes', teamCn: '梅赛德斯', points: 18, status: '+5.515' },
+        { pos: 3, code: 'LEC', team: 'Ferrari', teamCn: '法拉利', points: 15, status: '+15.200' },
+      ],
+      sprintResults: [
+        { pos: 1, code: 'RUS', team: 'Mercedes', teamCn: '梅赛德斯', points: 8, status: 'Finished' },
+        { pos: 2, code: 'LEC', team: 'Ferrari', teamCn: '法拉利', points: 7, status: '+1.000' },
       ],
     },
   ],
@@ -100,5 +132,16 @@ describe('NewSeasonPage UI logic', () => {
 
     expect(japanLink).toBeTruthy();
     expect(japanLink?.getAttribute('href')).toBe('/new-season/race/japan');
+  });
+
+  it('renders team logos in constructor leader and standings rows', async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NewSeasonPage />);
+
+    await user.click(screen.getByRole('button', { name: '积分榜' }));
+    await user.click(screen.getByRole('button', { name: '车队榜' }));
+
+    expect(screen.getByTestId('constructor-leader-logo')).toBeInTheDocument();
+    expect(screen.getAllByTestId('team-standings-logo').length).toBeGreaterThan(0);
   });
 });

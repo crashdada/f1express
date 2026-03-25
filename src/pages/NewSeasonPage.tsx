@@ -5,6 +5,7 @@ import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 import { isAndroid } from '../utils/platform';
+import { getTeamDisplayName } from '../utils/f1Data';
 
 type TabType = 'schedule' | 'drivers' | 'teams' | 'standings';
 type StandingsView = 'drivers' | 'teams';
@@ -39,6 +40,72 @@ const SEASON_2026_GP_TRANSLATIONS: Record<string, string> = {
   'Las Vegas Grand Prix': '拉斯维加斯大奖赛',
   'Qatar Grand Prix': '卡塔尔大奖赛',
   'Abu Dhabi Grand Prix': '阿布扎比大奖赛',
+};
+
+const getContrastTextColor = (bgColor: string): string => {
+  const hex = bgColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.5 ? '#1a1a1a' : '#ffffff';
+};
+
+const getAccessibleTeamBgColor = (team: { color?: string; id?: string; name?: string }) => {
+  const color = team.color || '#6b7280';
+  const teamId = (team.id || team.name || '').toLowerCase();
+
+  if (color.toLowerCase() === '#ff8700' || teamId.includes('mclaren')) {
+    return '#cc6b00';
+  }
+
+  if (color.toLowerCase() === '#e8002d' || teamId.includes('ferrari')) {
+    return 'rgb(237, 17, 49)';
+  }
+
+  return color;
+};
+
+const TeamLogoBadge = ({
+  team,
+  sizeClass,
+  testId,
+}: {
+  team: { id?: string; name?: string; nameCn?: string; color?: string; logo?: string };
+  sizeClass: string;
+  testId?: string;
+}) => {
+  const displayName = getTeamDisplayName(team);
+
+  if (team.logo) {
+    return (
+      <div
+        data-testid={testId}
+        className={`${sizeClass} rounded-2xl p-2 shrink-0 flex items-center justify-center shadow-sm border border-white/10`}
+        style={{ backgroundColor: getAccessibleTeamBgColor(team) }}
+      >
+        <img src={team.logo} alt={displayName} className="w-full h-full object-contain" />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      data-testid={testId}
+      className={`${sizeClass} rounded-2xl shrink-0 flex items-center justify-center p-1`}
+      style={{ backgroundColor: team.color || '#6b7280' }}
+    >
+      <span
+        className="font-bold text-center leading-tight"
+        style={{
+          color: getContrastTextColor(team.color || '#6b7280'),
+          fontSize: displayName.length > 4 ? '0.5rem' : '0.625rem',
+        }}
+      >
+        {displayName}
+      </span>
+    </div>
+  );
 };
 
 const NewSeasonPage = () => {
@@ -644,7 +711,7 @@ const NewSeasonPage = () => {
                     </div>
                   ) : standingsView === 'teams' && teamLeader ? (
                     <div className="flex items-center gap-4">
-                      <div className="w-4 self-stretch rounded-full" style={{ backgroundColor: teamLeader.color }}></div>
+                      <TeamLogoBadge team={teamLeader} sizeClass="w-16 h-16" testId="constructor-leader-logo" />
                       <div>
                         <p className="text-2xl font-black font-orbitron italic text-primary">{teamLeader.points}</p>
                         <p className="text-lg font-black text-primary">{teamLeader.nameCn}</p>
@@ -716,7 +783,7 @@ const NewSeasonPage = () => {
                             {index + 1}
                           </div>
                           <div className="flex items-center gap-4 min-w-0">
-                            <div className="w-3 self-stretch rounded-full shrink-0" style={{ backgroundColor: team.color }}></div>
+                            <TeamLogoBadge team={team} sizeClass="w-14 h-14" testId="team-standings-logo" />
                             <div className="min-w-0">
                               <p className="text-lg font-black text-primary truncate">{team.nameCn}</p>
                               <p className="text-sm text-secondary truncate">{team.name}</p>

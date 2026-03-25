@@ -84,8 +84,8 @@ export const DriverCard = ({
         </div>
 
         {driver.championshipYears && driver.championshipYears.length > 0 && (
-          <div className="mt-1 text-xs text-secondary flex items-center flex-wrap gap-1 md:pl-14">
-            <Crown size={12} className="text-yellow-500" />
+          <div className="mt-1 grid grid-cols-[auto_max-content_repeat(7,minmax(0,1fr))] items-center gap-x-1 gap-y-1 text-xs text-secondary">
+            <Crown size={12} className="text-yellow-500 shrink-0" />
             <span>冠军年份:</span>
             {driver.championshipYears.map((year) => (
               <span key={year} className="bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded">
