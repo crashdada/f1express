@@ -3,7 +3,8 @@ name: F1 Data Scraper (Integrated)
 on:
   schedule:
     # 每 3 小时执行一次 (15 3 6 9 12 15 18 21)
-    - cron: '15 */3 * * *'
+    # 低频唤醒，由脚本在赛后 24 小时窗口内决定是否实际采集
+    - cron: '15 */6 * * *'
   workflow_dispatch:
     inputs:
       force_results:

@@ -1,9 +1,19 @@
 import datetime
+import pathlib
+import sys
+
 import pytest
-from collector.scraper_results import find_recent_race
+
+PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]
+SCRAPERS_DIR = PROJECT_ROOT / "collector" / "scrapers"
+
+if str(SCRAPERS_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRAPERS_DIR))
+
+from scraper_results import find_recent_race
 
 def test_find_recent_race_within_window():
-    # Setup a race that ended 10 hours ago (within 3 hour to 3 day window)
+    # Setup a race that ended 10 hours ago (within the post-race scrape window)
     now_utc = datetime.datetime.now(datetime.timezone.utc)
     # Race started 15 hours ago, ended 10 hours ago (assuming 5h post-start is end marker)
     race_start = now_utc - datetime.timedelta(hours=15)
@@ -36,10 +46,10 @@ def test_find_recent_race_too_early():
     race = find_recent_race(schedule, 2026)
     assert race is None
 
-def test_find_recent_race_too_late():
-    # Race ended 10 days ago
+def test_find_recent_race_outside_24_hour_window():
+    # Race ended 25 hours ago, which should now be outside the auto-scrape window.
     now_utc = datetime.datetime.now(datetime.timezone.utc)
-    race_start = now_utc - datetime.timedelta(days=10)
+    race_start = now_utc - datetime.timedelta(hours=30)
     
     schedule = [{
         "round": "Round 1",

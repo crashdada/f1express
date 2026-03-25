@@ -20,6 +20,8 @@ from scraper import F1DataCollector
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 COLLECTOR_DIR = os.path.dirname(SCRIPT_DIR)
+POST_RACE_GRACE_HOURS = 5
+AUTO_SCRAPE_WINDOW_HOURS = 24
 
 
 def get_schedule_file(season):
@@ -58,9 +60,9 @@ def find_recent_race(schedule, season):
         try:
             time_str = race_session["time"].replace("Z", "+00:00")
             race_time_utc = datetime.datetime.fromisoformat(time_str)
-            target_scrape_time = race_time_utc + datetime.timedelta(hours=5)
+            target_scrape_time = race_time_utc + datetime.timedelta(hours=POST_RACE_GRACE_HOURS)
             delta = now_utc - target_scrape_time
-            if datetime.timedelta(0) <= delta <= datetime.timedelta(days=3):
+            if datetime.timedelta(0) <= delta <= datetime.timedelta(hours=AUTO_SCRAPE_WINDOW_HOURS):
                 return race
         except Exception as exc:
             print(f"解析时间出错: {exc}")
