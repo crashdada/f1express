@@ -242,8 +242,25 @@ console.log(`Total results: ${results.length}\n`);
 // Get teams
 const teams = db.prepare('SELECT team_id, name, full_name FROM teams').all();
 const teamMap = {};
+const teamNameToId = {};
 teams.forEach(t => {
     teamMap[t.team_id] = t.name;
+    if (t.name) teamNameToId[t.name] = t.team_id;
+    if (t.full_name) teamNameToId[t.full_name] = t.team_id;
+});
+
+const roundPenaltyMap = new Map();
+(specialEvents.points_penalties || []).forEach((penalty) => {
+    const teamId = teamNameToId[penalty.team_en] || teamNameToId[penalty.team];
+    if (!teamId) return;
+    roundPenaltyMap.set(`${penalty.year}_${penalty.round}_${teamId}`, penalty.points_deducted);
+});
+
+const constructorDisqualificationMap = new Map();
+(specialEvents.constructor_disqualifications || []).forEach((entry) => {
+    const teamId = teamNameToId[entry.team_en] || teamNameToId[entry.team];
+    if (!teamId) return;
+    constructorDisqualificationMap.set(`${entry.year}_${teamId}`, entry);
 });
 
 // Get drivers
@@ -309,10 +326,12 @@ results.forEach(r => {
         teamSeasons[key].races[r.round_number] = [];
     }
 
-    let points = getConstructorPointsForPosition(r.position, r.season);
+    let points = r.season >= 1979
+        ? (r.points || 0)
+        : getConstructorPointsForPosition(r.position, r.season);
 
-    // Indianapolis 500 never counted towards the Constructors' Championship.
-    if (r.circuit_name && r.circuit_name.toLowerCase().includes('indianapolis')) {
+    // Only the 1950-1960 Indianapolis 500 exclusion applies to WCC.
+    if (r.season <= 1960 && r.circuit_name && r.circuit_name.toLowerCase().includes('indianapolis')) {
         points = 0;
     }
 
@@ -330,7 +349,8 @@ Object.values(teamSeasons).forEach(ts => {
     const seasonPoints = [];
 
     // Calculate points for each race based on rules
-    Object.values(ts.races).forEach(racePoints => {
+    Object.entries(ts.races).forEach(([roundNumberText, racePoints]) => {
+        const roundNumber = Number(roundNumberText);
         let raceTotal = 0;
 
         // Rule: Before 1979, only the best car counts towards Constructor's Championship
@@ -339,6 +359,18 @@ Object.values(teamSeasons).forEach(ts => {
         } else {
             // From 1979 onwards, all cars count (sum)
             raceTotal = racePoints.reduce((sum, p) => sum + p.points, 0);
+        }
+
+        const roundPenalty = roundPenaltyMap.get(`${ts.season}_${roundNumber}_${ts.team_id}`);
+        if (roundPenalty === 'ALL') {
+            raceTotal = 0;
+        } else if (typeof roundPenalty === 'number') {
+            raceTotal = Math.max(0, raceTotal - roundPenalty);
+        }
+
+        const disqualification = constructorDisqualificationMap.get(`${ts.season}_${ts.team_id}`);
+        if (disqualification && Array.isArray(disqualification.affected_rounds) && disqualification.affected_rounds.includes(roundNumber)) {
+            raceTotal = disqualification.final_points_for_rounds || 0;
         }
 
         if (raceTotal > 0) {
@@ -362,6 +394,21 @@ Object.values(teamSeasons).forEach(ts => {
         } else {
             totalPoints = seasonPoints.slice(0, limit).reduce((sum, p) => sum + p, 0);
         }
+    }
+
+    const seasonDisqualification = constructorDisqualificationMap.get(`${ts.season}_${ts.team_id}`);
+    if (seasonDisqualification && !seasonDisqualification.affected_rounds) {
+        totalPoints = seasonDisqualification.final_points || 0;
+    }
+
+    if (ts.season >= 2021) {
+        const sprintRow = db.prepare(`
+          SELECT COALESCE(SUM(spr.points), 0) AS sprint_points
+          FROM sprint_results spr
+          JOIN sprint_races sr ON spr.sprint_race_id = sr.sprint_race_id
+          WHERE sr.season = ? AND spr.team_id = ?
+        `).get(ts.season, ts.team_id);
+        totalPoints += sprintRow?.sprint_points || 0;
     }
 
     teamStandings.push({
@@ -439,7 +486,11 @@ const saveChampionshipsTransaction = db.transaction(() => {
                 });
                 if (driverRecord) {
                     // 找到目标车队ID
-                    const targetTeam = teams.find(t => t.name === override.team || t.full_name === override.team_en);
+                    const targetTeam = teams.find(t =>
+                        t.name_cn === override.team ||
+                        t.name === override.team_en ||
+                        t.full_name === override.team_en
+                    );
                     if (targetTeam) {
                         console.log(`\n🏆 应用修正: ${season}年 ${override.driver} 的冠军车队设置为 ${override.team}`);
                         driverRecord.team_id = targetTeam.team_id;

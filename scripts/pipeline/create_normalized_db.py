@@ -11,12 +11,19 @@ import sqlite3
 import os
 import json
 import sys
+import unicodedata
 from pathlib import Path
 
 # Add parent directory to sys.path to import f1_config
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from f1_config import get_path, ensure_dirs
 from lib.team_mapping import load_team_name_map, resolve_team_name
+
+
+def normalize_person_token(value):
+    text = str(value or '').strip()
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
+    return text.lower()
 
 
 def create_normalized_database(csv_dir, db_path):
@@ -253,6 +260,7 @@ def create_normalized_database(csv_dir, db_path):
     # 4. 导入车手
     print("4. 导入车手...")
     drivers_dict = {}
+    drivers_by_first_code = {}
     for _, row in df_results[['first_name', 'last_name', 'code', 'number']].drop_duplicates().iterrows():
         f, l = str(row['first_name']).strip(), str(row['last_name']).strip()
         c = str(row['code']).strip() if pd.notna(row['code']) else None
@@ -260,9 +268,29 @@ def create_normalized_database(csv_dir, db_path):
         if f and l:
             cursor.execute('INSERT OR IGNORE INTO drivers (first_name, last_name, code, number) VALUES (?, ?, ?, ?)', (f, l, c, n))
             cursor.execute('SELECT driver_id FROM drivers WHERE first_name = ? AND last_name = ?', (f, l))
-            drivers_dict[(f, l)] = cursor.fetchone()[0]
+            driver_id = cursor.fetchone()[0]
+            drivers_dict[(f, l)] = driver_id
+            if c:
+                drivers_by_first_code[(normalize_person_token(f), c)] = driver_id
 
     print("4.5. 导入车手详细资料...")
+    drivers_by_code = {}
+    cursor.execute("SELECT driver_id, first_name, last_name, code FROM drivers")
+    for driver_id, first_name, last_name, code in cursor.fetchall():
+        first_name = str(first_name).strip()
+        last_name = str(last_name).strip()
+        drivers_dict[(first_name, last_name)] = driver_id
+        if code:
+            code = str(code).strip()
+            drivers_by_first_code[(normalize_person_token(first_name), code)] = driver_id
+            drivers_by_code.setdefault(code, set()).add(driver_id)
+
+    unique_driver_by_code = {
+        code: next(iter(driver_ids))
+        for code, driver_ids in drivers_by_code.items()
+        if len(driver_ids) == 1
+    }
+
     drivers_full_path = os.path.join(csv_dir, "drivers_full.csv")
     if os.path.exists(drivers_full_path):
         df_full = pd.read_csv(drivers_full_path)
@@ -408,7 +436,12 @@ def create_normalized_database(csv_dir, db_path):
         s, round_number = int(row['year']), int(row['round'])
         f, l = str(row['first_name']).strip(), str(row['last_name']).strip()
         rid = races_dict.get((s, round_number))
+        code = str(row['code']).strip() if pd.notna(row.get('code')) else None
         did = drivers_dict.get((f, l))
+        if not did and code:
+            did = drivers_by_first_code.get((normalize_person_token(f), code))
+        if not did and code:
+            did = unique_driver_by_code.get(code)
         pos = int(row['position'])
         if rid and did:
             cursor.execute('INSERT OR REPLACE INTO qualifying (race_id, driver_id, position, pole_time) VALUES (?, ?, ?, ?)', 

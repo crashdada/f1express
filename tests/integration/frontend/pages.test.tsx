@@ -57,6 +57,7 @@ vi.mock('../../../src/hooks/useCombinedData', () => ({
         podiums: 5,
         poles: 1,
         championships: 7,
+        isActive2026: false,
       },
       {
         id: 4,
@@ -73,6 +74,7 @@ vi.mock('../../../src/hooks/useCombinedData', () => ({
         podiums: 6,
         poles: 2,
         championships: 0,
+        isActive2026: true,
       },
     ],
     liveResults: [],
@@ -139,14 +141,18 @@ describe('HomePage', () => {
 });
 
 describe('DriversPage', () => {
-  it('renders the driver directory and search controls', () => {
+  it('defaults to active drivers only and can reveal historical drivers', async () => {
     renderWithProviders(<DriversPage />);
 
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('搜索车手姓名、代码或车队...')).toBeInTheDocument();
-    expect(screen.getAllByText('Lewis Hamilton').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Lando Norris').length).toBeGreaterThan(0);
+    expect(screen.queryByText('Lewis Hamilton')).not.toBeInTheDocument();
     expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(7);
+
+    await userEvent.click(screen.getByRole('switch'));
+
+    expect(screen.getAllByText('Lewis Hamilton').length).toBeGreaterThan(0);
   });
 
   it('updates the search query from user input', async () => {
@@ -160,11 +166,15 @@ describe('DriversPage', () => {
 });
 
 describe('TeamsPage', () => {
-  it('renders team summary cards and standings rows', () => {
+  it('defaults to active teams only and can reveal historical teams', async () => {
     renderWithProviders(<TeamsPage />);
 
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.queryByText('McLaren')).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('switch'));
+
     expect(screen.getAllByText('McLaren').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Ferrari').length).toBeGreaterThan(0);
     expect(screen.getAllByRole('row').length).toBeGreaterThan(2);

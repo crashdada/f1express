@@ -1,13 +1,13 @@
 {
   "summary": {
     "csv_rows": 659,
-    "db_rows": 879,
+    "db_rows": 1035,
     "csv_unmatched_rows": 26,
     "missing_in_db": 0,
     "differences": 82,
     "point_differences": 0,
     "rank_only_differences": 82,
-    "db_only_rows": 220
+    "db_only_rows": 376
   },
   "missing_in_db": [],
   "differences": [
@@ -1492,6 +1492,1098 @@
     }
   ],
   "db_only_rows": [
+    {
+      "season": 1950,
+      "team_id": 1,
+      "team_name": "Adams Offenhauser",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1950,
+      "team_id": 2,
+      "team_name": "Alfa Romeo",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1950,
+      "team_id": 3,
+      "team_name": "Alta",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1950,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1950,
+      "team_id": 5,
+      "team_name": "Deidt",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1950,
+      "team_id": 6,
+      "team_name": "ERA",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1950,
+      "team_id": 7,
+      "team_name": "Ewing",
+      "db_points": 0.0,
+      "db_rank": 19
+    },
+    {
+      "season": 1950,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1950,
+      "team_id": 9,
+      "team_name": "Ferrari Jaguar",
+      "db_points": 0.0,
+      "db_rank": 24
+    },
+    {
+      "season": 1950,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1950,
+      "team_id": 11,
+      "team_name": "Langley",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1950,
+      "team_id": 12,
+      "team_name": "Lesovsky",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1950,
+      "team_id": 13,
+      "team_name": "Marchese",
+      "db_points": 0.0,
+      "db_rank": 21
+    },
+    {
+      "season": 1950,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1950,
+      "team_id": 15,
+      "team_name": "Moore",
+      "db_points": 0.0,
+      "db_rank": 20
+    },
+    {
+      "season": 1950,
+      "team_id": 16,
+      "team_name": "Nichels",
+      "db_points": 0.0,
+      "db_rank": 22
+    },
+    {
+      "season": 1950,
+      "team_id": 17,
+      "team_name": "Olson",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1950,
+      "team_id": 18,
+      "team_name": "Rae",
+      "db_points": 0.0,
+      "db_rank": 23
+    },
+    {
+      "season": 1950,
+      "team_id": 19,
+      "team_name": "Simca-Gordini",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1950,
+      "team_id": 20,
+      "team_name": "Snowberger",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1950,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1950,
+      "team_id": 22,
+      "team_name": "Talbot-Lago",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1950,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1950,
+      "team_id": 24,
+      "team_name": "Wetteroth",
+      "db_points": 0.0,
+      "db_rank": 18
+    },
+    {
+      "season": 1951,
+      "team_id": 2,
+      "team_name": "Alfa Romeo",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1951,
+      "team_id": 3,
+      "team_name": "Alta",
+      "db_points": 0.0,
+      "db_rank": 23
+    },
+    {
+      "season": 1951,
+      "team_id": 5,
+      "team_name": "Deidt",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1951,
+      "team_id": 6,
+      "team_name": "ERA",
+      "db_points": 0.0,
+      "db_rank": 22
+    },
+    {
+      "season": 1951,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1951,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1951,
+      "team_id": 12,
+      "team_name": "Lesovsky",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1951,
+      "team_id": 13,
+      "team_name": "Marchese",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1951,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1951,
+      "team_id": 15,
+      "team_name": "Moore",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1951,
+      "team_id": 19,
+      "team_name": "Simca-Gordini",
+      "db_points": 0.0,
+      "db_rank": 20
+    },
+    {
+      "season": 1951,
+      "team_id": 22,
+      "team_name": "Talbot-Lago",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1951,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1951,
+      "team_id": 25,
+      "team_name": "BRM",
+      "db_points": 0.0,
+      "db_rank": 24
+    },
+    {
+      "season": 1951,
+      "team_id": 26,
+      "team_name": "Bromme",
+      "db_points": 0.0,
+      "db_rank": 18
+    },
+    {
+      "season": 1951,
+      "team_id": 27,
+      "team_name": "HWM Alta",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1951,
+      "team_id": 28,
+      "team_name": "Hall",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1951,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 19
+    },
+    {
+      "season": 1951,
+      "team_id": 30,
+      "team_name": "OSCA",
+      "db_points": 0.0,
+      "db_rank": 25
+    },
+    {
+      "season": 1951,
+      "team_id": 31,
+      "team_name": "Pawl",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1951,
+      "team_id": 32,
+      "team_name": "Schroeder",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1951,
+      "team_id": 33,
+      "team_name": "Sherman",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1951,
+      "team_id": 34,
+      "team_name": "Thin Wall",
+      "db_points": 0.0,
+      "db_rank": 21
+    },
+    {
+      "season": 1951,
+      "team_id": 35,
+      "team_name": "Trevis",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1951,
+      "team_id": 36,
+      "team_name": "Veritas",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1952,
+      "team_id": 3,
+      "team_name": "Alta",
+      "db_points": 0.0,
+      "db_rank": 21
+    },
+    {
+      "season": 1952,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1952,
+      "team_id": 5,
+      "team_name": "Deidt",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1952,
+      "team_id": 6,
+      "team_name": "ERA",
+      "db_points": 0.0,
+      "db_rank": 20
+    },
+    {
+      "season": 1952,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1952,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1952,
+      "team_id": 12,
+      "team_name": "Lesovsky",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1952,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1952,
+      "team_id": 19,
+      "team_name": "Simca-Gordini",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1952,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1952,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1952,
+      "team_id": 26,
+      "team_name": "Bromme",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1952,
+      "team_id": 27,
+      "team_name": "HWM Alta",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1952,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 18
+    },
+    {
+      "season": 1952,
+      "team_id": 30,
+      "team_name": "OSCA",
+      "db_points": 0.0,
+      "db_rank": 24
+    },
+    {
+      "season": 1952,
+      "team_id": 33,
+      "team_name": "Sherman",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1952,
+      "team_id": 35,
+      "team_name": "Trevis",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1952,
+      "team_id": 36,
+      "team_name": "Veritas",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1952,
+      "team_id": 37,
+      "team_name": "AFM",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1952,
+      "team_id": 38,
+      "team_name": "Aston Butterworth",
+      "db_points": 0.0,
+      "db_rank": 19
+    },
+    {
+      "season": 1952,
+      "team_id": 39,
+      "team_name": "BMW",
+      "db_points": 0.0,
+      "db_rank": 23
+    },
+    {
+      "season": 1952,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 22
+    },
+    {
+      "season": 1952,
+      "team_id": 41,
+      "team_name": "Frazer Nash",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1952,
+      "team_id": 42,
+      "team_name": "Gordini",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1953,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1953,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1953,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1953,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1953,
+      "team_id": 19,
+      "team_name": "Simca-Gordini",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1953,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1953,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1953,
+      "team_id": 27,
+      "team_name": "HWM Alta",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1953,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1953,
+      "team_id": 30,
+      "team_name": "OSCA",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1953,
+      "team_id": 32,
+      "team_name": "Schroeder",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1953,
+      "team_id": 36,
+      "team_name": "Veritas",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1953,
+      "team_id": 37,
+      "team_name": "AFM",
+      "db_points": 0.0,
+      "db_rank": 18
+    },
+    {
+      "season": 1953,
+      "team_id": 39,
+      "team_name": "BMW",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1953,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1953,
+      "team_id": 42,
+      "team_name": "Gordini",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1953,
+      "team_id": 43,
+      "team_name": "EMW",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1953,
+      "team_id": 44,
+      "team_name": "Turner",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1954,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1954,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1954,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1954,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1954,
+      "team_id": 16,
+      "team_name": "Nichels",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1954,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1954,
+      "team_id": 26,
+      "team_name": "Bromme",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1954,
+      "team_id": 27,
+      "team_name": "HWM Alta",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1954,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1954,
+      "team_id": 31,
+      "team_name": "Pawl",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1954,
+      "team_id": 32,
+      "team_name": "Schroeder",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1954,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1954,
+      "team_id": 42,
+      "team_name": "Gordini",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1954,
+      "team_id": 45,
+      "team_name": "Klenk",
+      "db_points": 0.0,
+      "db_rank": 18
+    },
+    {
+      "season": 1954,
+      "team_id": 46,
+      "team_name": "Lancia",
+      "db_points": 0.0,
+      "db_rank": 19
+    },
+    {
+      "season": 1954,
+      "team_id": 47,
+      "team_name": "Mercedes",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1954,
+      "team_id": 48,
+      "team_name": "Pankratz",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1954,
+      "team_id": 49,
+      "team_name": "Phillips",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1954,
+      "team_id": 50,
+      "team_name": "Vanwall",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1955,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 16
+    },
+    {
+      "season": 1955,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1955,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1955,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1955,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1955,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1955,
+      "team_id": 31,
+      "team_name": "Pawl",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1955,
+      "team_id": 32,
+      "team_name": "Schroeder",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1955,
+      "team_id": 35,
+      "team_name": "Trevis",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1955,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 17
+    },
+    {
+      "season": 1955,
+      "team_id": 42,
+      "team_name": "Gordini",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1955,
+      "team_id": 46,
+      "team_name": "Lancia",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1955,
+      "team_id": 47,
+      "team_name": "Mercedes",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1955,
+      "team_id": 48,
+      "team_name": "Pankratz",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1955,
+      "team_id": 49,
+      "team_name": "Phillips",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1955,
+      "team_id": 50,
+      "team_name": "Vanwall",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1955,
+      "team_id": 51,
+      "team_name": "Epperly",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1956,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1956,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1956,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1956,
+      "team_id": 12,
+      "team_name": "Lesovsky",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1956,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1956,
+      "team_id": 21,
+      "team_name": "Stevens",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1956,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1956,
+      "team_id": 25,
+      "team_name": "BRM",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
+    {
+      "season": 1956,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1956,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1956,
+      "team_id": 42,
+      "team_name": "Gordini",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1956,
+      "team_id": 49,
+      "team_name": "Phillips",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1956,
+      "team_id": 50,
+      "team_name": "Vanwall",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1956,
+      "team_id": 52,
+      "team_name": "Bugatti",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1956,
+      "team_id": 53,
+      "team_name": "Emeryson",
+      "db_points": 0.0,
+      "db_rank": 15
+    },
+    {
+      "season": 1957,
+      "team_id": 4,
+      "team_name": "Cooper",
+      "db_points": 0.0,
+      "db_rank": 4
+    },
+    {
+      "season": 1957,
+      "team_id": 8,
+      "team_name": "Ferrari",
+      "db_points": 0.0,
+      "db_rank": 1
+    },
+    {
+      "season": 1957,
+      "team_id": 10,
+      "team_name": "Kurtis Kraft",
+      "db_points": 0.0,
+      "db_rank": 8
+    },
+    {
+      "season": 1957,
+      "team_id": 12,
+      "team_name": "Lesovsky",
+      "db_points": 0.0,
+      "db_rank": 11
+    },
+    {
+      "season": 1957,
+      "team_id": 14,
+      "team_name": "Maserati",
+      "db_points": 0.0,
+      "db_rank": 2
+    },
+    {
+      "season": 1957,
+      "team_id": 23,
+      "team_name": "Watson",
+      "db_points": 0.0,
+      "db_rank": 13
+    },
+    {
+      "season": 1957,
+      "team_id": 25,
+      "team_name": "BRM",
+      "db_points": 0.0,
+      "db_rank": 5
+    },
+    {
+      "season": 1957,
+      "team_id": 29,
+      "team_name": "Kuzma",
+      "db_points": 0.0,
+      "db_rank": 10
+    },
+    {
+      "season": 1957,
+      "team_id": 40,
+      "team_name": "Connaught",
+      "db_points": 0.0,
+      "db_rank": 3
+    },
+    {
+      "season": 1957,
+      "team_id": 49,
+      "team_name": "Phillips",
+      "db_points": 0.0,
+      "db_rank": 9
+    },
+    {
+      "season": 1957,
+      "team_id": 50,
+      "team_name": "Vanwall",
+      "db_points": 0.0,
+      "db_rank": 6
+    },
+    {
+      "season": 1957,
+      "team_id": 51,
+      "team_name": "Epperly",
+      "db_points": 0.0,
+      "db_rank": 12
+    },
+    {
+      "season": 1957,
+      "team_id": 54,
+      "team_name": "Dunn",
+      "db_points": 0.0,
+      "db_rank": 7
+    },
+    {
+      "season": 1957,
+      "team_id": 55,
+      "team_name": "Porsche",
+      "db_points": 0.0,
+      "db_rank": 14
+    },
     {
       "season": 1958,
       "team_id": 10,

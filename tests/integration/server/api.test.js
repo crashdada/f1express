@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
+import fs from 'fs';
 import { exec } from 'child_process';
 
 vi.mock('child_process', () => ({
@@ -12,12 +13,16 @@ const execMock = vi.mocked(exec);
 describe('Server API', () => {
   let consoleErrorSpy;
   let consoleLogSpy;
+  let existsSyncSpy;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.useRealTimers();
     delete process.env.ADMIN_API_TOKEN;
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    existsSyncSpy = vi.spyOn(fs, 'existsSync');
+    existsSyncSpy.mockImplementation((targetPath) => targetPath !== '/var/run/docker.sock');
     execMock.mockImplementation((command, options, callback) => {
       const done = typeof options === 'function' ? options : callback;
       done?.(null, 'Status: Image is up to date', '');
@@ -29,6 +34,7 @@ describe('Server API', () => {
     delete process.env.ADMIN_API_TOKEN;
     consoleErrorSpy.mockRestore();
     consoleLogSpy.mockRestore();
+    existsSyncSpy.mockRestore();
   });
 
   it('GET /api/health should report service readiness', async () => {
@@ -77,29 +83,69 @@ describe('Server API', () => {
   it(
     'GET /api/check-update should return update status',
     async () => {
-    process.env.ADMIN_API_TOKEN = 'secret-token';
+      process.env.ADMIN_API_TOKEN = 'secret-token';
 
-    const response = await request(app)
-      .get('/api/check-update')
-      .set('x-admin-token', 'secret-token');
+      const response = await request(app)
+        .get('/api/check-update')
+        .set('x-admin-token', 'secret-token');
 
-    expect([200, 500]).toContain(response.status);
-    if (response.status === 200) {
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          hasUpdate: expect.any(Boolean),
-          image: expect.any(String),
-        }),
-      );
-    } else {
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          hasUpdate: false,
-          error: expect.any(String),
-        }),
-      );
-    }
+      expect([200, 500]).toContain(response.status);
+      if (response.status === 200) {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            hasUpdate: expect.any(Boolean),
+            image: expect.any(String),
+          }),
+        );
+      } else {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            hasUpdate: false,
+            error: expect.any(String),
+          }),
+        );
+      }
     },
     10000,
   );
+
+  it('POST /api/self-update should require an admin token when configured', async () => {
+    process.env.ADMIN_API_TOKEN = 'secret-token';
+
+    const response = await request(app).post('/api/self-update');
+
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe('Unauthorized admin request');
+  });
+
+  it('POST /api/self-update should fail when the Docker socket is missing', async () => {
+    process.env.ADMIN_API_TOKEN = 'secret-token';
+    existsSyncSpy.mockReturnValue(false);
+
+    const response = await request(app)
+      .post('/api/self-update')
+      .set('x-admin-token', 'secret-token');
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        error: 'Docker socket is not mounted.',
+      }),
+    );
+  });
+
+  it('POST /api/self-update should schedule a delayed watchtower run when the Docker socket is present', async () => {
+    process.env.ADMIN_API_TOKEN = 'secret-token';
+    vi.useFakeTimers();
+    const setTimeoutSpy = vi.spyOn(global, 'setTimeout');
+    existsSyncSpy.mockReturnValue(true);
+
+    const response = await request(app)
+      .post('/api/self-update')
+      .set('x-admin-token', 'secret-token');
+
+    expect(response.status).toBe(200);
+    expect(response.body.status).toBe('restarting');
+    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 1000);
+  });
 });

@@ -199,12 +199,27 @@ def normalize_json_paths(filename, data):
                         return ext
                 return default_ext
 
-            outline_ext = find_ext(tracks_dir, f"{slug}_outline", ".svg")
-            detailed_ext = find_ext(tracks_dir, f"{slug}_detailed", ".webp")
+            def get_track_base_name(path_value, fallback_base):
+                if not path_value:
+                    return fallback_base
+                filename = os.path.basename(path_value)
+                if not filename:
+                    return fallback_base
+                stem, _ = os.path.splitext(filename)
+                if stem.endswith('_outline'):
+                    return stem[:-8]
+                if stem.endswith('_detailed'):
+                    return stem[:-9]
+                return fallback_base
+
+            outline_base = get_track_base_name(event.get('image'), slug)
+            detailed_base = get_track_base_name(event.get('detailedImage'), slug)
+            outline_ext = find_ext(tracks_dir, f"{outline_base}_outline", ".svg")
+            detailed_ext = find_ext(tracks_dir, f"{detailed_base}_detailed", ".webp")
 
             # 标准化路径
-            image_path = f"/photos/seasons/{season}/tracks/{slug}_outline{outline_ext}"
-            detailed_path = f"/photos/seasons/{season}/tracks/{slug}_detailed{detailed_ext}"
+            image_path = f"/photos/seasons/{season}/tracks/{outline_base}_outline{outline_ext}"
+            detailed_path = f"/photos/seasons/{season}/tracks/{detailed_base}_detailed{detailed_ext}"
             flag_path = f"/photos/seasons/flags/{flag_name}.svg"
             
             if event.get('image') and event.get('image') != image_path:

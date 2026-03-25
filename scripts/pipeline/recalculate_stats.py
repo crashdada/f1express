@@ -114,10 +114,6 @@ def recalculate_stats():
                 (driver_id, season, team_id, races, wins, podiums, poles, points, position),
             )
 
-        if season < 1958:
-            print(f"    Skipping constructor standings for {season} (pre-WCC season)")
-            continue
-
         team_results = []
         for team_id in fetch_team_ids_for_season(cursor, season):
             wins, podiums, poles, races = fetch_team_base_stats(cursor, season, team_id)

@@ -242,7 +242,7 @@ export function useCombinedData() {
   const combinedDrivers = useMemo(() => {
     const liveDriverStatsMap = buildLiveDriverStatsMap(liveResults);
 
-    return state.drivers
+    const mergedDrivers = state.drivers
       .map((driver) => {
         const driverKeys = getDriverMatchKeys(driver);
         const isActive2026 = intersects(driverKeys, [...activeDriverKeys]);
@@ -264,6 +264,41 @@ export function useCombinedData() {
           isActive2026,
         } as DriverWithActive;
       })
+    ;
+
+    const liveOnlyDrivers = liveDrivers.flatMap((driver2026) => {
+      const candidateKeys = getDriverMatchKeys(driver2026);
+
+      if (mergedDrivers.some((driver) => intersects(getDriverMatchKeys(driver), candidateKeys))) {
+        return [];
+      }
+
+      const liveStats = candidateKeys.map((key) => liveDriverStatsMap.get(key)).find(Boolean);
+
+      return [{
+        id: driver2026.id || driver2026.code,
+        number: driver2026.number || 0,
+        firstName: driver2026.firstName || '',
+        lastName: driver2026.lastName || '',
+        firstNameCn: driver2026.firstNameCn || '',
+        lastNameCn: driver2026.lastNameCn || '',
+        code: driver2026.code || '',
+        team: driver2026.teamCn || driver2026.team || '',
+        nationality: driver2026.country || '',
+        points: Number(liveStats?.points || 0),
+        wins: Number(liveStats?.wins || 0),
+        podiums: Number(liveStats?.podiums || 0),
+        poles: Number(liveStats?.poles || 0),
+        championships: 0,
+        championshipYears: [],
+        avatar: driver2026.image || '',
+        teamColor: liveTeams.find((team) => getTeamMatchKeys(team.name, team.nameCn).some((key) => getTeamMatchKeys(driver2026.team, driver2026.teamCn).includes(key)))?.color || '#6b7280',
+        age: driver2026.age,
+        isActive2026: true,
+      } as DriverWithActive];
+    });
+
+    return [...mergedDrivers, ...liveOnlyDrivers]
       .sort((a, b) => (b.points || 0) - (a.points || 0));
   }, [activeDriverKeys, liveResults, state.drivers]);
 

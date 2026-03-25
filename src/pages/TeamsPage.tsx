@@ -7,7 +7,7 @@ import { useCombinedData } from '../hooks/useCombinedData';
 
 const TeamsPage = () => {
   const { combinedTeams, activeTeamKeys, loading } = useCombinedData();
-  const [showActiveOnly, setShowActiveOnly] = useState(false);
+  const [showActiveOnly, setShowActiveOnly] = useState(true);
 
   const filteredTeams = useMemo(() => {
     if (!showActiveOnly) {

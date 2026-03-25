@@ -22,7 +22,7 @@ const DriversPage = () => {
   const { combinedDrivers, loading } = useCombinedData();
   const [sortBy, setSortBy] = useState<SortOption>('points');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showActiveOnly, setShowActiveOnly] = useState(false);
+  const [showActiveOnly, setShowActiveOnly] = useState(true);
 
   const filteredDrivers = useMemo(() => {
     const query = state.searchQuery.toLowerCase();

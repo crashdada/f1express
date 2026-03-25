@@ -34,16 +34,57 @@ def fetch_team_base_stats(cursor, season, team_id):
     cursor.execute(
         '''
         SELECT
-            SUM(CASE WHEN r.position = 1 THEN 1 ELSE 0 END) as wins,
-            SUM(CASE WHEN r.position <= 3 THEN 1 ELSE 0 END) as podiums,
-            SUM(CASE WHEN q.position = 1 THEN 1 ELSE 0 END) as poles,
-            COUNT(DISTINCT r.race_id) as races
-        FROM race_results r
-        LEFT JOIN qualifying q ON r.race_id = q.race_id AND r.driver_id = q.driver_id
-        JOIN races ra ON r.race_id = ra.race_id
-        WHERE ra.season = ? AND r.team_id = ?
+            (
+                SELECT COUNT(*)
+                FROM (
+                    SELECT DISTINCT rr.race_id
+                    FROM race_results rr
+                    JOIN races r1 ON rr.race_id = r1.race_id
+                    WHERE r1.season = ? AND rr.team_id = ? AND rr.position = 1
+                )
+            ) as wins,
+            (
+                SELECT COUNT(*)
+                FROM (
+                    SELECT DISTINCT rr.race_id, rr.position
+                    FROM race_results rr
+                    JOIN races r2 ON rr.race_id = r2.race_id
+                    WHERE r2.season = ? AND rr.team_id = ? AND rr.position <= 3
+                )
+            ) as podiums,
+            (
+                SELECT COUNT(*)
+                FROM (
+                    SELECT DISTINCT q.race_id
+                    FROM qualifying q
+                    JOIN races r3 ON q.race_id = r3.race_id
+                    LEFT JOIN race_results rrq ON rrq.race_id = q.race_id AND rrq.driver_id = q.driver_id
+                    WHERE r3.season = ?
+                      AND q.position = 1
+                      AND COALESCE(
+                            rrq.team_id,
+                            (
+                                SELECT rr2.team_id
+                                FROM race_results rr2
+                                JOIN races r5 ON rr2.race_id = r5.race_id
+                                WHERE r5.season = r3.season
+                                  AND rr2.driver_id = q.driver_id
+                                  AND rr2.team_id IS NOT NULL
+                                GROUP BY rr2.team_id
+                                ORDER BY SUM(rr2.points) DESC, COUNT(*) DESC, rr2.team_id
+                                LIMIT 1
+                            )
+                          ) = ?
+                )
+            ) as poles,
+            (
+                SELECT COUNT(DISTINCT rr.race_id)
+                FROM race_results rr
+                JOIN races r4 ON rr.race_id = r4.race_id
+                WHERE r4.season = ? AND rr.team_id = ?
+            ) as races
         ''',
-        (season, team_id),
+        (season, team_id, season, team_id, season, team_id, season, team_id),
     )
     return cursor.fetchone()
 
@@ -59,6 +100,11 @@ def calculate_team_points(
     constructor_dsq_map,
     multi_entity_map,
 ):
+    if season < 1958:
+        # team_season_stats.points keeps the historical constructor-points validation scope
+        # (1958+ for constructors), while wins/podiums/poles still need full-history coverage.
+        return 0
+
     if season <= 1978:
         total_points = calculate_pre_1979_constructor_points(
             cursor,
