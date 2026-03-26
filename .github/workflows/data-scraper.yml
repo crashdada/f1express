@@ -48,7 +48,7 @@ jobs:
             python collector/scrapers/scraper_results.py
           fi
           
-          # 导出 JSON 并同步到 public/data
+          # 导出 JSON 并同步到当前运行时数据目录
           python collector/exporters/export_results_json.py
           python collector/syncer.py --all
 
@@ -56,7 +56,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add collector/data/*.json collector/results_*/ public/data/*.json 2>/dev/null || true
+          git add collector/data/*.json collector/results_*/*.json storage/*.json dist/data/*.json 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

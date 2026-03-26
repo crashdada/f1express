@@ -55,6 +55,47 @@ describe('season2026 data helpers', () => {
     expect(data.results2026).toEqual(localResults);
   });
 
+  it('keeps local race results when remote results omit local sprint sessions', async () => {
+    const schedule = Array.from({ length: 20 }, (_, index) => ({ round: index + 1, country: `Round ${index + 1}` }));
+    const localResults = [
+      {
+        round: 2,
+        slug: 'china',
+        results: [{ code: 'RUS', points: 25 }],
+        sprintResults: [{ code: 'RUS', points: 8 }],
+      },
+    ];
+    const remoteResults = [
+      {
+        round: 2,
+        slug: 'china',
+        results: [{ code: 'RUS', points: 25 }],
+        sprintResults: [],
+      },
+    ];
+    const drivers = [{ code: 'RUS', firstName: 'George' }];
+    const teams = [{ name: 'Mercedes' }];
+
+    vi.mocked(global.fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/schedule_2026.json`)) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(remoteResults));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
+      if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
+
+      return Promise.reject(new Error(`Unexpected fetch: ${url}`));
+    });
+
+    const data = await loadSeason2026Data();
+
+    expect(data.results2026).toEqual(localResults);
+  });
+
   it('reuses cached season data until forceRefresh is requested', async () => {
     const schedule = Array.from({ length: 20 }, (_, index) => ({ round: index + 1 }));
     const drivers = [{ code: 'NOR' }];

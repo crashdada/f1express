@@ -68,6 +68,14 @@ function serializeDataset(value: unknown) {
   }
 }
 
+function getResultsDatasetEntryCount(rounds: any[]) {
+  return rounds.reduce((total, round) => {
+    const raceResults = Array.isArray(round?.results) ? round.results.length : 0;
+    const sprintResults = Array.isArray(round?.sprintResults) ? round.sprintResults.length : 0;
+    return total + raceResults + sprintResults;
+  }, 0);
+}
+
 async function parseDatasetResponse(response: Response | null, datasetName: DatasetName) {
   if (!response || !response.ok) {
     return [];
@@ -95,6 +103,15 @@ function pickPreferredDataset(name: DatasetName, localData: any[], remoteData: a
 
   if (name === 'results2026' && localData.length > 0 && remoteData.length === 0) {
     return localData;
+  }
+
+  if (name === 'results2026') {
+    const localEntryCount = getResultsDatasetEntryCount(localData);
+    const remoteEntryCount = getResultsDatasetEntryCount(remoteData);
+
+    if (localEntryCount !== remoteEntryCount) {
+      return localEntryCount > remoteEntryCount ? localData : remoteData;
+    }
   }
 
   return serializeDataset(localData) === serializeDataset(remoteData) ? localData : remoteData;
