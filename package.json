@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:sync": "python scripts/sync_f1_data.py && vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",

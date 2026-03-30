@@ -33,6 +33,14 @@ Run the frontend:
 npm run dev
 ```
 
+Recommended for local season-data work:
+
+```bash
+npm run dev:sync
+```
+
+`dev:sync` refreshes `storage/` first so `http://localhost:5173` uses the latest local runtime data before starting Vite.
+
 Run the local server:
 
 ```bash

@@ -18,10 +18,6 @@ const DATASET_LABELS: Record<DatasetName, string> = {
 
 let season2026DataPromise: Promise<Season2026Data> | null = null;
 
-function isLocalhost() {
-  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-}
-
 function addVersionToAsset(url: string | null | undefined, assetVersion: number) {
   if (!url || url.startsWith('http')) {
     return url;
@@ -76,6 +72,81 @@ function getResultsDatasetEntryCount(rounds: any[]) {
   }, 0);
 }
 
+function getDatasetItemKey(item: any) {
+  return String(item?.slug ?? item?.round ?? item?.eventId ?? '');
+}
+
+function hasMeaningfulValue(value: unknown) {
+  if (value == null) {
+    return false;
+  }
+
+  if (typeof value === 'string') {
+    return value.trim().length > 0;
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  return true;
+}
+
+function mergePreferLocalFallback(localValue: any, remoteValue: any) {
+  if (Array.isArray(localValue) || Array.isArray(remoteValue)) {
+    const localArray = Array.isArray(localValue) ? localValue : [];
+    const remoteArray = Array.isArray(remoteValue) ? remoteValue : [];
+
+    if (localArray.length === 0) {
+      return remoteArray;
+    }
+
+    if (remoteArray.length === 0) {
+      return localArray;
+    }
+
+    return remoteArray.length >= localArray.length ? remoteArray : localArray;
+  }
+
+  return hasMeaningfulValue(remoteValue) ? remoteValue : localValue;
+}
+
+function mergeScheduleItem(localItem: any, remoteItem: any) {
+  return {
+    ...localItem,
+    ...remoteItem,
+    status: mergePreferLocalFallback(localItem?.status, remoteItem?.status),
+    dates: mergePreferLocalFallback(localItem?.dates, remoteItem?.dates),
+    sessions: mergePreferLocalFallback(localItem?.sessions, remoteItem?.sessions),
+  };
+}
+
+function mergeResultsItem(localItem: any, remoteItem: any) {
+  return {
+    ...localItem,
+    ...remoteItem,
+    results: mergePreferLocalFallback(localItem?.results, remoteItem?.results),
+    sprintResults: mergePreferLocalFallback(localItem?.sprintResults, remoteItem?.sprintResults),
+  };
+}
+
+function mergeDatasetByKey(localData: any[], remoteData: any[], mergeItem: (localItem: any, remoteItem: any) => any) {
+  const localMap = new Map(localData.map((item) => [getDatasetItemKey(item), item]));
+  const remoteMap = new Map(remoteData.map((item) => [getDatasetItemKey(item), item]));
+  const orderedKeys = [...new Set([...remoteData, ...localData].map((item) => getDatasetItemKey(item)).filter(Boolean))];
+
+  return orderedKeys.map((key) => {
+    const localItem = localMap.get(key);
+    const remoteItem = remoteMap.get(key);
+
+    if (localItem && remoteItem) {
+      return mergeItem(localItem, remoteItem);
+    }
+
+    return remoteItem ?? localItem;
+  });
+}
+
 async function parseDatasetResponse(response: Response | null, datasetName: DatasetName) {
   if (!response || !response.ok) {
     return [];
@@ -105,13 +176,12 @@ function pickPreferredDataset(name: DatasetName, localData: any[], remoteData: a
     return localData;
   }
 
-  if (name === 'results2026') {
-    const localEntryCount = getResultsDatasetEntryCount(localData);
-    const remoteEntryCount = getResultsDatasetEntryCount(remoteData);
+  if (name === 'schedule') {
+    return mergeDatasetByKey(localData, remoteData, mergeScheduleItem);
+  }
 
-    if (localEntryCount !== remoteEntryCount) {
-      return localEntryCount > remoteEntryCount ? localData : remoteData;
-    }
+  if (name === 'results2026') {
+    return mergeDatasetByKey(localData, remoteData, mergeResultsItem);
   }
 
   return serializeDataset(localData) === serializeDataset(remoteData) ? localData : remoteData;
@@ -134,16 +204,11 @@ async function fetchSeason2026Data(): Promise<Season2026Data> {
     fetch(`/data/results_2026.json?t=${timestamp}`).catch(() => null),
     fetch(`/data/drivers_2026.json?t=${timestamp}`).catch(() => null),
     fetch(`/data/teams_2026.json?t=${timestamp}`).catch(() => null),
+    fetch(`${REMOTE_DATA_BASE_URL}/schedule_2026.json?t=${timestamp}`).catch(() => null),
+    fetch(`${REMOTE_DATA_BASE_URL}/results_2026.json?t=${timestamp}`).catch(() => null),
+    fetch(`${REMOTE_DATA_BASE_URL}/drivers_2026.json?t=${timestamp}`).catch(() => null),
+    fetch(`${REMOTE_DATA_BASE_URL}/teams_2026.json?t=${timestamp}`).catch(() => null),
   ];
-
-  if (!isLocalhost()) {
-    fetches.push(
-      fetch(`${REMOTE_DATA_BASE_URL}/schedule_2026.json?t=${timestamp}`).catch(() => null),
-      fetch(`${REMOTE_DATA_BASE_URL}/results_2026.json?t=${timestamp}`).catch(() => null),
-      fetch(`${REMOTE_DATA_BASE_URL}/drivers_2026.json?t=${timestamp}`).catch(() => null),
-      fetch(`${REMOTE_DATA_BASE_URL}/teams_2026.json?t=${timestamp}`).catch(() => null),
-    );
-  }
 
   const responses = await Promise.all(fetches);
   const [scheduleLocal, resultsLocal, driversLocal, teamsLocal, scheduleRemote, resultsRemote, driversRemote, teamsRemote] =
