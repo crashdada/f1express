@@ -1,6 +1,15 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-03-30: Local/runtime 2026 data merge hardening and dev sync entry
+- Runtime 2026 data merge behavior
+  - Updated [src/utils/f1-data/season2026.ts](D:\oc\f1express\src\utils\f1-data\season2026.ts) so `localhost` now uses the same local-plus-remote 2026 dataset merge path as NAS/runtime deployments instead of staying on local-only storage data.
+  - Changed the 2026 schedule/results merge strategy from whole-dataset preference to per-round merging so new remote rounds can be added without wiping existing non-empty local fields such as `sprintResults`, `status`, `dates`, and `sessions`.
+- Local development workflow
+  - Added `dev:sync` in [package.json](D:\oc\f1express\package.json) and documented it in [README.md](D:\oc\f1express\README.md) so local development can explicitly refresh `storage/` before starting Vite when working on season-data changes.
+- Regression coverage
+  - Expanded [tests/unit/utils/season2026.test.ts](D:\oc\f1express\tests\unit\utils\season2026.test.ts) to cover new-round remote merges, preservation of existing sprint data and cancelled schedule state, and `localhost` parity with runtime remote fallback behavior.
+
 ## 2026-03-25: v1.3.1 - Constructor corrections, 2026 roster alignment, and standings UI polish
 - Pipeline, data, and validation
   - Updated [scripts/pipeline/create_normalized_db.py](D:\oc\f1express\scripts\pipeline\create_normalized_db.py), [scripts/pipeline/lib/team_stats.py](D:\oc\f1express\scripts\pipeline\lib\team_stats.py), [scripts/pipeline/recalculate_championships.cjs](D:\oc\f1express\scripts\pipeline\recalculate_championships.cjs), and [scripts/pipeline/recalculate_stats.py](D:\oc\f1express\scripts\pipeline\recalculate_stats.py) to tighten driver matching in qualifying imports, keep constructor point totals within the WCC era, and apply round/season penalty handling plus sprint-point carry-through more consistently.
