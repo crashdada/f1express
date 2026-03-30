@@ -93,14 +93,26 @@ describe('useDynamic2026Data', () => {
     expect(result.current.schedule[0]).toMatchObject(mockLocalSchedule[0]);
   });
 
-  it('should skip remote sync on localhost', async () => {
-    const mockSchedule = Array.from({ length: 20 }, (_, index) => ({ round: String(index + 1) }));
+  it('should still merge remote data on localhost', async () => {
+    const mockLocalSchedule = Array.from({ length: 20 }, (_, index) => ({ round: String(index + 1) }));
+    const mockRemoteSchedule = mockLocalSchedule.map((item, index) =>
+      index === 0 ? { ...item, status: 'CANCELLED' } : item
+    );
     vi.stubGlobal('location', { hostname: 'localhost' });
 
-    const fetchMock = vi.mocked(global.fetch).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve(mockSchedule),
-    } as any);
+    const fetchMock = vi.mocked(global.fetch).mockImplementation((input: any) => {
+      if (input.includes(REMOTE_DATA_BASE_URL)) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockRemoteSchedule),
+        } as any);
+      }
+
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockLocalSchedule),
+      } as any);
+    });
 
     const { result } = renderHook(() => useDynamic2026Data());
 
@@ -108,7 +120,11 @@ describe('useDynamic2026Data', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    await waitFor(() => {
+      expect(result.current.schedule[0]).toMatchObject(mockRemoteSchedule[0]);
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(8);
   });
 
   it('should handle local fetch error', async () => {

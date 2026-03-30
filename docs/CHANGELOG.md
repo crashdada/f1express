@@ -1,7 +1,7 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
-## 2026-03-30: Local/runtime 2026 data merge hardening and dev sync entry
+## 2026-03-30: v1.3.2 - Local/runtime 2026 data merge hardening and dev sync entry
 - Runtime 2026 data merge behavior
   - Updated [src/utils/f1-data/season2026.ts](D:\oc\f1express\src\utils\f1-data\season2026.ts) so `localhost` now uses the same local-plus-remote 2026 dataset merge path as NAS/runtime deployments instead of staying on local-only storage data.
   - Changed the 2026 schedule/results merge strategy from whole-dataset preference to per-round merging so new remote rounds can be added without wiping existing non-empty local fields such as `sprintResults`, `status`, `dates`, and `sessions`.

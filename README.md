@@ -1,6 +1,6 @@
 # F1 Express
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/crashdada/f1express)
+[![Version](https://img.shields.io/badge/version-1.3.2-blue.svg)](https://github.com/crashdada/f1express)
 [![Integrity](https://img.shields.io/badge/integrity-62--point%20pass-green.svg)](https://github.com/crashdada/f1express)
 
 F1 Express is a full-stack F1 data application that combines a historical SQLite knowledge base with live 2026 season JSON overlays. The frontend runs on React + Vite, while a lightweight Express server serves runtime assets, health checks, and container update APIs.
