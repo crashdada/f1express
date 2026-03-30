@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for f1express/android/app/src/main/assets/public/assets/useDynamic2026Data-DX7kgAvc.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">f1express/android/app/src/main/assets/public/assets</a> useDynamic2026Data-DX7kgAvc.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import{r as w}from"./index-C3_zyBNI.js";const r="https://ghproxy.net/https://raw.githubusercontent.com/crashdada/f1-collector/main/data";function k(){const[j,l]=w.useState({schedule:[],drivers:[],teams:[],raceResults:[],loading:!0,error:null});return w.useEffect(()=&gt;{let c=!0;return(async()=&gt;{try{const e=Date.now(),[i,R,$,d]=await Promise.all([fetch(`/data/schedule_2026.json?t=${e}`),fetch(`/data/drivers_2026.json?t=${e}`),fetch(`/data/teams_2026.json?t=${e}`),fetch(`/data/results_2026.json?t=${e}`).catch(()=&gt;null)]),o=n=&gt;n.map(t=&gt;{const a=s=&gt;!s||s.startsWith("http")?s:`${s}?v=${e}`;return{...t,image:a(t.image),detailedImage:a(t.detailedImage),flag:a(t.flag),officialImage:a(t.officialImage),logo:a(t.logo),carImage:a(t.carImage)}}),p=d&amp;&amp;d.ok?await d.json():[];if(c&amp;&amp;l({schedule:o(await i.json()),drivers:o(await R.json()),teams:o(await $.json()),raceResults:p,loading:!1,error:null}),window.location.hostname==="localhost"||window.location.hostname==="127.0.0.1")console.log("🚀 Localhost detected, skipping remote data sync to preserve local changes.");else try{const[n,t,a,s]=await Promise.all([fetch(`${r}/schedule_2026.json?t=${e}`),fetch(`${r}/drivers_2026.json?t=${e}`),fetch(`${r}/teams_2026.json?t=${e}`),fetch(`${r}/results_2026.json?t=${e}`).catch(()=&gt;null)]);if(c&amp;&amp;n.ok&amp;&amp;t.ok&amp;&amp;a.ok){const u=await n.json(),f=o(await t.json()),m=o(await a.json()),g=s&amp;&amp;s.ok?await s.json():[];if(u.length&lt;20||f.length===0||m.length===0){console.warn("⚠️ 远端 GitHub 数据完整性校验失败，继续使用本地数据。");return}c&amp;&amp;(l(h=&gt;({...h,schedule:o(u),drivers:f,teams:m,raceResults:g.length&gt;h.raceResults.length?g:h.raceResults})),console.log("🔄 Data successfully synced and seamlessly updated from GitHub"))}}catch(n){console.warn("⚠️ 后台数据静默拉取失败，继续使用本地数据",n)}}catch(e){console.error("Failed to load local baseline data",e),c&amp;&amp;l(i=&gt;({...i,loading:!1,error:e}))}})(),()=&gt;{c=!1}},[]),j}export{k as u};<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-25T03:34:42.510Z
+            </div>
+        <script src="../../../../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../../../../sorter.js"></script>
+        <script src="../../../../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for f1express/android/app/src/main/assets/public/assets/useCombinedData-CwHZU8az.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../../../../index.html">All files</a> / <a href="index.html">f1express/android/app/src/main/assets/public/assets</a> useCombinedData-CwHZU8az.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import{c as S,u as D,r as f}from"./index-C3_zyBNI.js";import{u as E}from"./useDynamic2026Data-DX7kgAvc.js";const T=[["path",{d:"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z",key:"1vdc57"}],["path",{d:"M5 21h14",key:"11awu3"}]],B=S("crown",T);function h(n){return(n||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[\s\-_.·'()]/g,"").trim()}function g(...n){const e=new Set;return n.forEach(i=&gt;{const t=i||"",s=h(t);s&amp;&amp;e.add(s);const a=t.replace(/\bF1 Team\b/gi,"").replace(/\bTeam\b/gi,"").trim(),p=h(a);p&amp;&amp;e.add(p)}),[...e]}function u(n){const e=new Set,i=h([n.firstName,n.lastName].filter(Boolean).join(" "));i&amp;&amp;e.add(i);const t=h([n.firstNameCn,n.lastNameCn].filter(Boolean).join(""));return t&amp;&amp;e.add(t),[...e]}function M(n){return/[\u4e00-\u9fff]/.test(n||"")}function L(...n){return n.filter(e=&gt;!!e&amp;&amp;!M(e))}function b(...n){return n.filter(e=&gt;!!e&amp;&amp;M(e))}function C(n){return L(n.name,n.fullName).flatMap(e=&gt;g(e))}function w(n){return b(n.nameCn,n.name).flatMap(e=&gt;g(e))}function y(n,e){const i=C(n),t=C({name:e.name});if(i.length&gt;0&amp;&amp;t.length&gt;0)return d(i,t);const s=w(n),a=w({name:e.name,nameCn:e.nameCn});return s.length&gt;0&amp;&amp;a.length&gt;0?d(s,a):!1}function d(n,e){const i=new Set(e);return n.some(t=&gt;i.has(t))}function N(n){const e=new Map,i=t=&gt;{const s=t[0];return s?(e.has(s)||e.set(s,{points:0,wins:0,podiums:0,poles:0}),t.slice(1).forEach(a=&gt;{a&amp;&amp;!e.has(a)&amp;&amp;e.set(a,e.get(s))}),e.get(s)):null};return n.forEach(t=&gt;{if(t.results.forEach(s=&gt;{const a=i(u(s));a&amp;&amp;(a.points+=s.points||0,s.pos===1&amp;&amp;(a.wins+=1),s.pos&amp;&amp;s.pos&lt;=3&amp;&amp;(a.podiums+=1))}),t.sprintResults?.forEach(s=&gt;{const a=i(u(s));a&amp;&amp;(a.points+=s.points||0)}),t.polePosition){const s=i(u(t.polePosition));s&amp;&amp;(s.poles+=1)}}),e}function k(){const{state:n}=D(),{raceResults:e,teams:i,drivers:t}=E(),s=f.useMemo(()=&gt;new Set(t.flatMap(c=&gt;u(c))),[t]),a=f.useMemo(()=&gt;new Set(i.flatMap(c=&gt;g(c.name,c.nameCn))),[i]),p=f.useMemo(()=&gt;{const c=n.teams.map(o=&gt;{const l=i.some(m=&gt;y(o,m));return{...o,isActive2026:l}}),r=i.flatMap(o=&gt;(g(o.name,o.nameCn),c.some(l=&gt;y(l,o))?[]:[{id:o.id||o.name,name:o.name,fullName:o.name,nameCn:o.nameCn||o.name,points:0,wins:0,podiums:0,poles:0,championships:0,driverChampionships:0,championshipYears:[],color:o.color||"#e10600",logo:o.logo||"",isActive2026:!0}]));return[...c,...r].sort((o,l)=&gt;(l.points||0)-(o.points||0))},[i,n.teams]),v=f.useMemo(()=&gt;{const c=N(e);return n.drivers.map(r=&gt;{const o=u(r),l=d(o,[...s]),m=o.map(K=&gt;c.get(K)).find(Boolean);return m?{...r,points:(r.points||0)+m.points,wins:(r.wins||0)+m.wins,podiums:(r.podiums||0)+m.podiums,poles:(r.poles||0)+m.poles,isActive2026:l}:{...r,isActive2026:l}}).sort((r,o)=&gt;(o.points||0)-(r.points||0))},[s,e,n.drivers]);return{combinedTeams:p,combinedDrivers:v,activeDriverKeys:s,activeTeamKeys:a,liveResults:e,loading:n.loading}}export{B as C,k as u};<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-25T03:34:42.510Z
+            </div>
+        <script src="../../../../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../../../../sorter.js"></script>
+        <script src="../../../../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

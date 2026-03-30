@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import { DriverCard } from '../../../src/components/DriverCard';
+import { CompactDriverCard, DriverCard } from '../../../src/components/DriverCard';
 import { renderWithRouter } from '../../support/render';
 import type { Driver } from '../../../src/types';
 
@@ -46,5 +46,33 @@ describe('DriverCard', () => {
     expect(championshipRow).toHaveClass(
       'grid-cols-[auto_max-content_repeat(7,minmax(0,1fr))]'
     );
+  });
+
+  it('uses a brighter silver style for the second-place compact rank badge', () => {
+    const { container } = renderWithRouter(
+      <CompactDriverCard driver={mockDriver} index={1} />
+    );
+
+    const rankBadge = container.querySelector('.rounded-full');
+
+    expect(rankBadge).toBeInTheDocument();
+    expect(rankBadge).toHaveClass('bg-gradient-to-br');
+    expect(rankBadge).toHaveClass('from-[#f3f6fb]');
+    expect(rankBadge).toHaveClass('to-[#aeb8c8]');
+    expect(rankBadge).toHaveClass('shadow-[#d9e1ef]/40');
+  });
+
+  it('uses the unified dark badge style for non-podium compact ranks', () => {
+    const { container } = renderWithRouter(
+      <CompactDriverCard driver={mockDriver} index={4} />
+    );
+
+    const rankBadge = container.querySelector('.rounded-full');
+
+    expect(rankBadge).toBeInTheDocument();
+    expect(rankBadge).toHaveClass('bg-bg-secondary');
+    expect(rankBadge).toHaveClass('text-primary');
+    expect(rankBadge).toHaveClass('border');
+    expect(rankBadge).toHaveClass('border-border');
   });
 });

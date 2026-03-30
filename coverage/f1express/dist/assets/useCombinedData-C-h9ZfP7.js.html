@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for f1express/dist/assets/useCombinedData-C-h9ZfP7.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">f1express/dist/assets</a> useCombinedData-C-h9ZfP7.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import{c as K,u as S,r as C,f as u,h as l}from"./index-DCsYYoCj.js";import{u as D}from"./useDynamic2026Data-DQPd3iNH.js";const E=[["path",{d:"M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z",key:"1vdc57"}],["path",{d:"M5 21h14",key:"11awu3"}]],x=K("crown",E);function y(o){return/[\u4e00-\u9fff]/.test(o||"")}function T(...o){return o.filter(e=&gt;!!e&amp;&amp;!y(e))}function L(...o){return o.filter(e=&gt;!!e&amp;&amp;y(e))}function w(o){return T(o.name,o.fullName).flatMap(e=&gt;l(e))}function M(o){return L(o.nameCn,o.name).flatMap(e=&gt;l(e))}function N(o,e){const p=w(o),i=w({name:e.name});if(p.length&gt;0&amp;&amp;i.length&gt;0)return g(p,i);const n=M(o),t=M({name:e.name,nameCn:e.nameCn});return n.length&gt;0&amp;&amp;t.length&gt;0?g(n,t):!1}function g(o,e){const p=new Set(e);return o.some(i=&gt;p.has(i))}function B(o){const e=new Map,p=i=&gt;{const n=i[0];return n?(e.has(n)||e.set(n,{points:0,wins:0,podiums:0,poles:0}),i.slice(1).forEach(t=&gt;{t&amp;&amp;!e.has(t)&amp;&amp;e.set(t,e.get(n))}),e.get(n)):null};return o.forEach(i=&gt;{if(i.polePosition){const n=i.results.find(t=&gt;g(u(t),u(i.polePosition)));if(n){const t=p(l(n.team,n.teamCn));t&amp;&amp;(t.poles+=1)}}i.results.forEach(n=&gt;{const t=p(l(n.team,n.teamCn));t&amp;&amp;(t.points+=n.points||0,n.pos===1&amp;&amp;(t.wins+=1),n.pos&amp;&amp;n.pos&lt;=3&amp;&amp;(t.podiums+=1))}),i.sprintResults?.forEach(n=&gt;{const t=p(l(n.team,n.teamCn));t&amp;&amp;(t.points+=n.points||0)})}),e}function A(o){const e=new Map,p=i=&gt;{const n=i[0];return n?(e.has(n)||e.set(n,{points:0,wins:0,podiums:0,poles:0}),i.slice(1).forEach(t=&gt;{t&amp;&amp;!e.has(t)&amp;&amp;e.set(t,e.get(n))}),e.get(n)):null};return o.forEach(i=&gt;{if(i.results.forEach(n=&gt;{const t=p(u(n));t&amp;&amp;(t.points+=n.points||0,n.pos===1&amp;&amp;(t.wins+=1),n.pos&amp;&amp;n.pos&lt;=3&amp;&amp;(t.podiums+=1))}),i.sprintResults?.forEach(n=&gt;{const t=p(u(n));t&amp;&amp;(t.points+=n.points||0)}),i.polePosition){const n=p(u(i.polePosition));n&amp;&amp;(n.poles+=1)}}),e}function O(){const{state:o}=S(),{raceResults:e,teams:p,drivers:i}=D(),n=C.useMemo(()=&gt;new Set(i.flatMap(r=&gt;u(r))),[i]),t=C.useMemo(()=&gt;new Set(p.flatMap(r=&gt;l(r.name,r.nameCn))),[p]),b=C.useMemo(()=&gt;{const r=B(e),h=o.teams.map(s=&gt;{const m=l(s.name,s.nameCn,s.fullName),c=p.some(f=&gt;N(s,f)),a=m.map(f=&gt;r.get(f)).find(Boolean);return a?{...s,points:(s.points||0)+a.points,wins:(s.wins||0)+a.wins,podiums:(s.podiums||0)+a.podiums,poles:(s.poles||0)+a.poles,isActive2026:c}:{...s,isActive2026:c}}),d=p.flatMap(s=&gt;{const m=l(s.name,s.nameCn);if(h.some(a=&gt;N(a,s)))return[];const c=m.map(a=&gt;r.get(a)).find(Boolean);return[{id:s.id||s.name,name:s.name,fullName:s.name,nameCn:s.nameCn||s.name,points:Number(c?.points||0),wins:Number(c?.wins||0),podiums:Number(c?.podiums||0),poles:Number(c?.poles||0),championships:0,driverChampionships:0,championshipYears:[],color:s.color||"#e10600",logo:s.logo||"",isActive2026:!0}]});return[...h,...d].sort((s,m)=&gt;(m.points||0)-(s.points||0))},[t,e,p,o.teams]),v=C.useMemo(()=&gt;{const r=A(e),h=o.drivers.map(s=&gt;{const m=u(s),c=g(m,[...n]),a=m.map(f=&gt;r.get(f)).find(Boolean);return a?{...s,points:(s.points||0)+a.points,wins:(s.wins||0)+a.wins,podiums:(s.podiums||0)+a.podiums,poles:(s.poles||0)+a.poles,isActive2026:c}:{...s,isActive2026:c}}),d=i.flatMap(s=&gt;{const m=u(s);if(h.some(a=&gt;g(u(a),m)))return[];const c=m.map(a=&gt;r.get(a)).find(Boolean);return[{id:s.id||s.code,number:s.number||0,firstName:s.firstName||"",lastName:s.lastName||"",firstNameCn:s.firstNameCn||"",lastNameCn:s.lastNameCn||"",code:s.code||"",team:s.teamCn||s.team||"",nationality:s.country||"",points:Number(c?.points||0),wins:Number(c?.wins||0),podiums:Number(c?.podiums||0),poles:Number(c?.poles||0),championships:0,championshipYears:[],avatar:s.image||"",teamColor:p.find(a=&gt;l(a.name,a.nameCn).some(f=&gt;l(s.team,s.teamCn).includes(f)))?.color||"#6b7280",age:s.age,isActive2026:!0}]});return[...h,...d].sort((s,m)=&gt;(m.points||0)-(s.points||0))},[n,e,o.drivers]);return{combinedTeams:b,combinedDrivers:v,activeDriverKeys:n,activeTeamKeys:t,liveResults:e,loading:o.loading}}export{x as C,O as u};<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-25T03:34:42.510Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    

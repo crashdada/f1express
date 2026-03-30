@@ -1,0 +1,649 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for f1express/public/libs/sql.js/sql-wasm.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">f1express/public/libs/sql.js</a> sql-wasm.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/172</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/172</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+<span class="cstat-no" title="statement not covered" >// We are modularizing this manually because the current modularize setting in Emscripten has some issues:</span>
+<span class="cstat-no" title="statement not covered" >// https://github.com/kripken/emscripten/issues/5820</span>
+<span class="cstat-no" title="statement not covered" >// In addition, When you use emcc's modularization, it still expects to export a global object called `Module`,</span>
+<span class="cstat-no" title="statement not covered" >// which is able to be used/called before the WASM is loaded.</span>
+<span class="cstat-no" title="statement not covered" >// The modularization below exports a promise that loads and resolves to the actual sql.js module.</span>
+<span class="cstat-no" title="statement not covered" >// That way, this module can't be used before the WASM is finished loading.</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >// We are going to define a function that a user will call to start loading initializing our Sql.js library</span>
+<span class="cstat-no" title="statement not covered" >// However, that function might be called multiple times, and on subsequent calls, we don't actually want it to instantiate a new instance of the Module</span>
+<span class="cstat-no" title="statement not covered" >// Instead, we want to return the previously loaded module</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >// TODO: Make this not declare a global if used in the browser</span>
+<span class="cstat-no" title="statement not covered" >var initSqlJsPromise = undefined;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var initSqlJs = function (moduleConfig) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (initSqlJsPromise){</span>
+<span class="cstat-no" title="statement not covered" >      return initSqlJsPromise;</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >    // If we're here, we've never called this function before</span>
+<span class="cstat-no" title="statement not covered" >    initSqlJsPromise = new Promise(function (resolveModule, reject) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // We are modularizing this manually because the current modularize setting in Emscripten has some issues:</span>
+<span class="cstat-no" title="statement not covered" >        // https://github.com/kripken/emscripten/issues/5820</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // The way to affect the loading of emcc compiled modules is to create a variable called `Module` and add</span>
+<span class="cstat-no" title="statement not covered" >        // properties to it, like `preRun`, `postRun`, etc</span>
+<span class="cstat-no" title="statement not covered" >        // We are using that to get notified when the WASM has finished loading.</span>
+<span class="cstat-no" title="statement not covered" >        // Only then will we return our promise</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // If they passed in a moduleConfig object, use that</span>
+<span class="cstat-no" title="statement not covered" >        // Otherwise, initialize Module to the empty object</span>
+<span class="cstat-no" title="statement not covered" >        var Module = typeof moduleConfig !== 'undefined' ? moduleConfig : {};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // EMCC only allows for a single onAbort function (not an array of functions)</span>
+<span class="cstat-no" title="statement not covered" >        // So if the user defined their own onAbort function, we remember it and call it</span>
+<span class="cstat-no" title="statement not covered" >        var originalOnAbortFunction = Module['onAbort'];</span>
+<span class="cstat-no" title="statement not covered" >        Module['onAbort'] = function (errorThatCausedAbort) {</span>
+<span class="cstat-no" title="statement not covered" >            reject(new Error(errorThatCausedAbort));</span>
+<span class="cstat-no" title="statement not covered" >            if (originalOnAbortFunction){</span>
+<span class="cstat-no" title="statement not covered" >              originalOnAbortFunction(errorThatCausedAbort);</span>
+<span class="cstat-no" title="statement not covered" >            }</span>
+<span class="cstat-no" title="statement not covered" >        };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Module['postRun'] = Module['postRun'] || [];</span>
+<span class="cstat-no" title="statement not covered" >        Module['postRun'].push(function () {</span>
+<span class="cstat-no" title="statement not covered" >            // When Emscripted calls postRun, this promise resolves with the built Module</span>
+<span class="cstat-no" title="statement not covered" >            resolveModule(Module);</span>
+<span class="cstat-no" title="statement not covered" >        });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // There is a section of code in the emcc-generated code below that looks like this:</span>
+<span class="cstat-no" title="statement not covered" >        // (Note that this is lowercase `module`)</span>
+<span class="cstat-no" title="statement not covered" >        // if (typeof module !== 'undefined') {</span>
+<span class="cstat-no" title="statement not covered" >        //     module['exports'] = Module;</span>
+<span class="cstat-no" title="statement not covered" >        // }</span>
+<span class="cstat-no" title="statement not covered" >        // When that runs, it's going to overwrite our own modularization export efforts in shell-post.js!</span>
+<span class="cstat-no" title="statement not covered" >        // The only way to tell emcc not to emit it is to pass the MODULARIZE=1 or MODULARIZE_INSTANCE=1 flags,</span>
+<span class="cstat-no" title="statement not covered" >        // but that carries with it additional unnecessary baggage/bugs we don't want either.</span>
+<span class="cstat-no" title="statement not covered" >        // So, we have three options:</span>
+<span class="cstat-no" title="statement not covered" >        // 1) We undefine `module`</span>
+<span class="cstat-no" title="statement not covered" >        // 2) We remember what `module['exports']` was at the beginning of this function and we restore it later</span>
+<span class="cstat-no" title="statement not covered" >        // 3) We write a script to remove those lines of code as part of the Make process.</span>
+<span class="cstat-no" title="statement not covered" >        //</span>
+<span class="cstat-no" title="statement not covered" >        // Since those are the only lines of code that care about module, we will undefine it. It's the most straightforward</span>
+<span class="cstat-no" title="statement not covered" >        // of the options, and has the side effect of reducing emcc's efforts to modify the module if its output were to change in the future.</span>
+<span class="cstat-no" title="statement not covered" >        // That's a nice side effect since we're handling the modularization efforts ourselves</span>
+<span class="cstat-no" title="statement not covered" >        module = undefined;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // The emcc-generated code and shell-post.js code goes below,</span>
+<span class="cstat-no" title="statement not covered" >        // meaning that all of it runs inside of this promise. If anything throws an exception, our promise will abort</span>
+<span class="cstat-no" title="statement not covered" >var f;f||=typeof Module != 'undefined' ? Module : {};var aa="object"==typeof window,ba="undefined"!=typeof WorkerGlobalScope,ca="object"==typeof process&amp;&amp;"object"==typeof process.versions&amp;&amp;"string"==typeof process.versions.node&amp;&amp;"renderer"!=process.type;"use strict";</span>
+<span class="cstat-no" title="statement not covered" >f.onRuntimeInitialized=function(){function a(g,l){switch(typeof l){case "boolean":dc(g,l?1:0);break;case "number":ec(g,l);break;case "string":fc(g,l,-1,-1);break;case "object":if(null===l)lb(g);else if(null!=l.length){var n=da(l,ea);gc(g,n,l.length,-1);fa(n)}else va(g,"Wrong API use : tried to return a value of an unknown type ("+l+").",-1);break;default:lb(g)}}function b(g,l){for(var n=[],r=0;r&lt;g;r+=1){var t=m(l+4*r,"i32"),y=hc(t);if(1===y||2===y)t=ic(t);else if(3===y)t=jc(t);else if(4===y){y=t;</span>
+<span class="cstat-no" title="statement not covered" >t=kc(y);y=lc(y);for(var L=new Uint8Array(t),J=0;J&lt;t;J+=1)L[J]=p[y+J];t=L}else t=null;n.push(t)}return n}function c(g,l){this.Qa=g;this.db=l;this.Oa=1;this.lb=[]}function d(g,l){this.db=l;l=ha(g)+1;this.eb=ia(l);if(null===this.eb)throw Error("Unable to allocate memory for the SQL string");u(g,x,this.eb,l);this.kb=this.eb;this.Za=this.pb=null}function e(g){this.filename="dbfile_"+(4294967295*Math.random()&gt;&gt;&gt;0);if(null!=g){var l=this.filename,n="/",r=l;n&amp;&amp;(n="string"==typeof n?n:ja(n),r=l?ka(n+"/"+l):</span>
+<span class="cstat-no" title="statement not covered" >n);l=la(!0,!0);r=ma(r,l);if(g){if("string"==typeof g){n=Array(g.length);for(var t=0,y=g.length;t&lt;y;++t)n[t]=g.charCodeAt(t);g=n}na(r,l|146);n=oa(r,577);pa(n,g,0,g.length,0);qa(n);na(r,l)}}this.handleError(q(this.filename,h));this.db=m(h,"i32");ob(this.db);this.fb={};this.Sa={}}var h=z(4),k=f.cwrap,q=k("sqlite3_open","number",["string","number"]),w=k("sqlite3_close_v2","number",["number"]),v=k("sqlite3_exec","number",["number","string","number","number","number"]),C=k("sqlite3_changes","number",["number"]),</span>
+<span class="cstat-no" title="statement not covered" >G=k("sqlite3_prepare_v2","number",["number","string","number","number","number"]),pb=k("sqlite3_sql","string",["number"]),nc=k("sqlite3_normalized_sql","string",["number"]),qb=k("sqlite3_prepare_v2","number",["number","number","number","number","number"]),oc=k("sqlite3_bind_text","number",["number","number","number","number","number"]),rb=k("sqlite3_bind_blob","number",["number","number","number","number","number"]),pc=k("sqlite3_bind_double","number",["number","number","number"]),qc=k("sqlite3_bind_int",</span>
+<span class="cstat-no" title="statement not covered" >"number",["number","number","number"]),rc=k("sqlite3_bind_parameter_index","number",["number","string"]),sc=k("sqlite3_step","number",["number"]),tc=k("sqlite3_errmsg","string",["number"]),uc=k("sqlite3_column_count","number",["number"]),vc=k("sqlite3_data_count","number",["number"]),wc=k("sqlite3_column_double","number",["number","number"]),sb=k("sqlite3_column_text","string",["number","number"]),xc=k("sqlite3_column_blob","number",["number","number"]),yc=k("sqlite3_column_bytes","number",["number",</span>
+<span class="cstat-no" title="statement not covered" >"number"]),zc=k("sqlite3_column_type","number",["number","number"]),Ac=k("sqlite3_column_name","string",["number","number"]),Bc=k("sqlite3_reset","number",["number"]),Cc=k("sqlite3_clear_bindings","number",["number"]),Dc=k("sqlite3_finalize","number",["number"]),tb=k("sqlite3_create_function_v2","number","number string number number number number number number number".split(" ")),hc=k("sqlite3_value_type","number",["number"]),kc=k("sqlite3_value_bytes","number",["number"]),jc=k("sqlite3_value_text",</span>
+<span class="cstat-no" title="statement not covered" >"string",["number"]),lc=k("sqlite3_value_blob","number",["number"]),ic=k("sqlite3_value_double","number",["number"]),ec=k("sqlite3_result_double","",["number","number"]),lb=k("sqlite3_result_null","",["number"]),fc=k("sqlite3_result_text","",["number","string","number","number"]),gc=k("sqlite3_result_blob","",["number","number","number","number"]),dc=k("sqlite3_result_int","",["number","number"]),va=k("sqlite3_result_error","",["number","string","number"]),ub=k("sqlite3_aggregate_context","number",</span>
+<span class="cstat-no" title="statement not covered" >["number","number"]),ob=k("RegisterExtensionFunctions","number",["number"]),vb=k("sqlite3_update_hook","number",["number","number","number"]);c.prototype.bind=function(g){if(!this.Qa)throw"Statement closed";this.reset();return Array.isArray(g)?this.Cb(g):null!=g&amp;&amp;"object"===typeof g?this.Db(g):!0};c.prototype.step=function(){if(!this.Qa)throw"Statement closed";this.Oa=1;var g=sc(this.Qa);switch(g){case 100:return!0;case 101:return!1;default:throw this.db.handleError(g);}};c.prototype.wb=function(g){null==</span>
+<span class="cstat-no" title="statement not covered" >g&amp;&amp;(g=this.Oa,this.Oa+=1);return wc(this.Qa,g)};c.prototype.Gb=function(g){null==g&amp;&amp;(g=this.Oa,this.Oa+=1);g=sb(this.Qa,g);if("function"!==typeof BigInt)throw Error("BigInt is not supported");return BigInt(g)};c.prototype.Hb=function(g){null==g&amp;&amp;(g=this.Oa,this.Oa+=1);return sb(this.Qa,g)};c.prototype.getBlob=function(g){null==g&amp;&amp;(g=this.Oa,this.Oa+=1);var l=yc(this.Qa,g);g=xc(this.Qa,g);for(var n=new Uint8Array(l),r=0;r&lt;l;r+=1)n[r]=p[g+r];return n};c.prototype.get=function(g,l){l=l||{};null!=g&amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >this.bind(g)&amp;&amp;this.step();g=[];for(var n=vc(this.Qa),r=0;r&lt;n;r+=1)switch(zc(this.Qa,r)){case 1:var t=l.useBigInt?this.Gb(r):this.wb(r);g.push(t);break;case 2:g.push(this.wb(r));break;case 3:g.push(this.Hb(r));break;case 4:g.push(this.getBlob(r));break;default:g.push(null)}return g};c.prototype.getColumnNames=function(){for(var g=[],l=uc(this.Qa),n=0;n&lt;l;n+=1)g.push(Ac(this.Qa,n));return g};c.prototype.getAsObject=function(g,l){g=this.get(g,l);l=this.getColumnNames();for(var n={},r=0;r&lt;l.length;r+=</span>
+<span class="cstat-no" title="statement not covered" >1)n[l[r]]=g[r];return n};c.prototype.getSQL=function(){return pb(this.Qa)};c.prototype.getNormalizedSQL=function(){return nc(this.Qa)};c.prototype.run=function(g){null!=g&amp;&amp;this.bind(g);this.step();return this.reset()};c.prototype.sb=function(g,l){null==l&amp;&amp;(l=this.Oa,this.Oa+=1);g=ra(g);var n=da(g,ea);this.lb.push(n);this.db.handleError(oc(this.Qa,l,n,g.length-1,0))};c.prototype.Bb=function(g,l){null==l&amp;&amp;(l=this.Oa,this.Oa+=1);var n=da(g,ea);this.lb.push(n);this.db.handleError(rb(this.Qa,l,n,g.length,</span>
+<span class="cstat-no" title="statement not covered" >0))};c.prototype.rb=function(g,l){null==l&amp;&amp;(l=this.Oa,this.Oa+=1);this.db.handleError((g===(g|0)?qc:pc)(this.Qa,l,g))};c.prototype.Eb=function(g){null==g&amp;&amp;(g=this.Oa,this.Oa+=1);rb(this.Qa,g,0,0,0)};c.prototype.tb=function(g,l){null==l&amp;&amp;(l=this.Oa,this.Oa+=1);switch(typeof g){case "string":this.sb(g,l);return;case "number":this.rb(g,l);return;case "bigint":this.sb(g.toString(),l);return;case "boolean":this.rb(g+0,l);return;case "object":if(null===g){this.Eb(l);return}if(null!=g.length){this.Bb(g,</span>
+<span class="cstat-no" title="statement not covered" >l);return}}throw"Wrong API use : tried to bind a value of an unknown type ("+g+").";};c.prototype.Db=function(g){var l=this;Object.keys(g).forEach(function(n){var r=rc(l.Qa,n);0!==r&amp;&amp;l.tb(g[n],r)});return!0};c.prototype.Cb=function(g){for(var l=0;l&lt;g.length;l+=1)this.tb(g[l],l+1);return!0};c.prototype.reset=function(){this.freemem();return 0===Cc(this.Qa)&amp;&amp;0===Bc(this.Qa)};c.prototype.freemem=function(){for(var g;void 0!==(g=this.lb.pop());)fa(g)};c.prototype.free=function(){this.freemem();var g=</span>
+<span class="cstat-no" title="statement not covered" >0===Dc(this.Qa);delete this.db.fb[this.Qa];this.Qa=0;return g};d.prototype.next=function(){if(null===this.eb)return{done:!0};null!==this.Za&amp;&amp;(this.Za.free(),this.Za=null);if(!this.db.db)throw this.mb(),Error("Database closed");var g=sa(),l=z(4);ta(h);ta(l);try{this.db.handleError(qb(this.db.db,this.kb,-1,h,l));this.kb=m(l,"i32");var n=m(h,"i32");if(0===n)return this.mb(),{done:!0};this.Za=new c(n,this.db);this.db.fb[n]=this.Za;return{value:this.Za,done:!1}}catch(r){throw this.pb=ua(this.kb),this.mb(),</span>
+<span class="cstat-no" title="statement not covered" >r;}finally{wa(g)}};d.prototype.mb=function(){fa(this.eb);this.eb=null};d.prototype.getRemainingSQL=function(){return null!==this.pb?this.pb:ua(this.kb)};"function"===typeof Symbol&amp;&amp;"symbol"===typeof Symbol.iterator&amp;&amp;(d.prototype[Symbol.iterator]=function(){return this});e.prototype.run=function(g,l){if(!this.db)throw"Database closed";if(l){g=this.prepare(g,l);try{g.step()}finally{g.free()}}else this.handleError(v(this.db,g,0,0,h));return this};e.prototype.exec=function(g,l,n){if(!this.db)throw"Database closed";</span>
+<span class="cstat-no" title="statement not covered" >var r=sa(),t=null;try{var y=xa(g),L=z(4);for(g=[];0!==m(y,"i8");){ta(h);ta(L);this.handleError(qb(this.db,y,-1,h,L));var J=m(h,"i32");y=m(L,"i32");if(0!==J){var I=null;t=new c(J,this);for(null!=l&amp;&amp;t.bind(l);t.step();)null===I&amp;&amp;(I={columns:t.getColumnNames(),values:[]},g.push(I)),I.values.push(t.get(null,n));t.free()}}return g}catch(M){throw t&amp;&amp;t.free(),M;}finally{wa(r)}};e.prototype.each=function(g,l,n,r,t){"function"===typeof l&amp;&amp;(r=n,n=l,l=void 0);g=this.prepare(g,l);try{for(;g.step();)n(g.getAsObject(null,</span>
+<span class="cstat-no" title="statement not covered" >t))}finally{g.free()}if("function"===typeof r)return r()};e.prototype.prepare=function(g,l){ta(h);this.handleError(G(this.db,g,-1,h,0));g=m(h,"i32");if(0===g)throw"Nothing to prepare";var n=new c(g,this);null!=l&amp;&amp;n.bind(l);return this.fb[g]=n};e.prototype.iterateStatements=function(g){return new d(g,this)};e.prototype["export"]=function(){Object.values(this.fb).forEach(function(l){l.free()});Object.values(this.Sa).forEach(A);this.Sa={};this.handleError(w(this.db));var g=ya(this.filename);this.handleError(q(this.filename,</span>
+<span class="cstat-no" title="statement not covered" >h));this.db=m(h,"i32");ob(this.db);return g};e.prototype.close=function(){null!==this.db&amp;&amp;(Object.values(this.fb).forEach(function(g){g.free()}),Object.values(this.Sa).forEach(A),this.Sa={},this.Ya&amp;&amp;(A(this.Ya),this.Ya=void 0),this.handleError(w(this.db)),za("/"+this.filename),this.db=null)};e.prototype.handleError=function(g){if(0===g)return null;g=tc(this.db);throw Error(g);};e.prototype.getRowsModified=function(){return C(this.db)};e.prototype.create_function=function(g,l){Object.prototype.hasOwnProperty.call(this.Sa,</span>
+<span class="cstat-no" title="statement not covered" >g)&amp;&amp;(A(this.Sa[g]),delete this.Sa[g]);var n=Aa(function(r,t,y){t=b(t,y);try{var L=l.apply(null,t)}catch(J){va(r,J,-1);return}a(r,L)},"viii");this.Sa[g]=n;this.handleError(tb(this.db,g,l.length,1,0,n,0,0,0));return this};e.prototype.create_aggregate=function(g,l){var n=l.init||function(){return null},r=l.finalize||function(I){return I},t=l.step;if(!t)throw"An aggregate function must have a step function in "+g;var y={};Object.hasOwnProperty.call(this.Sa,g)&amp;&amp;(A(this.Sa[g]),delete this.Sa[g]);l=g+"__finalize";</span>
+<span class="cstat-no" title="statement not covered" >Object.hasOwnProperty.call(this.Sa,l)&amp;&amp;(A(this.Sa[l]),delete this.Sa[l]);var L=Aa(function(I,M,Ra){var X=ub(I,1);Object.hasOwnProperty.call(y,X)||(y[X]=n());M=b(M,Ra);M=[y[X]].concat(M);try{y[X]=t.apply(null,M)}catch(Fc){delete y[X],va(I,Fc,-1)}},"viii"),J=Aa(function(I){var M=ub(I,1);try{var Ra=r(y[M])}catch(X){delete y[M];va(I,X,-1);return}a(I,Ra);delete y[M]},"vi");this.Sa[g]=L;this.Sa[l]=J;this.handleError(tb(this.db,g,t.length-1,1,0,0,L,J,0));return this};e.prototype.updateHook=function(g){this.Ya&amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >(vb(this.db,0,0),A(this.Ya),this.Ya=void 0);g&amp;&amp;(this.Ya=Aa(function(l,n,r,t,y){switch(n){case 18:l="insert";break;case 23:l="update";break;case 9:l="delete";break;default:throw"unknown operationCode in updateHook callback: "+n;}r=r?B(x,r):"";t=t?B(x,t):"";if(y&gt;Number.MAX_SAFE_INTEGER)throw"rowId too big to fit inside a Number";g(l,r,t,Number(y))},"viiiij"),vb(this.db,this.Ya,0))};f.Database=e};var Ba={...f},Ca="./this.program",Da=(a,b)=&gt;{throw b;},D="",Ea,Fa;</span>
+<span class="cstat-no" title="statement not covered" >if(ca){var fs=require("fs");require("path");D=__dirname+"/";Fa=a=&gt;{a=Ga(a)?new URL(a):a;return fs.readFileSync(a)};Ea=async a=&gt;{a=Ga(a)?new URL(a):a;return fs.readFileSync(a,void 0)};!f.thisProgram&amp;&amp;1&lt;process.argv.length&amp;&amp;(Ca=process.argv[1].replace(/\\/g,"/"));process.argv.slice(2);"undefined"!=typeof module&amp;&amp;(module.exports=f);Da=(a,b)=&gt;{process.exitCode=a;throw b;}}else if(aa||ba)ba?D=self.location.href:"undefined"!=typeof document&amp;&amp;document.currentScript&amp;&amp;(D=document.currentScript.src),D=D.startsWith("blob:")?</span>
+<span class="cstat-no" title="statement not covered" >"":D.slice(0,D.replace(/[?#].*/,"").lastIndexOf("/")+1),ba&amp;&amp;(Fa=a=&gt;{var b=new XMLHttpRequest;b.open("GET",a,!1);b.responseType="arraybuffer";b.send(null);return new Uint8Array(b.response)}),Ea=async a=&gt;{if(Ga(a))return new Promise((c,d)=&gt;{var e=new XMLHttpRequest;e.open("GET",a,!0);e.responseType="arraybuffer";e.onload=()=&gt;{200==e.status||0==e.status&amp;&amp;e.response?c(e.response):d(e.status)};e.onerror=d;e.send(null)});var b=await fetch(a,{credentials:"same-origin"});if(b.ok)return b.arrayBuffer();throw Error(b.status+</span>
+<span class="cstat-no" title="statement not covered" >" : "+b.url);};var Ha=f.print||console.log.bind(console),Ia=f.printErr||console.error.bind(console);Object.assign(f,Ba);Ba=null;f.thisProgram&amp;&amp;(Ca=f.thisProgram);var Ja=f.wasmBinary,Ka,La=!1,Ma,p,x,Na,E,F,Oa,H,Pa,Ga=a=&gt;a.startsWith("file://");</span>
+<span class="cstat-no" title="statement not covered" >function Qa(){var a=Ka.buffer;f.HEAP8=p=new Int8Array(a);f.HEAP16=Na=new Int16Array(a);f.HEAPU8=x=new Uint8Array(a);f.HEAPU16=new Uint16Array(a);f.HEAP32=E=new Int32Array(a);f.HEAPU32=F=new Uint32Array(a);f.HEAPF32=Oa=new Float32Array(a);f.HEAPF64=Pa=new Float64Array(a);f.HEAP64=H=new BigInt64Array(a);f.HEAPU64=new BigUint64Array(a)}var K=0,Sa=null;function Ta(a){f.onAbort?.(a);a="Aborted("+a+")";Ia(a);La=!0;throw new WebAssembly.RuntimeError(a+". Build with -sASSERTIONS for more info.");}var Ua;</span>
+<span class="cstat-no" title="statement not covered" >async function Va(a){if(!Ja)try{var b=await Ea(a);return new Uint8Array(b)}catch{}if(a==Ua&amp;&amp;Ja)a=new Uint8Array(Ja);else if(Fa)a=Fa(a);else throw"both async and sync fetching of the wasm failed";return a}async function Wa(a,b){try{var c=await Va(a);return await WebAssembly.instantiate(c,b)}catch(d){Ia(`failed to asynchronously prepare wasm: ${d}`),Ta(d)}}</span>
+<span class="cstat-no" title="statement not covered" >async function Xa(a){var b=Ua;if(!Ja&amp;&amp;"function"==typeof WebAssembly.instantiateStreaming&amp;&amp;!Ga(b)&amp;&amp;!ca)try{var c=fetch(b,{credentials:"same-origin"});return await WebAssembly.instantiateStreaming(c,a)}catch(d){Ia(`wasm streaming compile failed: ${d}`),Ia("falling back to ArrayBuffer instantiation")}return Wa(b,a)}class Ya{name="ExitStatus";constructor(a){this.message=`Program terminated with exit(${a})`;this.status=a}}</span>
+<span class="cstat-no" title="statement not covered" >var Za=a=&gt;{for(;0&lt;a.length;)a.shift()(f)},$a=[],ab=[],bb=()=&gt;{var a=f.preRun.shift();ab.unshift(a)};function m(a,b="i8"){b.endsWith("*")&amp;&amp;(b="*");switch(b){case "i1":return p[a];case "i8":return p[a];case "i16":return Na[a&gt;&gt;1];case "i32":return E[a&gt;&gt;2];case "i64":return H[a&gt;&gt;3];case "float":return Oa[a&gt;&gt;2];case "double":return Pa[a&gt;&gt;3];case "*":return F[a&gt;&gt;2];default:Ta(`invalid type for getValue: ${b}`)}}var cb=f.noExitRuntime||!0;</span>
+<span class="cstat-no" title="statement not covered" >function ta(a){var b="i32";b.endsWith("*")&amp;&amp;(b="*");switch(b){case "i1":p[a]=0;break;case "i8":p[a]=0;break;case "i16":Na[a&gt;&gt;1]=0;break;case "i32":E[a&gt;&gt;2]=0;break;case "i64":H[a&gt;&gt;3]=BigInt(0);break;case "float":Oa[a&gt;&gt;2]=0;break;case "double":Pa[a&gt;&gt;3]=0;break;case "*":F[a&gt;&gt;2]=0;break;default:Ta(`invalid type for setValue: ${b}`)}}</span>
+<span class="cstat-no" title="statement not covered" >var db="undefined"!=typeof TextDecoder?new TextDecoder:void 0,B=(a,b=0,c=NaN)=&gt;{var d=b+c;for(c=b;a[c]&amp;&amp;!(c&gt;=d);)++c;if(16&lt;c-b&amp;&amp;a.buffer&amp;&amp;db)return db.decode(a.subarray(b,c));for(d="";b&lt;c;){var e=a[b++];if(e&amp;128){var h=a[b++]&amp;63;if(192==(e&amp;224))d+=String.fromCharCode((e&amp;31)&lt;&lt;6|h);else{var k=a[b++]&amp;63;e=224==(e&amp;240)?(e&amp;15)&lt;&lt;12|h&lt;&lt;6|k:(e&amp;7)&lt;&lt;18|h&lt;&lt;12|k&lt;&lt;6|a[b++]&amp;63;65536&gt;e?d+=String.fromCharCode(e):(e-=65536,d+=String.fromCharCode(55296|e&gt;&gt;10,56320|e&amp;1023))}}else d+=String.fromCharCode(e)}return d},</span>
+<span class="cstat-no" title="statement not covered" >ua=(a,b)=&gt;a?B(x,a,b):"",eb=(a,b)=&gt;{for(var c=0,d=a.length-1;0&lt;=d;d--){var e=a[d];"."===e?a.splice(d,1):".."===e?(a.splice(d,1),c++):c&amp;&amp;(a.splice(d,1),c--)}if(b)for(;c;c--)a.unshift("..");return a},ka=a=&gt;{var b="/"===a.charAt(0),c="/"===a.slice(-1);(a=eb(a.split("/").filter(d=&gt;!!d),!b).join("/"))||b||(a=".");a&amp;&amp;c&amp;&amp;(a+="/");return(b?"/":"")+a},fb=a=&gt;{var b=/^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/.exec(a).slice(1);a=b[0];b=b[1];if(!a&amp;&amp;!b)return".";b&amp;&amp;=b.slice(0,-1);return a+b},</span>
+<span class="cstat-no" title="statement not covered" >gb=a=&gt;a&amp;&amp;a.match(/([^\/]+|\/)\/*$/)[1],hb=()=&gt;{if(ca){var a=require("crypto");return b=&gt;a.randomFillSync(b)}return b=&gt;crypto.getRandomValues(b)},ib=a=&gt;{(ib=hb())(a)},jb=(...a)=&gt;{for(var b="",c=!1,d=a.length-1;-1&lt;=d&amp;&amp;!c;d--){c=0&lt;=d?a[d]:"/";if("string"!=typeof c)throw new TypeError("Arguments to path.resolve must be strings");if(!c)return"";b=c+"/"+b;c="/"===c.charAt(0)}b=eb(b.split("/").filter(e=&gt;!!e),!c).join("/");return(c?"/":"")+b||"."},kb=[],ha=a=&gt;{for(var b=0,c=0;c&lt;a.length;++c){var d=a.charCodeAt(c);</span>
+<span class="cstat-no" title="statement not covered" >127&gt;=d?b++:2047&gt;=d?b+=2:55296&lt;=d&amp;&amp;57343&gt;=d?(b+=4,++c):b+=3}return b},u=(a,b,c,d)=&gt;{if(!(0&lt;d))return 0;var e=c;d=c+d-1;for(var h=0;h&lt;a.length;++h){var k=a.charCodeAt(h);if(55296&lt;=k&amp;&amp;57343&gt;=k){var q=a.charCodeAt(++h);k=65536+((k&amp;1023)&lt;&lt;10)|q&amp;1023}if(127&gt;=k){if(c&gt;=d)break;b[c++]=k}else{if(2047&gt;=k){if(c+1&gt;=d)break;b[c++]=192|k&gt;&gt;6}else{if(65535&gt;=k){if(c+2&gt;=d)break;b[c++]=224|k&gt;&gt;12}else{if(c+3&gt;=d)break;b[c++]=240|k&gt;&gt;18;b[c++]=128|k&gt;&gt;12&amp;63}b[c++]=128|k&gt;&gt;6&amp;63}b[c++]=128|k&amp;63}}b[c]=0;return c-e},ra=(a,b)=&gt;</span>
+<span class="cstat-no" title="statement not covered" >{var c=Array(ha(a)+1);a=u(a,c,0,c.length);b&amp;&amp;(c.length=a);return c},mb=[];function nb(a,b){mb[a]={input:[],output:[],cb:b};wb(a,xb)}</span>
+<span class="cstat-no" title="statement not covered" >var xb={open(a){var b=mb[a.node.rdev];if(!b)throw new N(43);a.tty=b;a.seekable=!1},close(a){a.tty.cb.fsync(a.tty)},fsync(a){a.tty.cb.fsync(a.tty)},read(a,b,c,d){if(!a.tty||!a.tty.cb.xb)throw new N(60);for(var e=0,h=0;h&lt;d;h++){try{var k=a.tty.cb.xb(a.tty)}catch(q){throw new N(29);}if(void 0===k&amp;&amp;0===e)throw new N(6);if(null===k||void 0===k)break;e++;b[c+h]=k}e&amp;&amp;(a.node.atime=Date.now());return e},write(a,b,c,d){if(!a.tty||!a.tty.cb.qb)throw new N(60);try{for(var e=0;e&lt;d;e++)a.tty.cb.qb(a.tty,b[c+e])}catch(h){throw new N(29);</span>
+<span class="cstat-no" title="statement not covered" >}d&amp;&amp;(a.node.mtime=a.node.ctime=Date.now());return e}},yb={xb(){a:{if(!kb.length){var a=null;if(ca){var b=Buffer.alloc(256),c=0,d=process.stdin.fd;try{c=fs.readSync(d,b,0,256)}catch(e){if(e.toString().includes("EOF"))c=0;else throw e;}0&lt;c&amp;&amp;(a=b.slice(0,c).toString("utf-8"))}else"undefined"!=typeof window&amp;&amp;"function"==typeof window.prompt&amp;&amp;(a=window.prompt("Input: "),null!==a&amp;&amp;(a+="\n"));if(!a){a=null;break a}kb=ra(a,!0)}a=kb.shift()}return a},qb(a,b){null===b||10===b?(Ha(B(a.output)),a.output=[]):</span>
+<span class="cstat-no" title="statement not covered" >0!=b&amp;&amp;a.output.push(b)},fsync(a){0&lt;a.output?.length&amp;&amp;(Ha(B(a.output)),a.output=[])},Tb(){return{Ob:25856,Qb:5,Nb:191,Pb:35387,Mb:[3,28,127,21,4,0,1,0,17,19,26,0,18,15,23,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}},Ub(){return 0},Vb(){return[24,80]}},zb={qb(a,b){null===b||10===b?(Ia(B(a.output)),a.output=[]):0!=b&amp;&amp;a.output.push(b)},fsync(a){0&lt;a.output?.length&amp;&amp;(Ia(B(a.output)),a.output=[])}},O={Wa:null,Xa(){return O.createNode(null,"/",16895,0)},createNode(a,b,c,d){if(24576===(c&amp;61440)||4096===(c&amp;61440))throw new N(63);</span>
+<span class="cstat-no" title="statement not covered" >O.Wa||(O.Wa={dir:{node:{Ta:O.La.Ta,Ua:O.La.Ua,lookup:O.La.lookup,hb:O.La.hb,rename:O.La.rename,unlink:O.La.unlink,rmdir:O.La.rmdir,readdir:O.La.readdir,symlink:O.La.symlink},stream:{Va:O.Ma.Va}},file:{node:{Ta:O.La.Ta,Ua:O.La.Ua},stream:{Va:O.Ma.Va,read:O.Ma.read,write:O.Ma.write,ib:O.Ma.ib,jb:O.Ma.jb}},link:{node:{Ta:O.La.Ta,Ua:O.La.Ua,readlink:O.La.readlink},stream:{}},ub:{node:{Ta:O.La.Ta,Ua:O.La.Ua},stream:Ab}});c=Bb(a,b,c,d);P(c.mode)?(c.La=O.Wa.dir.node,c.Ma=O.Wa.dir.stream,c.Na={}):32768===</span>
+<span class="cstat-no" title="statement not covered" >(c.mode&amp;61440)?(c.La=O.Wa.file.node,c.Ma=O.Wa.file.stream,c.Ra=0,c.Na=null):40960===(c.mode&amp;61440)?(c.La=O.Wa.link.node,c.Ma=O.Wa.link.stream):8192===(c.mode&amp;61440)&amp;&amp;(c.La=O.Wa.ub.node,c.Ma=O.Wa.ub.stream);c.atime=c.mtime=c.ctime=Date.now();a&amp;&amp;(a.Na[b]=c,a.atime=a.mtime=a.ctime=c.atime);return c},Sb(a){return a.Na?a.Na.subarray?a.Na.subarray(0,a.Ra):new Uint8Array(a.Na):new Uint8Array(0)},La:{Ta(a){var b={};b.dev=8192===(a.mode&amp;61440)?a.id:1;b.ino=a.id;b.mode=a.mode;b.nlink=1;b.uid=0;b.gid=0;b.rdev=</span>
+<span class="cstat-no" title="statement not covered" >a.rdev;P(a.mode)?b.size=4096:32768===(a.mode&amp;61440)?b.size=a.Ra:40960===(a.mode&amp;61440)?b.size=a.link.length:b.size=0;b.atime=new Date(a.atime);b.mtime=new Date(a.mtime);b.ctime=new Date(a.ctime);b.blksize=4096;b.blocks=Math.ceil(b.size/b.blksize);return b},Ua(a,b){for(var c of["mode","atime","mtime","ctime"])null!=b[c]&amp;&amp;(a[c]=b[c]);void 0!==b.size&amp;&amp;(b=b.size,a.Ra!=b&amp;&amp;(0==b?(a.Na=null,a.Ra=0):(c=a.Na,a.Na=new Uint8Array(b),c&amp;&amp;a.Na.set(c.subarray(0,Math.min(b,a.Ra))),a.Ra=b)))},lookup(){throw O.vb;</span>
+<span class="cstat-no" title="statement not covered" >},hb(a,b,c,d){return O.createNode(a,b,c,d)},rename(a,b,c){try{var d=Q(b,c)}catch(h){}if(d){if(P(a.mode))for(var e in d.Na)throw new N(55);Cb(d)}delete a.parent.Na[a.name];b.Na[c]=a;a.name=c;b.ctime=b.mtime=a.parent.ctime=a.parent.mtime=Date.now()},unlink(a,b){delete a.Na[b];a.ctime=a.mtime=Date.now()},rmdir(a,b){var c=Q(a,b),d;for(d in c.Na)throw new N(55);delete a.Na[b];a.ctime=a.mtime=Date.now()},readdir(a){return[".","..",...Object.keys(a.Na)]},symlink(a,b,c){a=O.createNode(a,b,41471,0);a.link=</span>
+<span class="cstat-no" title="statement not covered" >c;return a},readlink(a){if(40960!==(a.mode&amp;61440))throw new N(28);return a.link}},Ma:{read(a,b,c,d,e){var h=a.node.Na;if(e&gt;=a.node.Ra)return 0;a=Math.min(a.node.Ra-e,d);if(8&lt;a&amp;&amp;h.subarray)b.set(h.subarray(e,e+a),c);else for(d=0;d&lt;a;d++)b[c+d]=h[e+d];return a},write(a,b,c,d,e,h){b.buffer===p.buffer&amp;&amp;(h=!1);if(!d)return 0;a=a.node;a.mtime=a.ctime=Date.now();if(b.subarray&amp;&amp;(!a.Na||a.Na.subarray)){if(h)return a.Na=b.subarray(c,c+d),a.Ra=d;if(0===a.Ra&amp;&amp;0===e)return a.Na=b.slice(c,c+d),a.Ra=d;if(e+d&lt;=a.Ra)return a.Na.set(b.subarray(c,</span>
+<span class="cstat-no" title="statement not covered" >c+d),e),d}h=e+d;var k=a.Na?a.Na.length:0;k&gt;=h||(h=Math.max(h,k*(1048576&gt;k?2:1.125)&gt;&gt;&gt;0),0!=k&amp;&amp;(h=Math.max(h,256)),k=a.Na,a.Na=new Uint8Array(h),0&lt;a.Ra&amp;&amp;a.Na.set(k.subarray(0,a.Ra),0));if(a.Na.subarray&amp;&amp;b.subarray)a.Na.set(b.subarray(c,c+d),e);else for(h=0;h&lt;d;h++)a.Na[e+h]=b[c+h];a.Ra=Math.max(a.Ra,e+d);return d},Va(a,b,c){1===c?b+=a.position:2===c&amp;&amp;32768===(a.node.mode&amp;61440)&amp;&amp;(b+=a.node.Ra);if(0&gt;b)throw new N(28);return b},ib(a,b,c,d,e){if(32768!==(a.node.mode&amp;61440))throw new N(43);a=a.node.Na;</span>
+<span class="cstat-no" title="statement not covered" >if(e&amp;2||!a||a.buffer!==p.buffer){e=!0;d=65536*Math.ceil(b/65536);var h=Db(65536,d);h&amp;&amp;x.fill(0,h,h+d);d=h;if(!d)throw new N(48);if(a){if(0&lt;c||c+b&lt;a.length)a.subarray?a=a.subarray(c,c+b):a=Array.prototype.slice.call(a,c,c+b);p.set(a,d)}}else e=!1,d=a.byteOffset;return{Kb:d,Ab:e}},jb(a,b,c,d){O.Ma.write(a,b,0,d,c,!1);return 0}}},la=(a,b)=&gt;{var c=0;a&amp;&amp;(c|=365);b&amp;&amp;(c|=146);return c},Eb=null,Fb={},Gb=[],Hb=1,R=null,Ib=!1,Jb=!0,Kb={},N=class{name="ErrnoError";constructor(a){this.Pa=a}},Lb=class{gb={};node=null;get flags(){return this.gb.flags}set flags(a){this.gb.flags=</span>
+<span class="cstat-no" title="statement not covered" >a}get position(){return this.gb.position}set position(a){this.gb.position=a}},Mb=class{La={};Ma={};ab=null;constructor(a,b,c,d){a||=this;this.parent=a;this.Xa=a.Xa;this.id=Hb++;this.name=b;this.mode=c;this.rdev=d;this.atime=this.mtime=this.ctime=Date.now()}get read(){return 365===(this.mode&amp;365)}set read(a){a?this.mode|=365:this.mode&amp;=-366}get write(){return 146===(this.mode&amp;146)}set write(a){a?this.mode|=146:this.mode&amp;=-147}};</span>
+<span class="cstat-no" title="statement not covered" >function S(a,b={}){if(!a)throw new N(44);b.nb??(b.nb=!0);"/"===a.charAt(0)||(a="//"+a);var c=0;a:for(;40&gt;c;c++){a=a.split("/").filter(q=&gt;!!q);for(var d=Eb,e="/",h=0;h&lt;a.length;h++){var k=h===a.length-1;if(k&amp;&amp;b.parent)break;if("."!==a[h])if(".."===a[h])e=fb(e),d=d.parent;else{e=ka(e+"/"+a[h]);try{d=Q(d,a[h])}catch(q){if(44===q?.Pa&amp;&amp;k&amp;&amp;b.Jb)return{path:e};throw q;}!d.ab||k&amp;&amp;!b.nb||(d=d.ab.root);if(40960===(d.mode&amp;61440)&amp;&amp;(!k||b.$a)){if(!d.La.readlink)throw new N(52);d=d.La.readlink(d);"/"===d.charAt(0)||</span>
+<span class="cstat-no" title="statement not covered" >(d=fb(e)+"/"+d);a=d+"/"+a.slice(h+1).join("/");continue a}}}return{path:e,node:d}}throw new N(32);}function ja(a){for(var b;;){if(a===a.parent)return a=a.Xa.zb,b?"/"!==a[a.length-1]?`${a}/${b}`:a+b:a;b=b?`${a.name}/${b}`:a.name;a=a.parent}}function Nb(a,b){for(var c=0,d=0;d&lt;b.length;d++)c=(c&lt;&lt;5)-c+b.charCodeAt(d)|0;return(a+c&gt;&gt;&gt;0)%R.length}function Cb(a){var b=Nb(a.parent.id,a.name);if(R[b]===a)R[b]=a.bb;else for(b=R[b];b;){if(b.bb===a){b.bb=a.bb;break}b=b.bb}}</span>
+<span class="cstat-no" title="statement not covered" >function Q(a,b){var c=P(a.mode)?(c=Ob(a,"x"))?c:a.La.lookup?0:2:54;if(c)throw new N(c);for(c=R[Nb(a.id,b)];c;c=c.bb){var d=c.name;if(c.parent.id===a.id&amp;&amp;d===b)return c}return a.La.lookup(a,b)}function Bb(a,b,c,d){a=new Mb(a,b,c,d);b=Nb(a.parent.id,a.name);a.bb=R[b];return R[b]=a}function P(a){return 16384===(a&amp;61440)}function Pb(a){var b=["r","w","rw"][a&amp;3];a&amp;512&amp;&amp;(b+="w");return b}</span>
+<span class="cstat-no" title="statement not covered" >function Ob(a,b){if(Jb)return 0;if(!b.includes("r")||a.mode&amp;292){if(b.includes("w")&amp;&amp;!(a.mode&amp;146)||b.includes("x")&amp;&amp;!(a.mode&amp;73))return 2}else return 2;return 0}function Qb(a,b){if(!P(a.mode))return 54;try{return Q(a,b),20}catch(c){}return Ob(a,"wx")}function Rb(a,b,c){try{var d=Q(a,b)}catch(e){return e.Pa}if(a=Ob(a,"wx"))return a;if(c){if(!P(d.mode))return 54;if(d===d.parent||"/"===ja(d))return 10}else if(P(d.mode))return 31;return 0}function Sb(a){if(!a)throw new N(63);return a}</span>
+<span class="cstat-no" title="statement not covered" >function T(a){a=Gb[a];if(!a)throw new N(8);return a}function Tb(a,b=-1){a=Object.assign(new Lb,a);if(-1==b)a:{for(b=0;4096&gt;=b;b++)if(!Gb[b])break a;throw new N(33);}a.fd=b;return Gb[b]=a}function Ub(a,b=-1){a=Tb(a,b);a.Ma?.Rb?.(a);return a}function Vb(a,b,c){var d=a?.Ma.Ua;a=d?a:b;d??=b.La.Ua;Sb(d);d(a,c)}var Ab={open(a){a.Ma=Fb[a.node.rdev].Ma;a.Ma.open?.(a)},Va(){throw new N(70);}};function wb(a,b){Fb[a]={Ma:b}}</span>
+<span class="cstat-no" title="statement not covered" >function Wb(a,b){var c="/"===b;if(c&amp;&amp;Eb)throw new N(10);if(!c&amp;&amp;b){var d=S(b,{nb:!1});b=d.path;d=d.node;if(d.ab)throw new N(10);if(!P(d.mode))throw new N(54);}b={type:a,Wb:{},zb:b,Ib:[]};a=a.Xa(b);a.Xa=b;b.root=a;c?Eb=a:d&amp;&amp;(d.ab=b,d.Xa&amp;&amp;d.Xa.Ib.push(b))}function Xb(a,b,c){var d=S(a,{parent:!0}).node;a=gb(a);if(!a)throw new N(28);if("."===a||".."===a)throw new N(20);var e=Qb(d,a);if(e)throw new N(e);if(!d.La.hb)throw new N(63);return d.La.hb(d,a,b,c)}</span>
+<span class="cstat-no" title="statement not covered" >function ma(a,b=438){return Xb(a,b&amp;4095|32768,0)}function U(a,b=511){return Xb(a,b&amp;1023|16384,0)}function Yb(a,b,c){"undefined"==typeof c&amp;&amp;(c=b,b=438);Xb(a,b|8192,c)}function Zb(a,b){if(!jb(a))throw new N(44);var c=S(b,{parent:!0}).node;if(!c)throw new N(44);b=gb(b);var d=Qb(c,b);if(d)throw new N(d);if(!c.La.symlink)throw new N(63);c.La.symlink(c,b,a)}</span>
+<span class="cstat-no" title="statement not covered" >function $b(a){var b=S(a,{parent:!0}).node;a=gb(a);var c=Q(b,a),d=Rb(b,a,!0);if(d)throw new N(d);if(!b.La.rmdir)throw new N(63);if(c.ab)throw new N(10);b.La.rmdir(b,a);Cb(c)}function za(a){var b=S(a,{parent:!0}).node;if(!b)throw new N(44);a=gb(a);var c=Q(b,a),d=Rb(b,a,!1);if(d)throw new N(d);if(!b.La.unlink)throw new N(63);if(c.ab)throw new N(10);b.La.unlink(b,a);Cb(c)}function ac(a,b){a=S(a,{$a:!b}).node;return Sb(a.La.Ta)(a)}</span>
+<span class="cstat-no" title="statement not covered" >function bc(a,b,c,d){Vb(a,b,{mode:c&amp;4095|b.mode&amp;-4096,ctime:Date.now(),Fb:d})}function na(a,b){a="string"==typeof a?S(a,{$a:!0}).node:a;bc(null,a,b)}function cc(a,b,c){if(P(b.mode))throw new N(31);if(32768!==(b.mode&amp;61440))throw new N(28);var d=Ob(b,"w");if(d)throw new N(d);Vb(a,b,{size:c,timestamp:Date.now()})}</span>
+<span class="cstat-no" title="statement not covered" >function oa(a,b,c=438){if(""===a)throw new N(44);if("string"==typeof b){var d={r:0,"r+":2,w:577,"w+":578,a:1089,"a+":1090}[b];if("undefined"==typeof d)throw Error(`Unknown file open mode: ${b}`);b=d}c=b&amp;64?c&amp;4095|32768:0;if("object"==typeof a)d=a;else{var e=a.endsWith("/");a=S(a,{$a:!(b&amp;131072),Jb:!0});d=a.node;a=a.path}var h=!1;if(b&amp;64)if(d){if(b&amp;128)throw new N(20);}else{if(e)throw new N(31);d=Xb(a,c|511,0);h=!0}if(!d)throw new N(44);8192===(d.mode&amp;61440)&amp;&amp;(b&amp;=-513);if(b&amp;65536&amp;&amp;!P(d.mode))throw new N(54);</span>
+<span class="cstat-no" title="statement not covered" >if(!h&amp;&amp;(e=d?40960===(d.mode&amp;61440)?32:P(d.mode)&amp;&amp;("r"!==Pb(b)||b&amp;576)?31:Ob(d,Pb(b)):44))throw new N(e);b&amp;512&amp;&amp;!h&amp;&amp;(e=d,e="string"==typeof e?S(e,{$a:!0}).node:e,cc(null,e,0));b&amp;=-131713;e=Tb({node:d,path:ja(d),flags:b,seekable:!0,position:0,Ma:d.Ma,Lb:[],error:!1});e.Ma.open&amp;&amp;e.Ma.open(e);h&amp;&amp;na(d,c&amp;511);!f.logReadFiles||b&amp;1||a in Kb||(Kb[a]=1);return e}function qa(a){if(null===a.fd)throw new N(8);a.ob&amp;&amp;(a.ob=null);try{a.Ma.close&amp;&amp;a.Ma.close(a)}catch(b){throw b;}finally{Gb[a.fd]=null}a.fd=null}</span>
+<span class="cstat-no" title="statement not covered" >function mc(a,b,c){if(null===a.fd)throw new N(8);if(!a.seekable||!a.Ma.Va)throw new N(70);if(0!=c&amp;&amp;1!=c&amp;&amp;2!=c)throw new N(28);a.position=a.Ma.Va(a,b,c);a.Lb=[]}function Ec(a,b,c,d,e){if(0&gt;d||0&gt;e)throw new N(28);if(null===a.fd)throw new N(8);if(1===(a.flags&amp;2097155))throw new N(8);if(P(a.node.mode))throw new N(31);if(!a.Ma.read)throw new N(28);var h="undefined"!=typeof e;if(!h)e=a.position;else if(!a.seekable)throw new N(70);b=a.Ma.read(a,b,c,d,e);h||(a.position+=b);return b}</span>
+<span class="cstat-no" title="statement not covered" >function pa(a,b,c,d,e){if(0&gt;d||0&gt;e)throw new N(28);if(null===a.fd)throw new N(8);if(0===(a.flags&amp;2097155))throw new N(8);if(P(a.node.mode))throw new N(31);if(!a.Ma.write)throw new N(28);a.seekable&amp;&amp;a.flags&amp;1024&amp;&amp;mc(a,0,2);var h="undefined"!=typeof e;if(!h)e=a.position;else if(!a.seekable)throw new N(70);b=a.Ma.write(a,b,c,d,e,void 0);h||(a.position+=b);return b}</span>
+<span class="cstat-no" title="statement not covered" >function ya(a){var b="binary";if("utf8"!==b&amp;&amp;"binary"!==b)throw Error(`Invalid encoding type "${b}"`);var c;var d=oa(a,d||0);a=ac(a).size;var e=new Uint8Array(a);Ec(d,e,0,a,0);"utf8"===b?c=B(e):"binary"===b&amp;&amp;(c=e);qa(d);return c}</span>
+<span class="cstat-no" title="statement not covered" >function V(a,b,c){a=ka("/dev/"+a);var d=la(!!b,!!c);V.yb??(V.yb=64);var e=V.yb++&lt;&lt;8|0;wb(e,{open(h){h.seekable=!1},close(){c?.buffer?.length&amp;&amp;c(10)},read(h,k,q,w){for(var v=0,C=0;C&lt;w;C++){try{var G=b()}catch(pb){throw new N(29);}if(void 0===G&amp;&amp;0===v)throw new N(6);if(null===G||void 0===G)break;v++;k[q+C]=G}v&amp;&amp;(h.node.atime=Date.now());return v},write(h,k,q,w){for(var v=0;v&lt;w;v++)try{c(k[q+v])}catch(C){throw new N(29);}w&amp;&amp;(h.node.mtime=h.node.ctime=Date.now());return v}});Yb(a,d,e)}var W={};</span>
+<span class="cstat-no" title="statement not covered" >function Gc(a,b,c){if("/"===b.charAt(0))return b;a=-100===a?"/":T(a).path;if(0==b.length){if(!c)throw new N(44);return a}return a+"/"+b}</span>
+<span class="cstat-no" title="statement not covered" >function Hc(a,b){E[a&gt;&gt;2]=b.dev;E[a+4&gt;&gt;2]=b.mode;F[a+8&gt;&gt;2]=b.nlink;E[a+12&gt;&gt;2]=b.uid;E[a+16&gt;&gt;2]=b.gid;E[a+20&gt;&gt;2]=b.rdev;H[a+24&gt;&gt;3]=BigInt(b.size);E[a+32&gt;&gt;2]=4096;E[a+36&gt;&gt;2]=b.blocks;var c=b.atime.getTime(),d=b.mtime.getTime(),e=b.ctime.getTime();H[a+40&gt;&gt;3]=BigInt(Math.floor(c/1E3));F[a+48&gt;&gt;2]=c%1E3*1E6;H[a+56&gt;&gt;3]=BigInt(Math.floor(d/1E3));F[a+64&gt;&gt;2]=d%1E3*1E6;H[a+72&gt;&gt;3]=BigInt(Math.floor(e/1E3));F[a+80&gt;&gt;2]=e%1E3*1E6;H[a+88&gt;&gt;3]=BigInt(b.ino);return 0}</span>
+<span class="cstat-no" title="statement not covered" >var Ic=void 0,Jc=()=&gt;{var a=E[+Ic&gt;&gt;2];Ic+=4;return a},Kc=0,Lc=[0,31,60,91,121,152,182,213,244,274,305,335],Mc=[0,31,59,90,120,151,181,212,243,273,304,334],Nc={},Oc=a=&gt;{Ma=a;cb||0&lt;Kc||(f.onExit?.(a),La=!0);Da(a,new Ya(a))},Pc=a=&gt;{if(!La)try{if(a(),!(cb||0&lt;Kc))try{Ma=a=Ma,Oc(a)}catch(b){b instanceof Ya||"unwind"==b||Da(1,b)}}catch(b){b instanceof Ya||"unwind"==b||Da(1,b)}},Qc={},Sc=()=&gt;{if(!Rc){var a={USER:"web_user",LOGNAME:"web_user",PATH:"/",PWD:"/",HOME:"/home/web_user",LANG:("object"==typeof navigator&amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >navigator.languages&amp;&amp;navigator.languages[0]||"C").replace("-","_")+".UTF-8",_:Ca||"./this.program"},b;for(b in Qc)void 0===Qc[b]?delete a[b]:a[b]=Qc[b];var c=[];for(b in a)c.push(`${b}=${a[b]}`);Rc=c}return Rc},Rc,xa=a=&gt;{var b=ha(a)+1,c=z(b);u(a,x,c,b);return c},Tc=(a,b,c,d)=&gt;{var e={string:v=&gt;{var C=0;null!==v&amp;&amp;void 0!==v&amp;&amp;0!==v&amp;&amp;(C=xa(v));return C},array:v=&gt;{var C=z(v.length);p.set(v,C);return C}};a=f["_"+a];var h=[],k=0;if(d)for(var q=0;q&lt;d.length;q++){var w=e[c[q]];w?(0===k&amp;&amp;(k=sa()),h[q]=w(d[q])):</span>
+<span class="cstat-no" title="statement not covered" >h[q]=d[q]}c=a(...h);return c=function(v){0!==k&amp;&amp;wa(k);return"string"===b?v?B(x,v):"":"boolean"===b?!!v:v}(c)},ea=0,da=(a,b)=&gt;{b=1==b?z(a.length):ia(a.length);a.subarray||a.slice||(a=new Uint8Array(a));x.set(a,b);return b},Uc,Vc=[],Y,A=a=&gt;{Uc.delete(Y.get(a));Y.set(a,null);Vc.push(a)},Aa=(a,b)=&gt;{if(!Uc){Uc=new WeakMap;var c=Y.length;if(Uc)for(var d=0;d&lt;0+c;d++){var e=Y.get(d);e&amp;&amp;Uc.set(e,d)}}if(c=Uc.get(a)||0)return c;if(Vc.length)c=Vc.pop();else{try{Y.grow(1)}catch(w){if(!(w instanceof RangeError))throw w;</span>
+<span class="cstat-no" title="statement not covered" >throw"Unable to grow wasm table. Set ALLOW_TABLE_GROWTH.";}c=Y.length-1}try{Y.set(c,a)}catch(w){if(!(w instanceof TypeError))throw w;if("function"==typeof WebAssembly.Function){var h=WebAssembly.Function;d={i:"i32",j:"i64",f:"f32",d:"f64",e:"externref",p:"i32"};e={parameters:[],results:"v"==b[0]?[]:[d[b[0]]]};for(var k=1;k&lt;b.length;++k)e.parameters.push(d[b[k]]);b=new h(e,a)}else{d=[1];e=b.slice(0,1);b=b.slice(1);k={i:127,p:127,j:126,f:125,d:124,e:111};d.push(96);var q=b.length;128&gt;q?d.push(q):d.push(q%</span>
+<span class="cstat-no" title="statement not covered" >128|128,q&gt;&gt;7);for(h of b)d.push(k[h]);"v"==e?d.push(0):d.push(1,k[e]);b=[0,97,115,109,1,0,0,0,1];h=d.length;128&gt;h?b.push(h):b.push(h%128|128,h&gt;&gt;7);b.push(...d);b.push(2,7,1,1,101,1,102,0,0,7,5,1,1,102,0,0);b=new WebAssembly.Module(new Uint8Array(b));b=(new WebAssembly.Instance(b,{e:{f:a}})).exports.f}Y.set(c,b)}Uc.set(a,c);return c};R=Array(4096);Wb(O,"/");U("/tmp");U("/home");U("/home/web_user");</span>
+<span class="cstat-no" title="statement not covered" >(function(){U("/dev");wb(259,{read:()=&gt;0,write:(d,e,h,k)=&gt;k,Va:()=&gt;0});Yb("/dev/null",259);nb(1280,yb);nb(1536,zb);Yb("/dev/tty",1280);Yb("/dev/tty1",1536);var a=new Uint8Array(1024),b=0,c=()=&gt;{0===b&amp;&amp;(ib(a),b=a.byteLength);return a[--b]};V("random",c);V("urandom",c);U("/dev/shm");U("/dev/shm/tmp")})();</span>
+<span class="cstat-no" title="statement not covered" >(function(){U("/proc");var a=U("/proc/self");U("/proc/self/fd");Wb({Xa(){var b=Bb(a,"fd",16895,73);b.Ma={Va:O.Ma.Va};b.La={lookup(c,d){c=+d;var e=T(c);c={parent:null,Xa:{zb:"fake"},La:{readlink:()=&gt;e.path},id:c+1};return c.parent=c},readdir(){return Array.from(Gb.entries()).filter(([,c])=&gt;c).map(([c])=&gt;c.toString())}};return b}},"/proc/self/fd")})();O.vb=new N(44);O.vb.stack="&lt;generic error, no stack&gt;";</span>
+<span class="cstat-no" title="statement not covered" >var Xc={a:(a,b,c,d)=&gt;Ta(`Assertion failed: ${a?B(x,a):""}, at: `+[b?b?B(x,b):"":"unknown filename",c,d?d?B(x,d):"":"unknown function"]),i:function(a,b){try{return a=a?B(x,a):"",na(a,b),0}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;return-c.Pa}},L:function(a,b,c){try{b=b?B(x,b):"";b=Gc(a,b);if(c&amp;-8)return-28;var d=S(b,{$a:!0}).node;if(!d)return-44;a="";c&amp;4&amp;&amp;(a+="r");c&amp;2&amp;&amp;(a+="w");c&amp;1&amp;&amp;(a+="x");return a&amp;&amp;Ob(d,a)?-2:0}catch(e){if("undefined"==typeof W||"ErrnoError"!==e.name)throw e;</span>
+<span class="cstat-no" title="statement not covered" >return-e.Pa}},j:function(a,b){try{var c=T(a);bc(c,c.node,b,!1);return 0}catch(d){if("undefined"==typeof W||"ErrnoError"!==d.name)throw d;return-d.Pa}},h:function(a){try{var b=T(a);Vb(b,b.node,{timestamp:Date.now(),Fb:!1});return 0}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;return-c.Pa}},b:function(a,b,c){Ic=c;try{var d=T(a);switch(b){case 0:var e=Jc();if(0&gt;e)break;for(;Gb[e];)e++;return Ub(d,e).fd;case 1:case 2:return 0;case 3:return d.flags;case 4:return e=Jc(),d.flags|=e,0;</span>
+<span class="cstat-no" title="statement not covered" >case 12:return e=Jc(),Na[e+0&gt;&gt;1]=2,0;case 13:case 14:return 0}return-28}catch(h){if("undefined"==typeof W||"ErrnoError"!==h.name)throw h;return-h.Pa}},g:function(a,b){try{var c=T(a),d=c.node,e=c.Ma.Ta;a=e?c:d;e??=d.La.Ta;Sb(e);var h=e(a);return Hc(b,h)}catch(k){if("undefined"==typeof W||"ErrnoError"!==k.name)throw k;return-k.Pa}},H:function(a,b){b=-9007199254740992&gt;b||9007199254740992&lt;b?NaN:Number(b);try{if(isNaN(b))return 61;var c=T(a);if(0&gt;b||0===(c.flags&amp;2097155))throw new N(28);cc(c,c.node,b);</span>
+<span class="cstat-no" title="statement not covered" >return 0}catch(d){if("undefined"==typeof W||"ErrnoError"!==d.name)throw d;return-d.Pa}},G:function(a,b){try{if(0===b)return-28;var c=ha("/")+1;if(b&lt;c)return-68;u("/",x,a,b);return c}catch(d){if("undefined"==typeof W||"ErrnoError"!==d.name)throw d;return-d.Pa}},K:function(a,b){try{return a=a?B(x,a):"",Hc(b,ac(a,!0))}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;return-c.Pa}},C:function(a,b,c){try{return b=b?B(x,b):"",b=Gc(a,b),U(b,c),0}catch(d){if("undefined"==typeof W||"ErrnoError"!==</span>
+<span class="cstat-no" title="statement not covered" >d.name)throw d;return-d.Pa}},J:function(a,b,c,d){try{b=b?B(x,b):"";var e=d&amp;256;b=Gc(a,b,d&amp;4096);return Hc(c,e?ac(b,!0):ac(b))}catch(h){if("undefined"==typeof W||"ErrnoError"!==h.name)throw h;return-h.Pa}},x:function(a,b,c,d){Ic=d;try{b=b?B(x,b):"";b=Gc(a,b);var e=d?Jc():0;return oa(b,c,e).fd}catch(h){if("undefined"==typeof W||"ErrnoError"!==h.name)throw h;return-h.Pa}},v:function(a,b,c,d){try{b=b?B(x,b):"";b=Gc(a,b);if(0&gt;=d)return-28;var e=S(b).node;if(!e)throw new N(44);if(!e.La.readlink)throw new N(28);</span>
+<span class="cstat-no" title="statement not covered" >var h=e.La.readlink(e);var k=Math.min(d,ha(h)),q=p[c+k];u(h,x,c,d+1);p[c+k]=q;return k}catch(w){if("undefined"==typeof W||"ErrnoError"!==w.name)throw w;return-w.Pa}},u:function(a){try{return a=a?B(x,a):"",$b(a),0}catch(b){if("undefined"==typeof W||"ErrnoError"!==b.name)throw b;return-b.Pa}},f:function(a,b){try{return a=a?B(x,a):"",Hc(b,ac(a))}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;return-c.Pa}},r:function(a,b,c){try{return b=b?B(x,b):"",b=Gc(a,b),0===c?za(b):512===c?$b(b):</span>
+<span class="cstat-no" title="statement not covered" >Ta("Invalid flags passed to unlinkat"),0}catch(d){if("undefined"==typeof W||"ErrnoError"!==d.name)throw d;return-d.Pa}},q:function(a,b,c){try{b=b?B(x,b):"";b=Gc(a,b,!0);var d=Date.now(),e,h;if(c){var k=F[c&gt;&gt;2]+4294967296*E[c+4&gt;&gt;2],q=E[c+8&gt;&gt;2];1073741823==q?e=d:1073741822==q?e=null:e=1E3*k+q/1E6;c+=16;k=F[c&gt;&gt;2]+4294967296*E[c+4&gt;&gt;2];q=E[c+8&gt;&gt;2];1073741823==q?h=d:1073741822==q?h=null:h=1E3*k+q/1E6}else h=e=d;if(null!==(h??e)){a=e;var w=S(b,{$a:!0}).node;Sb(w.La.Ua)(w,{atime:a,mtime:h})}return 0}catch(v){if("undefined"==</span>
+<span class="cstat-no" title="statement not covered" >typeof W||"ErrnoError"!==v.name)throw v;return-v.Pa}},m:()=&gt;Ta(""),l:()=&gt;{cb=!1;Kc=0},A:function(a,b){a=-9007199254740992&gt;a||9007199254740992&lt;a?NaN:Number(a);a=new Date(1E3*a);E[b&gt;&gt;2]=a.getSeconds();E[b+4&gt;&gt;2]=a.getMinutes();E[b+8&gt;&gt;2]=a.getHours();E[b+12&gt;&gt;2]=a.getDate();E[b+16&gt;&gt;2]=a.getMonth();E[b+20&gt;&gt;2]=a.getFullYear()-1900;E[b+24&gt;&gt;2]=a.getDay();var c=a.getFullYear();E[b+28&gt;&gt;2]=(0!==c%4||0===c%100&amp;&amp;0!==c%400?Mc:Lc)[a.getMonth()]+a.getDate()-1|0;E[b+36&gt;&gt;2]=-(60*a.getTimezoneOffset());c=(new Date(a.getFullYear(),</span>
+<span class="cstat-no" title="statement not covered" >6,1)).getTimezoneOffset();var d=(new Date(a.getFullYear(),0,1)).getTimezoneOffset();E[b+32&gt;&gt;2]=(c!=d&amp;&amp;a.getTimezoneOffset()==Math.min(d,c))|0},y:function(a,b,c,d,e,h,k){e=-9007199254740992&gt;e||9007199254740992&lt;e?NaN:Number(e);try{if(isNaN(e))return 61;var q=T(d);if(0!==(b&amp;2)&amp;&amp;0===(c&amp;2)&amp;&amp;2!==(q.flags&amp;2097155))throw new N(2);if(1===(q.flags&amp;2097155))throw new N(2);if(!q.Ma.ib)throw new N(43);if(!a)throw new N(28);var w=q.Ma.ib(q,a,e,b,c);var v=w.Kb;E[h&gt;&gt;2]=w.Ab;F[k&gt;&gt;2]=v;return 0}catch(C){if("undefined"==</span>
+<span class="cstat-no" title="statement not covered" >typeof W||"ErrnoError"!==C.name)throw C;return-C.Pa}},z:function(a,b,c,d,e,h){h=-9007199254740992&gt;h||9007199254740992&lt;h?NaN:Number(h);try{var k=T(e);if(c&amp;2){c=h;if(32768!==(k.node.mode&amp;61440))throw new N(43);if(!(d&amp;2)){var q=x.slice(a,a+b);k.Ma.jb&amp;&amp;k.Ma.jb(k,q,c,b,d)}}}catch(w){if("undefined"==typeof W||"ErrnoError"!==w.name)throw w;return-w.Pa}},n:(a,b)=&gt;{Nc[a]&amp;&amp;(clearTimeout(Nc[a].id),delete Nc[a]);if(!b)return 0;var c=setTimeout(()=&gt;{delete Nc[a];Pc(()=&gt;Wc(a,performance.now()))},b);Nc[a]={id:c,</span>
+<span class="cstat-no" title="statement not covered" >Xb:b};return 0},B:(a,b,c,d)=&gt;{var e=(new Date).getFullYear(),h=(new Date(e,0,1)).getTimezoneOffset();e=(new Date(e,6,1)).getTimezoneOffset();F[a&gt;&gt;2]=60*Math.max(h,e);E[b&gt;&gt;2]=Number(h!=e);b=k=&gt;{var q=Math.abs(k);return`UTC${0&lt;=k?"-":"+"}${String(Math.floor(q/60)).padStart(2,"0")}${String(q%60).padStart(2,"0")}`};a=b(h);b=b(e);e&lt;h?(u(a,x,c,17),u(b,x,d,17)):(u(a,x,d,17),u(b,x,c,17))},d:()=&gt;Date.now(),s:()=&gt;2147483648,c:()=&gt;performance.now(),o:a=&gt;{var b=x.length;a&gt;&gt;&gt;=0;if(2147483648&lt;a)return!1;for(var c=</span>
+<span class="cstat-no" title="statement not covered" >1;4&gt;=c;c*=2){var d=b*(1+.2/c);d=Math.min(d,a+100663296);a:{d=(Math.min(2147483648,65536*Math.ceil(Math.max(a,d)/65536))-Ka.buffer.byteLength+65535)/65536|0;try{Ka.grow(d);Qa();var e=1;break a}catch(h){}e=void 0}if(e)return!0}return!1},E:(a,b)=&gt;{var c=0;Sc().forEach((d,e)=&gt;{var h=b+c;e=F[a+4*e&gt;&gt;2]=h;for(h=0;h&lt;d.length;++h)p[e++]=d.charCodeAt(h);p[e]=0;c+=d.length+1});return 0},F:(a,b)=&gt;{var c=Sc();F[a&gt;&gt;2]=c.length;var d=0;c.forEach(e=&gt;d+=e.length+1);F[b&gt;&gt;2]=d;return 0},e:function(a){try{var b=T(a);</span>
+<span class="cstat-no" title="statement not covered" >qa(b);return 0}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;return c.Pa}},p:function(a,b){try{var c=T(a);p[b]=c.tty?2:P(c.mode)?3:40960===(c.mode&amp;61440)?7:4;Na[b+2&gt;&gt;1]=0;H[b+8&gt;&gt;3]=BigInt(0);H[b+16&gt;&gt;3]=BigInt(0);return 0}catch(d){if("undefined"==typeof W||"ErrnoError"!==d.name)throw d;return d.Pa}},w:function(a,b,c,d){try{a:{var e=T(a);a=b;for(var h,k=b=0;k&lt;c;k++){var q=F[a&gt;&gt;2],w=F[a+4&gt;&gt;2];a+=8;var v=Ec(e,p,q,w,h);if(0&gt;v){var C=-1;break a}b+=v;if(v&lt;w)break;"undefined"!=typeof h&amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >(h+=v)}C=b}F[d&gt;&gt;2]=C;return 0}catch(G){if("undefined"==typeof W||"ErrnoError"!==G.name)throw G;return G.Pa}},D:function(a,b,c,d){b=-9007199254740992&gt;b||9007199254740992&lt;b?NaN:Number(b);try{if(isNaN(b))return 61;var e=T(a);mc(e,b,c);H[d&gt;&gt;3]=BigInt(e.position);e.ob&amp;&amp;0===b&amp;&amp;0===c&amp;&amp;(e.ob=null);return 0}catch(h){if("undefined"==typeof W||"ErrnoError"!==h.name)throw h;return h.Pa}},I:function(a){try{var b=T(a);return b.Ma?.fsync?b.Ma.fsync(b):0}catch(c){if("undefined"==typeof W||"ErrnoError"!==c.name)throw c;</span>
+<span class="cstat-no" title="statement not covered" >return c.Pa}},t:function(a,b,c,d){try{a:{var e=T(a);a=b;for(var h,k=b=0;k&lt;c;k++){var q=F[a&gt;&gt;2],w=F[a+4&gt;&gt;2];a+=8;var v=pa(e,p,q,w,h);if(0&gt;v){var C=-1;break a}b+=v;if(v&lt;w)break;"undefined"!=typeof h&amp;&amp;(h+=v)}C=b}F[d&gt;&gt;2]=C;return 0}catch(G){if("undefined"==typeof W||"ErrnoError"!==G.name)throw G;return G.Pa}},k:Oc},Z;</span>
+<span class="cstat-no" title="statement not covered" >(async function(){function a(c){Z=c.exports;Ka=Z.M;Qa();Y=Z.O;K--;f.monitorRunDependencies?.(K);0==K&amp;&amp;Sa&amp;&amp;(c=Sa,Sa=null,c());return Z}K++;f.monitorRunDependencies?.(K);var b={a:Xc};if(f.instantiateWasm)return new Promise(c=&gt;{f.instantiateWasm(b,(d,e)=&gt;{a(d,e);c(d.exports)})});Ua??=f.locateFile?f.locateFile("sql-wasm.wasm",D):D+"sql-wasm.wasm";return a((await Xa(b)).instance)})();f._sqlite3_free=a=&gt;(f._sqlite3_free=Z.P)(a);f._sqlite3_value_text=a=&gt;(f._sqlite3_value_text=Z.Q)(a);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_prepare_v2=(a,b,c,d,e)=&gt;(f._sqlite3_prepare_v2=Z.R)(a,b,c,d,e);f._sqlite3_step=a=&gt;(f._sqlite3_step=Z.S)(a);f._sqlite3_reset=a=&gt;(f._sqlite3_reset=Z.T)(a);f._sqlite3_exec=(a,b,c,d,e)=&gt;(f._sqlite3_exec=Z.U)(a,b,c,d,e);f._sqlite3_finalize=a=&gt;(f._sqlite3_finalize=Z.V)(a);f._sqlite3_column_name=(a,b)=&gt;(f._sqlite3_column_name=Z.W)(a,b);f._sqlite3_column_text=(a,b)=&gt;(f._sqlite3_column_text=Z.X)(a,b);f._sqlite3_column_type=(a,b)=&gt;(f._sqlite3_column_type=Z.Y)(a,b);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_errmsg=a=&gt;(f._sqlite3_errmsg=Z.Z)(a);f._sqlite3_clear_bindings=a=&gt;(f._sqlite3_clear_bindings=Z._)(a);f._sqlite3_value_blob=a=&gt;(f._sqlite3_value_blob=Z.$)(a);f._sqlite3_value_bytes=a=&gt;(f._sqlite3_value_bytes=Z.aa)(a);f._sqlite3_value_double=a=&gt;(f._sqlite3_value_double=Z.ba)(a);f._sqlite3_value_int=a=&gt;(f._sqlite3_value_int=Z.ca)(a);f._sqlite3_value_type=a=&gt;(f._sqlite3_value_type=Z.da)(a);f._sqlite3_result_blob=(a,b,c,d)=&gt;(f._sqlite3_result_blob=Z.ea)(a,b,c,d);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_result_double=(a,b)=&gt;(f._sqlite3_result_double=Z.fa)(a,b);f._sqlite3_result_error=(a,b,c)=&gt;(f._sqlite3_result_error=Z.ga)(a,b,c);f._sqlite3_result_int=(a,b)=&gt;(f._sqlite3_result_int=Z.ha)(a,b);f._sqlite3_result_int64=(a,b)=&gt;(f._sqlite3_result_int64=Z.ia)(a,b);f._sqlite3_result_null=a=&gt;(f._sqlite3_result_null=Z.ja)(a);f._sqlite3_result_text=(a,b,c,d)=&gt;(f._sqlite3_result_text=Z.ka)(a,b,c,d);f._sqlite3_aggregate_context=(a,b)=&gt;(f._sqlite3_aggregate_context=Z.la)(a,b);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_column_count=a=&gt;(f._sqlite3_column_count=Z.ma)(a);f._sqlite3_data_count=a=&gt;(f._sqlite3_data_count=Z.na)(a);f._sqlite3_column_blob=(a,b)=&gt;(f._sqlite3_column_blob=Z.oa)(a,b);f._sqlite3_column_bytes=(a,b)=&gt;(f._sqlite3_column_bytes=Z.pa)(a,b);f._sqlite3_column_double=(a,b)=&gt;(f._sqlite3_column_double=Z.qa)(a,b);f._sqlite3_bind_blob=(a,b,c,d,e)=&gt;(f._sqlite3_bind_blob=Z.ra)(a,b,c,d,e);f._sqlite3_bind_double=(a,b,c)=&gt;(f._sqlite3_bind_double=Z.sa)(a,b,c);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_bind_int=(a,b,c)=&gt;(f._sqlite3_bind_int=Z.ta)(a,b,c);f._sqlite3_bind_text=(a,b,c,d,e)=&gt;(f._sqlite3_bind_text=Z.ua)(a,b,c,d,e);f._sqlite3_bind_parameter_index=(a,b)=&gt;(f._sqlite3_bind_parameter_index=Z.va)(a,b);f._sqlite3_sql=a=&gt;(f._sqlite3_sql=Z.wa)(a);f._sqlite3_normalized_sql=a=&gt;(f._sqlite3_normalized_sql=Z.xa)(a);f._sqlite3_changes=a=&gt;(f._sqlite3_changes=Z.ya)(a);f._sqlite3_close_v2=a=&gt;(f._sqlite3_close_v2=Z.za)(a);</span>
+<span class="cstat-no" title="statement not covered" >f._sqlite3_create_function_v2=(a,b,c,d,e,h,k,q,w)=&gt;(f._sqlite3_create_function_v2=Z.Aa)(a,b,c,d,e,h,k,q,w);f._sqlite3_update_hook=(a,b,c)=&gt;(f._sqlite3_update_hook=Z.Ba)(a,b,c);f._sqlite3_open=(a,b)=&gt;(f._sqlite3_open=Z.Ca)(a,b);var ia=f._malloc=a=&gt;(ia=f._malloc=Z.Da)(a),fa=f._free=a=&gt;(fa=f._free=Z.Ea)(a);f._RegisterExtensionFunctions=a=&gt;(f._RegisterExtensionFunctions=Z.Fa)(a);var Db=(a,b)=&gt;(Db=Z.Ga)(a,b),Wc=(a,b)=&gt;(Wc=Z.Ha)(a,b),wa=a=&gt;(wa=Z.Ia)(a),z=a=&gt;(z=Z.Ja)(a),sa=()=&gt;(sa=Z.Ka)();</span>
+<span class="cstat-no" title="statement not covered" >f.stackSave=()=&gt;sa();f.stackRestore=a=&gt;wa(a);f.stackAlloc=a=&gt;z(a);f.cwrap=(a,b,c,d)=&gt;{var e=!c||c.every(h=&gt;"number"===h||"boolean"===h);return"string"!==b&amp;&amp;e&amp;&amp;!d?f["_"+a]:(...h)=&gt;Tc(a,b,c,h)};f.addFunction=Aa;f.removeFunction=A;f.UTF8ToString=ua;f.ALLOC_NORMAL=ea;f.allocate=da;f.allocateUTF8OnStack=xa;</span>
+<span class="cstat-no" title="statement not covered" >function Yc(){function a(){f.calledRun=!0;if(!La){if(!f.noFSInit&amp;&amp;!Ib){var b,c;Ib=!0;d??=f.stdin;b??=f.stdout;c??=f.stderr;d?V("stdin",d):Zb("/dev/tty","/dev/stdin");b?V("stdout",null,b):Zb("/dev/tty","/dev/stdout");c?V("stderr",null,c):Zb("/dev/tty1","/dev/stderr");oa("/dev/stdin",0);oa("/dev/stdout",1);oa("/dev/stderr",1)}Z.N();Jb=!1;f.onRuntimeInitialized?.();if(f.postRun)for("function"==typeof f.postRun&amp;&amp;(f.postRun=[f.postRun]);f.postRun.length;){var d=f.postRun.shift();$a.unshift(d)}Za($a)}}</span>
+<span class="cstat-no" title="statement not covered" >if(0&lt;K)Sa=Yc;else{if(f.preRun)for("function"==typeof f.preRun&amp;&amp;(f.preRun=[f.preRun]);f.preRun.length;)bb();Za(ab);0&lt;K?Sa=Yc:f.setStatus?(f.setStatus("Running..."),setTimeout(()=&gt;{setTimeout(()=&gt;f.setStatus(""),1);a()},1)):a()}}if(f.preInit)for("function"==typeof f.preInit&amp;&amp;(f.preInit=[f.preInit]);0&lt;f.preInit.length;)f.preInit.pop()();Yc();</span>
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        // The shell-pre.js and emcc-generated code goes above</span>
+<span class="cstat-no" title="statement not covered" >        return Module;</span>
+<span class="cstat-no" title="statement not covered" >    }); // The end of the promise being returned</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return initSqlJsPromise;</span>
+<span class="cstat-no" title="statement not covered" >} // The end of our initSqlJs function</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >// This bit below is copied almost exactly from what you get when you use the MODULARIZE=1 flag with emcc</span>
+<span class="cstat-no" title="statement not covered" >// However, we don't want to use the emcc modularization. See shell-pre.js</span>
+<span class="cstat-no" title="statement not covered" >if (typeof exports === 'object' &amp;&amp; typeof module === 'object'){</span>
+<span class="cstat-no" title="statement not covered" >    module.exports = initSqlJs;</span>
+<span class="cstat-no" title="statement not covered" >    // This will allow the module to be used in ES6 or CommonJS</span>
+<span class="cstat-no" title="statement not covered" >    module.exports.default = initSqlJs;</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" >else if (typeof define === 'function' &amp;&amp; define['amd']) {</span>
+<span class="cstat-no" title="statement not covered" >    define([], function() { return initSqlJs; });</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+<span class="cstat-no" title="statement not covered" >else if (typeof exports === 'object'){</span>
+<span class="cstat-no" title="statement not covered" >    exports["Module"] = initSqlJs;</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-25T03:34:42.510Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

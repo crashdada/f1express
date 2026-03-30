@@ -70,10 +70,12 @@ const TeamLogoBadge = ({
   team,
   sizeClass,
   testId,
+  roundedClass = 'rounded-2xl',
 }: {
   team: { id?: string; name?: string; nameCn?: string; color?: string; logo?: string };
   sizeClass: string;
   testId?: string;
+  roundedClass?: string;
 }) => {
   const displayName = getTeamDisplayName(team);
 
@@ -81,7 +83,7 @@ const TeamLogoBadge = ({
     return (
       <div
         data-testid={testId}
-        className={`${sizeClass} rounded-2xl p-2 shrink-0 flex items-center justify-center shadow-sm border border-white/10`}
+        className={`${sizeClass} ${roundedClass} p-2 shrink-0 flex items-center justify-center shadow-sm border border-white/10`}
         style={{ backgroundColor: getAccessibleTeamBgColor(team) }}
       >
         <img src={team.logo} alt={displayName} className="w-full h-full object-contain" />
@@ -92,7 +94,7 @@ const TeamLogoBadge = ({
   return (
     <div
       data-testid={testId}
-      className={`${sizeClass} rounded-2xl shrink-0 flex items-center justify-center p-1`}
+      className={`${sizeClass} ${roundedClass} shrink-0 flex items-center justify-center p-1`}
       style={{ backgroundColor: team.color || '#6b7280' }}
     >
       <span
@@ -467,11 +469,11 @@ const NewSeasonPage = () => {
                                     />
                                 </div>
                             )}
-                            <h3 className={`text-4xl md:text-5xl font-black font-orbitron italic tracking-tighter leading-none ${isNext ? 'text-white' : 'text-primary'}`}>
+                            <h3 className={`text-xs font-bold uppercase tracking-[0.2em] line-clamp-1 h-4 ${isNext ? 'text-white/70' : 'text-secondary opacity-70'}`}>
                                 {translateCountry(event.country)}
                             </h3>
                         </div>
-                        <p className={`text-xs font-bold uppercase tracking-[0.2em] line-clamp-1 h-4 ${isNext ? 'text-white/70' : 'text-secondary opacity-70'}`}>
+                        <p className={`text-4xl md:text-5xl font-black font-orbitron italic tracking-tighter leading-none ${isNext ? 'text-white' : 'text-primary'}`}>
                             {SEASON_2026_GP_TRANSLATIONS[event.gpName] || GP_TRANSLATIONS[event.gpName] || event.gpName}
                         </p>
                     </div>
@@ -486,7 +488,7 @@ const NewSeasonPage = () => {
                                         <div key={driver.code} className="flex flex-col items-center bg-white/5 rounded-[2rem] p-3 border border-white/5 shadow-inner group/driver">
                                             <div className="relative mb-3">
                                                 <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 border-bg-primary shadow-xl ${
-                                                    idx === 0 ? 'bg-yellow-400 text-black' : idx === 1 ? 'bg-slate-300 text-black' : 'bg-[#cd7f32] text-white'
+                                                    idx === 0 ? 'bg-yellow-400 text-black' : idx === 1 ? 'bg-gradient-to-br from-[#f3f6fb] to-[#aeb8c8] text-slate-900 shadow-[#d9e1ef]/40 border-white/60' : 'bg-[#cd7f32] text-white'
                                                 }`}>
                                                     {idx + 1}
                                                 </div>
@@ -606,7 +608,7 @@ const NewSeasonPage = () => {
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                       <div>
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="w-2.5 h-10 rounded-full" style={{ backgroundColor: team.color }}></div>
+                          <TeamLogoBadge team={team} sizeClass="w-12 h-12" testId="team-card-logo" roundedClass="rounded-full" />
                           <h2 className="text-4xl font-black font-orbitron italic tracking-tighter text-primary">{team.nameCn}</h2>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -736,7 +738,7 @@ const NewSeasonPage = () => {
                       </div>
                       {driverStandings.map((driver, index) => (
                         <div key={driver.code} className="grid grid-cols-[80px_minmax(0,1.6fr)_110px_90px_110px_110px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-gradient-to-br from-[#f3f6fb] to-[#aeb8c8] text-slate-900 border border-white/60 shadow-[#d9e1ef]/40' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary border border-border shadow-black/5'}`}>
                             {index + 1}
                           </div>
                           <div className="flex items-center gap-4 min-w-0">
@@ -779,7 +781,7 @@ const NewSeasonPage = () => {
                       </div>
                       {teamStandings.map((team, index) => (
                         <div key={team.id} className="grid grid-cols-[80px_minmax(0,1.8fr)_120px_100px_120px_120px] gap-4 px-6 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-white/5 transition-colors">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-slate-300 text-black' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary'}`}>
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-black shadow-lg ${index === 0 ? 'bg-yellow-400 text-black' : index === 1 ? 'bg-gradient-to-br from-[#f3f6fb] to-[#aeb8c8] text-slate-900 border border-white/60 shadow-[#d9e1ef]/40' : index === 2 ? 'bg-[#cd7f32] text-white' : 'bg-bg-secondary text-primary border border-border shadow-black/5'}`}>
                             {index + 1}
                           </div>
                           <div className="flex items-center gap-4 min-w-0">

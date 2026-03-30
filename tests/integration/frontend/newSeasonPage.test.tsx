@@ -101,12 +101,24 @@ describe('NewSeasonPage UI logic', () => {
   });
 
   it('renders the finished race card with top 3 drivers', () => {
-    renderWithRouter(<NewSeasonPage />);
+    const { container } = renderWithRouter(<NewSeasonPage />);
 
     expect(screen.getByText('澳大利亚')).toBeInTheDocument();
     expect(screen.getByText('RUS')).toBeInTheDocument();
     expect(screen.getByText('ANT')).toBeInTheDocument();
     expect(screen.getByText('LEC')).toBeInTheDocument();
+
+    const podiumSecondBadge = Array.from(container.querySelectorAll('div')).find((element) =>
+      element.textContent?.trim() === '2' &&
+      element.className.includes('w-6') &&
+      element.className.includes('h-6') &&
+      element.className.includes('rounded-full')
+    );
+
+    expect(podiumSecondBadge).toBeTruthy();
+    expect(podiumSecondBadge).toHaveClass('bg-gradient-to-br');
+    expect(podiumSecondBadge).toHaveClass('from-[#f3f6fb]');
+    expect(podiumSecondBadge).toHaveClass('to-[#aeb8c8]');
   });
 
   it('renders the next race card with localized next-race tag', () => {
@@ -121,6 +133,18 @@ describe('NewSeasonPage UI logic', () => {
 
     expect(screen.getByText('中国')).toBeInTheDocument();
     expect(screen.getByText('\u5df2\u53d6\u6d88')).toBeInTheDocument();
+  });
+
+  it('swaps the typography between country and grand prix labels on race cards', () => {
+    renderWithRouter(<NewSeasonPage />);
+
+    const countryLabel = screen.getByText('\u6fb3\u5927\u5229\u4e9a');
+    const grandPrixLabel = screen.getByText('\u6fb3\u5927\u5229\u4e9a\u5927\u5956\u8d5b');
+
+    expect(countryLabel).toHaveClass('text-xs');
+    expect(countryLabel).toHaveClass('uppercase');
+    expect(grandPrixLabel).toHaveClass('text-4xl');
+    expect(grandPrixLabel).toHaveClass('font-orbitron');
   });
 
   it('navigates to the correct deep link route for races', () => {
@@ -143,5 +167,37 @@ describe('NewSeasonPage UI logic', () => {
 
     expect(screen.getByTestId('constructor-leader-logo')).toBeInTheDocument();
     expect(screen.getAllByTestId('team-standings-logo').length).toBeGreaterThan(0);
+  });
+
+  it('renders team logo badges in team cards instead of color bars', async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NewSeasonPage />);
+
+    await user.click(screen.getByRole('button', { name: '车队' }));
+
+    const teamCardLogos = screen.getAllByTestId('team-card-logo');
+
+    expect(teamCardLogos.length).toBeGreaterThan(0);
+    expect(teamCardLogos[0]).toHaveClass('rounded-full');
+  });
+  it('uses the brighter silver badge style for second-place standings rows', async () => {
+    const user = userEvent.setup();
+    const { container } = renderWithRouter(<NewSeasonPage />);
+
+    await user.click(screen.getByRole('button', { name: '\u79ef\u5206\u699c' }));
+    await user.click(screen.getByRole('button', { name: '\u8f66\u961f\u699c' }));
+
+    const secondPlaceBadge = Array.from(container.querySelectorAll('div')).find((element) =>
+      element.textContent?.trim() === '2' &&
+      element.className.includes('w-12') &&
+      element.className.includes('h-12') &&
+      element.className.includes('rounded-full')
+    );
+
+    expect(secondPlaceBadge).toBeTruthy();
+    expect(secondPlaceBadge).toHaveClass('bg-gradient-to-br');
+    expect(secondPlaceBadge).toHaveClass('from-[#f3f6fb]');
+    expect(secondPlaceBadge).toHaveClass('to-[#aeb8c8]');
+    expect(secondPlaceBadge).toHaveClass('shadow-[#d9e1ef]/40');
   });
 });

@@ -41,6 +41,9 @@ interface TeamCardProps {
   variant?: 'compact' | 'full';
 }
 
+const silverRankBadgeClass = 'bg-gradient-to-br from-[#f3f6fb] to-[#aeb8c8] text-slate-900 border border-white/60 shadow-lg shadow-[#d9e1ef]/40';
+const neutralRankBadgeClass = 'bg-bg-secondary text-primary border border-border shadow-black/5';
+
 const normalizeTeamLabel = (value?: string | null) =>
   (value || '').trim().toLowerCase();
 
@@ -73,9 +76,9 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
         className="glass rounded-xl p-4 border border-border card-hover flex items-center space-x-4 group shadow-lg shadow-black/10 dark:shadow-white/5"
       >
         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold shrink-0 ${index === 0 ? 'bg-yellow-500 text-black' :
-          index === 1 ? 'bg-gray-400 text-black' :
+          index === 1 ? silverRankBadgeClass :
             index === 2 ? 'bg-orange-500 text-black' :
-              'bg-primary/20 text-primary'
+              neutralRankBadgeClass
           }`}>
           {index + 1}
         </div>
@@ -139,9 +142,9 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
     <div className="glass rounded-2xl p-6 border border-border card-hover group shadow-xl shadow-black/10 dark:shadow-white/5">
       <div className="flex flex-col md:flex-row md:items-center gap-6 mb-6">
         <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl shrink-0 ${index === 0 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-lg shadow-yellow-500/30' :
-          index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-500 text-black shadow-lg shadow-gray-500/30' :
+          index === 1 ? silverRankBadgeClass :
             index === 2 ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-black shadow-lg shadow-orange-500/30' :
-              'bg-primary/20 text-primary'
+              neutralRankBadgeClass
           }`}>
           {index + 1}
         </div>
@@ -247,9 +250,9 @@ export const TeamRow = ({ team, index }: { team: Team; index: number }) => {
     <tr className="border-t border-border hover:bg-primary/5 transition-colors group">
       <td className="py-4 px-6">
         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${index === 0 ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20' :
-          index === 1 ? 'bg-gray-400 text-black' :
+          index === 1 ? silverRankBadgeClass :
             index === 2 ? 'bg-orange-500 text-black' :
-              'bg-primary/20 text-primary'
+              neutralRankBadgeClass
           }`}>
           {index + 1}
         </div>

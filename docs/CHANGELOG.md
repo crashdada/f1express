@@ -7,8 +7,13 @@
   - Changed the 2026 schedule/results merge strategy from whole-dataset preference to per-round merging so new remote rounds can be added without wiping existing non-empty local fields such as `sprintResults`, `status`, `dates`, and `sessions`.
 - Local development workflow
   - Added `dev:sync` in [package.json](D:\oc\f1express\package.json) and documented it in [README.md](D:\oc\f1express\README.md) so local development can explicitly refresh `storage/` before starting Vite when working on season-data changes.
+- Runtime data and deployment
+  - Refreshed [storage/f1.db](D:\oc\f1express\storage\f1.db), [dist/f1.db](D:\oc\f1express\dist\f1.db), and [dist/data/results_2026.json](D:\oc\f1express\dist\data\results_2026.json) so the tracked runtime artifacts include the latest 2026 race state now visible in the rebuilt frontend bundle.
+  - Updated [docker/compose.yaml](D:\oc\f1express\docker\compose.yaml) to pass through `ADMIN_API_TOKEN` for container deployments that protect update endpoints.
+- Frontend standings and race card polish
+  - Updated [src/pages/NewSeasonPage.tsx](D:\oc\f1express\src\pages\NewSeasonPage.tsx), [src/components/DriverCard.tsx](D:\oc\f1express\src\components\DriverCard.tsx), and [src/components/TeamCard.tsx](D:\oc\f1express\src\components\TeamCard.tsx) so race cards swap country / Grand Prix typography, constructor cards use logo badges, and second-place rank badges use a brighter silver treatment shared across driver and team standings.
 - Regression coverage
-  - Expanded [tests/unit/utils/season2026.test.ts](D:\oc\f1express\tests\unit\utils\season2026.test.ts) to cover new-round remote merges, preservation of existing sprint data and cancelled schedule state, and `localhost` parity with runtime remote fallback behavior.
+  - Expanded [tests/unit/utils/season2026.test.ts](D:\oc\f1express\tests\unit\utils\season2026.test.ts), [tests/integration/frontend/newSeasonPage.test.tsx](D:\oc\f1express\tests\integration\frontend\newSeasonPage.test.tsx), [tests/unit/components/DriverCard.test.tsx](D:\oc\f1express\tests\unit\components\DriverCard.test.tsx), and [tests/unit/components/TeamCard.test.tsx](D:\oc\f1express\tests\unit\components\TeamCard.test.tsx) to cover new-round remote merges, preservation of existing sprint data and cancelled schedule state, race-card typography, logo badge rendering, and the brighter second-place badge styling.
 
 ## 2026-03-25: v1.3.1 - Constructor corrections, 2026 roster alignment, and standings UI polish
 - Pipeline, data, and validation
