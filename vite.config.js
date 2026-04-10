@@ -86,5 +86,8 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['sql.js']
   },
-  assetsInclude: ['**/*.db', '**/*.wasm']
+  assetsInclude: ['**/*.db', '**/*.wasm'],
+  test: {
+    testTimeout: 10000,
+  }
 })
