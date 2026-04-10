@@ -1,6 +1,12 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-04-10: v1.3.5 - Android photos asset sync fix
+- Android asset packaging
+  - Updated [scripts/sync_android_assets.cjs](D:\oc\f1express\scripts\sync_android_assets.cjs) to copy the bundled `storage/photos` tree into Android assets during `npm run android:sync`, so driver avatars and team logos are packaged into the APK alongside `f1.db` and the 2026 JSON datasets.
+  - Added validation for `photos/index.json` after sync to fail fast if the Android asset bundle is missing the photos manifest.
+- Release and verification
+  - Bumped the project version to `1.3.5`, refreshed the tracked Android asset sync path, and prepared the patch release for a new APK build.
 ## 2026-04-10: v1.3.4 - Legacy team schema compatibility fix
 - Database compatibility
   - Updated [src/utils/f1-data/queries.ts](D:\oc\f1express\src\utils\f1-data\queries.ts) to build the teams query dynamically and only apply the `t.is_hidden = 0` filter when the loaded database schema actually includes that column.

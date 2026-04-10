@@ -7,6 +7,8 @@ const androidDbPath = path.join(rootDir, 'android', 'app', 'src', 'main', 'asset
 const distDataDir = path.join(rootDir, 'dist', 'data');
 const storageDataDir = path.join(rootDir, 'storage');
 const androidDataDir = path.join(rootDir, 'android', 'app', 'src', 'main', 'assets', 'public', 'data');
+const storagePhotosDir = path.join(rootDir, 'storage', 'photos');
+const androidPhotosDir = path.join(rootDir, 'android', 'app', 'src', 'main', 'assets', 'public', 'photos');
 const runtimeJsonFiles = [
   'schedule_2026.json',
   'results_2026.json',
@@ -58,5 +60,22 @@ for (const filename of runtimeJsonFiles) {
   }
 }
 
+if (!fs.existsSync(storagePhotosDir)) {
+  throw new Error(`Missing photos directory: ${storagePhotosDir}`);
+}
+
+fs.cpSync(storagePhotosDir, androidPhotosDir, { recursive: true, force: true });
+
+const androidPhotosIndexPath = path.join(androidPhotosDir, 'index.json');
+if (!fs.existsSync(androidPhotosIndexPath)) {
+  throw new Error(`Missing Android photos index after sync: ${androidPhotosIndexPath}`);
+}
+
+const androidPhotosIndexStats = fs.statSync(androidPhotosIndexPath);
+if (androidPhotosIndexStats.size === 0) {
+  throw new Error(`Android photos index is empty: ${androidPhotosIndexPath}`);
+}
+
 console.log(`Synced Android database asset: ${androidDbPath} (${androidStats.size} bytes)`);
 console.log(`Synced Android 2026 datasets from ${sourceDataDir} into: ${androidDataDir}`);
+console.log(`Synced Android photos into: ${androidPhotosDir}`);
