@@ -31,7 +31,7 @@ const getAccessibleBgColor = (team: Team): string => {
 };
 
 // 现在统一使用官方 White 素材，不再需要 CSS 滤镜处理
-const shouldInvertLogo = (teamId: string, teamName: string = ''): boolean => {
+const shouldInvertLogo = (): boolean => {
   return false;
 };
 
@@ -92,7 +92,7 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
             <img
               src={team.logo}
               alt={getTeamDisplayName(team)}
-              className={`w-full h-full object-contain ${shouldInvertLogo(team.id || '', team.name) ? 'filter brightness-0 invert' : ''
+              className={`w-full h-full object-contain ${shouldInvertLogo() ? 'filter brightness-0 invert' : ''
                 }`}
             />
           </div>
@@ -159,7 +159,7 @@ export const TeamCard = ({ team, index, variant = 'full' }: TeamCardProps) => {
               <img
                 src={team.logo}
                 alt={getTeamDisplayName(team)}
-                className={`w-full h-full object-contain ${shouldInvertLogo(team.id || '', team.name) ? 'filter brightness-0 invert' : ''
+                className={`w-full h-full object-contain ${shouldInvertLogo() ? 'filter brightness-0 invert' : ''
                   }`}
               />
             </div>
@@ -268,7 +268,7 @@ export const TeamRow = ({ team, index }: { team: Team; index: number }) => {
               <img
                 src={team.logo}
                 alt={team.name}
-                className={`w-full h-full object-contain ${shouldInvertLogo(team.id || '', team.name) ? 'filter brightness-0 invert' : ''
+                className={`w-full h-full object-contain ${shouldInvertLogo() ? 'filter brightness-0 invert' : ''
                   }`}
               />
             </div>

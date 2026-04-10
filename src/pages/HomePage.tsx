@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Users, TrendingUp, ChevronRight, Trophy, Sparkles, Calendar, Radio, ArrowRight } from 'lucide-react';
 import { useF1 } from '../context/F1Context';
@@ -14,19 +14,8 @@ import { isAndroid } from '../utils/platform';
 const HomePage = () => {
   const { state } = useF1();
   const { combinedTeams, combinedDrivers } = useCombinedData();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const topDrivers = useMemo(() => {
-    return combinedDrivers.slice(0, 5);
-  }, [combinedDrivers]);
-
-  const topTeams = useMemo(() => {
-    return combinedTeams.slice(0, 5);
-  }, [combinedTeams]);
+  const topDrivers = useMemo(() => combinedDrivers.slice(0, 5), [combinedDrivers]);
+  const topTeams = useMemo(() => combinedTeams.slice(0, 5), [combinedTeams]);
 
   const totalRaces = state.raceResults.length;
   const isAndroidShell = isAndroid();
@@ -48,18 +37,7 @@ const HomePage = () => {
           <div className="absolute -right-10 top-12 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
           <div className="absolute left-0 top-0 h-24 w-full bg-[linear-gradient(90deg,rgba(255,255,255,0.18),transparent)] opacity-60" />
           <div className="relative z-10">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/80">
-                  Android Edition
-                </div>
-                <h1 className="mt-4 max-w-[12ch] text-3xl font-black leading-tight">
-                  把 F1 信息压进一块更顺手的移动主屏
-                </h1>
-                <p className="mt-3 max-w-sm text-sm leading-6 text-white/72">
-                  首页、导航和系统栏都按 Android 的阅读节奏重新压缩，打开就能直达赛季重点。
-                </p>
-              </div>
+            <div className="flex items-start justify-end">
               <div className="rounded-[24px] border border-white/10 bg-black/15 p-3 backdrop-blur-xl">
                 <F1Logo className="w-14 h-auto" />
               </div>
@@ -108,9 +86,6 @@ const HomePage = () => {
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.24em] text-f1-red">Next up</div>
               <h2 className="mt-1 text-xl font-bold text-primary">下一站倒计时</h2>
-            </div>
-            <div className="rounded-full border border-border/80 px-3 py-1 text-xs text-secondary">
-              主屏优先展示
             </div>
           </div>
           <RaceCountdown />
@@ -190,9 +165,7 @@ const HomePage = () => {
       </div>
 
       <div className="hidden md:block">
-      {/* Hero Section */}
         <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Background Effects */}
           <div className="absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-primary to-f1-red/10" />
           <div className="absolute inset-0 grid-bg opacity-30 dark:opacity-50" />
           <div className="absolute inset-0">
@@ -200,8 +173,7 @@ const HomePage = () => {
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
           </div>
 
-        {/* Content */}
-          <div className={`relative z-10 text-center px-4 ${mounted ? 'animate-slide-up' : ''}`}>
+          <div className="relative z-10 text-center px-4 animate-slide-up">
             <div className="mb-8">
               <div className="inline-block relative">
                 <div className="absolute inset-0 bg-f1-red/10 blur-[60px] rounded-full animate-float" />
@@ -211,43 +183,21 @@ const HomePage = () => {
               </div>
             </div>
 
-
-
-          {/* Next Race Countdown */}
             <div className="max-w-4xl mx-auto">
               <RaceCountdown />
             </div>
           </div>
-
         </section>
 
-      {/* Stats Section */}
         <section className="py-16 px-4 relative">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-3 gap-6 mb-16">
-              <StatCard
-                icon={Users}
-                value={`${state.drivers.length}+`}
-                label="记录车手"
-                delay={0}
-              />
-              <StatCard
-                icon={Shield}
-                value={state.teams.length}
-                label="参与车队"
-                delay={100}
-              />
-              <StatCard
-                icon={TrendingUp}
-                value={`${totalRaces.toLocaleString()}+`}
-                label="比赛记录"
-                delay={200}
-              />
+              <StatCard icon={Users} value={`${state.drivers.length}+`} label="记录车手" delay={0} />
+              <StatCard icon={Shield} value={state.teams.length} label="参与车队" delay={100} />
+              <StatCard icon={TrendingUp} value={`${totalRaces.toLocaleString()}+`} label="比赛记录" delay={200} />
             </div>
 
-          {/* Top Lists */}
             <div className="grid lg:grid-cols-2 gap-12">
-            {/* Top Drivers */}
               <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-primary flex items-center font-orbitron">
@@ -267,7 +217,6 @@ const HomePage = () => {
                 </div>
               </div>
 
-            {/* Top Teams */}
               <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-primary flex items-center font-orbitron">
@@ -290,7 +239,6 @@ const HomePage = () => {
           </div>
         </section>
       </div>
-
     </div>
   );
 };

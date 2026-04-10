@@ -1,5 +1,5 @@
 import { ChevronLeft, Clock, Map as MapIcon, Info, Trophy, Calendar, Sparkles, ArrowRight, ArrowLeft } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { translateCountry, GP_TRANSLATIONS, DRIVER_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
@@ -38,9 +38,6 @@ interface F1Event {
 const RaceDetailPage = () => {
     const { slug } = useParams<{ slug: string }>();
     const { schedule, raceResults: allRaceResults, loading: dataLoading } = useDynamic2026Data();
-    const [event, setEvent] = useState<F1Event | null>(null);
-    const [prevEvent, setPrevEvent] = useState<{ slug: string; name: string } | null>(null);
-    const [nextEvent, setNextEvent] = useState<{ slug: string; name: string } | null>(null);
     const [useShanghaiTime, setUseShanghaiTime] = useState(true);
 
     // Get race results from JSON for this slug
@@ -67,24 +64,27 @@ const RaceDetailPage = () => {
     }, [slug, allRaceResults]);
 
 
-    useEffect(() => {
-        if (dataLoading || !schedule.length) return;
-
-        const index = schedule.findIndex((e: any) => e.slug === slug);
-        if (index !== -1) {
-            const found = schedule[index];
-            setEvent(found as F1Event);
-
-            // Find neighbors
-            const prev = index > 0 ? schedule[index - 1] : null;
-            const next = index < schedule.length - 1 ? schedule[index + 1] : null;
-
-            setPrevEvent(prev ? { slug: prev.slug || '', name: translateCountry(prev.country) } : null);
-            setNextEvent(next ? { slug: next.slug || '', name: translateCountry(next.country) } : null);
-        } else {
-            setEvent(null);
+    const eventContext = useMemo(() => {
+        if (dataLoading || schedule.length === 0) {
+            return { event: null, prevEvent: null, nextEvent: null };
         }
-    }, [slug, schedule, dataLoading]);
+
+        const index = schedule.findIndex((item) => item.slug === slug);
+        if (index === -1) {
+            return { event: null, prevEvent: null, nextEvent: null };
+        }
+
+        const prev = index > 0 ? schedule[index - 1] : null;
+        const next = index < schedule.length - 1 ? schedule[index + 1] : null;
+
+        return {
+            event: schedule[index] as F1Event,
+            prevEvent: prev ? { slug: prev.slug || '', name: translateCountry(prev.country) } : null,
+            nextEvent: next ? { slug: next.slug || '', name: translateCountry(next.country) } : null,
+        };
+    }, [dataLoading, schedule, slug]);
+
+    const { event, prevEvent, nextEvent } = eventContext;
 
     const formatTime = (isoString: string) => {
         const date = new Date(isoString);
@@ -339,7 +339,7 @@ const RaceDetailPage = () => {
                                         // 1:30.965 (Kimi Antonelli (2025)) -> time: 1:30.965, holderRaw: Kimi Antonelli (2025)
                                         const parts = recordStr.split(/\s+\(/);
                                         const time = parts[0].trim();
-                                        let holderRaw = parts.length > 1 ? parts.slice(1).join(' (').replace(/\)$/, '') : '';
+                                        const holderRaw = parts.length > 1 ? parts.slice(1).join(' (').replace(/\)$/, '') : '';
 
                                         // Translate holder
                                         let translatedHolder = holderRaw;

@@ -20,16 +20,16 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 import { useF1Data } from './hooks/useF1Data';
 import { LoadingSpinner } from './components/Skeletons';
 import { useEffect } from 'react';
-import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { useF1 } from './context/F1Context';
+import { isCapacitor } from './utils/platform';
 
 function AppContent() {
   const { loading, error } = useF1Data();
   const { resolvedTheme } = useF1();
 
   useEffect(() => {
-    if (!Capacitor.isNativePlatform()) {
+    if (!isCapacitor()) {
       return;
     }
 

@@ -237,7 +237,7 @@ export function useCombinedData() {
     });
 
     return [...mergedTeams, ...liveOnlyTeams].sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [activeTeamKeys, liveResults, liveTeams, state.teams]);
+  }, [liveResults, liveTeams, state.teams]);
 
   const combinedDrivers = useMemo(() => {
     const liveDriverStatsMap = buildLiveDriverStatsMap(liveResults);
@@ -300,7 +300,7 @@ export function useCombinedData() {
 
     return [...mergedDrivers, ...liveOnlyDrivers]
       .sort((a, b) => (b.points || 0) - (a.points || 0));
-  }, [activeDriverKeys, liveResults, state.drivers]);
+  }, [activeDriverKeys, liveDrivers, liveResults, liveTeams, state.drivers]);
 
   return {
     combinedTeams,

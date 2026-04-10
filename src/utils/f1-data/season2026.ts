@@ -64,14 +64,6 @@ function serializeDataset(value: unknown) {
   }
 }
 
-function getResultsDatasetEntryCount(rounds: any[]) {
-  return rounds.reduce((total, round) => {
-    const raceResults = Array.isArray(round?.results) ? round.results.length : 0;
-    const sprintResults = Array.isArray(round?.sprintResults) ? round.sprintResults.length : 0;
-    return total + raceResults + sprintResults;
-  }, 0);
-}
-
 function getDatasetItemKey(item: any) {
   return String(item?.slug ?? item?.round ?? item?.eventId ?? '');
 }

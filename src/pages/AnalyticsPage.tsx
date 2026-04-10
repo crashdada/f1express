@@ -312,7 +312,7 @@ const AnalyticsPage = () => {
             ((team.points / maxPoints) * 0.4 + (team.wins / maxWins) * 0.3 + (team.podiums / maxPodiums) * 0.3) * 100,
           ],
           borderColor: match?.color || `hsl(${index * 60}, 70%, 50%)`,
-          backgroundColor: `${match?.color}33` || `hsla(${index * 60}, 70%, 50%, 0.2)`,
+          backgroundColor: match?.color ? `${match.color}33` : `hsla(${index * 60}, 70%, 50%, 0.2)`,
           borderWidth: 2,
         };
       }),

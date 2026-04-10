@@ -1,6 +1,6 @@
 import { Calendar, Users, Trophy, ChevronRight, Target, XCircle, BarChart3 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { translateCountry, GP_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
@@ -140,10 +140,10 @@ const NewSeasonPage = () => {
     return (driverRank[a.code] || 99) - (driverRank[b.code] || 99);
   });
 
-  const getTeamColor = (teamName: string) => {
+  const getTeamColor = useCallback((teamName: string) => {
     const team = teams.find(t => t.name === teamName || t.nameCn === teamName || t.id === teamName.toLowerCase().replace(/\s+/g, '_'));
     return team?.color || "#5e5e5e";
-  };
+  }, [teams]);
 
   const driverStandings = useMemo(() => {
     const totals = new Map<string, {
@@ -214,7 +214,7 @@ const NewSeasonPage = () => {
         a.bestFinish - b.bestFinish ||
         a.code.localeCompare(b.code)
       );
-  }, [drivers, raceResults]);
+  }, [drivers, getTeamColor, raceResults]);
 
   const teamStandings = useMemo(() => {
     const totals = new Map<string, {
@@ -357,18 +357,13 @@ const NewSeasonPage = () => {
         {/* Header */}
         <div className="mb-8 md:mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
           <div className={`flex-1 ${isAndroidShell ? 'android-surface rounded-[32px] px-5 py-5 md:bg-transparent md:border-0 md:shadow-none md:p-0 md:backdrop-blur-none' : ''}`}>
-            <div className="inline-flex items-center rounded-full border border-f1-red/15 bg-f1-red/6 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-f1-red md:hidden">
-              Season Control
-            </div>
+
             <h1 className="mt-4 md:mt-0 text-4xl md:text-7xl font-black text-primary mb-4 flex items-center justify-center md:justify-start font-orbitron tracking-tight gap-4 md:gap-6 italic">
               <div className="p-2 flex items-center justify-center rounded-[22px] border border-white/10 bg-black/5 dark:bg-white/5 md:border-0 md:bg-transparent">
                 <F1Logo className="w-14 md:w-20 h-8" />
               </div>
               2026
             </h1>
-            <p className={`text-secondary font-medium max-w-2xl py-1 ${isAndroidShell ? 'text-base md:text-xl md:border-l-4 md:border-f1-red md:pl-6' : 'text-xl border-l-4 border-f1-red pl-6'}`}>
-              规则革命，全新时代。探索 2026 赛季 F1 的全貌。
-            </p>
             <div className="mt-5 grid grid-cols-3 gap-3 md:hidden">
               <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
                 <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Rounds</div>

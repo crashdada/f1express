@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
     ChevronLeft, Trophy, Medal, History, Milestone, Zap, Hash, Target, Users, TrendingUp, Calendar, MapPin, Flag
 } from 'lucide-react';
@@ -28,7 +28,6 @@ const DriverDetailPage = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { state } = useF1();
-    const [loading, setLoading] = useState(true);
 
     const driverId = parseInt(id || '0', 10);
 
@@ -172,13 +171,7 @@ const DriverDetailPage = () => {
             .sort((a, b) => b.races - a.races);
     }, [driverResults, state.raceResults, driverId, state.teams]);
 
-    useEffect(() => {
-        if (!state.loading) {
-            setLoading(false);
-        }
-    }, [state.loading]);
-
-    if (loading || state.loading) return <div className="min-h-screen flex items-center justify-center"><SkeletonCard /></div>;
+    if (state.loading) return <div className="min-h-screen flex items-center justify-center"><SkeletonCard /></div>;
     if (!driver) return (
         <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center p-4">
             <h2 className="text-2xl font-bold text-primary mb-4">未找到车手信息</h2>

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
 import Layout from '../../../src/components/Layout';
 import Navigation from '../../../src/components/Navigation';
@@ -33,7 +33,7 @@ describe('Navigation', () => {
     expect(screen.getByText('首页')).toBeInTheDocument();
     expect(screen.getByText('车手')).toBeInTheDocument();
     expect(screen.getByText('车队')).toBeInTheDocument();
-    expect(screen.getByText('比赛')).toBeInTheDocument();
+    expect(screen.getByText('赛程')).toBeInTheDocument();
     expect(screen.getAllByText('数据').length).toBeGreaterThan(0);
   });
 

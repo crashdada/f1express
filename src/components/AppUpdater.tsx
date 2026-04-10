@@ -82,14 +82,22 @@ export function AppUpdater() {
     }, []);
 
     useEffect(() => {
-        // Auto-check on app launch for native platforms
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
         if (Capacitor.isNativePlatform()) {
-            doCheck(false);
+            timer = setTimeout(() => {
+                void doCheck(false);
+            }, 0);
         }
 
-        // Expose global method for SettingsPage
         (window as any).checkForAppUpdates = (manual = true) => {
-            doCheck(manual);
+            void doCheck(manual);
+        };
+
+        return () => {
+            if (timer) {
+                clearTimeout(timer);
+            }
         };
     }, [doCheck]);
 

@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Shield, Home, Users, Calendar, BarChart3, Sparkles, Settings, ChevronRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import F1Logo from './F1Logo';
-import { Capacitor } from '@capacitor/core';
+import { getPlatform, isAndroid, isCapacitor } from '../utils/platform';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const isNative = Capacitor.isNativePlatform();
-  const isAndroidShell = isNative && Capacitor.getPlatform() === 'android';
+  const isNative = isCapacitor();
+  const isAndroidShell = isAndroid();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +24,7 @@ const Navigation = () => {
     { path: '/new-season', label: '新赛季', icon: Sparkles },
     { path: '/drivers', label: '车手', icon: Users },
     { path: '/teams', label: '车队', icon: Shield },
-    { path: '/races', label: '比赛', icon: Calendar },
+    { path: '/races', label: '赛程', icon: Calendar },
     { path: '/analytics', label: '数据', icon: BarChart3 },
   ];
 
@@ -61,15 +61,9 @@ const Navigation = () => {
               <span className="md:hidden text-primary text-sm font-semibold tracking-wide">
                 F1 Express
               </span>
-              {isAndroidShell && (
-                <span className="md:hidden text-[11px] uppercase tracking-[0.28em] text-secondary">
-                  Android cockpit
-                </span>
-              )}
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             <div className="flex items-center space-x-1 mr-4">
               {navItems.map((item) => {
@@ -106,13 +100,12 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Mobile Actions */}
           <div className="md:hidden flex items-center space-x-2">
             {isNative ? (
               <>
                 <div className="hidden min-[380px]:flex flex-col items-end mr-1">
                   <span className="text-xs font-semibold text-primary">{activeMobileLabel}</span>
-                  <span className="text-[11px] text-secondary">已针对 Android 收紧布局</span>
+                  <span className="text-[11px] text-secondary capitalize">{getPlatform()}</span>
                 </div>
                 <Link
                   to="/settings"

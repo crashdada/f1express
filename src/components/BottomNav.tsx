@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Users, Shield, Calendar, Sparkles } from 'lucide-react';
-import { Capacitor } from '@capacitor/core';
+import { isAndroid } from '../utils/platform';
 
 const BottomNav = () => {
     const location = useLocation();
-    const isAndroidShell = Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
+    const isAndroidShell = isAndroid();
 
     const navItems = [
         { path: '/', icon: Home, label: '首页' },

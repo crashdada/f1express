@@ -1,5 +1,5 @@
 import { ChevronLeft, MapPin, Cpu, Zap, Users, Trophy, Target } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { IDriver2026, ITeam2026 } from '../types';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
@@ -8,8 +8,23 @@ import { getDriverMatchKeys, matchesTeam } from '../utils/entityMappings';
 const TeamDetail2026 = () => {
     const { id } = useParams<{ id: string }>();
     const { drivers: allDrivers, teams, raceResults: allRaceResults, loading } = useDynamic2026Data();
-    const [team, setTeam] = useState<ITeam2026 | null>(null);
-    const [drivers, setDrivers] = useState<IDriver2026[]>([]);
+    const team = useMemo(
+        () => teams.find((item: ITeam2026) => item.id === id) || null,
+        [id, teams]
+    );
+    const drivers = useMemo(() => {
+        if (!team) {
+            return [];
+        }
+
+        return allDrivers.filter((driver: IDriver2026) =>
+            team.drivers.includes(driver.code) ||
+            matchesTeam(
+                { name: driver.team, nameCn: driver.teamCn, fullName: driver.team },
+                { name: team.name, nameCn: team.nameCn, fullName: team.name }
+            )
+        );
+    }, [allDrivers, team]);
 
     // Compute live 2026 team stats from JSON results
     const liveTeamStats = useMemo(() => {
@@ -73,24 +88,6 @@ const TeamDetail2026 = () => {
 
         return { points: totalPoints, wins, podiums, rank: rank || undefined };
     }, [team, allDrivers, allRaceResults]);
-
-
-    useEffect(() => {
-        if (!loading && teams.length > 0) {
-            const foundTeam = teams.find((t: ITeam2026) => t.id === id);
-            if (foundTeam) {
-                setTeam(foundTeam);
-                const teamDrivers = allDrivers.filter((d: IDriver2026) =>
-                    foundTeam.drivers.includes(d.code) ||
-                    matchesTeam(
-                        { name: d.team, nameCn: d.teamCn, fullName: d.team },
-                        { name: foundTeam.name, nameCn: foundTeam.nameCn, fullName: foundTeam.name }
-                    )
-                );
-                setDrivers(teamDrivers);
-            }
-        }
-    }, [id, teams, allDrivers, loading]);
 
     if (loading) {
         return (

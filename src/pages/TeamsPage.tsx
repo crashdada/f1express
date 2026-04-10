@@ -6,7 +6,7 @@ import F1Logo from '../components/F1Logo';
 import { useCombinedData } from '../hooks/useCombinedData';
 
 const TeamsPage = () => {
-  const { combinedTeams, activeTeamKeys, loading } = useCombinedData();
+  const { combinedTeams, loading } = useCombinedData();
   const [showActiveOnly, setShowActiveOnly] = useState(true);
 
   const filteredTeams = useMemo(() => {
@@ -15,7 +15,7 @@ const TeamsPage = () => {
     }
 
     return combinedTeams.filter((team) => (team as typeof team & { isActive2026?: boolean }).isActive2026);
-  }, [activeTeamKeys, combinedTeams, showActiveOnly]);
+  }, [combinedTeams, showActiveOnly]);
 
   if (loading) {
     return (

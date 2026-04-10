@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ChevronLeft, Users, Trophy, Info, Sparkles, Target } from 'lucide-react';
 import { IDriver2026, ITeam2026 } from '../types';
 import { translateCountry } from '../utils/translations';
@@ -10,8 +10,22 @@ import { getDriverMatchKeys, matchesDriver, matchesTeam } from '../utils/entityM
 const DriverDetail2026 = () => {
     const { id } = useParams<{ id: string }>();
     const { drivers, teams, raceResults: allRaceResults, loading } = useDynamic2026Data();
-    const [driver, setDriver] = useState<IDriver2026 | null>(null);
-    const [team, setTeam] = useState<ITeam2026 | null>(null);
+    const driver = useMemo(
+        () => drivers.find((item: IDriver2026) => item.id === id) || null,
+        [drivers, id]
+    );
+    const team = useMemo(() => {
+        if (!driver) {
+            return null;
+        }
+
+        return teams.find((item: ITeam2026) =>
+            matchesTeam(
+                { name: item.name, nameCn: item.nameCn, fullName: item.name },
+                { name: driver.team, nameCn: driver.teamCn, fullName: driver.team }
+            )
+        ) || null;
+    }, [driver, teams]);
 
     // Compute live 2026 stats from JSON results
     const liveStats = useMemo(() => {
@@ -56,23 +70,6 @@ const DriverDetail2026 = () => {
 
         return { points: totalPoints, wins, podiums, rank: rank || undefined, poles, fastestLaps: 0 };
     }, [driver, allRaceResults]);
-
-
-    useEffect(() => {
-        if (!loading && drivers.length > 0) {
-            const foundDriver = drivers.find((d: IDriver2026) => d.id === id);
-            if (foundDriver) {
-                setDriver(foundDriver);
-                const foundTeam = teams.find((t: ITeam2026) =>
-                    matchesTeam(
-                        { name: t.name, nameCn: t.nameCn, fullName: t.name },
-                        { name: foundDriver.team, nameCn: foundDriver.teamCn, fullName: foundDriver.team }
-                    )
-                );
-                setTeam(foundTeam || null);
-            }
-        }
-    }, [id, drivers, teams, loading]);
 
     if (loading) {
         return (

@@ -26,11 +26,10 @@ export const StatCard = ({ icon: Icon, value, label, delay = 0 }: StatCardProps)
 
 interface AnimatedCounterProps {
   value: number;
-  duration?: number;
   suffix?: string;
 }
 
-export const AnimatedCounter = ({ value, duration = 2000, suffix = '' }: AnimatedCounterProps) => {
+export const AnimatedCounter = ({ value, suffix = '' }: AnimatedCounterProps) => {
   return (
     <span className="tabular-nums">
       {value.toLocaleString()}{suffix}

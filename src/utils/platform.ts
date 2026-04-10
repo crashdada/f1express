@@ -1,19 +1,46 @@
-/**
- * 平台检测工具
- * 用于区分 Web 浏览器 / Capacitor (Android/iOS) 运行环境
- */
+import { Capacitor } from '@capacitor/core';
 
-/** 当前是否运行在 Capacitor 原生容器中 */
-export const isCapacitor = (): boolean =>
-    typeof (window as any).Capacitor !== 'undefined';
+type WindowCapacitor = {
+    getPlatform?: () => string;
+    isNativePlatform?: () => boolean;
+};
 
-/** 当前是否运行在 Android 上 */
+const getWindowCapacitor = (): WindowCapacitor | undefined =>
+    (globalThis as { Capacitor?: WindowCapacitor }).Capacitor;
+
+export const getPlatform = (): string => {
+    try {
+        const platform = Capacitor.getPlatform();
+        if (platform && platform !== 'web') {
+            return platform;
+        }
+    } catch {
+        // Ignore and fall back to the bridged object when present.
+    }
+
+    return getWindowCapacitor()?.getPlatform?.() ?? 'web';
+};
+
+export const isCapacitor = (): boolean => {
+    try {
+        if (Capacitor.isNativePlatform()) {
+            return true;
+        }
+    } catch {
+        // Ignore and fall back to the bridged object when present.
+    }
+
+    const bridgedCapacitor = getWindowCapacitor();
+    return Boolean(
+        bridgedCapacitor?.isNativePlatform?.() ||
+        (bridgedCapacitor?.getPlatform && bridgedCapacitor.getPlatform() !== 'web')
+    );
+};
+
 export const isAndroid = (): boolean =>
-    isCapacitor() && (window as any).Capacitor?.getPlatform?.() === 'android';
+    isCapacitor() && getPlatform() === 'android';
 
-/** 当前是否运行在 iOS 上 */
 export const isIOS = (): boolean =>
-    isCapacitor() && (window as any).Capacitor?.getPlatform?.() === 'ios';
+    isCapacitor() && getPlatform() === 'ios';
 
-/** 当前是否运行在纯 Web 浏览器中 */
 export const isWeb = (): boolean => !isCapacitor();

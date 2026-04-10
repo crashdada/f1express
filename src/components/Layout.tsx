@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
 import Navigation from './Navigation';
 import BottomNav from './BottomNav';
-import { Capacitor } from '@capacitor/core';
+import { isAndroid } from '../utils/platform';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const isAndroidShell = Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
+  const isAndroidShell = isAndroid();
 
   return (
     <div
