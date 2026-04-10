@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildDriversQuery } from '../../../src/utils/f1-data/queries';
+import { buildDriversQuery, buildTeamsQuery } from '../../../src/utils/f1-data/queries';
 import { shouldRefreshCachedDb } from '../../../src/utils/f1-data/cache';
 
 describe('driver query compatibility', () => {
@@ -20,6 +20,22 @@ describe('driver query compatibility', () => {
     expect(sql).toContain('NULL as birth_place');
     expect(sql).toContain('NULL as age');
     expect(sql).toContain('0 as number');
+  });
+});
+
+describe('team query compatibility', () => {
+  it('skips the hidden-team filter when legacy databases lack is_hidden', () => {
+    const sql = buildTeamsQuery(
+      new Set([
+        'team_id',
+        'name',
+        'name_cn',
+        'full_name',
+        'color',
+      ])
+    );
+
+    expect(sql).not.toContain('WHERE t.is_hidden = 0');
   });
 });
 

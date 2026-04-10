@@ -1,6 +1,13 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-04-10: v1.3.4 - Legacy team schema compatibility fix
+- Database compatibility
+  - Updated [src/utils/f1-data/queries.ts](D:\oc\f1express\src\utils\f1-data\queries.ts) to build the teams query dynamically and only apply the `t.is_hidden = 0` filter when the loaded database schema actually includes that column.
+  - Updated [src/utils/f1Data.ts](D:\oc\f1express\src\utils\f1Data.ts) to detect available `teams` columns before executing the query, so older cached/runtime databases without `is_hidden` can still load team data instead of failing at startup.
+- Tests and release
+  - Added legacy-schema coverage in [tests/unit/utils/queries.test.ts](D:\oc\f1express\tests\unit\utils\queries.test.ts) to lock the compatibility path.
+  - Bumped the project version to `1.3.4`, refreshed tracked `dist/` artifacts, and reran release validation commands for this push.
 ## 2026-04-10: v1.3.3 - Native routing/platform hardening and season UI cleanup
 - Native runtime and routing behavior
   - Added [src/utils/routing.ts](D:\oc\f1express\src\utils\routing.ts) and wired it in [src/main.tsx](D:\oc\f1express\src\main.tsx) so direct non-hash entry paths are normalized back into the app's hash routes before React mounts.

@@ -10,6 +10,10 @@ function selectDriverColumn(
   return `${fallbackSql} as ${column}`;
 }
 
+function hasColumn(availableColumns: Set<string> | null, column: string) {
+  return !availableColumns || availableColumns.has(column);
+}
+
 export function buildDriversQuery(driverColumns: Set<string> | null = null) {
   return `
   SELECT 
@@ -68,7 +72,10 @@ export function buildDriversQuery(driverColumns: Set<string> | null = null) {
 
 export const DRIVERS_QUERY = buildDriversQuery();
 
-export const TEAMS_QUERY = `
+export function buildTeamsQuery(teamColumns: Set<string> | null = null) {
+  const hiddenFilter = hasColumn(teamColumns, 'is_hidden') ? 'WHERE t.is_hidden = 0' : '';
+
+  return `
   SELECT 
     t.team_id, t.name, t.name_cn, t.full_name, t.color,
     COALESCE(tp.url, '') as logo,
@@ -81,10 +88,13 @@ export const TEAMS_QUERY = `
   FROM teams t
   LEFT JOIN team_season_stats tss ON t.team_id = tss.team_id
   LEFT JOIN team_photos tp ON t.team_id = tp.team_id
-  WHERE t.is_hidden = 0
+  ${hiddenFilter}
   GROUP BY t.team_id
   ORDER BY total_points DESC
 `;
+}
+
+export const TEAMS_QUERY = buildTeamsQuery();
 
 export const RACE_RESULTS_QUERY = `
   SELECT 

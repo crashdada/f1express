@@ -15,7 +15,7 @@ import {
   RACE_INFO_QUERY,
   RACE_RESULTS_QUERY,
   SEASON_STATS_QUERY,
-  TEAMS_QUERY,
+  buildTeamsQuery,
   buildDriversQuery,
 } from './f1-data/queries';
 import {
@@ -247,8 +247,9 @@ export const loadF1Data = async (): Promise<ProcessedDriverData> => {
   try {
     const db = await ensureDatabase();
     const driverColumns = getTableColumns(db, 'drivers');
+    const teamColumns = getTableColumns(db, 'teams');
     const driversQuery = safeExec(db, buildDriversQuery(driverColumns));
-    const teamsQuery = safeExec(db, TEAMS_QUERY);
+    const teamsQuery = safeExec(db, buildTeamsQuery(teamColumns));
     const raceResultsQuery = safeExec(db, RACE_RESULTS_QUERY);
     const driverChampionshipsQuery = safeExec(db, DRIVER_CHAMPIONSHIPS_QUERY);
     const raceInfoQuery = safeExec(db, RACE_INFO_QUERY);
