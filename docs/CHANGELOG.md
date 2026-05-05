@@ -1,6 +1,14 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+## 2026-05-05: v1.3.6 - Miami sprint runtime data and fallback hardening
+- Runtime 2026 data and fallback source
+  - Recollected and exported the Miami weekend into [collector/results_2026/miami_results.json](D:\oc\f1express\collector\results_2026\miami_results.json), [collector/data/results_2026.json](D:\oc\f1express\collector\data\results_2026.json), [storage/results_2026.json](D:\oc\f1express\storage\results_2026.json), and [dist/data/results_2026.json](D:\oc\f1express\dist\data\results_2026.json), restoring the Miami sprint table and standings points in deployed 2026 season pages.
+  - Updated [src/utils/f1-data/constants.ts](D:\oc\f1express\src\utils\f1-data\constants.ts) so runtime fallback JSON now reads from this repository's own tracked [storage](D:\oc\f1express\storage) data instead of the stale `crashdada/f1-collector` feed, keeping fallback rounds aligned with the published site artifacts.
+- Sync pipeline reliability
+  - Updated [collector/syncer.py](D:\oc\f1express\collector\syncer.py) logging to tolerate Windows `gbk` consoles, fixing the local sync failure that left `collector/data` newer than `storage/dist` after successful race scrapes.
+- Release and verification
+  - Bumped the project version to `1.3.6`, refreshed tracked `dist/` artifacts, and reran the season-data/runtime verification commands for this push.
 ## 2026-04-10: v1.3.5 - Android photos asset sync fix
 - Android asset packaging
   - Updated [scripts/sync_android_assets.cjs](D:\oc\f1express\scripts\sync_android_assets.cjs) to copy the bundled `storage/photos` tree into Android assets during `npm run android:sync`, so driver avatars and team logos are packaged into the APK alongside `f1.db` and the 2026 JSON datasets.

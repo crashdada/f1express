@@ -89,7 +89,9 @@ def get_json_files(season):
 
 def log(msg):
     ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f'[{ts}] {msg}')
+    output = f'[{ts}] {msg}'
+    encoding = getattr(sys.stdout, 'encoding', None) or 'utf-8'
+    print(output.encode(encoding, errors='replace').decode(encoding, errors='replace'))
 
 
 # 预设的基础映射（作为 fallback，防止 mappings.json 加载失败）
