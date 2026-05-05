@@ -4,7 +4,7 @@
 ## 2026-05-05: v1.3.6 - Miami sprint runtime data and fallback hardening
 - Runtime 2026 data and fallback source
   - Recollected and exported the Miami weekend into [collector/results_2026/miami_results.json](D:\oc\f1express\collector\results_2026\miami_results.json), [collector/data/results_2026.json](D:\oc\f1express\collector\data\results_2026.json), [storage/results_2026.json](D:\oc\f1express\storage\results_2026.json), and [dist/data/results_2026.json](D:\oc\f1express\dist\data\results_2026.json), restoring the Miami sprint table and standings points in deployed 2026 season pages.
-  - Updated [src/utils/f1-data/constants.ts](D:\oc\f1express\src\utils\f1-data\constants.ts) so runtime fallback JSON now reads from this repository's own tracked [storage](D:\oc\f1express\storage) data instead of the stale `crashdada/f1-collector` feed, keeping fallback rounds aligned with the published site artifacts.
+  - Updated [src/utils/f1-data/constants.ts](D:\oc\f1express\src\utils\f1-data\constants.ts) so runtime fallback JSON now reads from this repository's own tracked [storage](D:\oc\f1express\storage) data instead of the stale legacy external feed, keeping fallback rounds aligned with the published site artifacts.
 - Sync pipeline reliability
   - Updated [collector/syncer.py](D:\oc\f1express\collector\syncer.py) logging to tolerate Windows `gbk` consoles, fixing the local sync failure that left `collector/data` newer than `storage/dist` after successful race scrapes.
 - Release and verification
@@ -200,6 +200,6 @@
 
 ## 2026-03-16: v1.0.0 - 仓库整合与首个正式版本
 
-- 完成 `f1-collector` 与 `f1-website` 的整合，形成统一仓库 `f1express`。
+- 完成历史独立采集仓与前端仓整合，形成统一仓库 `f1express`。
 - 建立基础测试体系与文档体系。
 - 发布首个正式版本 `v1.0.0`。

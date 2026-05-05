@@ -20,7 +20,7 @@ export async function checkForUpdates(): Promise<{
     const currentVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'Unknown';
 
     try {
-        const res = await fetch('https://api.github.com/repos/crashdada/f1-website/releases/latest');
+        const res = await fetch('https://api.github.com/repos/crashdada/f1express/releases/latest');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: ReleaseInfo = await res.json();
 
@@ -58,7 +58,7 @@ function compareVersions(latest: string, current: string) {
 
 export function getApkDownloadUrl(release: ReleaseInfo): string {
     const apkAsset = release.assets.find(a => a.name.endsWith('.apk'));
-    return apkAsset ? apkAsset.browser_download_url : `https://github.com/crashdada/f1-website/releases/tag/${release.tag_name}`;
+    return apkAsset ? apkAsset.browser_download_url : `https://github.com/crashdada/f1express/releases/tag/${release.tag_name}`;
 }
 
 export function AppUpdater() {

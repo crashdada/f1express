@@ -9,10 +9,10 @@ F1 Data Syncer — 跨环境数据同步工具
 
 # NAS 实际部署结构 (模式 B):               本地开发源码结构 (模式 A):
 #   /workspace/ (或 web/)                 /your-path/oc/ (或 Desktop/oc/)
-#   ├── f1-collector/ (抓取工具)           ├── f1-collector/ (抓取工具)
+#   ├── collector/      (采集工具)         ├── collector/      (采集工具)
 #   │   ├── syncer.py                     │   ├── syncer.py
 #   │   └── data/f1.db                    │   └── data/f1.db
-#   └── f1-website/   (生产产物)           └── f1-website/   (React 源码)
+#   └── app root/      (生产产物)         └── app root/      (React 源码)
 #       ├── index.html                    ├── package.json
 #       ├── data/f1.db                    ├── public/data/f1.db
 #       └── data/*.json  <-- 同步点        │   └── data/*.json  <-- 同步点
