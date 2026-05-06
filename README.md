@@ -1,147 +1,143 @@
 # F1 Express
 
-[![Version](https://img.shields.io/badge/version-1.3.2-blue.svg)](https://github.com/crashdada/f1express)
-[![Integrity](https://img.shields.io/badge/integrity-62--point%20pass-green.svg)](https://github.com/crashdada/f1express)
+F1 Express 是一个 F1 数据应用，包含：
 
-F1 Express is a full-stack F1 data application that combines a historical SQLite knowledge base with live 2026 season JSON overlays. The frontend runs on React + Vite, while a lightweight Express server serves runtime assets, health checks, and container update APIs.
+- 历史数据库：`storage/f1.db`
+- 2026 赛季运行时数据：`storage/*.json`
+- 前端：React + Vite
+- 本地服务：Express
 
-## Highlights
+适合本地查看、Docker/NAS 部署，以及赛季数据持续更新。
 
-- Historical F1 coverage built from an offline pipeline into `f1.db`
-- Live 2026 season overlay from JSON data sources
-- In-browser SQL.js querying with IndexedDB cache
-- Self-host friendly deployment with Docker health checks and update endpoints
-- Separate CI verification and Docker publish workflows
-
-## Quick Start
-
-Requirements:
+## 环境要求
 
 - Node.js 20+
-- Python 3.9+ for collector/pipeline scripts
+- Python 3.9+
 
-Install dependencies:
+## 安装
 
 ```bash
 npm install
 pip install -r collector/requirements.txt
 ```
 
-Run the frontend:
+## 本地运行
+
+只启动前端：
 
 ```bash
 npm run dev
 ```
 
-Recommended for local season-data work:
+如果你在处理赛季数据，推荐先同步本地运行时数据再启动：
 
 ```bash
 npm run dev:sync
 ```
 
-`dev:sync` refreshes `storage/` first so `http://localhost:5173` uses the latest local runtime data before starting Vite.
-
-Run the local server:
+启动本地服务：
 
 ```bash
 node server.cjs
 ```
 
-Run the staged data pipeline:
+## 常用命令
+
+测试：
+
+```bash
+npm run test
+npm run test:unit
+npm run test:integration
+```
+
+构建：
+
+```bash
+npm run build
+```
+
+发布前校验：
+
+```bash
+npm run verify:dist
+npm run validate:team-totals
+npm run validate:docker
+```
+
+Android 资源同步：
+
+```bash
+npm run android:sync
+```
+
+## 数据同步
+
+日常同步：
 
 ```bash
 npm run pipeline:sync
 ```
 
-Useful options:
+强制全量重建：
 
 ```bash
 npm run pipeline:sync:full
-npm run pipeline:sync:validate
-python scripts/sync_f1_data.py --skip-integrity
 ```
 
-## Project Structure
+发布用重建：
 
-- `src/`
-  React frontend, pages, hooks, and UI components
-- `src/utils/f1-data/`
-  Modular historical/live data loading helpers
-- `tests/`
-  Consolidated JavaScript/TypeScript test tree for unit and integration coverage
-- `server/`
-  Express app assembly, config, middleware, and routes
-- `collector/`
-  2026 season scraping and enrichment pipeline
-- `collector/tools/`
-  Ad-hoc collector utilities, grouped into `debug/`, `inspect/`, and `oneoff/`
-- `collector/tests/` and `scripts/tests/`
-  Python-side pipeline and data integrity verification
-- `scripts/`
-  Historical data build, normalization, and verification scripts
-- `storage/`
-  Runtime DB, photos, and season JSON data
-- `docker/`
-  Container deployment definitions
-- `docs/`
-  Technical and testing documentation
+```bash
+npm run pipeline:sync:release
+```
 
-## Admin and Deployment
+带车队积分校验的同步：
 
-For Docker or NAS-style deployment:
+```bash
+npm run pipeline:sync:validate
+```
+
+说明：
+
+- `storage/` 是本地运行时数据源
+- `dist/` 会提交到仓库，用于直接部署
+- `collector/data/`、`storage/`、`dist/data/` 需要保持一致
+
+## 部署
+
+Docker / NAS 常用命令：
 
 ```bash
 docker compose -f docker/compose.yaml pull
 docker compose -f docker/compose.yaml up -d
 ```
 
-Admin endpoints:
+管理接口：
 
 - `GET /api/health`
 - `GET /api/check-update`
 - `POST /api/self-update`
 
-Optional protection:
+如果启用了管理令牌：
 
-- Set `ADMIN_API_TOKEN`
-- Send the token with `x-admin-token` or `Authorization: Bearer <token>`
+- 设置环境变量 `ADMIN_API_TOKEN`
+- 请求头使用 `x-admin-token`
+- 或 `Authorization: Bearer <token>`
 
-The old CSV upload API has been retired and is no longer part of the runtime server.
+## 目录说明
 
-## Verification
+- `src/`：前端代码
+- `server/`：本地服务与接口
+- `collector/`：赛季采集与处理
+- `scripts/`：数据库构建、同步、校验脚本
+- `storage/`：运行时数据库、图片、JSON 数据
+- `dist/`：构建产物
+- `tests/`：前端与服务测试
+- `docs/`：补充文档
 
-Recommended local verification:
+## 补充文档
 
-```bash
-npm run test
-npm run test:unit
-npm run test:integration
-npm run build
-npm run verify:dist
-npm run validate:docker
-```
-
-`dist/` is intentionally committed in this repository for direct hosting workflows, so source changes that affect the frontend bundle should include refreshed `dist/` output as part of the same change.
-
-## Data Pipeline
-
-The historical/live data flow is now organized into six phases instead of
-treating the old numbered script list as the main abstraction:
-
-1. Prepare: source downloads and pre-rebuild backup
-2. Build: normalized database rebuild
-3. Enrich: Chinese names, sprint data, fastest lap history, special events
-4. Derive: championships, season stats, photo index
-5. Publish: collector refinement and runtime sync
-6. Validate: integrity checks and optional constructor cross-check
-
-`scripts/pipeline/create_normalized_db.py` only builds normalized base tables.
-Final season aggregates are produced later by
-`scripts/pipeline/recalculate_stats.py`.
-
-## Further Reading
-
-- [Technical Specification](docs/AGENTS.md)
-- [Testing Guide](docs/TESTING.md)
-- [Change Log](docs/CHANGELOG.md)
-- [Championship Rules](docs/championship_rules.md)
+- [技术规范](docs/AGENTS.md)
+- [测试说明](docs/TESTING.md)
+- [更新日志](docs/CHANGELOG.md)
+- [规则说明](docs/championship_rules.md)
