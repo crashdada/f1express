@@ -43,8 +43,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Full data rebuild for release
+        run: npm run pipeline:sync:release
+
       - name: Build web (vite)
         run: npm run build
+
+      - name: Validate team totals and published artifacts
+        run: npm run validate:team-totals
 
       # ── 3. 配置 JDK 与 Android SDK ────────────────────────────────────────
       - name: Setup JDK 21

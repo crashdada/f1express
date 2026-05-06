@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Full data rebuild for verification
+        run: npm run pipeline:sync:release
+
       - name: Internal data prep
         shell: pwsh
         run: |
@@ -54,6 +57,9 @@ jobs:
 
       - name: Build application
         run: npm run build
+
+      - name: Validate team totals and published artifacts
+        run: npm run validate:team-totals
 
       - name: Validate Docker bundle
         run: npm run validate:docker
