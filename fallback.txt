@@ -1,0 +1,4 @@
+Sync: skipped
+Setup JDK: skipped
+Setup SDK: skipped
+Build APK: skipped
