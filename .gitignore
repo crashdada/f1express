@@ -19,6 +19,7 @@ pnpm-debug.log*
 .tmp_*
 tmp_*
 *.bak
+.worktrees/
 
 # Database backups (local only, not for repo)
 backups/
