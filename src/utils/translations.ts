@@ -1,3 +1,5 @@
+import { driverRegistry, teamRegistry } from './identity/registry';
+
 export const CIRCUIT_TRANSLATIONS: Record<string, string> = {
     "Albert Park Grand Prix Circuit, Melbourne": "阿尔伯特公园赛道",
     "Albert Park Circuit": "阿尔伯特公园赛道",
@@ -113,82 +115,13 @@ export const GP_TRANSLATIONS: Record<string, string> = {
     "FORMULA 1 TAG HEUER GRAN PREMIO DE ESPAÑA 2026": "一级方程式赛车泰格豪雅西班牙大奖赛",
 };
 
-export const TEAM_TRANSLATIONS: Record<string, string> = {
-    "Ferrari": "法拉利",
-    "Mercedes": "梅赛德斯",
-    "Red Bull": "红牛",
-    "McLaren": "迈凯伦",
-    "Aston Martin": "阿斯顿·马丁",
-    "Alpine": "阿尔派",
-    "Williams": "威廉姆斯",
-    "Haas": "哈斯",
-    "RB": "影角",
-    "Sauber": "索伯",
-    "Stake": "萨博",
-    "AlphaTauri": "小红牛",
-    "Toro Rosso": "红牛二队",
-    "Racing Point": "赛点",
-    "Force India": "印度力量",
-    "Renault": "雷诺",
-    "Lotus": "路特斯",
-    "Benetton": "贝纳通",
-    "Jordan": "乔丹",
-    "Brawn": "布朗",
-    "Tyrrell": "泰瑞尔",
-    "Brabham": "布拉汉姆",
-    "Cooper": "库珀",
-    "Vanwall": "范沃尔",
-    "Matra": "马特拉",
-    "Ligier": "利吉尔",
-    "Minardi": "米纳尔迪",
-    "Jaguar": "捷豹",
-    "Toyota": "丰田",
-    "BMW Sauber": "宝马索伯",
-    "Honda": "本田",
-    "Cadillac": "凯迪拉克",
-    "Cadillac F1 Team": "凯迪拉克",
-    "Mercedes-AMG": "梅赛德斯",
-    "Red Bull Racing": "红牛",
-    "Aston Martin Aramco": "阿斯顿·马丁",
-    "Kick Sauber": "索伯",
-    "Audi F1 Team": "奥迪",
-    "BAR": "英美车队",
-    "Arrows": "飞箭",
-    "Stewart": "斯图尔特车队",
-    "Hesketh": "赫斯凯斯",
-    "Surtees": "苏尔特斯",
-    "Wolf": "沃尔夫",
-    "Shadow": "影子车队",
-    "March": "马奇",
-    "Penske": "潘斯克",
-    "Lola": "罗拉",
-    "Toleman": "托尔曼",
-    "Osella": "奥塞拉",
-    "Zakspeed": "扎克斯皮德",
-    "Spyker": "世爵",
-    "Virgin": "维珍",
-    "Marussia": "马鲁西亚",
-    "Manor": "马诺",
-    "Caterham": "卡特汉姆",
-    "HRT": "希斯帕尼亚",
-    "Arrows-Ford": "飞箭-福特",
-    "Lotus-Ford": "路特斯-福特",
-    "McLaren-Ford": "迈凯伦-福特",
-    "Williams-Ford": "威廉姆斯-福特",
-    "Tyrrell-Ford": "泰瑞尔-福特",
-    "Brabham-Ford": "布拉汉姆-福特",
-    "Brabham-Repco": "布拉汉姆-雷普科",
-    "Cooper-Climax": "库珀-克莱马克斯",
-    "Lotus-Climax": "路特斯-克莱马克斯",
-    "Maserati": "玛莎拉蒂",
-    "Alfa Romeo": "阿尔法·罗密欧",
-    "Bugatti": "布加迪",
-    "Talbot-Lago": "塔伯特-拉格",
-    "Gordini": "戈尔迪尼",
-    "Ecurie Belge": "比利时车队",
-    "Ecurie Rosier": "罗齐尔车队",
-    "Racing Bulls": "小红牛",
-};
+export const TEAM_TRANSLATIONS: Record<string, string> = Object.fromEntries(
+    teamRegistry.flatMap((team) => {
+        const translation = team.name.zh || team.display.short || team.name.en;
+        const aliases = [team.name.en, ...team.aliases, ...team.sourceKeys];
+        return aliases.map((alias) => [alias, translation] as const);
+    })
+);
 
 export const COUNTRY_TRANSLATIONS: Record<string, string> = {
     "Australia": "澳大利亚",
@@ -276,38 +209,13 @@ export const translateCountry = (country: string | undefined): string => {
     return COUNTRY_TRANSLATIONS[country] || COUNTRY_TRANSLATIONS[country.toUpperCase()] || country;
 };
 
-export const DRIVER_TRANSLATIONS: Record<string, string> = {
-    "Lewis Hamilton": "刘易斯·汉密尔顿",
-    "Max Verstappen": "马克斯·维斯塔潘",
-    "Charles Leclerc": "夏尔·勒克莱尔",
-    "Lando Norris": "兰多·诺里斯",
-    "Oscar Piastri": "奥斯卡·皮亚斯特里",
-    "George Russell": "乔治·拉塞尔",
-    "Kimi Antonelli": "基米·安东内利",
-    "Andrea Kimi Antonelli": "基米·安东内利",
-    "Fernando Alonso": "费尔南多·阿隆索",
-    "Lance Stroll": "兰斯·斯特罗尔",
-    "Carlos Sainz": "卡洛斯·赛恩斯",
-    "Alexander Albon": "亚历山大·阿尔本",
-    "Pierre Gasly": "皮埃尔·加斯利",
-    "Franco Colapinto": "弗朗哥·科拉平托",
-    "Esteban Ocon": "埃斯特班·奥康",
-    "Oliver Bearman": "奥利弗·比尔曼",
-    "Nico Hulkenberg": "尼科·霍肯伯格",
-    "Gabriel Bortoleto": "加布里埃尔·博托莱托",
-    "Liam Lawson": "利亚姆·劳森",
-    "Sergio Perez": "塞尔吉奥·佩雷兹",
-    "Valtteri Bottas": "瓦尔特利·博塔斯",
-    "Isack Hadjar": "艾萨克·哈贾尔",
-    "Michael Schumacher": "迈克尔·舒马赫",
-    "Pedro de la Rosa": "佩德罗·德·拉·罗萨",
-    "Kimi Raikkonen": "基米·莱科宁",
-    "Sebastian Vettel": "塞巴斯蒂安·维特尔",
-    "Mark Webber": "马克·韦伯",
-    "Daniel Ricciardo": "丹尼尔·里卡多",
-    "Romain Grosjean": "罗曼·格罗斯让",
-    "Felipe Massa": "费利佩·马萨",
-    "Rubens Barrichello": "鲁本斯·巴里切罗",
-    "Jenson Button": "简森·巴顿",
-    "Nico Rosberg": "尼科·罗斯伯格",
-};
+export const DRIVER_TRANSLATIONS: Record<string, string> = Object.fromEntries(
+    driverRegistry.flatMap((driver) => {
+        const translation = `${driver.name.zh.first}${driver.name.zh.last}`;
+        const aliases = [
+            `${driver.name.en.first} ${driver.name.en.last}`.trim(),
+            ...driver.aliases,
+        ];
+        return aliases.map((alias) => [alias, translation] as const);
+    })
+);

@@ -63,7 +63,7 @@ def add_chinese_names() -> None:
     print(f"  更新了 {updated_count} 位车手的中文名称")
     print(f"  总共 {total_drivers} 位车手，其中 {total_with_chinese} 位有中文名")
     if missing_scored > 0:
-        print(f"  ⚠ 仍有 {missing_scored} 位有积分车手缺少中文名")
+        print(f"  [WARN] ?? {missing_scored} ???????????")
 
     conn.close()
 

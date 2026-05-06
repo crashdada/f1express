@@ -1,0 +1,929 @@
+{
+  "generatedAt": "2026-05-06T14:23:03.401Z",
+  "entries": [
+    {
+      "rank": 1,
+      "familyId": "ferrari-family",
+      "displayName": "法拉利",
+      "totalPoints": 10832
+    },
+    {
+      "rank": 2,
+      "familyId": "mercedes-family",
+      "displayName": "梅赛德斯",
+      "totalPoints": 8339.5
+    },
+    {
+      "rank": 3,
+      "familyId": "red-bull-family",
+      "displayName": "红牛",
+      "totalPoints": 8318
+    },
+    {
+      "rank": 4,
+      "familyId": "mclaren-family",
+      "displayName": "迈凯伦",
+      "totalPoints": 7884.5
+    },
+    {
+      "rank": 5,
+      "familyId": "alpine-family",
+      "displayName": "阿尔派",
+      "totalPoints": 5260.5
+    },
+    {
+      "rank": 6,
+      "familyId": "williams-family",
+      "displayName": "威廉姆斯",
+      "totalPoints": 3779
+    },
+    {
+      "rank": 7,
+      "familyId": "aston-martin-family",
+      "displayName": "阿斯顿·马丁",
+      "totalPoints": 2194
+    },
+    {
+      "rank": 8,
+      "familyId": "audi-family",
+      "displayName": "奥迪",
+      "totalPoints": 1140
+    },
+    {
+      "rank": 9,
+      "familyId": "rb-family",
+      "displayName": "小红牛",
+      "totalPoints": 999
+    },
+    {
+      "rank": 10,
+      "familyId": "brabham",
+      "displayName": "布拉汉姆",
+      "totalPoints": 864
+    },
+    {
+      "rank": 11,
+      "familyId": "tyrrell",
+      "displayName": "泰瑞尔",
+      "totalPoints": 621
+    },
+    {
+      "rank": 12,
+      "familyId": "db-team-25",
+      "displayName": "BRM",
+      "totalPoints": 433
+    },
+    {
+      "rank": 13,
+      "familyId": "haas-family",
+      "displayName": "哈斯",
+      "totalPoints": 404
+    },
+    {
+      "rank": 14,
+      "familyId": "ligier",
+      "displayName": "利吉尔",
+      "totalPoints": 388
+    },
+    {
+      "rank": 15,
+      "familyId": "cooper",
+      "displayName": "库珀",
+      "totalPoints": 342
+    },
+    {
+      "rank": 16,
+      "familyId": "toyota",
+      "displayName": "丰田",
+      "totalPoints": 278.5
+    },
+    {
+      "rank": 17,
+      "familyId": "bar",
+      "displayName": "英美车队",
+      "totalPoints": 227
+    },
+    {
+      "rank": 18,
+      "familyId": "march",
+      "displayName": "马奇",
+      "totalPoints": 173.5
+    },
+    {
+      "rank": 19,
+      "familyId": "brawn",
+      "displayName": "布朗",
+      "totalPoints": 172
+    },
+    {
+      "rank": 20,
+      "familyId": "matra",
+      "displayName": "马特拉",
+      "totalPoints": 163
+    },
+    {
+      "rank": 21,
+      "familyId": "honda",
+      "displayName": "本田",
+      "totalPoints": 154
+    },
+    {
+      "rank": 22,
+      "familyId": "arrows",
+      "displayName": "飞箭",
+      "totalPoints": 142
+    },
+    {
+      "rank": 23,
+      "familyId": "wolf",
+      "displayName": "沃尔夫",
+      "totalPoints": 79
+    },
+    {
+      "rank": 24,
+      "familyId": "shadow",
+      "displayName": "影子车队",
+      "totalPoints": 67.5
+    },
+    {
+      "rank": 25,
+      "familyId": "vanwall",
+      "displayName": "范沃尔",
+      "totalPoints": 57
+    },
+    {
+      "rank": 26,
+      "familyId": "surtees",
+      "displayName": "苏尔特斯",
+      "totalPoints": 53
+    },
+    {
+      "rank": 27,
+      "familyId": "jaguar",
+      "displayName": "捷豹",
+      "totalPoints": 49
+    },
+    {
+      "rank": 28,
+      "familyId": "db-team-55",
+      "displayName": "Porsche",
+      "totalPoints": 48
+    },
+    {
+      "rank": 29,
+      "familyId": "hesketh",
+      "displayName": "赫斯凯斯",
+      "totalPoints": 48
+    },
+    {
+      "rank": 30,
+      "familyId": "stewart",
+      "displayName": "斯图尔特车队",
+      "totalPoints": 47
+    },
+    {
+      "rank": 31,
+      "familyId": "lola",
+      "displayName": "罗拉",
+      "totalPoints": 43
+    },
+    {
+      "rank": 32,
+      "familyId": "db-team-143",
+      "displayName": "Prost",
+      "totalPoints": 35
+    },
+    {
+      "rank": 33,
+      "familyId": "db-team-101",
+      "displayName": "Copersucar",
+      "totalPoints": 32
+    },
+    {
+      "rank": 34,
+      "familyId": "db-team-119",
+      "displayName": "Toleman Hart",
+      "totalPoints": 26
+    },
+    {
+      "rank": 35,
+      "familyId": "db-team-133",
+      "displayName": "Footwork",
+      "totalPoints": 25
+    },
+    {
+      "rank": 36,
+      "familyId": "penske",
+      "displayName": "潘斯克",
+      "totalPoints": 23
+    },
+    {
+      "rank": 37,
+      "familyId": "db-team-92",
+      "displayName": "Ensign",
+      "totalPoints": 19
+    },
+    {
+      "rank": 38,
+      "familyId": "db-team-79",
+      "displayName": "Eagle",
+      "totalPoints": 17
+    },
+    {
+      "rank": 39,
+      "familyId": "db-team-23",
+      "displayName": "Watson",
+      "totalPoints": 16
+    },
+    {
+      "rank": 40,
+      "familyId": "db-team-51",
+      "displayName": "Epperly",
+      "totalPoints": 15
+    },
+    {
+      "rank": 41,
+      "familyId": "db-team-127",
+      "displayName": "Dallara",
+      "totalPoints": 15
+    },
+    {
+      "rank": 42,
+      "familyId": "db-team-117",
+      "displayName": "Fittipaldi",
+      "totalPoints": 12
+    },
+    {
+      "rank": 43,
+      "familyId": "db-team-74",
+      "displayName": "BRP",
+      "totalPoints": 11
+    },
+    {
+      "rank": 44,
+      "familyId": "db-team-131",
+      "displayName": "Leyton House",
+      "totalPoints": 8
+    },
+    {
+      "rank": 45,
+      "familyId": "db-team-73",
+      "displayName": "ATS",
+      "totalPoints": 7
+    },
+    {
+      "rank": 46,
+      "familyId": "db-team-12",
+      "displayName": "Lesovsky",
+      "totalPoints": 6
+    },
+    {
+      "rank": 47,
+      "familyId": "maserati",
+      "displayName": "玛莎拉蒂",
+      "totalPoints": 6
+    },
+    {
+      "rank": 48,
+      "familyId": "db-team-93",
+      "displayName": "Iso Marlboro",
+      "totalPoints": 6
+    },
+    {
+      "rank": 49,
+      "familyId": "db-team-97",
+      "displayName": "Parnelli",
+      "totalPoints": 6
+    },
+    {
+      "rank": 50,
+      "familyId": "db-team-129",
+      "displayName": "Rial",
+      "totalPoints": 6
+    },
+    {
+      "rank": 51,
+      "familyId": "db-team-130",
+      "displayName": "Onyx",
+      "totalPoints": 6
+    },
+    {
+      "rank": 52,
+      "familyId": "osella",
+      "displayName": "奥塞拉",
+      "totalPoints": 5
+    },
+    {
+      "rank": 53,
+      "familyId": "db-team-138",
+      "displayName": "Larrousse",
+      "totalPoints": 5
+    },
+    {
+      "rank": 54,
+      "familyId": "db-team-10",
+      "displayName": "Kurtis Kraft",
+      "totalPoints": 4
+    },
+    {
+      "rank": 55,
+      "familyId": "db-team-152",
+      "displayName": "Super Aguri",
+      "totalPoints": 4
+    },
+    {
+      "rank": 56,
+      "familyId": "db-team-49",
+      "displayName": "Phillips",
+      "totalPoints": 3
+    },
+    {
+      "rank": 57,
+      "familyId": "db-team-103",
+      "displayName": "Hill",
+      "totalPoints": 3
+    },
+    {
+      "rank": 58,
+      "familyId": "db-team-115",
+      "displayName": "Theodore",
+      "totalPoints": 2
+    },
+    {
+      "rank": 59,
+      "familyId": "zakspeed",
+      "displayName": "扎克斯皮德",
+      "totalPoints": 2
+    },
+    {
+      "rank": 60,
+      "familyId": "db-team-124",
+      "displayName": "AGS",
+      "totalPoints": 2
+    },
+    {
+      "rank": 61,
+      "familyId": "marussia",
+      "displayName": "马鲁西亚",
+      "totalPoints": 2
+    },
+    {
+      "rank": 62,
+      "familyId": "db-team-35",
+      "displayName": "Trevis",
+      "totalPoints": 1
+    },
+    {
+      "rank": 63,
+      "familyId": "db-team-84",
+      "displayName": "Tecno",
+      "totalPoints": 1
+    },
+    {
+      "rank": 64,
+      "familyId": "db-team-137",
+      "displayName": "Venturi",
+      "totalPoints": 1
+    },
+    {
+      "rank": 65,
+      "familyId": "manor",
+      "displayName": "马诺",
+      "totalPoints": 1
+    },
+    {
+      "rank": 66,
+      "familyId": "db-team-1",
+      "displayName": "Adams Offenhauser",
+      "totalPoints": 0
+    },
+    {
+      "rank": 67,
+      "familyId": "db-team-3",
+      "displayName": "Alta",
+      "totalPoints": 0
+    },
+    {
+      "rank": 68,
+      "familyId": "db-team-5",
+      "displayName": "Deidt",
+      "totalPoints": 0
+    },
+    {
+      "rank": 69,
+      "familyId": "db-team-6",
+      "displayName": "ERA",
+      "totalPoints": 0
+    },
+    {
+      "rank": 70,
+      "familyId": "db-team-7",
+      "displayName": "Ewing",
+      "totalPoints": 0
+    },
+    {
+      "rank": 71,
+      "familyId": "db-team-9",
+      "displayName": "Ferrari Jaguar",
+      "totalPoints": 0
+    },
+    {
+      "rank": 72,
+      "familyId": "db-team-11",
+      "displayName": "Langley",
+      "totalPoints": 0
+    },
+    {
+      "rank": 73,
+      "familyId": "db-team-13",
+      "displayName": "Marchese",
+      "totalPoints": 0
+    },
+    {
+      "rank": 74,
+      "familyId": "db-team-15",
+      "displayName": "Moore",
+      "totalPoints": 0
+    },
+    {
+      "rank": 75,
+      "familyId": "db-team-16",
+      "displayName": "Nichels",
+      "totalPoints": 0
+    },
+    {
+      "rank": 76,
+      "familyId": "db-team-17",
+      "displayName": "Olson",
+      "totalPoints": 0
+    },
+    {
+      "rank": 77,
+      "familyId": "db-team-18",
+      "displayName": "Rae",
+      "totalPoints": 0
+    },
+    {
+      "rank": 78,
+      "familyId": "db-team-19",
+      "displayName": "Simca-Gordini",
+      "totalPoints": 0
+    },
+    {
+      "rank": 79,
+      "familyId": "db-team-20",
+      "displayName": "Snowberger",
+      "totalPoints": 0
+    },
+    {
+      "rank": 80,
+      "familyId": "db-team-21",
+      "displayName": "Stevens",
+      "totalPoints": 0
+    },
+    {
+      "rank": 81,
+      "familyId": "talbot-lago",
+      "displayName": "塔伯特-拉格",
+      "totalPoints": 0
+    },
+    {
+      "rank": 82,
+      "familyId": "db-team-24",
+      "displayName": "Wetteroth",
+      "totalPoints": 0
+    },
+    {
+      "rank": 83,
+      "familyId": "db-team-26",
+      "displayName": "Bromme",
+      "totalPoints": 0
+    },
+    {
+      "rank": 84,
+      "familyId": "db-team-27",
+      "displayName": "HWM Alta",
+      "totalPoints": 0
+    },
+    {
+      "rank": 85,
+      "familyId": "db-team-28",
+      "displayName": "Hall",
+      "totalPoints": 0
+    },
+    {
+      "rank": 86,
+      "familyId": "db-team-29",
+      "displayName": "Kuzma",
+      "totalPoints": 0
+    },
+    {
+      "rank": 87,
+      "familyId": "db-team-30",
+      "displayName": "OSCA",
+      "totalPoints": 0
+    },
+    {
+      "rank": 88,
+      "familyId": "db-team-31",
+      "displayName": "Pawl",
+      "totalPoints": 0
+    },
+    {
+      "rank": 89,
+      "familyId": "db-team-32",
+      "displayName": "Schroeder",
+      "totalPoints": 0
+    },
+    {
+      "rank": 90,
+      "familyId": "db-team-33",
+      "displayName": "Sherman",
+      "totalPoints": 0
+    },
+    {
+      "rank": 91,
+      "familyId": "db-team-34",
+      "displayName": "Thin Wall",
+      "totalPoints": 0
+    },
+    {
+      "rank": 92,
+      "familyId": "db-team-36",
+      "displayName": "Veritas",
+      "totalPoints": 0
+    },
+    {
+      "rank": 93,
+      "familyId": "db-team-37",
+      "displayName": "AFM",
+      "totalPoints": 0
+    },
+    {
+      "rank": 94,
+      "familyId": "db-team-38",
+      "displayName": "Aston Butterworth",
+      "totalPoints": 0
+    },
+    {
+      "rank": 95,
+      "familyId": "db-team-39",
+      "displayName": "BMW",
+      "totalPoints": 0
+    },
+    {
+      "rank": 96,
+      "familyId": "db-team-40",
+      "displayName": "Connaught",
+      "totalPoints": 0
+    },
+    {
+      "rank": 97,
+      "familyId": "db-team-41",
+      "displayName": "Frazer Nash",
+      "totalPoints": 0
+    },
+    {
+      "rank": 98,
+      "familyId": "gordini",
+      "displayName": "戈尔迪尼",
+      "totalPoints": 0
+    },
+    {
+      "rank": 99,
+      "familyId": "db-team-43",
+      "displayName": "EMW",
+      "totalPoints": 0
+    },
+    {
+      "rank": 100,
+      "familyId": "db-team-44",
+      "displayName": "Turner",
+      "totalPoints": 0
+    },
+    {
+      "rank": 101,
+      "familyId": "db-team-45",
+      "displayName": "Klenk",
+      "totalPoints": 0
+    },
+    {
+      "rank": 102,
+      "familyId": "db-team-46",
+      "displayName": "Lancia",
+      "totalPoints": 0
+    },
+    {
+      "rank": 103,
+      "familyId": "db-team-48",
+      "displayName": "Pankratz",
+      "totalPoints": 0
+    },
+    {
+      "rank": 104,
+      "familyId": "bugatti",
+      "displayName": "布加迪",
+      "totalPoints": 0
+    },
+    {
+      "rank": 105,
+      "familyId": "db-team-53",
+      "displayName": "Emeryson",
+      "totalPoints": 0
+    },
+    {
+      "rank": 106,
+      "familyId": "db-team-54",
+      "displayName": "Dunn",
+      "totalPoints": 0
+    },
+    {
+      "rank": 107,
+      "familyId": "db-team-58",
+      "displayName": "Christensen",
+      "totalPoints": 0
+    },
+    {
+      "rank": 108,
+      "familyId": "db-team-59",
+      "displayName": "Elder",
+      "totalPoints": 0
+    },
+    {
+      "rank": 109,
+      "familyId": "db-team-60",
+      "displayName": "JBW",
+      "totalPoints": 0
+    },
+    {
+      "rank": 110,
+      "familyId": "db-team-61",
+      "displayName": "Sutton",
+      "totalPoints": 0
+    },
+    {
+      "rank": 111,
+      "familyId": "db-team-62",
+      "displayName": "Tec-Mec Maserati",
+      "totalPoints": 0
+    },
+    {
+      "rank": 112,
+      "familyId": "db-team-63",
+      "displayName": "Behra",
+      "totalPoints": 0
+    },
+    {
+      "rank": 113,
+      "familyId": "db-team-64",
+      "displayName": "Meskowski",
+      "totalPoints": 0
+    },
+    {
+      "rank": 114,
+      "familyId": "db-team-65",
+      "displayName": "Scarab",
+      "totalPoints": 0
+    },
+    {
+      "rank": 115,
+      "familyId": "db-team-66",
+      "displayName": "De Tomaso",
+      "totalPoints": 0
+    },
+    {
+      "rank": 116,
+      "familyId": "db-team-67",
+      "displayName": "Ferguson",
+      "totalPoints": 0
+    },
+    {
+      "rank": 117,
+      "familyId": "db-team-68",
+      "displayName": "Gilby",
+      "totalPoints": 0
+    },
+    {
+      "rank": 118,
+      "familyId": "db-team-70",
+      "displayName": "ENB Maserati",
+      "totalPoints": 0
+    },
+    {
+      "rank": 119,
+      "familyId": "db-team-71",
+      "displayName": "LDS",
+      "totalPoints": 0
+    },
+    {
+      "rank": 120,
+      "familyId": "db-team-75",
+      "displayName": "Scirocco",
+      "totalPoints": 0
+    },
+    {
+      "rank": 121,
+      "familyId": "db-team-76",
+      "displayName": "Stebro",
+      "totalPoints": 0
+    },
+    {
+      "rank": 122,
+      "familyId": "db-team-77",
+      "displayName": "Derrington-Francis ATS",
+      "totalPoints": 0
+    },
+    {
+      "rank": 123,
+      "familyId": "db-team-82",
+      "displayName": "Shannon",
+      "totalPoints": 0
+    },
+    {
+      "rank": 124,
+      "familyId": "db-team-83",
+      "displayName": "Protos",
+      "totalPoints": 0
+    },
+    {
+      "rank": 125,
+      "familyId": "db-team-85",
+      "displayName": "Bellasi",
+      "totalPoints": 0
+    },
+    {
+      "rank": 126,
+      "familyId": "db-team-89",
+      "displayName": "Connew",
+      "totalPoints": 0
+    },
+    {
+      "rank": 127,
+      "familyId": "db-team-90",
+      "displayName": "Eifelland",
+      "totalPoints": 0
+    },
+    {
+      "rank": 128,
+      "familyId": "db-team-91",
+      "displayName": "Politoys",
+      "totalPoints": 0
+    },
+    {
+      "rank": 129,
+      "familyId": "db-team-95",
+      "displayName": "Amon",
+      "totalPoints": 0
+    },
+    {
+      "rank": 130,
+      "familyId": "db-team-99",
+      "displayName": "Token",
+      "totalPoints": 0
+    },
+    {
+      "rank": 131,
+      "familyId": "db-team-100",
+      "displayName": "Trojan",
+      "totalPoints": 0
+    },
+    {
+      "rank": 132,
+      "familyId": "db-team-104",
+      "displayName": "Lyncar",
+      "totalPoints": 0
+    },
+    {
+      "rank": 133,
+      "familyId": "db-team-105",
+      "displayName": "Boro",
+      "totalPoints": 0
+    },
+    {
+      "rank": 134,
+      "familyId": "db-team-106",
+      "displayName": "Kojima",
+      "totalPoints": 0
+    },
+    {
+      "rank": 135,
+      "familyId": "db-team-108",
+      "displayName": "Wolf-Williams",
+      "totalPoints": 0
+    },
+    {
+      "rank": 136,
+      "familyId": "db-team-109",
+      "displayName": "LEC",
+      "totalPoints": 0
+    },
+    {
+      "rank": 137,
+      "familyId": "db-team-113",
+      "displayName": "Martini",
+      "totalPoints": 0
+    },
+    {
+      "rank": 138,
+      "familyId": "db-team-114",
+      "displayName": "Merzario",
+      "totalPoints": 0
+    },
+    {
+      "rank": 139,
+      "familyId": "db-team-116",
+      "displayName": "Rebaque",
+      "totalPoints": 0
+    },
+    {
+      "rank": 140,
+      "familyId": "db-team-120",
+      "displayName": "RAM",
+      "totalPoints": 0
+    },
+    {
+      "rank": 141,
+      "familyId": "db-team-121",
+      "displayName": "Spirit",
+      "totalPoints": 0
+    },
+    {
+      "rank": 142,
+      "familyId": "db-team-126",
+      "displayName": "Coloni",
+      "totalPoints": 0
+    },
+    {
+      "rank": 143,
+      "familyId": "db-team-128",
+      "displayName": "Euro Brun",
+      "totalPoints": 0
+    },
+    {
+      "rank": 144,
+      "familyId": "db-team-132",
+      "displayName": "Fondmetal",
+      "totalPoints": 0
+    },
+    {
+      "rank": 145,
+      "familyId": "db-team-135",
+      "displayName": "Lamborghini",
+      "totalPoints": 0
+    },
+    {
+      "rank": 146,
+      "familyId": "db-team-136",
+      "displayName": "Moda",
+      "totalPoints": 0
+    },
+    {
+      "rank": 147,
+      "familyId": "db-team-140",
+      "displayName": "Pacific",
+      "totalPoints": 0
+    },
+    {
+      "rank": 148,
+      "familyId": "db-team-141",
+      "displayName": "Simtek",
+      "totalPoints": 0
+    },
+    {
+      "rank": 149,
+      "familyId": "db-team-142",
+      "displayName": "Forti",
+      "totalPoints": 0
+    },
+    {
+      "rank": 150,
+      "familyId": "db-team-149",
+      "displayName": "MF1",
+      "totalPoints": 0
+    },
+    {
+      "rank": 151,
+      "familyId": "hrt",
+      "displayName": "希斯帕尼亚",
+      "totalPoints": 0
+    },
+    {
+      "rank": 152,
+      "familyId": "virgin",
+      "displayName": "维珍",
+      "totalPoints": 0
+    },
+    {
+      "rank": 153,
+      "familyId": "caterham",
+      "displayName": "卡特汉姆",
+      "totalPoints": 0
+    },
+    {
+      "rank": 154,
+      "familyId": "cadillac-family",
+      "displayName": "凯迪拉克",
+      "totalPoints": 0
+    }
+  ]
+}

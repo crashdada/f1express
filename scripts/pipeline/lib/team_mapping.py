@@ -1,4 +1,5 @@
 import csv
+from .identity_loader import resolve_team_name_from_registry
 
 
 SEASON_TEAM_ALIASES = {
@@ -59,6 +60,10 @@ def resolve_team_name(raw_name, team_name_map, existing_team_names=None, season=
     canonical = team_name_map.get(name)
     if canonical:
         return canonical
+
+    registry_name = resolve_team_name_from_registry(name)
+    if registry_name:
+        return registry_name
 
     lowered = name.casefold()
     for source_name, mapped_name in team_name_map.items():

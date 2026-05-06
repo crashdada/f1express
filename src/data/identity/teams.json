@@ -1,0 +1,974 @@
+[
+  {
+    "canonicalId": "alpine",
+    "familyId": "alpine-family",
+    "name": {
+      "en": "Alpine",
+      "zh": "阿尔派"
+    },
+    "display": {
+      "short": "Alpine"
+    },
+    "aliases": [
+      "Alpine",
+      "Renault",
+      "Lotus",
+      "Lotus F1",
+      "Benetton",
+      "Toleman"
+    ],
+    "sourceKeys": [
+      "Alpine",
+      "Renault",
+      "Lotus",
+      "Lotus F1",
+      "Benetton",
+      "Toleman"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "arrows",
+    "familyId": "arrows",
+    "name": {
+      "en": "Arrows",
+      "zh": "飞箭"
+    },
+    "display": {
+      "short": "Arrows"
+    },
+    "aliases": [
+      "Arrows"
+    ],
+    "sourceKeys": [
+      "Arrows"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "arrows-ford",
+    "familyId": "arrows-ford",
+    "name": {
+      "en": "Arrows-Ford",
+      "zh": "飞箭-福特"
+    },
+    "display": {
+      "short": "Arrows-Ford"
+    },
+    "aliases": [
+      "Arrows-Ford"
+    ],
+    "sourceKeys": [
+      "Arrows-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "aston-martin",
+    "familyId": "aston-martin-family",
+    "name": {
+      "en": "Aston Martin",
+      "zh": "阿斯顿·马丁"
+    },
+    "display": {
+      "short": "Aston Martin"
+    },
+    "aliases": [
+      "Aston Martin",
+      "Aston Martin Aramco",
+      "Racing Point",
+      "Force India",
+      "Jordan",
+      "Spyker"
+    ],
+    "sourceKeys": [
+      "Aston Martin",
+      "Aston Martin Aramco",
+      "Racing Point",
+      "Force India",
+      "Jordan",
+      "Spyker"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "audi-f1-team",
+    "familyId": "audi-family",
+    "name": {
+      "en": "Audi F1 Team",
+      "zh": "奥迪"
+    },
+    "display": {
+      "short": "Audi"
+    },
+    "aliases": [
+      "Audi F1 Team",
+      "Audi",
+      "Kick Sauber",
+      "Sauber",
+      "Stake",
+      "Alfa Romeo",
+      "BMW Sauber"
+    ],
+    "sourceKeys": [
+      "Audi F1 Team",
+      "Audi",
+      "Kick Sauber",
+      "Sauber",
+      "Stake",
+      "Alfa Romeo",
+      "BMW Sauber"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "bar",
+    "familyId": "bar",
+    "name": {
+      "en": "BAR",
+      "zh": "英美车队"
+    },
+    "display": {
+      "short": "BAR"
+    },
+    "aliases": [
+      "BAR"
+    ],
+    "sourceKeys": [
+      "BAR"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "brabham",
+    "familyId": "brabham",
+    "name": {
+      "en": "Brabham",
+      "zh": "布拉汉姆"
+    },
+    "display": {
+      "short": "Brabham"
+    },
+    "aliases": [
+      "Brabham"
+    ],
+    "sourceKeys": [
+      "Brabham"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "brabham-ford",
+    "familyId": "brabham-ford",
+    "name": {
+      "en": "Brabham-Ford",
+      "zh": "布拉汉姆-福特"
+    },
+    "display": {
+      "short": "Brabham-Ford"
+    },
+    "aliases": [
+      "Brabham-Ford"
+    ],
+    "sourceKeys": [
+      "Brabham-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "brabham-repco",
+    "familyId": "brabham-repco",
+    "name": {
+      "en": "Brabham-Repco",
+      "zh": "布拉汉姆-雷普科"
+    },
+    "display": {
+      "short": "Brabham-Repco"
+    },
+    "aliases": [
+      "Brabham-Repco"
+    ],
+    "sourceKeys": [
+      "Brabham-Repco"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "brawn",
+    "familyId": "brawn",
+    "name": {
+      "en": "Brawn",
+      "zh": "布朗"
+    },
+    "display": {
+      "short": "Brawn"
+    },
+    "aliases": [
+      "Brawn"
+    ],
+    "sourceKeys": [
+      "Brawn"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "bugatti",
+    "familyId": "bugatti",
+    "name": {
+      "en": "Bugatti",
+      "zh": "布加迪"
+    },
+    "display": {
+      "short": "Bugatti"
+    },
+    "aliases": [
+      "Bugatti"
+    ],
+    "sourceKeys": [
+      "Bugatti"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "cadillac-f1-team",
+    "familyId": "cadillac-family",
+    "name": {
+      "en": "Cadillac F1 Team",
+      "zh": "凯迪拉克"
+    },
+    "display": {
+      "short": "Cadillac"
+    },
+    "aliases": [
+      "Cadillac F1 Team",
+      "Cadillac"
+    ],
+    "sourceKeys": [
+      "Cadillac F1 Team",
+      "Cadillac"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "caterham",
+    "familyId": "caterham",
+    "name": {
+      "en": "Caterham",
+      "zh": "卡特汉姆"
+    },
+    "display": {
+      "short": "Caterham"
+    },
+    "aliases": [
+      "Caterham"
+    ],
+    "sourceKeys": [
+      "Caterham"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "cooper",
+    "familyId": "cooper",
+    "name": {
+      "en": "Cooper",
+      "zh": "库珀"
+    },
+    "display": {
+      "short": "Cooper"
+    },
+    "aliases": [
+      "Cooper"
+    ],
+    "sourceKeys": [
+      "Cooper"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "cooper-climax",
+    "familyId": "cooper-climax",
+    "name": {
+      "en": "Cooper-Climax",
+      "zh": "库珀-克莱马克斯"
+    },
+    "display": {
+      "short": "Cooper-Climax"
+    },
+    "aliases": [
+      "Cooper-Climax"
+    ],
+    "sourceKeys": [
+      "Cooper-Climax"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "ecurie-belge",
+    "familyId": "ecurie-belge",
+    "name": {
+      "en": "Ecurie Belge",
+      "zh": "比利时车队"
+    },
+    "display": {
+      "short": "Ecurie Belge"
+    },
+    "aliases": [
+      "Ecurie Belge"
+    ],
+    "sourceKeys": [
+      "Ecurie Belge"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "ecurie-rosier",
+    "familyId": "ecurie-rosier",
+    "name": {
+      "en": "Ecurie Rosier",
+      "zh": "罗齐尔车队"
+    },
+    "display": {
+      "short": "Ecurie Rosier"
+    },
+    "aliases": [
+      "Ecurie Rosier"
+    ],
+    "sourceKeys": [
+      "Ecurie Rosier"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "ferrari",
+    "familyId": "ferrari-family",
+    "name": {
+      "en": "Ferrari",
+      "zh": "法拉利"
+    },
+    "display": {
+      "short": "Ferrari"
+    },
+    "aliases": [
+      "Ferrari"
+    ],
+    "sourceKeys": [
+      "Ferrari"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "gordini",
+    "familyId": "gordini",
+    "name": {
+      "en": "Gordini",
+      "zh": "戈尔迪尼"
+    },
+    "display": {
+      "short": "Gordini"
+    },
+    "aliases": [
+      "Gordini"
+    ],
+    "sourceKeys": [
+      "Gordini"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "haas",
+    "familyId": "haas-family",
+    "name": {
+      "en": "Haas",
+      "zh": "哈斯"
+    },
+    "display": {
+      "short": "Haas"
+    },
+    "aliases": [
+      "Haas",
+      "Haas F1 Team"
+    ],
+    "sourceKeys": [
+      "Haas",
+      "Haas F1 Team"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "hesketh",
+    "familyId": "hesketh",
+    "name": {
+      "en": "Hesketh",
+      "zh": "赫斯凯斯"
+    },
+    "display": {
+      "short": "Hesketh"
+    },
+    "aliases": [
+      "Hesketh"
+    ],
+    "sourceKeys": [
+      "Hesketh"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "honda",
+    "familyId": "honda",
+    "name": {
+      "en": "Honda",
+      "zh": "本田"
+    },
+    "display": {
+      "short": "Honda"
+    },
+    "aliases": [
+      "Honda"
+    ],
+    "sourceKeys": [
+      "Honda"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "hrt",
+    "familyId": "hrt",
+    "name": {
+      "en": "HRT",
+      "zh": "希斯帕尼亚"
+    },
+    "display": {
+      "short": "HRT"
+    },
+    "aliases": [
+      "HRT"
+    ],
+    "sourceKeys": [
+      "HRT"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "jaguar",
+    "familyId": "jaguar",
+    "name": {
+      "en": "Jaguar",
+      "zh": "捷豹"
+    },
+    "display": {
+      "short": "Jaguar"
+    },
+    "aliases": [
+      "Jaguar"
+    ],
+    "sourceKeys": [
+      "Jaguar"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "ligier",
+    "familyId": "ligier",
+    "name": {
+      "en": "Ligier",
+      "zh": "利吉尔"
+    },
+    "display": {
+      "short": "Ligier"
+    },
+    "aliases": [
+      "Ligier"
+    ],
+    "sourceKeys": [
+      "Ligier"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "lola",
+    "familyId": "lola",
+    "name": {
+      "en": "Lola",
+      "zh": "罗拉"
+    },
+    "display": {
+      "short": "Lola"
+    },
+    "aliases": [
+      "Lola"
+    ],
+    "sourceKeys": [
+      "Lola"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "lotus-climax",
+    "familyId": "lotus-climax",
+    "name": {
+      "en": "Lotus-Climax",
+      "zh": "路特斯-克莱马克斯"
+    },
+    "display": {
+      "short": "Lotus-Climax"
+    },
+    "aliases": [
+      "Lotus-Climax"
+    ],
+    "sourceKeys": [
+      "Lotus-Climax"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "lotus-ford",
+    "familyId": "lotus-ford",
+    "name": {
+      "en": "Lotus-Ford",
+      "zh": "路特斯-福特"
+    },
+    "display": {
+      "short": "Lotus-Ford"
+    },
+    "aliases": [
+      "Lotus-Ford"
+    ],
+    "sourceKeys": [
+      "Lotus-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "manor",
+    "familyId": "manor",
+    "name": {
+      "en": "Manor",
+      "zh": "马诺"
+    },
+    "display": {
+      "short": "Manor"
+    },
+    "aliases": [
+      "Manor"
+    ],
+    "sourceKeys": [
+      "Manor"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "march",
+    "familyId": "march",
+    "name": {
+      "en": "March",
+      "zh": "马奇"
+    },
+    "display": {
+      "short": "March"
+    },
+    "aliases": [
+      "March"
+    ],
+    "sourceKeys": [
+      "March"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "marussia",
+    "familyId": "marussia",
+    "name": {
+      "en": "Marussia",
+      "zh": "马鲁西亚"
+    },
+    "display": {
+      "short": "Marussia"
+    },
+    "aliases": [
+      "Marussia"
+    ],
+    "sourceKeys": [
+      "Marussia"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "maserati",
+    "familyId": "maserati",
+    "name": {
+      "en": "Maserati",
+      "zh": "玛莎拉蒂"
+    },
+    "display": {
+      "short": "Maserati"
+    },
+    "aliases": [
+      "Maserati"
+    ],
+    "sourceKeys": [
+      "Maserati"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "matra",
+    "familyId": "matra",
+    "name": {
+      "en": "Matra",
+      "zh": "马特拉"
+    },
+    "display": {
+      "short": "Matra"
+    },
+    "aliases": [
+      "Matra"
+    ],
+    "sourceKeys": [
+      "Matra"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "mclaren",
+    "familyId": "mclaren-family",
+    "name": {
+      "en": "McLaren",
+      "zh": "迈凯伦"
+    },
+    "display": {
+      "short": "McLaren"
+    },
+    "aliases": [
+      "McLaren",
+      "McLaren-Ford"
+    ],
+    "sourceKeys": [
+      "McLaren",
+      "McLaren-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "mercedes",
+    "familyId": "mercedes-family",
+    "name": {
+      "en": "Mercedes",
+      "zh": "梅赛德斯"
+    },
+    "display": {
+      "short": "Mercedes"
+    },
+    "aliases": [
+      "Mercedes",
+      "Mercedes-AMG",
+      "Mercedes AMG Petronas F1 Team"
+    ],
+    "sourceKeys": [
+      "Mercedes",
+      "Mercedes-AMG",
+      "Mercedes AMG Petronas F1 Team"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "osella",
+    "familyId": "osella",
+    "name": {
+      "en": "Osella",
+      "zh": "奥塞拉"
+    },
+    "display": {
+      "short": "Osella"
+    },
+    "aliases": [
+      "Osella"
+    ],
+    "sourceKeys": [
+      "Osella"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "penske",
+    "familyId": "penske",
+    "name": {
+      "en": "Penske",
+      "zh": "潘斯克"
+    },
+    "display": {
+      "short": "Penske"
+    },
+    "aliases": [
+      "Penske"
+    ],
+    "sourceKeys": [
+      "Penske"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "racing-bulls",
+    "familyId": "rb-family",
+    "name": {
+      "en": "Racing Bulls",
+      "zh": "小红牛"
+    },
+    "display": {
+      "short": "Racing Bulls"
+    },
+    "aliases": [
+      "Racing Bulls",
+      "RB",
+      "AlphaTauri",
+      "Toro Rosso",
+      "Minardi"
+    ],
+    "sourceKeys": [
+      "Racing Bulls",
+      "RB",
+      "AlphaTauri",
+      "Toro Rosso",
+      "Minardi"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "red-bull-racing",
+    "familyId": "red-bull-family",
+    "name": {
+      "en": "Red Bull Racing",
+      "zh": "红牛"
+    },
+    "display": {
+      "short": "Red Bull"
+    },
+    "aliases": [
+      "Red Bull Racing",
+      "Red Bull"
+    ],
+    "sourceKeys": [
+      "Red Bull Racing",
+      "Red Bull"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "shadow",
+    "familyId": "shadow",
+    "name": {
+      "en": "Shadow",
+      "zh": "影子车队"
+    },
+    "display": {
+      "short": "Shadow"
+    },
+    "aliases": [
+      "Shadow"
+    ],
+    "sourceKeys": [
+      "Shadow"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "stewart",
+    "familyId": "stewart",
+    "name": {
+      "en": "Stewart",
+      "zh": "斯图尔特车队"
+    },
+    "display": {
+      "short": "Stewart"
+    },
+    "aliases": [
+      "Stewart"
+    ],
+    "sourceKeys": [
+      "Stewart"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "surtees",
+    "familyId": "surtees",
+    "name": {
+      "en": "Surtees",
+      "zh": "苏尔特斯"
+    },
+    "display": {
+      "short": "Surtees"
+    },
+    "aliases": [
+      "Surtees"
+    ],
+    "sourceKeys": [
+      "Surtees"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "talbot-lago",
+    "familyId": "talbot-lago",
+    "name": {
+      "en": "Talbot-Lago",
+      "zh": "塔伯特-拉格"
+    },
+    "display": {
+      "short": "Talbot-Lago"
+    },
+    "aliases": [
+      "Talbot-Lago"
+    ],
+    "sourceKeys": [
+      "Talbot-Lago"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "toyota",
+    "familyId": "toyota",
+    "name": {
+      "en": "Toyota",
+      "zh": "丰田"
+    },
+    "display": {
+      "short": "Toyota"
+    },
+    "aliases": [
+      "Toyota"
+    ],
+    "sourceKeys": [
+      "Toyota"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "tyrrell",
+    "familyId": "tyrrell",
+    "name": {
+      "en": "Tyrrell",
+      "zh": "泰瑞尔"
+    },
+    "display": {
+      "short": "Tyrrell"
+    },
+    "aliases": [
+      "Tyrrell"
+    ],
+    "sourceKeys": [
+      "Tyrrell"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "tyrrell-ford",
+    "familyId": "tyrrell-ford",
+    "name": {
+      "en": "Tyrrell-Ford",
+      "zh": "泰瑞尔-福特"
+    },
+    "display": {
+      "short": "Tyrrell-Ford"
+    },
+    "aliases": [
+      "Tyrrell-Ford"
+    ],
+    "sourceKeys": [
+      "Tyrrell-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "vanwall",
+    "familyId": "vanwall",
+    "name": {
+      "en": "Vanwall",
+      "zh": "范沃尔"
+    },
+    "display": {
+      "short": "Vanwall"
+    },
+    "aliases": [
+      "Vanwall"
+    ],
+    "sourceKeys": [
+      "Vanwall"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "virgin",
+    "familyId": "virgin",
+    "name": {
+      "en": "Virgin",
+      "zh": "维珍"
+    },
+    "display": {
+      "short": "Virgin"
+    },
+    "aliases": [
+      "Virgin"
+    ],
+    "sourceKeys": [
+      "Virgin"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "williams",
+    "familyId": "williams-family",
+    "name": {
+      "en": "Williams",
+      "zh": "威廉姆斯"
+    },
+    "display": {
+      "short": "Williams"
+    },
+    "aliases": [
+      "Williams",
+      "Williams-Ford"
+    ],
+    "sourceKeys": [
+      "Williams",
+      "Williams-Ford"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "wolf",
+    "familyId": "wolf",
+    "name": {
+      "en": "Wolf",
+      "zh": "沃尔夫"
+    },
+    "display": {
+      "short": "Wolf"
+    },
+    "aliases": [
+      "Wolf"
+    ],
+    "sourceKeys": [
+      "Wolf"
+    ],
+    "activeRanges": []
+  },
+  {
+    "canonicalId": "zakspeed",
+    "familyId": "zakspeed",
+    "name": {
+      "en": "Zakspeed",
+      "zh": "扎克斯皮德"
+    },
+    "display": {
+      "short": "Zakspeed"
+    },
+    "aliases": [
+      "Zakspeed"
+    ],
+    "sourceKeys": [
+      "Zakspeed"
+    ],
+    "activeRanges": []
+  }
+]

@@ -1,6 +1,23 @@
 ﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+
+## 2026-05-06: v1.3.7 - Unified identity registry and baseline snapshots
+- 统一身份主数据
+  - 新增 [src/data/identity/drivers.json](D:\oc\f1express\.worktrees\identity-system\src\data\identity\drivers.json) 和 [src/data/identity/teams.json](D:\oc\f1express\.worktrees\identity-system\src\data\identity\teams.json)，集中管理车手/车队的中英文名、代码、别名、历史连续体与解析键。
+  - 新增 [src/utils/identity/resolver.ts](D:\oc\f1express\.worktrees\identity-system\src\utils\identity\resolver.ts)，统一前端 driver/team 的 canonical 解析、展示名称选择与 family 归并能力。
+- 前端兼容收口
+  - 将 [src/utils/entityMappings.ts](D:\oc\f1express\.worktrees\identity-system\src\utils\entityMappings.ts) 改为统一走 identity resolver，避免页面侧继续维护分散匹配规则。
+  - 将 [src/utils/translations.ts](D:\oc\f1express\.worktrees\identity-system\src\utils\translations.ts) 中的 `TEAM_TRANSLATIONS` 与 `DRIVER_TRANSLATIONS` 改为由 registry 派生，保证展示翻译与解析源一致。
+- Python / pipeline 统一解析
+  - 新增 [scripts/pipeline/lib/identity_loader.py](D:\oc\f1express\.worktrees\identity-system\scripts\pipeline\lib\identity_loader.py)，让 pipeline 与 collector 共享同一份 identity JSON。
+  - 重写 [scripts/f1_translations.py](D:\oc\f1express\.worktrees\identity-system\scripts\f1_translations.py) 为 registry 导出层，并更新 [scripts/pipeline/lib/team_mapping.py](D:\oc\f1express\.worktrees\identity-system\scripts\pipeline\lib\team_mapping.py) 与 [collector/processors/calculate_team_stats.py](D:\oc\f1express\.worktrees\identity-system\collector\processors\calculate_team_stats.py) 统一使用 team alias / family 规则。
+- 基线快照与发布产物
+  - 新增 [scripts/export_identity_baselines.cjs](D:\oc\f1express\.worktrees\identity-system\scripts\export_identity_baselines.cjs)，导出身份系统改造前后的总积分与榜单视图基线。
+  - 新增 [docs/baselines/2026-05-06-driver-totals.json](D:\oc\f1express\.worktrees\identity-system\docs\baselines\2026-05-06-driver-totals.json)、[docs/baselines/2026-05-06-team-totals.json](D:\oc\f1express\.worktrees\identity-system\docs\baselines\2026-05-06-team-totals.json)、[docs/baselines/2026-05-06-driver-standings-view.json](D:\oc\f1express\.worktrees\identity-system\docs\baselines\2026-05-06-driver-standings-view.json)、[docs/baselines/2026-05-06-team-standings-view.json](D:\oc\f1express\.worktrees\identity-system\docs\baselines\2026-05-06-team-standings-view.json)，并刷新相关 `storage/dist` 产物。
+- 测试与 Windows 兼容
+  - 新增 [tests/unit/utils/identityResolver.test.ts](D:\oc\f1express\.worktrees\identity-system\tests\unit\utils\identityResolver.test.ts)、[tests/unit/utils/exportIdentityBaselines.test.ts](D:\oc\f1express\.worktrees\identity-system\tests\unit\utils\exportIdentityBaselines.test.ts)、[scripts/tests/test_identity_loader.py](D:\oc\f1express\.worktrees\identity-system\scripts\tests\test_identity_loader.py)。
+  - 更新 [scripts/pipeline/add_driver_chinese_names.py](D:\oc\f1express\.worktrees\identity-system\scripts\pipeline\add_driver_chinese_names.py)，避免 Windows `gbk` 控制台因警告字符导致同步中断。
 ## 2026-05-05: v1.3.6 - Miami sprint runtime data and fallback hardening
 - Runtime 2026 data and fallback source
   - Recollected and exported the Miami weekend into [collector/results_2026/miami_results.json](D:\oc\f1express\collector\results_2026\miami_results.json), [collector/data/results_2026.json](D:\oc\f1express\collector\data\results_2026.json), [storage/results_2026.json](D:\oc\f1express\storage\results_2026.json), and [dist/data/results_2026.json](D:\oc\f1express\dist\data\results_2026.json), restoring the Miami sprint table and standings points in deployed 2026 season pages.
