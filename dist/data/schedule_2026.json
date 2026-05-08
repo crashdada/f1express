@@ -182,7 +182,7 @@
         "slug": "miami",
         "image": "/photos/seasons/2026/tracks/miami_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/miami_detailed.webp",
-        "flag": "/photos/seasons/flags/Usa.svg",
+        "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/miami",
         "sessions": [
             {
@@ -741,7 +741,7 @@
         "slug": "united-states",
         "image": "/photos/seasons/2026/tracks/united-states_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/united-states_detailed.webp",
-        "flag": "/photos/seasons/flags/Usa.svg",
+        "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/united-states",
         "sessions": [
             {
@@ -870,7 +870,7 @@
         "slug": "las-vegas",
         "image": "/photos/seasons/2026/tracks/las-vegas_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/las-vegas_detailed.webp",
-        "flag": "/photos/seasons/flags/Usa.svg",
+        "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/las-vegas",
         "sessions": [
             {
@@ -956,7 +956,7 @@
         "slug": "united-arab-emirates",
         "image": "/photos/seasons/2026/tracks/abu-dhabi_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/abu-dhabi_detailed.webp",
-        "flag": "/photos/seasons/flags/Uae.svg",
+        "flag": "/photos/seasons/flags/UAE.svg",
         "url": "https://www.formula1.com/en/racing/2026/united-arab-emirates",
         "sessions": [
             {

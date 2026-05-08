@@ -96,6 +96,8 @@ def log(msg):
 
 # 预设的基础映射（作为 fallback，防止 mappings.json 加载失败）
 DEFAULT_FLAGS = {
+    'USA': 'USA',
+    'UAE': 'UAE',
     'UNITED STATES': 'USA',
     'MIAMI': 'USA',
     'LAS VEGAS': 'USA',

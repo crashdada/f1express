@@ -1,5 +1,7 @@
 {
     "flags": {
+        "USA": "USA",
+        "UAE": "UAE",
         "UNITED STATES": "USA",
         "MIAMI": "USA",
         "LAS VEGAS": "USA",
