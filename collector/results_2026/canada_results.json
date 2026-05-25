@@ -1,0 +1,255 @@
+{
+    "round": "ROUND 7",
+    "eventId": 1285,
+    "country": "CANADA",
+    "slug": "canada",
+    "url": "https://www.formula1.com/en/results/2026/races/1285/canada/race-result",
+    "scraped_at": "2026-05-25T04:53:44.582844",
+    "results": [
+        {
+            "pos": "1",
+            "no": "12",
+            "laps": "68",
+            "time": "1:28:15.758",
+            "points": 25
+        },
+        {
+            "pos": "2",
+            "no": "44",
+            "laps": "68",
+            "time": "+10.768s",
+            "points": 18
+        },
+        {
+            "pos": "3",
+            "no": "3",
+            "laps": "68",
+            "time": "+11.276s",
+            "points": 15
+        },
+        {
+            "pos": "4",
+            "no": "16",
+            "laps": "68",
+            "time": "+44.151s",
+            "points": 12
+        },
+        {
+            "pos": "5",
+            "no": "6",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 10
+        },
+        {
+            "pos": "6",
+            "no": "43",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 8
+        },
+        {
+            "pos": "7",
+            "no": "30",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 6
+        },
+        {
+            "pos": "8",
+            "no": "10",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 4
+        },
+        {
+            "pos": "9",
+            "no": "55",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 2
+        },
+        {
+            "pos": "10",
+            "no": "87",
+            "laps": "67",
+            "time": "+1 lap",
+            "points": 1
+        },
+        {
+            "pos": "11",
+            "no": "81",
+            "laps": "66",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "12",
+            "no": "27",
+            "laps": "66",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "13",
+            "no": "5",
+            "laps": "66",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "14",
+            "no": "31",
+            "laps": "66",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "15",
+            "no": "18",
+            "laps": "64",
+            "time": "+4 laps",
+            "points": 0
+        },
+        {
+            "pos": "16",
+            "no": "77",
+            "laps": "64",
+            "time": "+4 laps",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "11",
+            "laps": "39",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "1",
+            "laps": "38",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "63",
+            "laps": "29",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "14",
+            "laps": "23",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "23",
+            "laps": "11",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "41",
+            "laps": "0",
+            "time": "DNS",
+            "points": 0
+        }
+    ],
+    "sprintResults": [
+        {
+            "pos": "1",
+            "no": "63",
+            "laps": "23",
+            "time": "28:50.951",
+            "points": 8
+        },
+        {
+            "pos": "2",
+            "no": "1",
+            "laps": "23",
+            "time": "+1.272s",
+            "points": 7
+        },
+        {
+            "pos": "3",
+            "no": "12",
+            "laps": "23",
+            "time": "+1.843s",
+            "points": 6
+        },
+        {
+            "pos": "4",
+            "no": "81",
+            "laps": "23",
+            "time": "+9.797s",
+            "points": 5
+        },
+        {
+            "pos": "5",
+            "no": "16",
+            "laps": "23",
+            "time": "+9.929s",
+            "points": 4
+        },
+        {
+            "pos": "6",
+            "no": "44",
+            "laps": "23",
+            "time": "+10.545s",
+            "points": 3
+        },
+        {
+            "pos": "7",
+            "no": "3",
+            "laps": "23",
+            "time": "+15.935s",
+            "points": 2
+        },
+        {
+            "pos": "8",
+            "no": "41",
+            "laps": "23",
+            "time": "+29.710s",
+            "points": 1
+        }
+    ],
+    "qualifyingResults": [
+        {
+            "position": 1,
+            "no": "63",
+            "q1": "1:13.953",
+            "q2": "1:13.079",
+            "q3": "1:12.578",
+            "time": "1:12.578",
+            "laps": "24"
+        },
+        {
+            "position": 2,
+            "no": "12",
+            "q1": "1:13.380",
+            "q2": "1:13.076",
+            "q3": "1:12.646",
+            "time": "1:12.646",
+            "laps": "24"
+        },
+        {
+            "position": 3,
+            "no": "1",
+            "q1": "1:13.503",
+            "q2": "1:13.049",
+            "q3": "1:12.729",
+            "time": "1:12.729",
+            "laps": "28"
+        }
+    ],
+    "polePosition": {
+        "no": "63",
+        "time": "1:12.578"
+    }
+}
