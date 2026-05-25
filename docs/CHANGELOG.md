@@ -2,6 +2,14 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-05-25: v1.3.8 - Runtime data auto-refresh
+- Runtime deployment data refresh
+  - Added [server/routes/runtimeData.cjs](D:\oc\f1express\server\routes\runtimeData.cjs) and mounted it before static `/data` serving in [server/app.cjs](D:\oc\f1express\server\app.cjs), so deployed containers can fetch the latest 2026 runtime JSON from this repository's public `storage` data before falling back to local files.
+  - The refresh path writes successful remote JSON responses back into `storage/`, allowing `http://192.168.31.77:8002/data/results_2026.json` style requests to pick up newly collected race data without waiting for a rebuilt image.
+- Tests and release
+  - Added server integration coverage in [tests/integration/server/api.test.js](D:\oc\f1express\tests\integration\server\api.test.js) for remote runtime data refresh, optional GitHub token headers, and local file persistence.
+  - Bumped the project version to `1.3.8` for this runtime refresh release.
+
 ## 2026-05-06: v1.3.7 - Unified identity registry and baseline snapshots
 - 统一身份主数据
   - 新增 [src/data/identity/drivers.json](D:\oc\f1express\.worktrees\identity-system\src\data\identity\drivers.json) 和 [src/data/identity/teams.json](D:\oc\f1express\.worktrees\identity-system\src\data\identity\teams.json)，集中管理车手/车队的中英文名、代码、别名、历史连续体与解析键。
