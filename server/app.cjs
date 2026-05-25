@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const { DIST_ROOT, PHOTOS_ROOT, STORAGE_ROOT } = require('./config.cjs');
 const healthRoutes = require('./routes/health.cjs');
+const runtimeDataRoutes = require('./routes/runtimeData.cjs');
 const updateRoutes = require('./routes/updates.cjs');
 
 function createApp() {
   const app = express();
 
   app.use(express.json());
+  app.use('/data', runtimeDataRoutes);
   app.use('/data', express.static(STORAGE_ROOT));
   app.use('/photos', express.static(PHOTOS_ROOT));
   app.use(express.static(DIST_ROOT));

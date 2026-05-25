@@ -19,6 +19,9 @@ describe('Server API', () => {
     vi.clearAllMocks();
     vi.useRealTimers();
     delete process.env.ADMIN_API_TOKEN;
+    delete process.env.F1EXPRESS_RUNTIME_DATA_BASE_URL;
+    delete process.env.F1EXPRESS_GITHUB_TOKEN;
+    vi.stubGlobal('fetch', vi.fn());
     consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     existsSyncSpy = vi.spyOn(fs, 'existsSync');
@@ -32,6 +35,9 @@ describe('Server API', () => {
 
   afterEach(() => {
     delete process.env.ADMIN_API_TOKEN;
+    delete process.env.F1EXPRESS_RUNTIME_DATA_BASE_URL;
+    delete process.env.F1EXPRESS_GITHUB_TOKEN;
+    vi.unstubAllGlobals();
     consoleErrorSpy.mockRestore();
     consoleLogSpy.mockRestore();
     existsSyncSpy.mockRestore();
@@ -61,6 +67,39 @@ describe('Server API', () => {
           modifiedAt: expect.any(String),
         }),
       );
+    }
+  });
+
+  it('GET /data/results_2026.json should refresh runtime data from remote storage before serving', async () => {
+    process.env.F1EXPRESS_RUNTIME_DATA_BASE_URL = 'https://example.test/f1express/main/storage';
+    process.env.F1EXPRESS_GITHUB_TOKEN = 'github-token';
+    const remoteResults = [{ slug: 'canada', results: [{ code: 'ANT', points: 25 }] }];
+    const writeFileSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const renameSpy = vi.spyOn(fs, 'renameSync').mockImplementation(() => {});
+    vi.mocked(global.fetch).mockResolvedValue({
+      ok: true,
+      text: async () => JSON.stringify(remoteResults),
+    });
+
+    try {
+      const response = await request(app).get('/data/results_2026.json');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(remoteResults);
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://example.test/f1express/main/storage/results_2026.json',
+        expect.objectContaining({
+          cache: 'no-store',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer github-token',
+          }),
+        }),
+      );
+      expect(writeFileSpy).toHaveBeenCalled();
+      expect(renameSpy).toHaveBeenCalled();
+    } finally {
+      writeFileSpy.mockRestore();
+      renameSpy.mockRestore();
     }
   });
 
