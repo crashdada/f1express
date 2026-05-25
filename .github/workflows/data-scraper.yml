@@ -60,6 +60,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update F1 data $(date -u +'%Y-%m-%d') [skip ci]"
+            git commit -m "Auto-update F1 data $(date -u +'%Y-%m-%d')"
             git push origin main
           fi
