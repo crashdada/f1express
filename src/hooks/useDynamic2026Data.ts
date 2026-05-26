@@ -30,6 +30,7 @@ export interface IRaceResult2026 {
   teamCn: string;
   points: number;
   status: string;
+  time?: string;
 }
 
 export interface IRaceRound2026 {

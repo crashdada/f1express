@@ -121,6 +121,31 @@ describe('NewSeasonPage UI logic', () => {
     expect(podiumSecondBadge).toHaveClass('to-[#aeb8c8]');
   });
 
+  it('renders real race result times on finished race cards', () => {
+    vi.mocked(dynamicDataHook.useDynamic2026Data).mockReturnValue({
+      ...mockData,
+      raceResults: [
+        {
+          round: 1,
+          slug: 'australia',
+          results: [
+            { pos: 1, code: 'RUS', team: 'Mercedes', teamCn: 'Mercedes', points: 25, status: 'Finished', time: '1:23:06.801' },
+            { pos: 2, code: 'ANT', team: 'Mercedes', teamCn: 'Mercedes', points: 18, status: 'Finished', time: '+2.974s' },
+            { pos: 3, code: 'LEC', team: 'Ferrari', teamCn: 'Ferrari', points: 15, status: 'Finished', time: '+15.519s' },
+          ],
+          sprintResults: [],
+        },
+      ],
+    } as any);
+
+    renderWithRouter(<NewSeasonPage />);
+
+    expect(screen.getByText('1:23:06.801')).toBeInTheDocument();
+    expect(screen.getByText('+2.974s')).toBeInTheDocument();
+    expect(screen.getByText('+15.519s')).toBeInTheDocument();
+    expect(screen.queryByText('1:33:15.607')).not.toBeInTheDocument();
+  });
+
   it('renders the next race card with localized next-race tag', () => {
     renderWithRouter(<NewSeasonPage />);
 

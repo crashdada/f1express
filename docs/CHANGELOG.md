@@ -2,6 +2,13 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-05-26: v1.3.9 - New season race-card result times
+- 新赛季页面
+  - 修复 [src/pages/NewSeasonPage.tsx](D:\oc\f1express\src\pages\NewSeasonPage.tsx) 中赛程卡前三名成绩展示被硬编码为同一组时间的问题，现在直接显示采集结果里的 `time` 字段，并在缺失时回退到 `status`。
+- 测试和发布
+  - 在 [tests/integration/frontend/newSeasonPage.test.tsx](D:\oc\f1express\tests\integration\frontend\newSeasonPage.test.tsx) 增加回归测试，覆盖澳大利亚站卡片展示 `1:23:06.801`、`+2.974s`、`+15.519s` 这类真实成绩。
+  - Bumped the project version to `1.3.9` for this display fix.
+
 ## 2026-05-25: v1.3.8 - Runtime data auto-refresh
 - Runtime deployment data refresh
   - Added [server/routes/runtimeData.cjs](D:\oc\f1express\server\routes\runtimeData.cjs) and mounted it before static `/data` serving in [server/app.cjs](D:\oc\f1express\server\app.cjs), so deployed containers can fetch the latest 2026 runtime JSON from this repository's public `storage` data before falling back to local files.

@@ -497,7 +497,7 @@ const NewSeasonPage = () => {
                                             </div>
                                             <span className="text-[11px] font-black text-primary mb-1 uppercase tracking-wider">{driver.code}</span>
                                             <span className={`text-[9px] font-bold font-mono border-t border-white/5 pt-1 w-full text-center ${idx === 0 ? 'text-yellow-400/80' : 'text-secondary opacity-60'}`}>
-                                                {idx === 0 ? (driver.status === 'Finished' ? '1:33:15.607' : driver.status) : `+${(idx * 5.515).toFixed(3)}`}
+                                                {driver.time || driver.status}
                                             </span>
                                         </div>
                                     );
