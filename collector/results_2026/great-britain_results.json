@@ -4,7 +4,7 @@
     "country": "UNITED KINGDOM",
     "slug": "great-britain",
     "url": "https://www.formula1.com/en/results/2026/races/1289/great-britain/race-result",
-    "scraped_at": "2026-07-05T19:43:10.768052",
+    "scraped_at": "2026-07-06T04:40:56.187068",
     "results": [
         {
             "pos": "1",
@@ -85,44 +85,44 @@
         },
         {
             "pos": "12",
-            "no": "55",
-            "laps": "52",
-            "time": "+4.391s",
-            "points": 0
-        },
-        {
-            "pos": "13",
             "no": "87",
             "laps": "52",
             "time": "+5.245s",
             "points": 0
         },
         {
-            "pos": "14",
+            "pos": "13",
             "no": "31",
             "laps": "52",
             "time": "+5.512s",
             "points": 0
         },
         {
-            "pos": "15",
+            "pos": "14",
             "no": "11",
             "laps": "52",
             "time": "+7.403s",
             "points": 0
         },
         {
-            "pos": "16",
+            "pos": "15",
             "no": "12",
             "laps": "52",
             "time": "+8.005s",
             "points": 0
         },
         {
-            "pos": "17",
+            "pos": "16",
             "no": "77",
             "laps": "52",
             "time": "+8.162s",
+            "points": 0
+        },
+        {
+            "pos": "17",
+            "no": "55",
+            "laps": "51",
+            "time": "+1 lap",
             "points": 0
         },
         {
