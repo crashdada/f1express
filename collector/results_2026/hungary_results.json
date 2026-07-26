@@ -1,0 +1,197 @@
+{
+    "round": "ROUND 13",
+    "eventId": 1291,
+    "country": "HUNGARY",
+    "slug": "hungary",
+    "url": "https://www.formula1.com/en/results/2026/races/1291/hungary/race-result",
+    "scraped_at": "2026-07-26T19:36:08.701396",
+    "results": [
+        {
+            "pos": "1",
+            "no": "1",
+            "laps": "70",
+            "time": "1:39:56.180",
+            "points": 25
+        },
+        {
+            "pos": "2",
+            "no": "3",
+            "laps": "70",
+            "time": "+15.080s",
+            "points": 18
+        },
+        {
+            "pos": "3",
+            "no": "12",
+            "laps": "70",
+            "time": "+18.728s",
+            "points": 15
+        },
+        {
+            "pos": "4",
+            "no": "16",
+            "laps": "70",
+            "time": "+23.840s",
+            "points": 12
+        },
+        {
+            "pos": "5",
+            "no": "44",
+            "laps": "70",
+            "time": "+24.540s",
+            "points": 10
+        },
+        {
+            "pos": "6",
+            "no": "6",
+            "laps": "70",
+            "time": "+55.488s",
+            "points": 8
+        },
+        {
+            "pos": "7",
+            "no": "63",
+            "laps": "70",
+            "time": "+57.503s",
+            "points": 6
+        },
+        {
+            "pos": "8",
+            "no": "30",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 4
+        },
+        {
+            "pos": "9",
+            "no": "27",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 2
+        },
+        {
+            "pos": "10",
+            "no": "41",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 1
+        },
+        {
+            "pos": "11",
+            "no": "5",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "12",
+            "no": "10",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "13",
+            "no": "18",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "14",
+            "no": "14",
+            "laps": "69",
+            "time": "+1 lap",
+            "points": 0
+        },
+        {
+            "pos": "15",
+            "no": "43",
+            "laps": "68",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "16",
+            "no": "31",
+            "laps": "68",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "17",
+            "no": "23",
+            "laps": "68",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "18",
+            "no": "55",
+            "laps": "68",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "19",
+            "no": "87",
+            "laps": "68",
+            "time": "+2 laps",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "81",
+            "laps": "55",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "11",
+            "laps": "48",
+            "time": "DNF",
+            "points": 0
+        },
+        {
+            "pos": "NC",
+            "no": "77",
+            "laps": "13",
+            "time": "DNF",
+            "points": 0
+        }
+    ],
+    "qualifyingResults": [
+        {
+            "position": 1,
+            "no": "1",
+            "q1": "1:18.277",
+            "q2": "1:17.456",
+            "q3": "1:17.207",
+            "time": "1:17.207",
+            "laps": "16"
+        },
+        {
+            "position": 2,
+            "no": "44",
+            "q1": "1:18.730",
+            "q2": "1:17.803",
+            "q3": "1:17.219",
+            "time": "1:17.219",
+            "laps": "15"
+        },
+        {
+            "position": 3,
+            "no": "16",
+            "q1": "1:18.984",
+            "q2": "1:17.626",
+            "q3": "1:17.445",
+            "time": "1:17.445",
+            "laps": "20"
+        }
+    ],
+    "polePosition": {
+        "no": "1",
+        "time": "1:17.207"
+    }
+}
