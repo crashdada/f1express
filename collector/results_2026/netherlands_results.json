@@ -4,13 +4,13 @@
     "country": "NETHERLANDS",
     "slug": "netherlands",
     "url": "https://www.formula1.com/en/results/2026/races/1292/netherlands/race-result",
-    "scraped_at": "2026-08-24T07:29:55.320244",
+    "scraped_at": "2026-08-24T13:14:48.646878",
     "results": [
         {
             "pos": "1",
             "no": "1",
             "laps": "72",
-            "time": "2:4:44.859",
+            "time": "2:04:44.859",
             "points": 25
         },
         {
