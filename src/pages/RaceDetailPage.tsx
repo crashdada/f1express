@@ -1,10 +1,18 @@
-import { ChevronLeft, Clock, Map as MapIcon, Info, Trophy, Calendar, Sparkles, ArrowRight, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, Clock, Map as MapIcon, Info, Trophy, Calendar, Sparkles, ArrowRight, ArrowLeft, UserPlus } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { translateCountry, GP_TRANSLATIONS, DRIVER_TRANSLATIONS } from '../utils/translations';
 import F1Logo from '../components/F1Logo';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
+import type { SubstituteReason } from '../types';
 
+const SUBSTITUTE_REASON_LABEL: Record<SubstituteReason, string> = {
+  illness: '健康原因',
+  injury: '伤病',
+  penalty: '禁赛',
+  promotion: '晋升替补',
+  other: '其他',
+};
 interface Session {
     name: string;
     time: string;
@@ -501,13 +509,23 @@ const RaceDetailPage = () => {
                                                     </span>
                                                 </td>
                                                 <td className="py-4 px-4">
-                                                    <div className="flex items-center">
+                                                    <div className="flex items-center gap-2 flex-wrap">
                                                         <span className={`text-base ${isPodium ? 'font-black text-primary' : 'font-bold text-slate-300'}`}>
                                                             {result.firstNameCn || result.firstName} {result.lastNameCn || result.lastName}
                                                         </span>
-                                                        <span className="text-f1-red ml-3 text-xs font-mono bg-f1-red/10 px-2 py-0.5 rounded border border-f1-red/20 opacity-80 group-hover:opacity-100 transition-opacity">
+                                                        <span className="text-f1-red text-xs font-mono bg-f1-red/10 px-2 py-0.5 rounded border border-f1-red/20 opacity-80 group-hover:opacity-100 transition-opacity">
                                                             {result.code}
                                                         </span>
+                                                        {result.isSubstitute && (
+                                                            <span
+                                                                data-testid={`substitute-badge-${result.code}`}
+                                                                title={`替补车手${result.replacesCode ? ` · 顶替 ${result.replacesCode}` : ''}${result.replaceReason ? ` · ${SUBSTITUTE_REASON_LABEL[result.replaceReason]}` : ''}`}
+                                                                className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded border border-amber-500/30 bg-amber-500/10 text-amber-300"
+                                                            >
+                                                                <UserPlus size={10} />
+                                                                替补{result.replacesCode ? ` ${result.replacesCode}` : ''}
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </td>
                                                 <td className="py-4 px-4">

@@ -39,10 +39,12 @@ describe('season2026 data helpers', () => {
       if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse([]));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(remoteDrivers));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(remoteTeams));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) return Promise.resolve(createJsonResponse([]));
       if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(localSchedule));
       if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
       if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(localDrivers));
       if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(localTeams));
+      if (url.includes('/data/substitutes_2026.json')) return Promise.resolve(createJsonResponse([]));
 
       return Promise.reject(new Error(`Unexpected fetch: ${url}`));
     });
@@ -83,10 +85,12 @@ describe('season2026 data helpers', () => {
       if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(remoteResults));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) return Promise.resolve(createJsonResponse([]));
       if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
       if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
       if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes('/data/substitutes_2026.json')) return Promise.resolve(createJsonResponse([]));
 
       return Promise.reject(new Error(`Unexpected fetch: ${url}`));
     });
@@ -139,11 +143,12 @@ describe('season2026 data helpers', () => {
       if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(remoteResults));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) return Promise.resolve(createJsonResponse([]));
       if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
       if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
       if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
-
+      if (url.includes('/data/substitutes_2026.json')) return Promise.resolve(createJsonResponse([]));
       return Promise.reject(new Error(`Unexpected fetch: ${url}`));
     });
 
@@ -244,10 +249,12 @@ describe('season2026 data helpers', () => {
       if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(remoteResults));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) return Promise.resolve(createJsonResponse([]));
       if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
       if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
       if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
       if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes('/data/substitutes_2026.json')) return Promise.resolve(createJsonResponse([]));
 
       return Promise.reject(new Error(`Unexpected fetch: ${url}`));
     });
@@ -260,7 +267,102 @@ describe('season2026 data helpers', () => {
     expect(refreshed).not.toBe(first);
     expect(first.results2026).toHaveLength(2);
     expect(first.results2026.find((round) => round.slug === 'japan')).toEqual(remoteResults[1]);
-    expect(vi.mocked(global.fetch)).toHaveBeenCalledTimes(16);
+    expect(vi.mocked(global.fetch)).toHaveBeenCalledTimes(20);
+  });
+
+  it('merges local and remote substitute driver rosters, deduping by code', async () => {
+    const schedule = Array.from({ length: 20 }, (_, index) => ({ round: index + 1, country: `Round ${index + 1}` }));
+    const localResults = [{ round: 1, slug: 'australia', results: [] }];
+    const remoteResults = [{ round: 1, slug: 'australia', results: [] }];
+    const drivers = [{ code: 'NOR', firstName: 'Lando' }];
+    const teams = [{ name: 'McLaren' }];
+    const localSubs = [
+      {
+        code: 'HAD',
+        number: 22,
+        firstName: 'Isack',
+        lastName: 'Hadjar',
+        firstNameCn: '伊萨克',
+        lastNameCn: '哈贾尔',
+        team: 'Red Bull',
+        teamCn: '红牛',
+        appearedRounds: [15],
+      },
+    ];
+    const remoteSubs = [
+      {
+        code: 'HAD',
+        number: 22,
+        firstName: 'Isack',
+        lastName: 'Hadjar',
+        firstNameCn: '伊萨克',
+        lastNameCn: '哈贾尔',
+        team: 'Red Bull',
+        teamCn: '红牛',
+        appearedRounds: [16],
+      },
+      {
+        code: 'LAW',
+        number: 30,
+        firstName: 'Liam',
+        lastName: 'Lawson',
+        firstNameCn: '利亚姆',
+        lastNameCn: '劳森',
+        team: 'Racing Bulls',
+        teamCn: 'RB',
+        appearedRounds: [16],
+      },
+    ];
+
+    vi.mocked(global.fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/schedule_2026.json`)) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(remoteResults));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) return Promise.resolve(createJsonResponse(remoteSubs));
+      if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(localResults));
+      if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes('/data/substitutes_2026.json')) return Promise.resolve(createJsonResponse(localSubs));
+
+      return Promise.reject(new Error(`Unexpected fetch: ${url}`));
+    });
+
+    const data = await loadSeason2026Data();
+
+    expect(data.substitutes2026).toHaveLength(2);
+    const hadjar = data.substitutes2026.find((entry) => entry.code === 'HAD');
+    expect(hadjar?.appearedRounds).toEqual([15, 16]);
+    expect(data.substitutes2026.find((entry) => entry.code === 'LAW')).toBeDefined();
+  });
+
+  it('returns an empty substitute roster when both local and remote responses are missing', async () => {
+    const schedule = Array.from({ length: 20 }, (_, index) => ({ round: index + 1, country: `Round ${index + 1}` }));
+    const results = [{ round: 1, slug: 'australia', results: [] }];
+    const drivers = [{ code: 'NOR', firstName: 'Lando' }];
+    const teams = [{ name: 'McLaren' }];
+
+    vi.mocked(global.fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input);
+      if (url.includes('/data/substitutes_2026.json') || url.includes(`${REMOTE_DATA_BASE_URL}/substitutes_2026.json`)) {
+        return Promise.resolve(createJsonResponse(null, false));
+      }
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/schedule_2026.json`)) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/results_2026.json`)) return Promise.resolve(createJsonResponse(results));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/drivers_2026.json`)) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes(`${REMOTE_DATA_BASE_URL}/teams_2026.json`)) return Promise.resolve(createJsonResponse(teams));
+      if (url.includes('/data/schedule_2026.json')) return Promise.resolve(createJsonResponse(schedule));
+      if (url.includes('/data/results_2026.json')) return Promise.resolve(createJsonResponse(results));
+      if (url.includes('/data/drivers_2026.json')) return Promise.resolve(createJsonResponse(drivers));
+      if (url.includes('/data/teams_2026.json')) return Promise.resolve(createJsonResponse(teams));
+
+      return Promise.reject(new Error(`Unexpected fetch: ${url}`));
+    });
+    const data = await loadSeason2026Data();
+     expect(data.substitutes2026).toEqual([]);
   });
 
   it('returns an empty photo index when the runtime asset is unavailable', async () => {

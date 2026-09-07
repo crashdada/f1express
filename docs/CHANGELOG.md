@@ -1,6 +1,27 @@
-﻿# 更新日志 (Changelog)
+﻿﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+
+## 2026-09-07: v1.4.0 - Substitute driver support for the 2026 season
+- 2026 替补车手 / 临时顶替车手支持
+  - 新增 [collector/data/substitutes_2026.json](D:\oc\f1express\collector\data\substitutes_2026.json) 与 [scripts/f1_substitutions_2026.json](D:\oc\f1express\scripts\f1_substitutions_2026.json)：维护赛季级临时车手短期注册表 + 各分站替换关系（被替换者 code、原因）。
+  - 扩展 [src/types/index.ts](D:\oc\f1express\src\types\index.ts) `IRaceResult2026` 增加 `isSubstitute` / `replacesCode` / `replaceReason` 字段，并新增 `ISubstituteDriver2026` 注册表类型。
+  - 重写 [collector/exporters/export_results_json.py](D:\oc\f1express\collector\exporters\export_results_json.py) 双表查表（drivers_2026 + substitutes_2026），对 race JSON 内联 `isSubstitute` / `replacesCode` / `replaceReason` 标记，并把替补车手写入 substitutes roster 持久化。
+  - 同步管线 [collector/syncer.py](D:\oc\f1express\collector\syncer.py) 与 Vite bundle [vite.config.js](D:\oc\f1express\vite.config.js) 把 `substitutes_2026.json` 一并写入 `storage/` 和 `dist/data/`。
+  - 运行时热更新 [server/routes/runtimeData.cjs](D:\oc\f1express\server\routes\runtimeData.cjs) 暴露 `substitutes_2026.json`。
+- 前端
+  - [src/hooks/useDynamic2026Data.ts](D:\oc\f1express\src\hooks\useDynamic2026Data.ts) fetch 链路新增 substitute roster（local + remote 合并去重 via Zod 校验），导出 `substitutes` / `liveDrivers`。
+  - [src/pages/RaceDetailPage.tsx](D:\oc\f1express\src\pages\RaceDetailPage.tsx) 比赛成绩表 Driver 单元格为 `isSubstitute` 行加 amber 角标 `替补 TSU` 等，hover title 展示原因。
+  - [src/pages/NewSeasonPage.tsx](D:\oc\f1express\src\pages\NewSeasonPage.tsx) drivers tab 改用 `liveDrivers` 列表，standings 排行榜自然把替补车手积分归入正确 driver + constructor。
+  - [src/utils/f1-data/season2026.ts](D:\oc\f1express\src\utils\f1-data\season2026.ts) 内部以 `unknown[]` 流通数据集，substitute 字段经 Zod 安全解析；旧签名兼容保留。
+- 校验
+  - 升级 [scripts/validate_2026_json_readiness.py](D:\oc\f1express\scripts\validate_2026_json_readiness.py)：pos 1–22 或有积分的行必须 non-empty `firstName/lastName/code/team`；`isSubstitute` 必须有 `replacesCode` 且 `replaceReason` ∈ {illness, injury, penalty, promotion, other}。
+- 测试
+  - [tests/unit/utils/season2026.test.ts](D:\oc\f1express\tests\unit\utils\season2026.test.ts) 新增 substitute roster 加载、合并、缺失场景的单元测试。
+  - [tests/integration/frontend/raceDetailPage.test.tsx](D:\oc\f1express\tests\integration\frontend\raceDetailPage.test.tsx) 新增 替补角标渲染回归测试。
+  - [tests/support/render.tsx](D:\oc\f1express\tests\support\render.tsx) `renderWithRouter` 支持可选 `routePath` 参数以兼容 `useParams` 路由。
+- 数据
+  - Italy GP P10（#22）已补全姓名 `Unknown Substitute`（占位，提示维护者填入 `actualCode` / 真名），并标记 `isSubstitute=true, replacesCode=TSU, replaceReason=promotion`，1 分仍正确归入该车手 / Red Bull 车队。
 
 ## 2026-05-26: v1.3.9 - New season race-card result times
 - 新赛季页面

@@ -222,3 +222,32 @@ To solve historical technical debt related to scattered team translations and ha
    - Complex historical patches point to the `team_en` attribute (e.g. `"team_en": "McLaren"`) which reliably resolves against the `name` column in SQLite.
 3. **Frontend Merge (`processors.ts`)**:
    - The fragile fuzzy-matching conditions (e.g., `dbName.includes(tNameCn)`) have been removed. The database and 2026 JSONs now share the same English-standardized identification keys, enabling a 1:1 match by `name`.
+
+---
+
+## 9. Substitute Driver (临时车手) 数据规范
+
+为支持 2026 赛季中常见的车手临时顶替（替补、伤病、晋升），项目引入以下数据契约。
+
+### 9.1 字段约定（`IRaceResult2026`）
+| 字段 | 类型 | 含义 |
+| :--- | :--- | :--- |
+| `isSubstitute` | `boolean` | 是否为临时顶替 / 替补车手 |
+| `replacesCode` | `string` | 被替换的常备车手 `code`（首发花名册里那位） |
+| `replaceReason` | `'illness' \| 'injury' \| 'penalty' \| 'promotion' \| 'other'` | 顶替原因短标签 |
+
+这些字段全部为可选；常规结果保持空缺，老 race JSON 不会破坏加载。
+
+### 9.2 数据文件
+- `collector/data/substitutes_2026.json`：赛季级临时车手短期注册表（schema 见 `ISubstituteDriver2026`），可被采集端 exporter 自动追加。
+- `scripts/f1_substitutions_2026.json`：人工/半自动维护的"分站 → 替换关系"表（slug → [{carNumber, actualCode, replacesCode, reason}]）。Exporter 优先读此表。
+
+### 9.3 展示约定
+- 比赛成绩表 Driver 单元格对 `isSubstitute=true` 行加 amber 角标 `替补 TSU` 等，hover 展示原因。
+- 积分榜 / 车队榜：积分按 `result.code` 自然归入该车手 / 所属 constructor，不区分首发/替补。
+- Drivers tab 车手列表：通过 `liveDrivers` (roster ∪ substitutes) 展示，确保替补车手能进 filter 视图。
+
+### 9.4 校验
+`scripts/validate_2026_json_readiness.py` 会拦截：
+- 任何 pos ∈ 1–22 或 `points > 0` 的行若有 firstName / lastName / code / team 空字符串；
+- 任何 `isSubstitute=true` 行缺少 `replacesCode` 或 `replaceReason` 非法值。

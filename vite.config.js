@@ -31,9 +31,9 @@ export default defineConfig({
           'schedule_2026.json',
           'results_2026.json',
           'drivers_2026.json',
-          'teams_2026.json'
+          'teams_2026.json',
+          'substitutes_2026.json'
         ];
-
         if (!fs.existsSync(sourceDbPath)) {
           throw new Error(`Missing storage database: ${sourceDbPath}`);
         }

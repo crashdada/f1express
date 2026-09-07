@@ -1,0 +1,12 @@
+{
+  "italy": [
+    {
+      "round": 15,
+      "carNumber": 22,
+      "actualCode": "UNK",
+      "replacesCode": "TSU",
+      "reason": "promotion",
+      "note": "Yuki Tsunoda 退场后由临时车手顶替 #22；待采集端补全实际驾车人后填入 actualCode 与姓名。"
+    }
+  ]
+}

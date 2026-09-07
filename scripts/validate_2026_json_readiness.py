@@ -15,6 +15,11 @@ REQUIRED_RACE_FIELDS = ("pos", "number", "firstName", "lastName", "code", "team"
 REQUIRED_SPRINT_FIELDS = ("pos", "number", "firstName", "lastName", "code", "team", "points", "status", "laps", "time")
 REQUIRED_QUALI_FIELDS = ("position", "number", "firstName", "lastName", "code", "time", "q1", "q2", "q3")
 
+SCORED_RACE_FIELDS = ("firstName", "lastName", "code", "team")
+SCORED_SPRINT_FIELDS = ("firstName", "lastName", "code", "team")
+
+VALID_SUBSTITUTE_REASONS = {"illness", "injury", "penalty", "promotion", "other"}
+
 
 def load_json(path: Path):
     with path.open("r", encoding="utf-8") as handle:
@@ -28,6 +33,40 @@ def check_fields(items, required_fields, label):
         if missing:
             issues.append(f"{label} #{idx} missing fields: {', '.join(missing)}")
     return issues
+
+
+def is_finished_or_scored(item):
+    pos = item.get("pos")
+    if isinstance(pos, int) and 1 <= pos <= 22:
+        return True
+    if item.get("points"):
+        return True
+    return False
+
+
+def check_scored_identity(items, required_fields, label):
+    issues = []
+    for idx, item in enumerate(items, start=1):
+        if not is_finished_or_scored(item):
+            continue
+        missing = [field for field in required_fields if not str(item.get(field) or "").strip()]
+        if missing:
+            issues.append(f"{label} #{idx} empty identity fields: {', '.join(missing)} (pos={item.get('pos')})")
+    return issues
+
+
+def check_substitute_integrity(items, label):
+    issues = []
+    for idx, item in enumerate(items, start=1):
+        if not item.get("isSubstitute"):
+            continue
+        if not item.get("replacesCode"):
+            issues.append(f"{label} #{idx} marked isSubstitute but missing replacesCode")
+        reason = item.get("replaceReason")
+        if reason and reason not in VALID_SUBSTITUTE_REASONS:
+            issues.append(f"{label} #{idx} invalid replaceReason: {reason}")
+    return issues
+
 
 
 def main() -> int:
@@ -54,12 +93,16 @@ def main() -> int:
             issues.append(f"{race_label} missing eventId")
 
         issues.extend(check_fields(race.get("results", []), REQUIRED_RACE_FIELDS, f"{race_label} race result"))
+        issues.extend(check_scored_identity(race.get("results", []), SCORED_RACE_FIELDS, f"{race_label} race result"))
+        issues.extend(check_substitute_integrity(race.get("results", []), f"{race_label} race result"))
 
         sprint_results = race.get("sprintResults", [])
         if sprint_results:
             if len(sprint_results) > 8:
                 issues.append(f"{race_label} sprintResults has {len(sprint_results)} rows, expected <= 8")
             issues.extend(check_fields(sprint_results, REQUIRED_SPRINT_FIELDS, f"{race_label} sprint result"))
+            issues.extend(check_scored_identity(sprint_results, SCORED_SPRINT_FIELDS, f"{race_label} sprint result"))
+            issues.extend(check_substitute_integrity(sprint_results, f"{race_label} sprint result"))
 
         qualifying_results = race.get("qualifyingResults", [])
         if qualifying_results:

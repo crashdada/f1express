@@ -113,7 +113,7 @@ const TeamLogoBadge = ({
 const NewSeasonPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [standingsView, setStandingsView] = useState<StandingsView>('drivers');
-  const { schedule, drivers, teams, loading, raceResults } = useDynamic2026Data();
+  const { schedule, drivers: liveDrivers, teams, loading, raceResults } = useDynamic2026Data();
   const isAndroidShell = isAndroid();
 
   // Get active tab from search params or default to schedule
@@ -133,7 +133,7 @@ const NewSeasonPage = () => {
     "HUL": 11, "GAS": 12, "BEA": 13, "ALB": 14, "OCO": 15, "ANT": 16, "BOR": 17, "LAW": 18, "COL": 19, "HAD": 20, "LIN": 21, "BOT": 22
   };
 
-  const sortedDrivers = (!drivers || !Array.isArray(drivers)) ? [] : [...drivers].sort((a, b) => {
+  const sortedDrivers = (!liveDrivers || !Array.isArray(liveDrivers)) ? [] : [...liveDrivers].sort((a, b) => {
     const aTR = teamRank[a.team] || 99;
     const bTR = teamRank[b.team] || 99;
     if (aTR !== bTR) return aTR - bTR;
@@ -196,7 +196,7 @@ const NewSeasonPage = () => {
 
     return Array.from(totals.values())
       .map((entry) => {
-        const driver = drivers.find((item) => item.code === entry.code);
+        const driver = liveDrivers.find((item) => item.code === entry.code);
         return {
           ...entry,
           id: driver?.id || entry.code,
@@ -214,7 +214,7 @@ const NewSeasonPage = () => {
         a.bestFinish - b.bestFinish ||
         a.code.localeCompare(b.code)
       );
-  }, [drivers, getTeamColor, raceResults]);
+  }, [liveDrivers, getTeamColor, raceResults]);
 
   const teamStandings = useMemo(() => {
     const totals = new Map<string, {
@@ -371,7 +371,7 @@ const NewSeasonPage = () => {
               </div>
               <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
                 <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Drivers</div>
-                <div className="mt-2 text-2xl font-black font-orbitron text-primary">{drivers.length}</div>
+                <div className="mt-2 text-2xl font-black font-orbitron text-primary">{liveDrivers.length}</div>
               </div>
               <div className="rounded-[22px] border border-border/70 bg-bg-secondary/55 p-3 text-left">
                 <div className="text-[11px] uppercase tracking-[0.22em] text-secondary">Done</div>
@@ -478,7 +478,7 @@ const NewSeasonPage = () => {
                         {isFinished ? (
                             <div className="bg-bg-primary/40 backdrop-blur-xl p-4 md:p-6 grid grid-cols-3 gap-3 border-t border-white/10">
                                 {top3?.sort((a,b) => (a.pos || 0) - (b.pos || 0)).map((driver, idx) => {
-                                    const driverPhoto = drivers.find(d => d.code === driver.code)?.image;
+                                    const driverPhoto = liveDrivers.find(d => d.code === driver.code)?.image;
                                     return (
                                         <div key={driver.code} className="flex flex-col items-center bg-white/5 rounded-[2rem] p-3 border border-white/5 shadow-inner group/driver">
                                             <div className="relative mb-3">
@@ -617,7 +617,7 @@ const NewSeasonPage = () => {
                       </div>
                       <div className="flex gap-3">
                         {team.drivers.map(dCode => {
-                          const driverObj = drivers.find(d => d.code === dCode);
+                          const driverObj = liveDrivers.find(d => d.code === dCode);
                           return (
                             <div key={dCode} className="bg-bg-primary/40 backdrop-blur-sm px-3 md:px-4 py-2 rounded-xl text-[10px] font-bold font-orbitron text-primary border border-border/50 group-hover:border-f1-red/30 transition-colors flex flex-col items-center min-w-[64px] md:min-w-[70px]">
                               <span className="opacity-60 text-[8px] mb-0.5">{dCode}</span>

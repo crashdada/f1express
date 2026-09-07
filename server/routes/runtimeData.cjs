@@ -10,6 +10,7 @@ const RUNTIME_DATA_FILES = new Set([
   'results_2026.json',
   'drivers_2026.json',
   'teams_2026.json',
+  'substitutes_2026.json',
 ]);
 
 const DEFAULT_REMOTE_DATA_BASE_URL = 'https://raw.githubusercontent.com/crashdada/f1express/main/storage';

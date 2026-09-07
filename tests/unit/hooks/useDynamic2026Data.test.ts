@@ -66,7 +66,7 @@ describe('useDynamic2026Data', () => {
       expect(result.current.schedule[0]).toMatchObject(mockRemoteSchedule[0]);
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(8);
+    expect(fetchMock).toHaveBeenCalledTimes(10);
   });
 
   it('should retain local data if remote fetch fails', async () => {
@@ -89,7 +89,7 @@ describe('useDynamic2026Data', () => {
       expect(result.current.schedule).toEqual(mockLocalSchedule);
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(8);
+    expect(fetchMock).toHaveBeenCalledTimes(10);
     expect(result.current.schedule[0]).toMatchObject(mockLocalSchedule[0]);
   });
 
@@ -124,7 +124,7 @@ describe('useDynamic2026Data', () => {
       expect(result.current.schedule[0]).toMatchObject(mockRemoteSchedule[0]);
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(8);
+    expect(fetchMock).toHaveBeenCalledTimes(10);
   });
 
   it('should handle local fetch error', async () => {
@@ -138,6 +138,6 @@ describe('useDynamic2026Data', () => {
       expect(result.current.error?.message).toBe('Failed to load 2026 runtime data');
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(8);
+    expect(fetchMock).toHaveBeenCalledTimes(10);
   });
 });

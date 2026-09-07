@@ -231,3 +231,47 @@ export type DriverPhoto = IDriverPhoto;
 export type TeamPhoto = ITeamPhoto;
 export type ProcessedDriverData = IProcessedDriverData;
 export type F1Data = IF1Data;
+
+export type SubstituteReason = 'illness' | 'injury' | 'penalty' | 'promotion' | 'other';
+
+export interface ISubstituteDriver2026 {
+  /** 临时车手 / 替补车手登记记录（赛季级短期注册表） */
+  code: string;
+  number: number;
+  firstName: string;
+  lastName: string;
+  firstNameCn: string;
+  lastNameCn: string;
+  team: string;
+  teamCn: string;
+  country?: string;
+  image?: string;
+  /** 替补车手登场过的场次（由采集/导出侧维护） */
+  appearedRounds?: number[];
+}
+
+export interface IRaceResult2026 {
+  pos: number | null;
+  firstName: string;
+  lastName: string;
+  firstNameCn: string;
+  lastNameCn: string;
+  code: string;
+  number: number;
+  team: string;
+  teamCn: string;
+  points: number;
+  status: string;
+  time?: string;
+  /** 是否为临时顶替 / 替补车手 */
+  isSubstitute?: boolean;
+  /** 被替换的常备车手 code（首发花名册里那位） */
+  replacesCode?: string;
+  /** 顶替原因短标签 */
+  replaceReason?: SubstituteReason;
+  laps?: string | number;
+  q1?: string;
+  q2?: string;
+  q3?: string;
+}
+
