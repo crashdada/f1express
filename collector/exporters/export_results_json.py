@@ -7,27 +7,30 @@
 - 冲刺赛前 8
 - 排位赛前 3（Q1/Q2/Q3）
 
-新增（v1.4）：
-- 双表查表：drivers_2026.json + substitutes_2026.json
-- 内联 isSubstitute / replacesCode / replaceReason 字段
-- 自动写入 substitutes_2026.json（用于赛季级临时车手表）
+替补车手（v1.4.1）：
+- 三段查表：substitutes_2026.json → drivers_2026.json → storage/f1.db
+- 每个 isSubstitute 行写出 actualCode + replaceReason
+- 当 actualCode 命中已注册身份时，UI 直接显示真名 + amber 角标
 """
 
 import json
 import os
 import re
+import sqlite3
 
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 COLLECTOR_DIR = os.path.dirname(CURRENT_DIR)
+WEBSITE_DIR = os.path.dirname(COLLECTOR_DIR)
 RESULTS_DIR = os.path.join(COLLECTOR_DIR, "results_2026")
 DATA_DIR = os.path.join(COLLECTOR_DIR, "data")
+STORAGE_DB = os.path.join(WEBSITE_DIR, "storage", "f1.db")
 DRIVERS_JSON = os.path.join(DATA_DIR, "drivers_2026.json")
 SUBSTITUTES_JSON = os.path.join(DATA_DIR, "substitutes_2026.json")
 SCHEDULE_JSON = os.path.join(DATA_DIR, "schedule_2026.json")
-SUBSTITUTIONS_JSON = os.path.join(COLLECTOR_DIR, "scripts", "f1_substitutions_2026.json") \
-    if os.path.exists(os.path.join(COLLECTOR_DIR, "scripts", "f1_substitutions_2026.json")) \
-    else os.path.join(os.path.dirname(COLLECTOR_DIR), "scripts", "f1_substitutions_2026.json")
+SUBSTITUTIONS_JSON = (
+    os.path.join(WEBSITE_DIR, "scripts", "f1_substitutions_2026.json")
+)
 OUTPUT_JSON = os.path.join(DATA_DIR, "results_2026.json")
 
 
@@ -45,9 +48,11 @@ TEAM_CN_MAP = {
     "Cadillac": "凯迪拉克",
 }
 
+VALID_REPLACE_REASONS = {"illness", "injury", "penalty", "promotion", "reserve", "other"}
+
 
 def load_json(path):
-    if not os.path.exists(path):
+    if not path or not os.path.exists(path):
         return None
     with open(path, "r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -81,38 +86,97 @@ def extract_event_id(url):
     return int(match.group(1)) if match else None
 
 
-def build_roster_lookup(drivers):
-    return {str(item.get("number", "")): item for item in drivers}
+def build_history_driver_index(db_path):
+    """Read storage/f1.db and return two indexes:
+    - by_code: { code: { firstName, lastName, firstNameCn, lastNameCn, number, last_season } }
+    - by_number: { number: same shape } — only the *most recent* driver per number.
+
+    Used as a last-resort fallback for substitute drivers not in 2026 roster.
+    """
+    index_by_code = {}
+    index_by_number = {}
+    if not db_path or not os.path.exists(db_path):
+        return index_by_code, index_by_number
+
+    try:
+        con = sqlite3.connect(db_path)
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT d.driver_id, d.first_name, d.last_name, d.first_name_cn,
+                   d.last_name_cn, d.code, d.number,
+                   MAX(r.season) AS last_season
+            FROM drivers d
+            LEFT JOIN race_results rr ON rr.driver_id = d.driver_id
+            LEFT JOIN races r ON rr.race_id = r.race_id
+            WHERE d.code IS NOT NULL AND d.code != ''
+            GROUP BY d.driver_id
+            """
+        )
+        for row in cur.fetchall():
+            driver_id, first, last, first_cn, last_cn, code, number, last_season = row
+            record = {
+                "firstName": first or "",
+                "lastName": last or "",
+                "firstNameCn": first_cn or "",
+                "lastNameCn": last_cn or "",
+                "code": code or "",
+                "number": str(number) if number else "",
+                "last_season": last_season,
+            }
+            # For each code, keep the record from the most recent season.
+            existing = index_by_code.get(code)
+            if existing is None or (record["last_season"] or 0) > (existing["last_season"] or 0):
+                index_by_code[code] = record
+            # For each number, keep the most recent.
+            if number:
+                num_key = str(number)
+                existing_num = index_by_number.get(num_key)
+                if existing_num is None or (record["last_season"] or 0) > (existing_num["last_season"] or 0):
+                    index_by_number[num_key] = record
+    except sqlite3.Error as error:
+        print(f"[!] Failed to read history DB at {db_path}: {error}")
+    finally:
+        if "con" in locals():
+            con.close()
+
+    return index_by_code, index_by_number
 
 
 def load_substitute_metadata():
-    """Return: { slug: { carNumber(str): { replacesCode, reason, actualCode } } }"""
+    """Return: { slug: { carNumber(str): { actualCode, reason, note } } }"""
     data = load_json(SUBSTITUTIONS_JSON)
     if not isinstance(data, dict):
         return {}
-    output: dict[str, dict[str, dict]] = {}
+    output = {}
+
     for slug, entries in data.items():
-        per_car: dict[str, dict] = {}
+        per_car = {}
         for entry in entries or []:
+            reason = entry.get("reason")
+            if reason and reason not in VALID_REPLACE_REASONS:
+                print(f"[!] {slug} car {entry.get('carNumber')}: invalid reason {reason!r}, dropping")
+                reason = None
             per_car[str(entry.get("carNumber", ""))] = {
-                "replacesCode": entry.get("replacesCode"),
-                "reason": entry.get("reason"),
                 "actualCode": entry.get("actualCode"),
+                "reason": reason,
+                "note": entry.get("note"),
+                "team": entry.get("team"),
+                "teamCn": entry.get("teamCn"),
             }
         output[slug] = per_car
     return output
 
 
-def record_substitute_appearance(substitutes, slug, round_number, car_number, sub_meta):
+
+def record_substitute_appearance(substitutes, round_number, car_number, actual_code):
     """Update substitutes_2026.json with appearedRounds for this match."""
-    actual_code = sub_meta.get("actualCode")
     if not actual_code:
         return
-    target = None
-    for entry in substitutes:
-        if entry.get("code") == actual_code or entry.get("number") == car_number:
-            target = entry
-            break
+    target = next(
+        (entry for entry in substitutes if entry.get("code") == actual_code or str(entry.get("number")) == str(car_number)),
+        None,
+    )
     if not target:
         return
     rounds = set(target.get("appearedRounds") or [])
@@ -120,26 +184,93 @@ def record_substitute_appearance(substitutes, slug, round_number, car_number, su
     target["appearedRounds"] = sorted(rounds)
 
 
-def enrich_result(item, driver, sub_meta):
+def resolve_driver(
+    no_str,
+    sub_meta,
+    no_map,
+    substitutes_by_code,
+    substitutes_by_number,
+    history_by_code,
+    history_by_number,
+):
+    """Resolve a race row's identity.
+
+    Priority for substitute rows (sub_meta present):
+      1. substitutes_2026 by actualCode
+      2. drivers_2026 by actualCode
+      3. history DB by actualCode
+      4. history DB by number (last holder)
+      5. drivers_2026 by number (2026 main roster)
+    Priority for non-substitute rows:
+      1. drivers_2026 by number
+    """
+    if sub_meta:
+        actual_code = sub_meta.get("actualCode")
+        if actual_code:
+            candidate = substitutes_by_code.get(actual_code)
+            if candidate is None:
+                candidate = no_map.get(actual_code)
+            if candidate is None:
+                candidate = history_by_code.get(actual_code)
+            if candidate is not None:
+                return candidate, sub_meta, actual_code
+
+        # Last-resort: look up by number in history (most recent holder)
+        if no_str:
+            candidate = history_by_number.get(no_str)
+            if candidate is not None:
+                return candidate, sub_meta, candidate.get("code") or None
+
+        return {}, sub_meta, None
+
+    return no_map.get(no_str, {}), None, None
+
+
+def compose_driver_fields(record, actual_code):
+    if not record:
+        return {}, None
+    fields = {
+        "firstName": record.get("firstName", ""),
+        "lastName": record.get("lastName", ""),
+        "firstNameCn": record.get("firstNameCn", ""),
+        "lastNameCn": record.get("lastNameCn", ""),
+        "code": record.get("code") or (actual_code or ""),
+        "team": record.get("team", ""),
+        "teamCn": record.get("teamCn") or TEAM_CN_MAP.get(record.get("team", ""), ""),
+    }
+    return fields, fields["code"]
+
+def enrich_result(item, driver_record, sub_meta, resolved_code):
     """Compose the per-result dict, adding substitute inline fields when applicable."""
+    pos = to_position(item.get("pos"))
+    fields, code = compose_driver_fields(driver_record, resolved_code)
+    # When a substitute record comes from history (no team) or substitutes table,
+    # prefer the team pinned in the per-race substitution config.
+    if sub_meta:
+        if not fields.get("team") and sub_meta.get("team"):
+            fields["team"] = sub_meta["team"]
+        if not fields.get("teamCn") and sub_meta.get("teamCn"):
+            fields["teamCn"] = sub_meta["teamCn"]
+        if not fields.get("teamCn") and fields.get("team"):
+            fields["teamCn"] = TEAM_CN_MAP.get(fields["team"], "")
     base = {
-        "pos": to_position(item.get("pos")),
-        "firstName": driver.get("firstName", ""),
-        "lastName": driver.get("lastName", ""),
-        "firstNameCn": driver.get("firstNameCn", ""),
-        "lastNameCn": driver.get("lastNameCn", ""),
-        "code": driver.get("code", ""),
+        "pos": pos,
+        "firstName": fields.get("firstName", ""),
+        "lastName": fields.get("lastName", ""),
+        "firstNameCn": fields.get("firstNameCn", ""),
+        "lastNameCn": fields.get("lastNameCn", ""),
+        "code": code or "",
         "number": int(str(item.get("no", "0"))) if str(item.get("no", "")).isdigit() else 0,
-        "team": driver.get("team", ""),
-        "teamCn": TEAM_CN_MAP.get(driver.get("team", ""), driver.get("teamCn", "")),
+        "team": fields.get("team", ""),
+        "teamCn": fields.get("teamCn", ""),
         "points": item.get("points", 0),
         "status": to_status(item.get("pos")),
         "laps": item.get("laps"),
         "time": item.get("time"),
     }
     if sub_meta:
-        if sub_meta.get("replacesCode"):
-            base["replacesCode"] = sub_meta["replacesCode"]
+        if sub_meta.get("actualCode"):
+            base["actualCode"] = sub_meta["actualCode"]
         if sub_meta.get("reason"):
             base["replaceReason"] = sub_meta["reason"]
         base["isSubstitute"] = True
@@ -151,15 +282,19 @@ def build_results_json():
         print(f"[!] 结果目录不存在: {RESULTS_DIR}")
         return
 
-    drivers = load_json(DRIVERS_JSON) or []
-    no_map = build_roster_lookup(drivers)
+    drivers_2026 = load_json(DRIVERS_JSON) or []
+    no_map = {str(item.get("number", "")): item for item in drivers_2026}
+    code_map = {str(item.get("code", "")): item for item in drivers_2026 if item.get("code")}
 
     substitutes = load_json(SUBSTITUTES_JSON) or []
-    sub_no_map = {str(item.get("number", "")): item for item in substitutes}
+    sub_by_code = {str(item.get("code", "")): item for item in substitutes if item.get("code")}
+    sub_by_number = {str(item.get("number", "")): item for item in substitutes if item.get("number") is not None}
+
+    history_by_code, history_by_number = build_history_driver_index(STORAGE_DB)
 
     schedule = load_json(SCHEDULE_JSON) or []
-    slug_date_map: dict[str, str] = {}
-    slug_round_map: dict[str, int] = {}
+    slug_date_map = {}
+    slug_round_map = {}
     for event in schedule:
         slug = event.get("slug", "")
         for session in event.get("sessions", []):
@@ -198,61 +333,64 @@ def build_results_json():
 
         race_subs = substitution_lookup.get(slug, {})
 
-        def lookup_driver(no_str):
+        def lookup(no_str):
             sub_meta = race_subs.get(no_str)
-            if sub_meta:
-                # Prefer substitute record (covers non-roster drivers)
-                actual_code = sub_meta.get("actualCode")
-                sub_entry = next(
-                    (s for s in substitutes if s.get("code") == actual_code or str(s.get("number")) == no_str),
-                    None,
-                )
-                if sub_entry:
-                    return sub_entry, sub_meta
-                # Fallback to no_map; UI will still see the inline substitute flag
-                return no_map.get(no_str, {}), sub_meta
-            return no_map.get(no_str, {}), None
+            if not sub_meta:
+                return no_map.get(no_str, {}), None, None
+
+            record, returned_meta, resolved_code = resolve_driver(
+                no_str,
+                sub_meta,
+                code_map,
+                sub_by_code,
+                sub_by_number,
+                history_by_code,
+                history_by_number,
+            )
+            return record, returned_meta, resolved_code
 
         for item in raw.get("results", []):
             no = str(item.get("no", ""))
-            driver, sub_meta = lookup_driver(no)
+            record, sub_meta, resolved_code = lookup(no)
             if sub_meta and round_num:
-                record_substitute_appearance(substitutes, slug, round_num, int(no) if no.isdigit() else 0, sub_meta)
-            race_info["results"].append(enrich_result(item, driver, sub_meta))
+                record_substitute_appearance(
+                    substitutes, round_num, no, sub_meta.get("actualCode"),
+                )
+            race_info["results"].append(enrich_result(item, record, sub_meta, resolved_code))
 
         sprint_results = []
         for item in raw.get("sprintResults", [])[:8]:
             no = str(item.get("no", ""))
-            driver, sub_meta = lookup_driver(no)
-            sprint_results.append(enrich_result(item, driver, sub_meta))
+            record, sub_meta, resolved_code = lookup(no)
+            sprint_results.append(enrich_result(item, record, sub_meta, resolved_code))
         if sprint_results:
             race_info["sprintResults"] = sprint_results
 
         pole = raw.get("polePosition")
         if pole:
             pole_no = str(pole.get("no", ""))
-            pole_driver = no_map.get(pole_no, {})
+            pole_record, _, pole_code = lookup(pole_no)
             race_info["polePosition"] = {
                 "time": pole.get("time", ""),
-                "code": pole_driver.get("code", ""),
-                "firstName": pole_driver.get("firstName", ""),
-                "lastName": pole_driver.get("lastName", ""),
-                "firstNameCn": pole_driver.get("firstNameCn", ""),
-                "lastNameCn": pole_driver.get("lastNameCn", ""),
+                "code": pole_record.get("code") or pole_code or "",
+                "firstName": pole_record.get("firstName", ""),
+                "lastName": pole_record.get("lastName", ""),
+                "firstNameCn": pole_record.get("firstNameCn", ""),
+                "lastNameCn": pole_record.get("lastNameCn", ""),
             }
 
         qualifying_results = []
         for item in raw.get("qualifyingResults", [])[:3]:
             no = str(item.get("no", ""))
-            driver = no_map.get(no, {})
+            record, _, resolved_code = lookup(no)
             qualifying_results.append({
                 "position": item.get("position"),
                 "number": int(no) if no.isdigit() else 0,
-                "code": driver.get("code", ""),
-                "firstName": driver.get("firstName", ""),
-                "lastName": driver.get("lastName", ""),
-                "firstNameCn": driver.get("firstNameCn", ""),
-                "lastNameCn": driver.get("lastNameCn", ""),
+                "code": record.get("code") or resolved_code or "",
+                "firstName": record.get("firstName", ""),
+                "lastName": record.get("lastName", ""),
+                "firstNameCn": record.get("firstNameCn", ""),
+                "lastNameCn": record.get("lastNameCn", ""),
                 "time": item.get("time", ""),
                 "q1": item.get("q1", ""),
                 "q2": item.get("q2", ""),
@@ -267,11 +405,7 @@ def build_results_json():
     all_races.sort(key=lambda item: item["round"] or 0)
 
     os.makedirs(DATA_DIR, exist_ok=True)
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as handle:
-        json.dump(all_races, handle, indent=2, ensure_ascii=False)
-        handle.write("\n")
-
-    # Persist updated substitute roster
+    write_json(OUTPUT_JSON, all_races)
     if substitutes:
         write_json(SUBSTITUTES_JSON, substitutes)
 

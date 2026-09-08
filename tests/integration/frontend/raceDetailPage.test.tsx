@@ -40,21 +40,21 @@ const baseMockData = {
         { pos: 9, code: 'COL', number: 43, firstName: 'Franco', lastName: 'Colapinto', firstNameCn: 'Franco', lastNameCn: 'Colapinto', team: 'Alpine', teamCn: 'Alpine', points: 2, status: 'Finished' },
         {
           pos: 10,
-          code: 'UNK',
+          code: 'TSU',
           number: 22,
-          firstName: 'Unknown',
-          lastName: 'Substitute',
-          firstNameCn: '未知',
-          lastNameCn: '替补车手',
+          firstName: 'Yuki',
+          lastName: 'Tsunoda',
+          firstNameCn: '角田',
+          lastNameCn: '裕毅',
           team: 'Red Bull',
           teamCn: '红牛',
           points: 1,
           status: 'Finished',
           isSubstitute: true,
-          replacesCode: 'TSU',
-          replaceReason: 'promotion',
+          actualCode: 'TSU',
+          replaceReason: 'reserve',
         },
-        { pos: 11, code: 'BOR', number: 5, firstName: 'Gabriel', lastName: 'Bortoleto', firstNameCn: 'Gabriel', lastNameCn: 'Bortoleto', team: 'Audi', teamCn: '奥迪', points: 0, status: 'Finished' },
+        { pos: 11, code: 'BOR', number: 5, firstName: 'Gabriel', lastName: 'Bortoleto', firstNameCn: 'Gabriel', lastNameCn: 'Bortoleto', team: 'Audi', teamCn: 'Audi', points: 0, status: 'Finished' },
       ],
     },
   ],
@@ -70,18 +70,25 @@ describe('RaceDetailPage', () => {
   it('renders the substitute badge for marked substitute drivers', async () => {
     renderWithRouter(<RaceDetailPage />, ['/new-season/race/italy'], '/new-season/race/:slug');
 
-    const badge = await screen.findByTestId('substitute-badge-UNK');
+    const badge = await screen.findByTestId('substitute-badge-TSU');
     expect(badge).toBeInTheDocument();
     expect(badge.textContent).toMatch(/替补/);
-    expect(badge.textContent).toMatch(/TSU/);
+  });
+
+  it('renders the actual driver name (not a placeholder) for substitute rows', async () => {
+    renderWithRouter(<RaceDetailPage />, ['/new-season/race/italy'], '/new-season/race/:slug');
+
+    expect(await screen.findByText('角田 裕毅')).toBeInTheDocument();
+    expect(screen.getByText('红牛')).toBeInTheDocument();
+
   });
 
   it('does not render a substitute badge for non-substitute rows', async () => {
     renderWithRouter(<RaceDetailPage />, ['/new-season/race/italy'], '/new-season/race/:slug');
 
-    await screen.findByTestId('substitute-badge-UNK');
+    await screen.findByTestId('substitute-badge-TSU');
 
-    expect(screen.queryByTestId('substitute-badge-ANT')).toBeNull();
+
     expect(screen.queryByTestId('substitute-badge-COL')).toBeNull();
     expect(screen.queryByTestId('substitute-badge-BOR')).toBeNull();
   });

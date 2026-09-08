@@ -519,11 +519,11 @@ const RaceDetailPage = () => {
                                                         {result.isSubstitute && (
                                                             <span
                                                                 data-testid={`substitute-badge-${result.code}`}
-                                                                title={`替补车手${result.replacesCode ? ` · 顶替 ${result.replacesCode}` : ''}${result.replaceReason ? ` · ${SUBSTITUTE_REASON_LABEL[result.replaceReason]}` : ''}`}
+                                                                title={`替补车手${result.replaceReason ? ` · ${SUBSTITUTE_REASON_LABEL[result.replaceReason]}` : ''}`}
                                                                 className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded border border-amber-500/30 bg-amber-500/10 text-amber-300"
                                                             >
                                                                 <UserPlus size={10} />
-                                                                替补{result.replacesCode ? ` ${result.replacesCode}` : ''}
+                                                                替补
                                                             </span>
                                                         )}
                                                     </div>

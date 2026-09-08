@@ -18,7 +18,7 @@ REQUIRED_QUALI_FIELDS = ("position", "number", "firstName", "lastName", "code", 
 SCORED_RACE_FIELDS = ("firstName", "lastName", "code", "team")
 SCORED_SPRINT_FIELDS = ("firstName", "lastName", "code", "team")
 
-VALID_SUBSTITUTE_REASONS = {"illness", "injury", "penalty", "promotion", "other"}
+VALID_SUBSTITUTE_REASONS = {"illness", "injury", "penalty", "promotion", "reserve", "other"}
 
 
 def load_json(path: Path):
@@ -60,8 +60,8 @@ def check_substitute_integrity(items, label):
     for idx, item in enumerate(items, start=1):
         if not item.get("isSubstitute"):
             continue
-        if not item.get("replacesCode"):
-            issues.append(f"{label} #{idx} marked isSubstitute but missing replacesCode")
+        if not item.get("replacesCode") and not item.get("actualCode"):
+            issues.append(f"{label} #{idx} marked isSubstitute but missing actualCode/replacesCode")
         reason = item.get("replaceReason")
         if reason and reason not in VALID_SUBSTITUTE_REASONS:
             issues.append(f"{label} #{idx} invalid replaceReason: {reason}")
