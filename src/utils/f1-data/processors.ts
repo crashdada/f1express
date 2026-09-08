@@ -89,7 +89,6 @@ export function processDrivers(
       lastName: driver.last_name,
       firstNameCn: driver.first_name_cn,
       lastNameCn: driver.last_name_cn,
-      code,
     });
 
     // Historical career totals come from the local database.

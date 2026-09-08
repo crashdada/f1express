@@ -12,6 +12,7 @@ function unique(values: string[]) {
   return [...new Set(values.filter(Boolean))];
 }
 
+
 function buildDriverRecordKeys(record: DriverRegistryRecord) {
   return unique([
     normalizeIdentityText(`${record.name.en.first} ${record.name.en.last}`),
@@ -20,6 +21,7 @@ function buildDriverRecordKeys(record: DriverRegistryRecord) {
     ...record.codes.map((code) => `code:${normalizeIdentityText(code)}`),
   ]);
 }
+
 
 function buildTeamRecordKeys(record: TeamRegistryRecord) {
   const rawKeys = [
@@ -71,12 +73,9 @@ function getDriverInputKeys(input?: DriverIdentityInput | DriverRegistryRecord) 
 
   const englishName = [input.firstName, input.lastName].filter(Boolean).join(' ');
   const chineseName = [input.firstNameCn, input.lastNameCn].filter(Boolean).join('');
-  const codeKey = normalizeIdentityText(input.code);
-
   return unique([
     normalizeIdentityText(englishName),
     normalizeIdentityText(chineseName),
-    codeKey ? `code:${codeKey}` : '',
   ]);
 }
 
