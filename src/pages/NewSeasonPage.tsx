@@ -21,7 +21,6 @@ const SEASON_2026_GP_TRANSLATIONS: Record<string, string> = {
   'Chinese Grand Prix': '中国大奖赛',
   'Japanese Grand Prix': '日本大奖赛',
   'Bahrain Grand Prix': '巴林大奖赛（马来西亚站）',
-  '[CANCELLED] Saudi Arabian Grand Prix': '[已取消] 沙特阿拉伯大奖赛',
   'Miami Grand Prix': '迈阿密大奖赛',
   'Canadian Grand Prix': '加拿大大奖赛',
   'Monaco Grand Prix': '摩纳哥大奖赛',

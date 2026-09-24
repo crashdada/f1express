@@ -231,4 +231,70 @@ describe('useCombinedData', () => {
     expect(hulkenberg?.points).toBe(581);
     expect(hulkenberg?.isActive2026).toBe(true);
   });
+
+  it('sums string-typed live points numerically instead of concatenating them', () => {
+    vi.mocked(useF1).mockReturnValue({
+      state: {
+        teams: [
+          {
+            id: 'ferrari',
+            name: '法拉利',
+            fullName: '法拉利',
+            nameCn: '法拉利',
+            points: 100,
+            wins: 0,
+            podiums: 0,
+            poles: 0,
+            championships: 0,
+            driverChampionships: 0,
+            championshipYears: [],
+            color: '#e10600',
+            logo: '',
+          },
+        ],
+        drivers: [],
+        raceResults: [],
+        schedule: [],
+        raceInfo: [],
+        loading: false,
+        error: null,
+        selectedDriver: null,
+        selectedTeam: null,
+        selectedSeason: null,
+        searchQuery: '',
+        viewMode: 'grid',
+        theme: 'light',
+        photosIndex: [],
+        driverChampionships: [],
+      },
+      dispatch: vi.fn(),
+      resolvedTheme: 'light',
+    } as any);
+
+    vi.mocked(useDynamic2026Data).mockReturnValue({
+      schedule: [],
+      drivers: [],
+      teams: [],
+      raceResults: [
+        {
+          round: 14,
+          country: 'Spain',
+          slug: 'spain',
+          date: '2026-09-13',
+          results: [
+            { pos: 1, code: 'ANT', firstName: 'Kimi', lastName: 'Antonelli', firstNameCn: '', lastNameCn: '', number: 12, team: 'Ferrari', teamCn: '法拉利', points: '25' as unknown as number, status: 'Finished' },
+            { pos: 2, code: 'LEC', firstName: 'Charles', lastName: 'Leclerc', firstNameCn: '', lastNameCn: '', number: 16, team: 'Ferrari', teamCn: '法拉利', points: '18' as unknown as number, status: 'Finished' },
+          ],
+          sprintResults: [],
+        },
+      ],
+      loading: false,
+      error: null,
+    } as any);
+
+    const { result } = renderHook(() => useCombinedData());
+    const ferrari = result.current.combinedTeams.find((team) => team.nameCn === '法拉利');
+
+    expect(ferrari?.points).toBe(143);
+  });
 });

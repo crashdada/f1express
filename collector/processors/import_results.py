@@ -14,11 +14,13 @@ import os
 import datetime
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(CURRENT_DIR, 'data', 'f1.db')
-WEBSITE_DB_PATH = os.path.join(os.path.dirname(CURRENT_DIR), 'public', 'data', 'f1.db')
-RESULTS_DIR = os.path.join(CURRENT_DIR, 'results_2026')
-DRIVERS_JSON = os.path.join(CURRENT_DIR, 'data', 'drivers_2026.json')
-SCHEDULE_JSON = os.path.join(CURRENT_DIR, 'data', 'schedule_2026.json')
+COLLECTOR_DIR = os.path.dirname(CURRENT_DIR)
+WEBSITE_DIR = os.path.dirname(COLLECTOR_DIR)
+DB_PATH = os.path.join(COLLECTOR_DIR, 'data', 'f1.db')
+WEBSITE_DB_PATH = os.path.join(WEBSITE_DIR, 'storage', 'f1.db')
+RESULTS_DIR = os.path.join(COLLECTOR_DIR, 'results_2026')
+DRIVERS_JSON = os.path.join(COLLECTOR_DIR, 'data', 'drivers_2026.json')
+SCHEDULE_JSON = os.path.join(COLLECTOR_DIR, 'data', 'schedule_2026.json')
 
 def load_json(path):
     with open(path, 'r', encoding='utf-8') as f:

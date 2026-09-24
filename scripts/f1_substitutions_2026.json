@@ -1,18 +1,18 @@
 {
   "italy": [
     {
-      "round": 15,
+      "round": 13,
       "carNumber": 22,
       "actualCode": "TSU",
       "team": "Red Bull",
       "teamCn": "红牛",
       "reason": "reserve",
-      "note": "2026 季 #22 已被 Racing Bulls 释放。Italy 站由 TSU（Yuki Tsunoda，2025 末 #22 原持有人）以临时顶替身份拿回此号参赛。"
+      "note": "2026 季 #22 已被 Red Bull 释放。Italy 站由 TSU（Yuki Tsunoda，2025 末 #22 原持有人）以临时顶替身份拿回此号参赛。"
     }
   ],
   "netherlands": [
     {
-      "round": 14,
+      "round": 12,
       "carNumber": 22,
       "actualCode": "TSU",
       "team": "Red Bull",
@@ -29,7 +29,7 @@
       "team": "Red Bull",
       "teamCn": "红牛",
       "reason": "reserve",
-      "note": "Spain 站 TSU 以 #22 替补身份继续代表 Racing Bulls 上场。"
+      "note": "Spain 站 TSU 以 #22 替补身份继续代表 Red Bull 上场。"
     }
   ]
 }

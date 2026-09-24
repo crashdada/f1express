@@ -18,7 +18,6 @@ predictable:
 ```bash
 python collector/tools/debug/check_rounds.py
 python collector/tools/inspect/inspect_html.py
-python collector/tools/oneoff/patch_tracks.py
 ```
 
 These tools are not part of CI and most are intended for manual debugging.
@@ -103,7 +102,6 @@ These tools are not part of CI and most are intended for manual debugging.
 - `find_fractions.py`
 - `mclaren_final.py`
 - `mclaren_yearly.py`
-- `patch_tracks.py`
 - `scrape_links.py`
 - `sum_all.py`
 - `sum_tss.py`

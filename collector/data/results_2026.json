@@ -5715,7 +5715,7 @@
         "number": 12,
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
-        "points": "25",
+        "points": 25,
         "status": "Finished",
         "laps": "57",
         "time": "1:34:23.754"
@@ -5730,7 +5730,7 @@
         "number": 3,
         "team": "Red Bull",
         "teamCn": "红牛",
-        "points": "18",
+        "points": 18,
         "status": "Finished",
         "laps": "57",
         "time": "+4.351s"
@@ -5745,7 +5745,7 @@
         "number": 1,
         "team": "McLaren",
         "teamCn": "迈凯伦",
-        "points": "15",
+        "points": 15,
         "status": "Finished",
         "laps": "57",
         "time": "+5.089s"
@@ -5760,7 +5760,7 @@
         "number": 16,
         "team": "Ferrari",
         "teamCn": "法拉利",
-        "points": "12",
+        "points": 12,
         "status": "Finished",
         "laps": "57",
         "time": "+29.116s"
@@ -5775,7 +5775,7 @@
         "number": 63,
         "team": "Mercedes",
         "teamCn": "梅赛德斯",
-        "points": "10",
+        "points": 10,
         "status": "Finished",
         "laps": "57",
         "time": "+29.829s"
@@ -5790,7 +5790,7 @@
         "number": 30,
         "team": "Racing Bulls",
         "teamCn": "RB",
-        "points": "8",
+        "points": 8,
         "status": "Finished",
         "laps": "57",
         "time": "+86.746s"
@@ -5805,7 +5805,7 @@
         "number": 43,
         "team": "Alpine",
         "teamCn": "阿尔派",
-        "points": "6",
+        "points": 6,
         "status": "Finished",
         "laps": "57",
         "time": "+94.281s"
@@ -5820,7 +5820,7 @@
         "number": 81,
         "team": "McLaren",
         "teamCn": "迈凯伦",
-        "points": "4",
+        "points": 4,
         "status": "Finished",
         "laps": "57",
         "time": "+95.839s"
@@ -5835,7 +5835,7 @@
         "number": 41,
         "team": "Racing Bulls",
         "teamCn": "RB",
-        "points": "2",
+        "points": 2,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5850,7 +5850,7 @@
         "number": 27,
         "team": "Audi",
         "teamCn": "奥迪 (Sauber)",
-        "points": "1",
+        "points": 1,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5865,7 +5865,7 @@
         "number": 31,
         "team": "Haas",
         "teamCn": "哈斯",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5880,7 +5880,7 @@
         "number": 10,
         "team": "Alpine",
         "teamCn": "阿尔派",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5895,7 +5895,7 @@
         "number": 5,
         "team": "Audi",
         "teamCn": "奥迪 (Sauber)",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5910,7 +5910,7 @@
         "number": 22,
         "team": "Red Bull",
         "teamCn": "红牛",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap",
@@ -5928,7 +5928,7 @@
         "number": 23,
         "team": "Williams",
         "teamCn": "威廉姆斯",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5943,7 +5943,7 @@
         "number": 87,
         "team": "Haas",
         "teamCn": "哈斯",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "56",
         "time": "+1 lap"
@@ -5958,7 +5958,7 @@
         "number": 14,
         "team": "Aston Martin",
         "teamCn": "阿斯顿·马丁",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "55",
         "time": "+2 laps"
@@ -5973,7 +5973,7 @@
         "number": 77,
         "team": "Cadillac",
         "teamCn": "凯迪拉克",
-        "points": "0",
+        "points": 0,
         "status": "Finished",
         "laps": "54",
         "time": "+3 laps"

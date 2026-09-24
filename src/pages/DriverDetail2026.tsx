@@ -54,14 +54,14 @@ const DriverDetail2026 = () => {
                 if (!driverKey) {
                     return;
                 }
-                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + (r.points || 0);
+                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + Number(r.points || 0);
             });
             round.sprintResults?.forEach(r => {
                 const driverKey = getDriverMatchKeys(r)[0];
                 if (!driverKey) {
                     return;
                 }
-                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + (r.points || 0);
+                allDriverPoints[driverKey] = (allDriverPoints[driverKey] || 0) + Number(r.points || 0);
             });
         });
         const sortedPoints = Object.entries(allDriverPoints).sort((a, b) => b[1] - a[1]);

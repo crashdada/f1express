@@ -91,7 +91,7 @@ const DriverDetailPage = () => {
                     rank: champInfo ? champInfo.rank : '-'
                 };
             }
-            summary[s].points += r.points;
+            summary[s].points += Number(r.points || 0);
             if (r.position === 1) summary[s].wins += 1;
             if (r.position >= 1 && r.position <= 3) summary[s].podiums += 1;
             if (r.grid === 1) summary[s].poles += 1;

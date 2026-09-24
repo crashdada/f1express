@@ -81,6 +81,26 @@ def to_status(value):
     return "Finished" if to_position(value) is not None else "DNF"
 
 
+def to_points(value):
+    """Normalize a points cell to a JSON number.
+
+    Spider/HTML scrapers emit points as strings (for example "25" or "0.5"),
+    while the __NEXT_DATA__ scraper emits ints. Downstream consumers
+    (calculate_team_stats, the frontend standings) require numbers, so we
+    coerce here to keep the published results_2026.json type-stable.
+    """
+    if value is None or value == "":
+        return 0
+    text = str(value).strip()
+    if text.upper() in {"", "-", "NC", "DNF", "DNS", "DSQ"}:
+        return 0
+    try:
+        number = float(text)
+    except (ValueError, TypeError):
+        return 0
+    return int(number) if number.is_integer() else number
+
+
 def extract_event_id(url):
     match = re.search(r"/races/(\d+)/", url or "")
     return int(match.group(1)) if match else None
@@ -263,7 +283,7 @@ def enrich_result(item, driver_record, sub_meta, resolved_code):
         "number": int(str(item.get("no", "0"))) if str(item.get("no", "")).isdigit() else 0,
         "team": fields.get("team", ""),
         "teamCn": fields.get("teamCn", ""),
-        "points": item.get("points", 0),
+        "points": to_points(item.get("points")),
         "status": to_status(item.get("pos")),
         "laps": item.get("laps"),
         "time": item.get("time"),

@@ -348,13 +348,13 @@ def sync_assets():
 
 
 def run_scraper():
-    """运行 scraper.py"""
-    scraper = os.path.join(COLLECTOR_DIR, 'scraper.py')
+    """运行赛历采集器 collector/scrapers/scraper.py"""
+    scraper = os.path.join(COLLECTOR_DIR, 'scrapers', 'scraper.py')
     if not os.path.exists(scraper):
-        log('[!] scraper.py 不存在')
+        log('[!] scrapers/scraper.py 不存在')
         return False
 
-    log('[...] 运行 scraper.py ...')
+    log('[...] 运行 scrapers/scraper.py ...')
     result = subprocess.run(
         [sys.executable, scraper],
         cwd=COLLECTOR_DIR,

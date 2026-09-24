@@ -42,10 +42,10 @@ const TeamDetail2026 = () => {
         const totalPoints = allRaceResults.reduce((sum, round) => {
             const racePts = (round.results || [])
                 .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
-                .reduce((s, r) => s + (r.points || 0), 0);
+                .reduce((s, r) => s + Number(r.points || 0), 0);
             const sprintPts = (round.sprintResults || [])
                 .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
-                .reduce((s, r) => s + (r.points || 0), 0);
+                .reduce((s, r) => s + Number(r.points || 0), 0);
             return sum + racePts + sprintPts;
         }, 0);
 
@@ -75,11 +75,11 @@ const TeamDetail2026 = () => {
         allRaceResults.forEach(round => {
             round.results?.forEach(r => {
                 const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
-                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
+                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + Number(r.points || 0);
             });
             round.sprintResults?.forEach(r => {
                 const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
-                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + (r.points || 0);
+                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + Number(r.points || 0);
             });
         });
 

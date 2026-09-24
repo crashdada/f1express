@@ -98,7 +98,7 @@ function buildLiveTeamStatsMap(liveResults: IRaceRound2026[]) {
         return;
       }
 
-      stats.points += result.points || 0;
+      stats.points += Number(result.points || 0);
       if (result.pos === 1) stats.wins += 1;
       if (result.pos && result.pos <= 3) stats.podiums += 1;
     });
@@ -106,7 +106,7 @@ function buildLiveTeamStatsMap(liveResults: IRaceRound2026[]) {
     round.sprintResults?.forEach((result) => {
       const stats = ensureTeam(getTeamMatchKeys(result.team, result.teamCn));
       if (stats) {
-        stats.points += result.points || 0;
+        stats.points += Number(result.points || 0);
       }
     });
   });
@@ -143,7 +143,7 @@ function buildLiveDriverStatsMap(liveResults: IRaceRound2026[]) {
         return;
       }
 
-      stats.points += result.points || 0;
+      stats.points += Number(result.points || 0);
       if (result.pos === 1) stats.wins += 1;
       if (result.pos && result.pos <= 3) stats.podiums += 1;
     });
@@ -151,7 +151,7 @@ function buildLiveDriverStatsMap(liveResults: IRaceRound2026[]) {
     round.sprintResults?.forEach((result) => {
       const stats = ensureDriver(getDriverMatchKeys(result));
       if (stats) {
-        stats.points += result.points || 0;
+        stats.points += Number(result.points || 0);
       }
     });
 

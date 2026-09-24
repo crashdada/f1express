@@ -78,7 +78,7 @@ const RacesPage = () => {
         team: r.teamCn || r.team,
         laps: 0,
         time: '',
-        points: r.points,
+        points: Number(r.points || 0),
         season: 2026,
         roundNo: raceRound.round,
         url: ''

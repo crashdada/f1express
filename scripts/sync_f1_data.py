@@ -292,21 +292,33 @@ def main() -> int:
     refine_script = collector_dir / "processors" / "refine_with_stats.py"
     syncer_script = collector_dir / "syncer.py"
 
-    if refine_script.exists():
-        ok, elapsed = run_command([sys.executable, str(refine_script)], cwd=repo_root, extra_env={"F1_DB_PATH": str(db_path)})
+    def run_refinement() -> None:
+        if not refine_script.exists():
+            record(phase, "Collector stat refinement", None, 0.0)
+            return
+        ok, elapsed = run_command(
+            [sys.executable, str(refine_script)],
+            cwd=repo_root,
+            extra_env={"F1_DB_PATH": str(db_path)},
+        )
         record(phase, "Collector stat refinement", ok, elapsed)
-    else:
-        record(phase, "Collector stat refinement", None, 0.0)
 
     if NAS_MODE:
+        # Refine before the storage -> dist copy so the hot update ships fresh
+        # team/driver stats.
+        run_refinement()
         hot_update_nas()
         record(phase, "NAS hot update", True, time.time() - started)
     else:
+        # Publish collector/data -> storage first, then refine. Refinement reads
+        # storage/results_2026.json, so running it before the sync would compute
+        # team stats from the previous race and leave them one round stale.
         if syncer_script.exists():
             ok, elapsed = run_command([sys.executable, str(syncer_script)], cwd=collector_dir)
             record(phase, "Collector sync", ok, elapsed)
         else:
             record(phase, "Collector sync", None, 0.0)
+        run_refinement()
 
     # Phase 6: Validate outputs
     phase = "Phase 6: Validate"

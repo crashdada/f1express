@@ -1,6 +1,28 @@
-﻿﻿# 更新日志 (Changelog)
+﻿# 更新日志 (Changelog)
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
+
+## 2026-09-24: v1.4.4 - Collector-side data fixes (Docker release unblock)
+- 修复 Docker 发布失败
+  - 根因：`collector/results_2026/spain_results.json` 的 `points` 是字符串，`calculate_team_stats.py` 做 `int + str` 抛异常被吞，`teams_2026.json::stats.points` 少算最后一站，`validate:team-totals` 失败，`docker-publish`（`needs: verify`）被跳过。
+  - `collector/exporters/export_results_json.py` 新增 `to_points()`，`enrich_result` 统一把 points 归一为数值；`collector/spider.py` 同步归一。
+  - `scripts/sync_f1_data.py` Phase 5 调整为「先 sync 后 refine」（NAS 模式仍 refine → hot_update），避免用旧 `storage/results_2026.json` 计算车队统计。
+  - 前端积分累加统一加 `Number()` 兜底（`useCombinedData`、`TeamDetail2026`、`DriverDetail2026`、`DriverDetailPage`、`AnalyticsPage`、`RacesPage`），防止字符串拼接。
+- 采集端赛历单一来源
+  - `collector/scrapers/scraper.py`：取消硬编码 `Round 4/5 CANCELLED`（新赛历 4/5 已是 Miami/Canada），改为 `CANCELLED_ROUNDS` 配置；`bahrain` 修正为马来西亚 Sepang；删除已取消的 `saudi-arabia` / `emilia-romagna` 配置；赛历输出改为基于 `__file__` 的绝对路径。
+  - `collector/config/circuit_metadata.json`：`bahrain` 更新为 Sepang 规格并新增 `malaysia`；移除 `saudi-arabia`。
+  - 删除会写回 Sakhir/24 站的陈旧一次性脚本 `collector/processors/fix_2026_tracks.py` 与 `collector/tools/oneoff/patch_tracks.py`。
+- 消除重复采集器
+  - `collector/spider.py` 改为薄封装，复用 `collector/scrapers/scraper.py` 的 `F1DataCollector` 解析器（`get_race_results` 现额外输出 `code`/`driver`/`team`），定期采集与人工补抓共用同一 schema。
+  - `collector/syncer.py` `--scrape` 修正指向 `scrapers/scraper.py`。
+- 元数据 / 清理
+  - `scripts/f1_substitutions_2026.json` 更正 round（Netherlands 12 / Italy 13 / Spain 14）并统一 team 为 Red Bull。
+  - `schedule_2026.json` 移除仅 R16 存在的冗余 `originalSlug` 字段，统一 schema。
+  - `src/pages/NewSeasonPage.tsx` 移除失效的 `[CANCELLED] Saudi Arabian Grand Prix` 翻译。
+  - `collector/processors/import_results.py` 数据库路径改指 `storage/f1.db`；清理 `storage/live/` 陈旧 JSON 副本。
+- 测试
+  - 新增 `collector/tests/test_export_results_json.py`（points 归一 + 单元格解析）与 `useCombinedData` 字符串积分回归用例。
+  - `npx vitest run tests/unit tests/integration`、`python -m pytest collector/tests`、`npm run validate:team-totals`、`npm run validate:docker` 全部通过。
 
 ## 2026-09-24: v1.4.3 - 2026 Bahrain GP moved to Sepang + season 2026 calendar sync
 - 赛历

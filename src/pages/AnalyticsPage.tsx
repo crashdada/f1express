@@ -75,7 +75,7 @@ const AnalyticsPage = () => {
           mainTeam: r.team || ''
         };
       }
-      driverStats[r.code].points += r.points;
+      driverStats[r.code].points += Number(r.points || 0);
       
       // 只有正赛（非冲刺赛）才计入胜场和领奖台统计
       // 同时检查 isSprint 标志和比赛名称中是否包含 "Sprint"
@@ -87,7 +87,7 @@ const AnalyticsPage = () => {
 
       if (r.team) {
         if (!driverTeamPoints[r.code]) driverTeamPoints[r.code] = {};
-        driverTeamPoints[r.code][r.team] = (driverTeamPoints[r.code][r.team] || 0) + r.points;
+        driverTeamPoints[r.code][r.team] = (driverTeamPoints[r.code][r.team] || 0) + Number(r.points || 0);
       }
     });
 
@@ -106,7 +106,7 @@ const AnalyticsPage = () => {
       if (!teamStats[r.team]) {
         teamStats[r.team] = { name: r.team, points: 0, wins: 0, podiums: 0 };
       }
-      teamStats[r.team].points += r.points;
+      teamStats[r.team].points += Number(r.points || 0);
       
       // 只有正赛才计入车队胜场和领奖台统计
       const isSprint = r.isSprint === true || (r.grandPrix && r.grandPrix.includes('Sprint'));
@@ -262,7 +262,7 @@ const AnalyticsPage = () => {
     results.forEach(result => {
       const round = result.roundNo || 0;
       if (round === 0) return;
-      roundStats[round] = (roundStats[round] || 0) + (result.points || 0);
+      roundStats[round] = (roundStats[round] || 0) + Number(result.points || 0);
     });
 
     const sortedRounds = Object.keys(roundStats).map(Number).sort((a, b) => a - b);

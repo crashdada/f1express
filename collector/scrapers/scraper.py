@@ -16,14 +16,16 @@ class F1DataCollector:
         }
         
         # 2026 赛季元数据修正映射
+        # 说明：本表用于把 formula1.com 的 meetingKey 修正为项目标准值。
+        # 2026 官方赛历为 23 站：原 Round 4 (Bahrain/Sakhir) 与 Round 5
+        # (Saudi/Jeddah) 已取消；Bahrain Grand Prix 改在马来西亚 Sepang 举办，
+        # 因此 `bahrain` 的 country/location/flag 指向马来西亚。
         self.SEASON_2026_CONFIG = {
             "australia": {"country": "AUSTRALIA", "location": "Melbourne", "gp": "Australian Grand Prix", "flag": "Australia.svg"},
             "china": {"country": "CHINA", "location": "Shanghai", "gp": "Chinese Grand Prix", "flag": "China.svg"},
             "japan": {"country": "JAPAN", "location": "Suzuka", "gp": "Japanese Grand Prix", "flag": "Japan.svg"},
-            "bahrain": {"country": "BAHRAIN", "location": "Sakhir", "gp": "Bahrain Grand Prix", "flag": "Bahrain.svg"},
-            "saudi-arabia": {"country": "SAUDI ARABIA", "location": "Jeddah", "gp": "Saudi Arabian Grand Prix", "flag": "Saudi_Arabia.svg"},
+            "bahrain": {"country": "MALAYSIA", "location": "Kuala Lumpur", "gp": "Bahrain Grand Prix", "flag": "Malaysia.svg"},
             "miami": {"country": "USA", "location": "Miami", "gp": "Miami Grand Prix", "flag": "USA.svg"},
-            "emilia-romagna": {"country": "ITALY", "location": "Imola", "gp": "Emilia Romagna Grand Prix", "flag": "Italy.svg"},
             "monaco": {"country": "MONACO", "location": "Monaco", "gp": "Monaco Grand Prix", "flag": "Monaco.svg"},
             "spain": {"country": "SPAIN", "location": "Barcelona", "gp": "Spanish Grand Prix", "flag": "Spain.svg"},
             "barcelona-catalunya": {"country": "SPAIN", "location": "Barcelona", "gp": "Spanish Grand Prix", "flag": "Spain.svg"},
@@ -43,6 +45,9 @@ class F1DataCollector:
             "qatar": {"country": "QATAR", "location": "Lusail", "gp": "Qatar Grand Prix", "flag": "Qatar.svg"},
             "united-arab-emirates": {"country": "UAE", "location": "Yas Marina", "gp": "Abu Dhabi Grand Prix", "file_slug": "abu-dhabi", "flag": "UAE.svg"},
         }
+
+        # 被官方取消的分站轮次（2026 为空；保留钩子供未来赛季使用）
+        self.CANCELLED_ROUNDS: set[int] = set()
 
         # 加载静态赛道参数 metadata
         self.circuit_metadata = {}
@@ -209,8 +214,10 @@ class F1DataCollector:
                 except Exception as e:
                     print(f"  -> Failed to generate dates for {event['slug']}: {e}")
 
-            # 3. 处理赛季特殊变动：第 4、5 站取消
-            if event.get("roundNumber") in [4, 5]:
+            # 3. 处理赛季特殊变动：仅当分站被显式列入取消名单时才标记
+            #    （2026 赛季没有取消站；早期版本曾硬编码 Round 4/5，
+            #     但新赛历中 4/5 已是 Miami/Canada，硬编码会误伤。）
+            if event.get("roundNumber") in self.CANCELLED_ROUNDS:
                 event["status"] = "CANCELLED"
                 if "CANCELLED" not in event["gpName"]:
                     event["gpName"] = f"[CANCELLED] {event['gpName']}"
@@ -260,6 +267,27 @@ class F1DataCollector:
         
         return sessions, gmt_offset
 
+    @staticmethod
+    def _cell_text(row, index, join=False):
+        """Extract a text cell from a results row.
+
+        Cells normally look like {"content": ["value"]}, but the driver cell
+        can be split across multiple fragments, so callers that need the whole
+        string pass join=True.
+        """
+        if len(row) <= index:
+            return None
+        value = row[index].get('content')
+        if isinstance(value, list) and value:
+            parts = [part for part in value if isinstance(part, str)]
+            if not parts:
+                return None
+            text = " ".join(parts) if join else parts[0]
+            return text.strip()
+        if isinstance(value, str):
+            return value.strip()
+        return None
+
     def get_race_results(self, url_or_html: str):
         if url_or_html.startswith('http'):
             html = self.fetch_page(url_or_html)
@@ -284,12 +312,20 @@ class F1DataCollector:
             rows = json.loads(content[:end_idx])
             results = []
             for row in rows:
+                driver = self._cell_text(row, 2, join=True) or ""
+                code = ""
+                tokens = driver.split()
+                if tokens and len(tokens[-1]) == 3 and tokens[-1].isupper():
+                    code = tokens[-1]
                 results.append({
-                    'pos':    row[0].get('content', [None])[0] if len(row) > 0 else None,
-                    'no':     row[1].get('content', [None])[0] if len(row) > 1 else None,
-                    'laps':   row[4].get('content', [None])[0] if len(row) > 4 else None,
-                    'time':   row[5].get('content', [None])[0] if len(row) > 5 else None,
-                    'points': row[6].get('content', [0])[0]    if len(row) > 6 else 0,
+                    'pos':    self._cell_text(row, 0),
+                    'no':     self._cell_text(row, 1),
+                    'code':   code,
+                    'driver': driver,
+                    'team':   self._cell_text(row, 3, join=True) or "",
+                    'laps':   self._cell_text(row, 4),
+                    'time':   self._cell_text(row, 5),
+                    'points': self._cell_text(row, 6) or 0,
                 })
             return results
         except:
@@ -377,8 +413,11 @@ if __name__ == "__main__":
     collector = F1DataCollector()
     print(f"Starting F1 Data Collector for Season {collector.season}...")
     
-    schedule_file = f'data/schedule_{collector.season}.json'
-    
+    # 使用绝对路径，避免依赖调用时的当前工作目录
+    data_dir = Path(__file__).resolve().parent.parent / 'data'
+    data_dir.mkdir(parents=True, exist_ok=True)
+    schedule_file = str(data_dir / f'schedule_{collector.season}.json')
+
     print("Executing sync...")
     sched = collector.get_schedule()
     if sched:
