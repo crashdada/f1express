@@ -286,6 +286,15 @@ def build_results_json():
     no_map = {str(item.get("number", "")): item for item in drivers_2026}
     code_map = {str(item.get("code", "")): item for item in drivers_2026 if item.get("code")}
 
+    def lookup_driver(item):
+        """Resolve a race row by code first, then by car number."""
+        raw_code = str(item.get("code") or "").strip().upper()
+        if raw_code:
+            candidate = code_map.get(raw_code)
+            if candidate is not None:
+                return candidate
+        return no_map.get(str(item.get("no", "")), {})
+
     substitutes = load_json(SUBSTITUTES_JSON) or []
     sub_by_code = {str(item.get("code", "")): item for item in substitutes if item.get("code")}
     sub_by_number = {str(item.get("number", "")): item for item in substitutes if item.get("number") is not None}
@@ -333,9 +342,22 @@ def build_results_json():
 
         race_subs = substitution_lookup.get(slug, {})
 
-        def lookup(no_str):
-            sub_meta = race_subs.get(no_str)
+        def lookup(item):
+            no_str = str(item.get("no", ""))
+            code_str = str(item.get("code", "")).upper()
+
+            # Prefer explicit code on the row, then car number.
+            sub_meta = None
+            if code_str and code_str in race_subs:
+                sub_meta = race_subs[code_str]
+            elif no_str in race_subs:
+                sub_meta = race_subs[no_str]
+
             if not sub_meta:
+                if code_str:
+                    candidate = code_map.get(code_str)
+                    if candidate is not None:
+                        return candidate, None, code_str
                 return no_map.get(no_str, {}), None, None
 
             record, returned_meta, resolved_code = resolve_driver(
@@ -351,7 +373,7 @@ def build_results_json():
 
         for item in raw.get("results", []):
             no = str(item.get("no", ""))
-            record, sub_meta, resolved_code = lookup(no)
+            record, sub_meta, resolved_code = lookup(item)
             if sub_meta and round_num:
                 record_substitute_appearance(
                     substitutes, round_num, no, sub_meta.get("actualCode"),
@@ -360,16 +382,14 @@ def build_results_json():
 
         sprint_results = []
         for item in raw.get("sprintResults", [])[:8]:
-            no = str(item.get("no", ""))
-            record, sub_meta, resolved_code = lookup(no)
+            record, sub_meta, resolved_code = lookup(item)
             sprint_results.append(enrich_result(item, record, sub_meta, resolved_code))
         if sprint_results:
             race_info["sprintResults"] = sprint_results
 
         pole = raw.get("polePosition")
         if pole:
-            pole_no = str(pole.get("no", ""))
-            pole_record, _, pole_code = lookup(pole_no)
+            pole_record, _, pole_code = lookup(pole)
             race_info["polePosition"] = {
                 "time": pole.get("time", ""),
                 "code": pole_record.get("code") or pole_code or "",
@@ -382,7 +402,7 @@ def build_results_json():
         qualifying_results = []
         for item in raw.get("qualifyingResults", [])[:3]:
             no = str(item.get("no", ""))
-            record, _, resolved_code = lookup(no)
+            record, _, resolved_code = lookup(item)
             qualifying_results.append({
                 "position": item.get("position"),
                 "number": int(no) if no.isdigit() else 0,

@@ -8,6 +8,20 @@ import fs from 'fs'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const storagePath = path.resolve(__dirname, 'storage');
+
+function copyRecursive(src, dst) {
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const srcPath = path.join(src, entry.name);
+    const dstPath = path.join(dst, entry.name);
+    if (entry.isDirectory()) {
+      fs.mkdirSync(dstPath, { recursive: true });
+      copyRecursive(srcPath, dstPath);
+    } else if (entry.isFile()) {
+      fs.copyFileSync(srcPath, dstPath);
+    }
+  }
+}
 
 export default defineConfig({
   plugins: [
@@ -15,7 +29,6 @@ export default defineConfig({
     {
       name: 'serve-f1-storage',
       configureServer(server) {
-        const storagePath = path.resolve(__dirname, 'storage');
         server.middlewares.use('/data', express.static(storagePath));
         server.middlewares.use('/photos', express.static(path.join(storagePath, 'photos')));
       }
@@ -23,9 +36,8 @@ export default defineConfig({
     {
       name: 'bundle-f1-storage-runtime-data',
       closeBundle() {
-        const sourceDbPath = path.resolve(__dirname, 'storage', 'f1.db');
+        const sourceDbPath = path.join(storagePath, 'f1.db');
         const bundledDbPath = path.resolve(__dirname, 'dist', 'f1.db');
-        const sourceDataDir = path.resolve(__dirname, 'storage');
         const bundledDataDir = path.resolve(__dirname, 'dist', 'data');
         const runtimeJsonFiles = [
           'schedule_2026.json',
@@ -48,7 +60,7 @@ export default defineConfig({
 
         fs.mkdirSync(bundledDataDir, { recursive: true });
         for (const filename of runtimeJsonFiles) {
-          const sourcePath = path.join(sourceDataDir, filename);
+          const sourcePath = path.join(storagePath, filename);
           const targetPath = path.join(bundledDataDir, filename);
 
           if (!fs.existsSync(sourcePath)) {
@@ -61,6 +73,15 @@ export default defineConfig({
             throw new Error(`Bundled runtime dataset is empty: ${targetPath}`);
           }
           console.log(`Bundled runtime dataset into dist/data/${filename} (${fileStats.size} bytes)`);
+        }
+
+        const sourcePhotosDir = path.join(storagePath, 'photos');
+        const bundledPhotosDir = path.resolve(__dirname, 'dist', 'photos');
+        if (fs.existsSync(sourcePhotosDir)) {
+          fs.mkdirSync(bundledPhotosDir, { recursive: true });
+          copyRecursive(sourcePhotosDir, bundledPhotosDir);
+          const photoCount = fs.readdirSync(bundledPhotosDir, { recursive: true }).length;
+          console.log(`Bundled photos directory into dist/photos (${photoCount} files)`);
         }
       }
     }

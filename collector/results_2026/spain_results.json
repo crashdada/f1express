@@ -1,197 +1,190 @@
 {
-    "round": "ROUND 16",
-    "eventId": 1294,
-    "country": "SPAIN",
-    "slug": "spain",
-    "url": "https://www.formula1.com/en/results/2026/races/1294/spain/race-result",
-    "scraped_at": "2026-09-14T12:53:47.760493",
-    "results": [
-        {
-            "pos": "1",
-            "no": "12",
-            "laps": "57",
-            "time": "1:34:23.754",
-            "points": 25
-        },
-        {
-            "pos": "2",
-            "no": "3",
-            "laps": "57",
-            "time": "+4.351s",
-            "points": 18
-        },
-        {
-            "pos": "3",
-            "no": "1",
-            "laps": "57",
-            "time": "+5.089s",
-            "points": 15
-        },
-        {
-            "pos": "4",
-            "no": "16",
-            "laps": "57",
-            "time": "+29.116s",
-            "points": 12
-        },
-        {
-            "pos": "5",
-            "no": "63",
-            "laps": "57",
-            "time": "+29.829s",
-            "points": 10
-        },
-        {
-            "pos": "6",
-            "no": "30",
-            "laps": "57",
-            "time": "+86.746s",
-            "points": 8
-        },
-        {
-            "pos": "7",
-            "no": "43",
-            "laps": "57",
-            "time": "+94.281s",
-            "points": 6
-        },
-        {
-            "pos": "8",
-            "no": "81",
-            "laps": "57",
-            "time": "+95.839s",
-            "points": 4
-        },
-        {
-            "pos": "9",
-            "no": "41",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 2
-        },
-        {
-            "pos": "10",
-            "no": "27",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 1
-        },
-        {
-            "pos": "11",
-            "no": "31",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "12",
-            "no": "10",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "13",
-            "no": "5",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "14",
-            "no": "22",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "15",
-            "no": "23",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "16",
-            "no": "87",
-            "laps": "56",
-            "time": "+1 lap",
-            "points": 0
-        },
-        {
-            "pos": "17",
-            "no": "14",
-            "laps": "55",
-            "time": "+2 laps",
-            "points": 0
-        },
-        {
-            "pos": "18",
-            "no": "77",
-            "laps": "54",
-            "time": "+3 laps",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "55",
-            "laps": "43",
-            "time": "DNF",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "11",
-            "laps": "31",
-            "time": "DNF",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "18",
-            "laps": "12",
-            "time": "DNF",
-            "points": 0
-        },
-        {
-            "pos": "NC",
-            "no": "44",
-            "laps": "6",
-            "time": "DNF",
-            "points": 0
-        }
-    ],
-    "qualifyingResults": [
-        {
-            "position": 1,
-            "no": "1",
-            "q1": "1:33.469",
-            "q2": "1:32.873",
-            "q3": "1:31.824",
-            "time": "1:31.824",
-            "laps": "19"
-        },
-        {
-            "position": 2,
-            "no": "12",
-            "q1": "1:33.267",
-            "q2": "1:32.591",
-            "q3": "1:31.835",
-            "time": "1:31.835",
-            "laps": "20"
-        },
-        {
-            "position": 3,
-            "no": "3",
-            "q1": "1:33.381",
-            "q2": "1:32.431",
-            "q3": "1:31.964",
-            "time": "1:31.964",
-            "laps": "18"
-        }
-    ],
-    "polePosition": {
-        "no": "1",
-        "time": "1:31.824"
+  "round": "ROUND 14",
+  "eventId": 1294,
+  "country": "SPAIN",
+  "slug": "spain",
+  "url": "https://www.formula1.com/en/results/2026/races/1294/spain/race-result",
+  "scraped_at": "2026-09-24T21:58:37",
+  "results": [
+    {
+      "pos": "1",
+      "no": "12",
+      "code": "ANT",
+      "driver": "Kimi Antonelli ANT",
+      "team": "Mercedes",
+      "laps": "57",
+      "time": "1:34:23.754",
+      "points": "25"
+    },
+    {
+      "pos": "2",
+      "no": "3",
+      "code": "VER",
+      "driver": "Max Verstappen VER",
+      "team": "Red Bull Racing",
+      "laps": "57",
+      "time": "+4.351s",
+      "points": "18"
+    },
+    {
+      "pos": "3",
+      "no": "1",
+      "code": "NOR",
+      "driver": "Lando Norris NOR",
+      "team": "McLaren",
+      "laps": "57",
+      "time": "+5.089s",
+      "points": "15"
+    },
+    {
+      "pos": "4",
+      "no": "16",
+      "code": "LEC",
+      "driver": "Charles Leclerc LEC",
+      "team": "Ferrari",
+      "laps": "57",
+      "time": "+29.116s",
+      "points": "12"
+    },
+    {
+      "pos": "5",
+      "no": "63",
+      "code": "RUS",
+      "driver": "George Russell RUS",
+      "team": "Mercedes",
+      "laps": "57",
+      "time": "+29.829s",
+      "points": "10"
+    },
+    {
+      "pos": "6",
+      "no": "30",
+      "code": "LAW",
+      "driver": "Liam Lawson LAW",
+      "team": "Red Bull Racing",
+      "laps": "57",
+      "time": "+86.746s",
+      "points": "8"
+    },
+    {
+      "pos": "7",
+      "no": "43",
+      "code": "COL",
+      "driver": "Franco Colapinto COL",
+      "team": "Alpine",
+      "laps": "57",
+      "time": "+94.281s",
+      "points": "6"
+    },
+    {
+      "pos": "8",
+      "no": "81",
+      "code": "PIA",
+      "driver": "Oscar Piastri PIA",
+      "team": "McLaren",
+      "laps": "57",
+      "time": "+95.839s",
+      "points": "4"
+    },
+    {
+      "pos": "9",
+      "no": "41",
+      "code": "LIN",
+      "driver": "Arvid Lindblad LIN",
+      "team": "Racing Bulls",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "2"
+    },
+    {
+      "pos": "10",
+      "no": "27",
+      "code": "HUL",
+      "driver": "Nico Hulkenberg HUL",
+      "team": "Audi",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "1"
+    },
+    {
+      "pos": "11",
+      "no": "31",
+      "code": "OCO",
+      "driver": "Esteban Ocon OCO",
+      "team": "Haas F1 Team",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "12",
+      "no": "10",
+      "code": "GAS",
+      "driver": "Pierre Gasly GAS",
+      "team": "Alpine",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "13",
+      "no": "5",
+      "code": "BOR",
+      "driver": "Gabriel Bortoleto BOR",
+      "team": "Audi",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "14",
+      "no": "22",
+      "code": "TSU",
+      "driver": "Yuki Tsunoda TSU",
+      "team": "Racing Bulls",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "15",
+      "no": "23",
+      "code": "ALB",
+      "driver": "Alexander Albon ALB",
+      "team": "Williams",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "16",
+      "no": "87",
+      "code": "BEA",
+      "driver": "Oliver Bearman BEA",
+      "team": "Haas F1 Team",
+      "laps": "56",
+      "time": "+1 lap",
+      "points": "0"
+    },
+    {
+      "pos": "17",
+      "no": "14",
+      "code": "ALO",
+      "driver": "Fernando Alonso ALO",
+      "team": "Aston Martin",
+      "laps": "55",
+      "time": "+2 laps",
+      "points": "0"
+    },
+    {
+      "pos": "18",
+      "no": "77",
+      "code": "BOT",
+      "driver": "Valtteri Bottas BOT",
+      "team": "Cadillac",
+      "laps": "54",
+      "time": "+3 laps",
+      "points": "0"
     }
+  ]
 }

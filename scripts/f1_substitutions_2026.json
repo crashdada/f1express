@@ -20,5 +20,16 @@
       "reason": "reserve",
       "note": "Netherlands 站同一情况：#22 仍由 TSU 顶替。"
     }
+  ],
+  "spain": [
+    {
+      "round": 14,
+      "carNumber": 22,
+      "actualCode": "TSU",
+      "team": "Red Bull",
+      "teamCn": "红牛",
+      "reason": "reserve",
+      "note": "Spain 站 TSU 以 #22 替补身份继续代表 Racing Bulls 上场。"
+    }
   ]
 }
