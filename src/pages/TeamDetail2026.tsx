@@ -1,7 +1,7 @@
 import { ChevronLeft, MapPin, Cpu, Zap, Users, Trophy, Target } from 'lucide-react';
 import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { IDriver2026, ITeam2026 } from '../types';
+import { IDriver2026, IRaceResult2026, ITeam2026 } from '../types';
 import { useDynamic2026Data } from '../hooks/useDynamic2026Data';
 import { getDriverMatchKeys, matchesTeam } from '../utils/entityMappings';
 
@@ -26,68 +26,68 @@ const TeamDetail2026 = () => {
         );
     }, [allDrivers, team]);
 
-    // Compute live 2026 team stats from JSON results
+    // Compute live 2026 team stats from JSON results.
+    // Points follow the constructor each driver actually raced for per round
+    // (substitutes change teams race-by-race), not the driver's season roster.
     const liveTeamStats = useMemo(() => {
         if (!team || !allRaceResults.length) return null;
-        const teamDrivers = allDrivers.filter((driver) =>
+        const teamIdentity = { name: team.name, nameCn: team.nameCn, fullName: team.name };
+
+        // The season roster is only a fallback for legacy rows that carry no
+        // team information at all.
+        const rosterDrivers = allDrivers.filter((driver) =>
             team.drivers.includes(driver.code) ||
             matchesTeam(
                 { name: driver.team, nameCn: driver.teamCn, fullName: driver.team },
-                { name: team.name, nameCn: team.nameCn, fullName: team.name }
+                teamIdentity
             )
         );
-        const teamDriverKeys = new Set(teamDrivers.flatMap((driver) => getDriverMatchKeys(driver)));
-        
+        const rosterDriverKeys = new Set(rosterDrivers.flatMap((driver) => getDriverMatchKeys(driver)));
+
+        const belongsToTeam = (result: IRaceResult2026) => {
+            if (result.team || result.teamCn) {
+                return matchesTeam(
+                    { name: result.team, nameCn: result.teamCn, fullName: result.team },
+                    teamIdentity
+                );
+            }
+            return getDriverMatchKeys(result).some((key) => rosterDriverKeys.has(key));
+        };
+
+        const raceResults = allRaceResults.flatMap((round) => round.results || []);
+        const sprintResults = allRaceResults.flatMap((round) => round.sprintResults || []);
+        const teamRaceResults = raceResults.filter(belongsToTeam);
+
         // Calculate points (including Sprints)
-        const totalPoints = allRaceResults.reduce((sum, round) => {
-            const racePts = (round.results || [])
-                .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
-                .reduce((s, r) => s + Number(r.points || 0), 0);
-            const sprintPts = (round.sprintResults || [])
-                .filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
-                .reduce((s, r) => s + Number(r.points || 0), 0);
-            return sum + racePts + sprintPts;
-        }, 0);
+        const totalPoints =
+            teamRaceResults.reduce((sum, r) => sum + Number(r.points || 0), 0) +
+            sprintResults.filter(belongsToTeam).reduce((sum, r) => sum + Number(r.points || 0), 0);
 
         // Calculate wins/podiums (Main Race ONLY)
-        const mainTeamResults = allRaceResults.flatMap(round => 
-            (round.results || []).filter(r => getDriverMatchKeys(r).some((key) => teamDriverKeys.has(key)))
-        );
-        const wins = mainTeamResults.filter(r => r.pos === 1).length;
-        const podiums = mainTeamResults.filter(r => r.pos != null && r.pos <= 3).length;
+        const wins = teamRaceResults.filter((r) => r.pos === 1).length;
+        const podiums = teamRaceResults.filter((r) => r.pos != null && r.pos <= 3).length;
 
-        // Compute team rank based on total points (Race + Sprint)
-        const allTeamPoints: Record<string, number> = {};
-        const driverToTeamMap = new Map<string, string>();
-        allDrivers.forEach((driver) => {
-            const teamName = driver.team || '';
-            if (!teamName) {
-                return;
-            }
-
-            getDriverMatchKeys(driver).forEach((key) => {
-                if (!driverToTeamMap.has(key)) {
-                    driverToTeamMap.set(key, teamName);
-                }
-            });
+        // Compute team rank based on total points (Race + Sprint), matching the
+        // standings page so substitute points land on the right constructor.
+        const pointsByTeam = new Map<string, number>();
+        [...raceResults, ...sprintResults].forEach((r) => {
+            const points = Number(r.points || 0);
+            if (!points) return;
+            const matched = teams.find((candidate) =>
+                matchesTeam(
+                    { name: r.team, nameCn: r.teamCn, fullName: r.team },
+                    { name: candidate.name, nameCn: candidate.nameCn, fullName: candidate.name }
+                )
+            );
+            const key = matched?.id || r.team;
+            pointsByTeam.set(key, (pointsByTeam.get(key) || 0) + points);
         });
 
-        allRaceResults.forEach(round => {
-            round.results?.forEach(r => {
-                const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
-                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + Number(r.points || 0);
-            });
-            round.sprintResults?.forEach(r => {
-                const tName = getDriverMatchKeys(r).map((key) => driverToTeamMap.get(key)).find(Boolean) || r.team;
-                if (tName) allTeamPoints[tName] = (allTeamPoints[tName] || 0) + Number(r.points || 0);
-            });
-        });
-
-        const sorted = Object.entries(allTeamPoints).sort((a, b) => b[1] - a[1]);
-        const rank = sorted.findIndex(([tName]) => tName === team.name) + 1;
+        const sorted = [...pointsByTeam.entries()].sort((a, b) => b[1] - a[1]);
+        const rank = sorted.findIndex(([id]) => id === team.id) + 1;
 
         return { points: totalPoints, wins, podiums, rank: rank || undefined };
-    }, [team, allDrivers, allRaceResults]);
+    }, [team, allDrivers, teams, allRaceResults]);
 
     if (loading) {
         return (

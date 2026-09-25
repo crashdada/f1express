@@ -48,6 +48,14 @@ TEAM_CN_MAP = {
     "Cadillac": "凯迪拉克",
 }
 
+# Scraped team column variants -> canonical roster team name.
+# The results table is authoritative for which constructor a driver raced for
+# (a substitute can drive for a different team than their season roster entry).
+RAW_TEAM_CANONICAL = {
+    "Red Bull Racing": "Red Bull",
+    "Haas F1 Team": "Haas",
+}
+
 VALID_REPLACE_REASONS = {"illness", "injury", "penalty", "promotion", "reserve", "other"}
 
 
@@ -246,6 +254,13 @@ def resolve_driver(
     return no_map.get(no_str, {}), None, None
 
 
+def canonical_team_name(value):
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    return RAW_TEAM_CANONICAL.get(text, text)
+
+
 def compose_driver_fields(record, actual_code):
     if not record:
         return {}, None
@@ -264,15 +279,36 @@ def enrich_result(item, driver_record, sub_meta, resolved_code):
     """Compose the per-result dict, adding substitute inline fields when applicable."""
     pos = to_position(item.get("pos"))
     fields, code = compose_driver_fields(driver_record, resolved_code)
-    # When a substitute record comes from history (no team) or substitutes table,
-    # prefer the team pinned in the per-race substitution config.
-    if sub_meta:
-        if not fields.get("team") and sub_meta.get("team"):
-            fields["team"] = sub_meta["team"]
-        if not fields.get("teamCn") and sub_meta.get("teamCn"):
-            fields["teamCn"] = sub_meta["teamCn"]
-        if not fields.get("teamCn") and fields.get("team"):
-            fields["teamCn"] = TEAM_CN_MAP.get(fields["team"], "")
+
+    # Team resolution precedence:
+    #   1. the per-race team from the scraped results table (authoritative:
+    #      a substitute can drive for a different constructor than their
+    #      season roster entry, e.g. a Racing Bulls driver filling in at
+    #      Red Bull)
+    #   2. an explicit substitution config entry, for rows whose scrape
+    #      omitted the team column
+    #   3. the driver's season roster team
+    raw_team = canonical_team_name(item.get("team"))
+    roster_team = fields.get("team", "")
+    roster_team_cn = fields.get("teamCn") or TEAM_CN_MAP.get(roster_team, "")
+    if raw_team:
+        team = raw_team
+        # Reuse the roster translation when the raw team is the driver's own
+        # constructor; otherwise (substitute driving elsewhere) translate fresh.
+        if canonical_team_name(roster_team) == raw_team and roster_team_cn:
+            team_cn = roster_team_cn
+        else:
+            team_cn = TEAM_CN_MAP.get(team, "")
+    elif sub_meta and sub_meta.get("team"):
+        team = canonical_team_name(sub_meta["team"])
+        team_cn = sub_meta.get("teamCn") or TEAM_CN_MAP.get(team, "")
+    else:
+        team = roster_team
+        team_cn = roster_team_cn
+
+    fields["team"] = team
+    fields["teamCn"] = team_cn
+
     base = {
         "pos": pos,
         "firstName": fields.get("firstName", ""),
@@ -281,8 +317,8 @@ def enrich_result(item, driver_record, sub_meta, resolved_code):
         "lastNameCn": fields.get("lastNameCn", ""),
         "code": code or "",
         "number": int(str(item.get("no", "0"))) if str(item.get("no", "")).isdigit() else 0,
-        "team": fields.get("team", ""),
-        "teamCn": fields.get("teamCn", ""),
+        "team": team,
+        "teamCn": team_cn,
         "points": to_points(item.get("points")),
         "status": to_status(item.get("pos")),
         "laps": item.get("laps"),

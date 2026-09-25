@@ -11,7 +11,7 @@ for candidate in (EXPORTERS_DIR, SCRAPERS_DIR):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from export_results_json import to_points  # noqa: E402
+from export_results_json import enrich_result, to_points  # noqa: E402
 from scraper import F1DataCollector  # noqa: E402
 
 
@@ -53,3 +53,50 @@ def test_cell_text_joins_driver_fragments():
     assert collector._cell_text(row, 2, join=True) == "Kimi Antonelli  ANT"
     assert collector._cell_text(row, 3, join=True) == "Mercedes"
     assert collector._cell_text(row, 9) is None
+
+
+LAWSON_ROSTER = {
+    "firstName": "Liam",
+    "lastName": "Lawson",
+    "code": "LAW",
+    "team": "Racing Bulls",
+    "teamCn": "RB",
+}
+
+
+def test_result_team_prefers_scraped_team_over_season_roster():
+    item = {
+        "pos": "6",
+        "no": "30",
+        "code": "LAW",
+        "team": "Red Bull Racing",
+        "laps": "57",
+        "time": "+86.746s",
+        "points": "8",
+    }
+    result = enrich_result(item, LAWSON_ROSTER, None, "LAW")
+    assert result["team"] == "Red Bull"
+    assert result["teamCn"] == "红牛"
+    assert result["points"] == 8
+
+
+def test_result_team_falls_back_to_substitution_config():
+    roster = {
+        "firstName": "Yuki",
+        "lastName": "Tsunoda",
+        "code": "TSU",
+        "team": "Racing Bulls",
+        "teamCn": "RB",
+    }
+    item = {"pos": "10", "no": "22", "code": "TSU", "points": "1"}
+    result = enrich_result(item, roster, {"team": "Red Bull", "teamCn": "红牛"}, "TSU")
+    assert result["team"] == "Red Bull"
+    assert result["teamCn"] == "红牛"
+    assert result["isSubstitute"] is True
+
+
+def test_result_team_falls_back_to_season_roster():
+    item = {"pos": "7", "no": "30", "code": "LAW", "points": "6"}
+    result = enrich_result(item, LAWSON_ROSTER, None, "LAW")
+    assert result["team"] == "Racing Bulls"
+    assert result["teamCn"] == "RB"
