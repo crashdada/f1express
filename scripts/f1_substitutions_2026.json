@@ -1,24 +1,42 @@
 {
-  "italy": [
-    {
-      "round": 13,
-      "carNumber": 22,
-      "actualCode": "TSU",
-      "team": "Red Bull",
-      "teamCn": "红牛",
-      "reason": "reserve",
-      "note": "2026 季 #22 已被 Red Bull 释放。Italy 站由 TSU（Yuki Tsunoda，2025 末 #22 原持有人）以临时顶替身份拿回此号参赛。"
-    }
-  ],
   "netherlands": [
     {
       "round": 12,
       "carNumber": 22,
       "actualCode": "TSU",
+      "team": "Racing Bulls",
+      "teamCn": "RB",
+      "reason": "reserve",
+      "note": "Netherlands 站 LAW 被提升至 Red Bull，#22 由 TSU（Yuki Tsunoda）代表 Racing Bulls 出赛。"
+    },
+    {
+      "round": 12,
+      "carNumber": 30,
+      "actualCode": "LAW",
       "team": "Red Bull",
       "teamCn": "红牛",
+      "reason": "promotion",
+      "note": "Netherlands 站 LAW 顶替 HAD 代表 Red Bull 出赛（本赛季原属 Racing Bulls）。"
+    }
+  ],
+  "italy": [
+    {
+      "round": 13,
+      "carNumber": 22,
+      "actualCode": "TSU",
+      "team": "Racing Bulls",
+      "teamCn": "RB",
       "reason": "reserve",
-      "note": "Netherlands 站同一情况：#22 仍由 TSU 顶替。"
+      "note": "Italy 站 LAW 继续代表 Red Bull，#22 由 TSU（Yuki Tsunoda）代表 Racing Bulls 出赛。"
+    },
+    {
+      "round": 13,
+      "carNumber": 30,
+      "actualCode": "LAW",
+      "team": "Red Bull",
+      "teamCn": "红牛",
+      "reason": "promotion",
+      "note": "Italy 站 LAW 顶替 HAD 代表 Red Bull 出赛（本赛季原属 Racing Bulls）。"
     }
   ],
   "spain": [
@@ -26,10 +44,19 @@
       "round": 14,
       "carNumber": 22,
       "actualCode": "TSU",
+      "team": "Racing Bulls",
+      "teamCn": "RB",
+      "reason": "reserve",
+      "note": "Spain 站 LAW 继续代表 Red Bull，#22 由 TSU（Yuki Tsunoda）代表 Racing Bulls 出赛。"
+    },
+    {
+      "round": 14,
+      "carNumber": 30,
+      "actualCode": "LAW",
       "team": "Red Bull",
       "teamCn": "红牛",
-      "reason": "reserve",
-      "note": "Spain 站 TSU 以 #22 替补身份继续代表 Red Bull 上场。"
+      "reason": "promotion",
+      "note": "Spain 站 LAW 顶替 HAD 代表 Red Bull 出赛（本赛季原属 Racing Bulls）。"
     }
   ]
 }

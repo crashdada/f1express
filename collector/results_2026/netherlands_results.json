@@ -4,161 +4,227 @@
     "country": "NETHERLANDS",
     "slug": "netherlands",
     "url": "https://www.formula1.com/en/results/2026/races/1292/netherlands/race-result",
-    "scraped_at": "2026-08-24T13:14:48.646878",
+    "scraped_at": "2026-09-25T21:31:00.489872",
     "results": [
         {
             "pos": "1",
             "no": "1",
+            "code": "NOR",
+            "driver": "Lando Norris NOR",
+            "team": "McLaren",
             "laps": "72",
             "time": "2:04:44.859",
-            "points": 25
+            "points": "25"
         },
         {
             "pos": "2",
             "no": "12",
+            "code": "ANT",
+            "driver": "Kimi Antonelli ANT",
+            "team": "Mercedes",
             "laps": "72",
             "time": "+11.536s",
-            "points": 18
+            "points": "18"
         },
         {
             "pos": "3",
             "no": "63",
+            "code": "RUS",
+            "driver": "George Russell RUS",
+            "team": "Mercedes",
             "laps": "72",
             "time": "+15.906s",
-            "points": 15
+            "points": "15"
         },
         {
             "pos": "4",
             "no": "44",
+            "code": "HAM",
+            "driver": "Lewis Hamilton HAM",
+            "team": "Ferrari",
             "laps": "72",
             "time": "+16.755s",
-            "points": 12
+            "points": "12"
         },
         {
             "pos": "5",
             "no": "16",
+            "code": "LEC",
+            "driver": "Charles Leclerc LEC",
+            "team": "Ferrari",
             "laps": "72",
             "time": "+17.258s",
-            "points": 10
+            "points": "10"
         },
         {
             "pos": "6",
             "no": "81",
+            "code": "PIA",
+            "driver": "Oscar Piastri PIA",
+            "team": "McLaren",
             "laps": "72",
             "time": "+32.332s",
-            "points": 8
+            "points": "8"
         },
         {
             "pos": "7",
             "no": "30",
+            "code": "LAW",
+            "driver": "Liam Lawson LAW",
+            "team": "Red Bull Racing",
             "laps": "72",
             "time": "+79.915s",
-            "points": 6
+            "points": "6"
         },
         {
             "pos": "8",
             "no": "27",
+            "code": "HUL",
+            "driver": "Nico Hulkenberg HUL",
+            "team": "Audi",
             "laps": "71",
             "time": "+1 lap",
-            "points": 4
+            "points": "4"
         },
         {
             "pos": "9",
             "no": "14",
+            "code": "ALO",
+            "driver": "Fernando Alonso ALO",
+            "team": "Aston Martin",
             "laps": "71",
             "time": "+1 lap",
-            "points": 2
+            "points": "2"
         },
         {
             "pos": "10",
             "no": "10",
+            "code": "GAS",
+            "driver": "Pierre Gasly GAS",
+            "team": "Alpine",
             "laps": "71",
             "time": "+1 lap",
-            "points": 1
+            "points": "1"
         },
         {
             "pos": "11",
             "no": "22",
+            "code": "TSU",
+            "driver": "Yuki Tsunoda TSU",
+            "team": "Racing Bulls",
             "laps": "71",
             "time": "+1 lap",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "12",
             "no": "41",
+            "code": "LIN",
+            "driver": "Arvid Lindblad LIN",
+            "team": "Racing Bulls",
             "laps": "71",
             "time": "+1 lap",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "13",
             "no": "5",
+            "code": "BOR",
+            "driver": "Gabriel Bortoleto BOR",
+            "team": "Audi",
             "laps": "71",
             "time": "+1 lap",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "14",
             "no": "43",
+            "code": "COL",
+            "driver": "Franco Colapinto COL",
+            "team": "Alpine",
             "laps": "70",
             "time": "+2 laps",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "15",
             "no": "11",
+            "code": "PER",
+            "driver": "Sergio Perez PER",
+            "team": "Cadillac",
             "laps": "70",
             "time": "+2 laps",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "16",
             "no": "55",
+            "code": "SAI",
+            "driver": "Carlos Sainz SAI",
+            "team": "Williams",
             "laps": "70",
             "time": "+2 laps",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "17",
             "no": "23",
+            "code": "ALB",
+            "driver": "Alexander Albon ALB",
+            "team": "Williams",
             "laps": "66",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "NC",
             "no": "77",
+            "code": "BOT",
+            "driver": "Valtteri Bottas BOT",
+            "team": "Cadillac",
             "laps": "61",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "NC",
             "no": "31",
+            "code": "OCO",
+            "driver": "Esteban Ocon OCO",
+            "team": "Haas F1 Team",
             "laps": "52",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "NC",
             "no": "18",
+            "code": "STR",
+            "driver": "Lance Stroll STR",
+            "team": "Aston Martin",
             "laps": "45",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "NC",
             "no": "87",
+            "code": "BEA",
+            "driver": "Oliver Bearman BEA",
+            "team": "Haas F1 Team",
             "laps": "2",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         },
         {
             "pos": "NC",
             "no": "3",
+            "code": "VER",
+            "driver": "Max Verstappen VER",
+            "team": "Red Bull Racing",
             "laps": "0",
             "time": "DNF",
-            "points": 0
+            "points": "0"
         }
     ],
     "sprintResults": [

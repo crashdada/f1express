@@ -336,6 +336,46 @@ class F1DataCollector:
             return value.strip()
         return None
 
+    @staticmethod
+    def _extract_html_results_table(html):
+        """Parse the server-rendered results `<table>` (current formula1.com layout).
+
+        formula1.com stopped emitting `__NEXT_DATA__` fragments for results pages;
+        the table is now rendered directly in HTML. Returns an empty list when no
+        suitable race table is present so callers can fall back to the legacy path.
+        """
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
+        except Exception:
+            return []
+
+        for table in soup.find_all('table'):
+            data_rows = [tr.find_all('td') for tr in table.find_all('tr')]
+            data_rows = [cells for cells in data_rows if len(cells) >= 7]
+            if len(data_rows) < 5:
+                continue
+
+            parsed = []
+            for cells in data_rows:
+                values = [cell.get_text(" ", strip=True) for cell in cells]
+                pos, no, driver, team, laps, time_text, points = values[:7]
+                tokens = driver.split()
+                code = tokens[-1] if tokens and len(tokens[-1]) == 3 and tokens[-1].isupper() else ""
+                parsed.append({
+                    'pos': pos or None,
+                    'no': no,
+                    'code': code,
+                    'driver': driver,
+                    'team': team,
+                    'laps': laps,
+                    'time': time_text,
+                    'points': points or 0,
+                })
+            if parsed:
+                return parsed
+
+        return []
+
     def get_race_results(self, url_or_html: str):
         if url_or_html.startswith('http'):
             html = self.fetch_page(url_or_html)
@@ -343,6 +383,12 @@ class F1DataCollector:
         else:
             html = url_or_html
 
+        # Current formula1.com pages ship a plain HTML results table.
+        html_results = self._extract_html_results_table(html)
+        if html_results:
+            return html_results
+
+        # Legacy fallback: results embedded in __NEXT_DATA__ fragments.
         full_text = self._reconstruct_next_data(html)
         start_tag = '"rows":['
         start_idx = full_text.find(start_tag)

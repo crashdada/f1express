@@ -4893,12 +4893,15 @@
         "lastNameCn": "劳森",
         "code": "LAW",
         "number": 30,
-        "team": "Racing Bulls",
-        "teamCn": "RB",
+        "team": "Red Bull",
+        "teamCn": "红牛",
         "points": 6,
         "status": "Finished",
         "laps": "72",
-        "time": "+79.915s"
+        "time": "+79.915s",
+        "actualCode": "LAW",
+        "replaceReason": "promotion",
+        "isSubstitute": true
       },
       {
         "pos": 8,
@@ -4953,8 +4956,8 @@
         "lastNameCn": "裕毅",
         "code": "TSU",
         "number": 22,
-        "team": "Red Bull",
-        "teamCn": "红牛",
+        "team": "Racing Bulls",
+        "teamCn": "RB",
         "points": 0,
         "status": "Finished",
         "laps": "71",
@@ -5454,8 +5457,8 @@
         "lastNameCn": "裕毅",
         "code": "TSU",
         "number": 22,
-        "team": "Red Bull",
-        "teamCn": "红牛",
+        "team": "Racing Bulls",
+        "teamCn": "RB",
         "points": 1,
         "status": "Finished",
         "laps": "53",
@@ -5517,12 +5520,15 @@
         "lastNameCn": "劳森",
         "code": "LAW",
         "number": 30,
-        "team": "Racing Bulls",
-        "teamCn": "RB",
+        "team": "Red Bull",
+        "teamCn": "红牛",
         "points": 0,
         "status": "Finished",
         "laps": "53",
-        "time": "+75.609s"
+        "time": "+75.609s",
+        "actualCode": "LAW",
+        "replaceReason": "promotion",
+        "isSubstitute": true
       },
       {
         "pos": 15,
@@ -5793,7 +5799,10 @@
         "points": 8,
         "status": "Finished",
         "laps": "57",
-        "time": "+86.746s"
+        "time": "+86.746s",
+        "actualCode": "LAW",
+        "replaceReason": "promotion",
+        "isSubstitute": true
       },
       {
         "pos": 7,

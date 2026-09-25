@@ -311,3 +311,27 @@ To solve historical technical debt related to scattered team translations and ha
 - ❌ 在 `src/**` 里硬编码赛历、成绩、积分、车手/车队列表。
 - ❌ 在采集器里按"轮次数字"硬编码特例（如 `if roundNumber in [4, 5]`），应配置 / 数据驱动。
 - ❌ 为同一数据源维护两套解析器（如 `spider.py` 与 `scraper_results.py` 各写一份）。
+
+---
+
+## 11. Release & Versioning (版本号规则)
+
+版本号采用 `X.Y.Z`（`package.json` 的 `version`，全站唯一版本来源），每次发布按改动性质递增：
+
+| 改动性质 | 递增位 | 示例 |
+| :--- | :--- | :--- |
+| 整体大改（架构重构、破坏性变更） | **X**（major），Y、Z 归零 | `1.6.3` → `2.0.0` |
+| 功能新增 | **Y**（minor），Z 归零 | `1.4.6` → `1.5.0` |
+| 修补 bug | **Z**（patch） | `1.4.5` → `1.4.6` |
+
+发布流程：
+
+1. 递增 `package.json` 的 `version`。
+2. 在 `docs/CHANGELOG.md` 顶部新增一条 `## YYYY-MM-DD: vX.Y.Z - 标题`，简述改动与验证结果。
+3. 跑校验：`npm test`、`npm run build`、`npm run verify:dist`、`npm run validate:team-totals`、`npm run validate:docker`。
+4. 提交信息用 `Release vX.Y.Z: ...`，然后 push。
+
+注意：
+
+- `package.json` 是 Docker tag（`.github/workflows/docker-build.yml`）与 Android APK 发布名（`.github/workflows/android-build.yml`）的唯一版本来源；不改它就不会有新版本产物。
+- `package-lock.json` 当前未随发布同步（停留在 `1.4.2`），如需严格一致可一并更新。

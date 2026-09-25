@@ -100,3 +100,44 @@ def test_result_team_falls_back_to_season_roster():
     result = enrich_result(item, LAWSON_ROSTER, None, "LAW")
     assert result["team"] == "Racing Bulls"
     assert result["teamCn"] == "RB"
+
+
+def _results_table_html():
+    """Minimal mimic of the current formula1.com server-rendered results table."""
+    rows = [
+        ("1", "1", "Lando Norris", "NOR", "McLaren", "72", "2:04:44.859", "25"),
+        ("2", "12", "Kimi Antonelli", "ANT", "Mercedes", "72", "+11.536s", "18"),
+        ("7", "30", "Liam Lawson", "LAW", "Red Bull Racing", "72", "+79.915s", "6"),
+        ("11", "22", "Yuki Tsunoda", "TSU", "Racing Bulls", "71", "+1 lap", "0"),
+        ("12", "41", "Arvid Lindblad", "LIN", "Racing Bulls", "71", "+1 lap", "0"),
+        ("NC", "3", "Max Verstappen", "VER", "Red Bull Racing", "0", "DNF", "0"),
+    ]
+    body = "".join(
+        f"<tr><td>{pos}</td><td>{no}</td>"
+        f"<td><span>{name}</span> {code}</td>"
+        f"<td>{team}</td><td>{laps}</td><td>{t}</td><td>{pts}</td></tr>"
+        for pos, no, name, code, team, laps, t, pts in rows
+    )
+    return f"<html><body><table class='Table-module_table'>{body}</table></body></html>"
+
+
+def test_parses_server_rendered_results_table():
+    results = F1DataCollector._extract_html_results_table(_results_table_html())
+    assert len(results) == 6
+
+    lawson = next(r for r in results if r["no"] == "30")
+    assert lawson["code"] == "LAW"
+    assert lawson["team"] == "Red Bull Racing"
+    assert lawson["points"] == "6"
+
+    tsunoda = next(r for r in results if r["no"] == "22")
+    assert tsunoda["code"] == "TSU"
+    assert tsunoda["team"] == "Racing Bulls"
+    assert tsunoda["driver"] == "Yuki Tsunoda TSU"
+
+    verstappen = next(r for r in results if r["no"] == "3")
+    assert verstappen["pos"] == "NC"
+
+
+def test_html_parser_returns_empty_without_table():
+    assert F1DataCollector._extract_html_results_table("<html><body>no table</body></html>") == []

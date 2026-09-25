@@ -2,6 +2,24 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-09-25: v1.4.7 - 替补车手身份与车队归属修正（Round 12–14）
+- 成绩解析器
+  - 根因：formula1.com 结果页改为服务端渲染的 HTML `<table>`，不再输出 `__NEXT_DATA__` 片段，重抓会得到 `$ span` 垃圾数据。
+  - `collector/scrapers/scraper.py` 新增 `_extract_html_results_table()`；`get_race_results()` 优先解析 HTML 表格，旧 `__NEXT_DATA__` 解析保留为 fallback。
+- 替补车手（按采集数据，非推断）
+  - Round 12 荷兰 / 13 意大利 / 14 西班牙 三站车手→车队一致：**LAW #30 → Red Bull**、**TSU #22 → Racing Bulls**（此前把 R12/13 记反）。
+  - 用新解析器重新采集 `collector/results_2026/netherlands_results.json`、`italy_results.json` 正赛结果（保留 sprint / 排位 / 杆位字段）。
+  - `scripts/f1_substitutions_2026.json`：三站均登记 TSU #22 → Racing Bulls、LAW #30 → Red Bull（promotion）。
+  - `collector/data/substitutes_2026.json`：登记 TSU（角田裕毅 #22，车队 Racing Bulls，`appearedRounds` 12–14），修复车手榜 / 车手 tab 中替补车手缺失或名称车队为空的问题。
+  - R14 起 LAW 正确带 `isSubstitute` 替补角标。
+- 车队积分
+  - `red_bull 8513 → 8518`、`rb 1067 → 1062`（R12 LAW 6 分归 Red Bull，R13 TSU 1 分归 Racing Bulls）。
+- 文档
+  - `docs/AGENTS.md` 新增 §11「Release & Versioning」：版本号 `X.Y.Z`（整体大改 +X / 功能新增 +Y / 修补 bug +Z）与发布流程。
+- 测试
+  - 新增 `_extract_html_results_table` 服务端表格解析回归用例。
+  - `npm test`（121）、`python -m pytest collector/tests`（25）、`npm run validate:team-totals`、`npm run validate:docker` 全部通过。
+
 ## 2026-09-25: v1.4.6 - 替补车手车队积分归属修复
 - 车队积分归属
   - 根因：导出时用 `drivers_2026.json` 的赛季车队覆盖了每场抓取的实际车队，导致替补车手（如 Spain 站 Lawson 代表 Red Bull 得 P6/8 分）的分数记到了赛季所属车队 RB 上。
