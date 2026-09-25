@@ -2,6 +2,17 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-09-25: v1.4.6 - 替补车手车队积分归属修复
+- 车队积分归属
+  - 根因：导出时用 `drivers_2026.json` 的赛季车队覆盖了每场抓取的实际车队，导致替补车手（如 Spain 站 Lawson 代表 Red Bull 得 P6/8 分）的分数记到了赛季所属车队 RB 上。
+  - `collector/exporters/export_results_json.py`：车队取值改为「本场抓取车队 > 替补配置 > 赛季车队」，并规范化 `Red Bull Racing→Red Bull`、`Haas F1 Team→Haas`。
+  - `src/pages/TeamDetail2026.tsx`：积分/胜场/领奖台/排名按每场成绩的 `team/teamCn` 匹配（`matchesTeam`），不再按赛季阵容归属。
+- 数据
+  - 重跑导出与 `refine_with_stats` 并同步 `storage/`、`dist/`：`red_bull 8505→8513`、`rb 1075→1067`（Lawson Spain 8 分归红牛）。
+- 测试
+  - 新增 `collector/tests/test_export_results_json.py` 车队优先级用例、`tests/integration/frontend/teamDetail2026.test.tsx`。
+  - `npm test`（121）、`python -m pytest collector/tests`（23）、`npm run validate:team-totals`、`npm run build`、`npm run verify:dist` 全部通过。
+
 ## 2026-09-24: v1.4.5 - Schedule regeneration + official track assets via collector
 - 赛历改为采集器生成（联网重抓核对）
   - `python collector/scrapers/scraper.py` 重新抓取 23 站；与官方 2026 站点逐站核对。
