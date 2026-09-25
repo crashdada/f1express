@@ -12,11 +12,26 @@
         "flag": "/photos/seasons/flags/Australia.svg",
         "url": "https://www.formula1.com/en/racing/2026/australia",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-03-06T12:30:00+11:00" },
-            { "name": "Practice 2", "time": "2026-03-06T16:00:00+11:00" },
-            { "name": "Practice 3", "time": "2026-03-07T12:30:00+11:00" },
-            { "name": "Qualifying", "time": "2026-03-07T16:00:00+11:00" },
-            { "name": "Race", "time": "2026-03-08T15:00:00+11:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-03-06T12:30:00+11:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-03-06T16:00:00+11:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-03-07T12:30:00+11:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-03-07T16:00:00+11:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-03-08T15:00:00+11:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.278km",
@@ -25,7 +40,8 @@
             "distance": "306.124km",
             "record": "1:19.813 (Charles Leclerc (2024))"
         },
-        "gmtOffset": "+11:00"
+        "gmtOffset": "+11:00",
+        "trackSlug": "melbourne"
     },
     {
         "round": "ROUND 2",
@@ -33,18 +49,33 @@
         "country": "CHINA",
         "gpName": "Chinese Grand Prix",
         "location": "Shanghai",
-        "dates": "13 - 15 MAR",
+        "dates": "13 - 15 Mar",
         "slug": "china",
         "image": "/photos/seasons/2026/tracks/china_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/china_detailed.webp",
         "flag": "/photos/seasons/flags/China.svg",
         "url": "https://www.formula1.com/en/racing/2026/china",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-03-13T11:30:00+08:00" },
-            { "name": "Sprint Qualifying", "time": "2026-03-13T15:30:00+08:00" },
-            { "name": "Sprint", "time": "2026-03-14T11:00:00+08:00" },
-            { "name": "Qualifying", "time": "2026-03-14T15:00:00+08:00" },
-            { "name": "Race", "time": "2026-03-15T15:00:00+08:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-03-13T11:30:00+08:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-03-13T15:30:00+08:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-03-14T11:00:00+08:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-03-14T15:00:00+08:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-03-15T15:00:00+08:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.451km",
@@ -53,7 +84,8 @@
             "distance": "305.066km",
             "record": "1:32.238 (Michael Schumacher (2004))"
         },
-        "gmtOffset": "+08:00"
+        "gmtOffset": "+08:00",
+        "trackSlug": "shanghai"
     },
     {
         "round": "ROUND 3",
@@ -61,18 +93,33 @@
         "country": "JAPAN",
         "gpName": "Japanese Grand Prix",
         "location": "Suzuka",
-        "dates": "27 - 29 MAR",
+        "dates": "27 - 29 Mar",
         "slug": "japan",
         "image": "/photos/seasons/2026/tracks/japan_outline.svg",
         "detailedImage": "/photos/seasons/2026/tracks/japan_detailed.webp",
         "flag": "/photos/seasons/flags/Japan.svg",
         "url": "https://www.formula1.com/en/racing/2026/japan",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-03-27T11:30:00+09:00" },
-            { "name": "Practice 2", "time": "2026-03-27T15:00:00+09:00" },
-            { "name": "Practice 3", "time": "2026-03-28T11:30:00+09:00" },
-            { "name": "Qualifying", "time": "2026-03-28T15:00:00+09:00" },
-            { "name": "Race", "time": "2026-03-29T14:00:00+09:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-03-27T11:30:00+09:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-03-27T15:00:00+09:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-03-28T11:30:00+09:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-03-28T15:00:00+09:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-03-29T14:00:00+09:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.807km",
@@ -81,7 +128,8 @@
             "distance": "307.471km",
             "record": "1:30.965 (Kimi Antonelli (2025))"
         },
-        "gmtOffset": "+09:00"
+        "gmtOffset": "+09:00",
+        "trackSlug": "suzuka"
     },
     {
         "round": "ROUND 4",
@@ -96,11 +144,26 @@
         "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/miami",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-05-01T12:30:00-04:00" },
-            { "name": "Sprint Qualifying", "time": "2026-05-01T16:30:00-04:00" },
-            { "name": "Sprint", "time": "2026-05-02T12:00:00-04:00" },
-            { "name": "Qualifying", "time": "2026-05-02T16:00:00-04:00" },
-            { "name": "Race", "time": "2026-05-03T16:00:00-04:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-05-01T12:00:00-04:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-05-01T16:30:00-04:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-05-02T12:00:00-04:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-05-02T16:00:00-04:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-05-03T13:00:00-04:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.412km",
@@ -109,7 +172,8 @@
             "distance": "308.326km",
             "record": "1:29.708 (Max Verstappen (2023))"
         },
-        "gmtOffset": "-04:00"
+        "gmtOffset": "-04:00",
+        "trackSlug": "miami"
     },
     {
         "round": "ROUND 5",
@@ -124,11 +188,26 @@
         "flag": "/photos/seasons/flags/Canada.svg",
         "url": "https://www.formula1.com/en/racing/2026/canada",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-05-22T12:30:00-04:00" },
-            { "name": "Sprint Qualifying", "time": "2026-05-22T16:30:00-04:00" },
-            { "name": "Sprint", "time": "2026-05-23T12:00:00-04:00" },
-            { "name": "Qualifying", "time": "2026-05-23T16:00:00-04:00" },
-            { "name": "Race", "time": "2026-05-24T16:00:00-04:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-05-22T12:30:00-04:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-05-22T16:30:00-04:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-05-23T12:00:00-04:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-05-23T16:00:00-04:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-05-24T16:00:00-04:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.361km",
@@ -137,7 +216,8 @@
             "distance": "305.27km",
             "record": "1:13.078 (Valtteri Bottas (2019))"
         },
-        "gmtOffset": "-04:00"
+        "gmtOffset": "-04:00",
+        "trackSlug": "montreal"
     },
     {
         "round": "ROUND 6",
@@ -152,11 +232,26 @@
         "flag": "/photos/seasons/flags/Monaco.svg",
         "url": "https://www.formula1.com/en/racing/2026/monaco",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-06-05T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-06-05T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-06-06T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-06-06T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-06-07T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-06-05T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-06-05T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-06-06T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-06-06T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-06-07T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "3.337km",
@@ -165,7 +260,8 @@
             "distance": "260.286km",
             "record": "1:12.909 (Lewis Hamilton (2021))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "montecarlo"
     },
     {
         "round": "ROUND 7",
@@ -180,11 +276,26 @@
         "flag": "/photos/seasons/flags/Spain.svg",
         "url": "https://www.formula1.com/en/racing/2026/barcelona-catalunya",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-06-12T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-06-12T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-06-13T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-06-13T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-06-14T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-06-12T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-06-12T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-06-13T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-06-13T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-06-14T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.657km",
@@ -193,7 +304,8 @@
             "distance": "307.236km",
             "record": "1:15.743 (Oscar Piastri (2025))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "catalunya"
     },
     {
         "round": "ROUND 8",
@@ -208,11 +320,26 @@
         "flag": "/photos/seasons/flags/Austria.svg",
         "url": "https://www.formula1.com/en/racing/2026/austria",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-06-26T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-06-26T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-06-27T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-06-27T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-06-28T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-06-26T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-06-26T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-06-27T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-06-27T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-06-28T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.326km",
@@ -221,7 +348,8 @@
             "distance": "307.018km",
             "record": "1:07.924 (Oscar Piastri (2025))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "spielberg"
     },
     {
         "round": "ROUND 9",
@@ -236,11 +364,26 @@
         "flag": "/photos/seasons/flags/Great_Britain.svg",
         "url": "https://www.formula1.com/en/racing/2026/great-britain",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-07-03T12:30:00+01:00" },
-            { "name": "Sprint Qualifying", "time": "2026-07-03T16:30:00+01:00" },
-            { "name": "Sprint", "time": "2026-07-04T12:00:00+01:00" },
-            { "name": "Qualifying", "time": "2026-07-04T16:00:00+01:00" },
-            { "name": "Race", "time": "2026-07-05T15:00:00+01:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-07-03T12:30:00+01:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-07-03T16:30:00+01:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-07-04T12:00:00+01:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-07-04T16:00:00+01:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-07-05T15:00:00+01:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.891km",
@@ -249,7 +392,8 @@
             "distance": "306.198km",
             "record": "1:27.097 (Max Verstappen (2020))"
         },
-        "gmtOffset": "+01:00"
+        "gmtOffset": "+01:00",
+        "trackSlug": "silverstone"
     },
     {
         "round": "ROUND 10",
@@ -264,11 +408,26 @@
         "flag": "/photos/seasons/flags/Belgium.svg",
         "url": "https://www.formula1.com/en/racing/2026/belgium",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-07-17T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-07-17T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-07-18T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-07-18T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-07-19T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-07-17T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-07-17T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-07-18T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-07-18T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-07-19T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "7.004km",
@@ -277,7 +436,8 @@
             "distance": "308.052km",
             "record": "1:44.701 (Sergio Perez (2024))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "spafrancorchamps"
     },
     {
         "round": "ROUND 11",
@@ -292,11 +452,26 @@
         "flag": "/photos/seasons/flags/Hungary.svg",
         "url": "https://www.formula1.com/en/racing/2026/hungary",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-07-24T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-07-24T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-07-25T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-07-25T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-07-26T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-07-24T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-07-24T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-07-25T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-07-25T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-07-26T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.381km",
@@ -305,7 +480,8 @@
             "distance": "306.63km",
             "record": "1:16.627 (Lewis Hamilton (2020))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "hungaroring"
     },
     {
         "round": "ROUND 12",
@@ -320,11 +496,26 @@
         "flag": "/photos/seasons/flags/Netherlands.svg",
         "url": "https://www.formula1.com/en/racing/2026/netherlands",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-08-21T12:30:00+02:00" },
-            { "name": "Sprint Qualifying", "time": "2026-08-21T16:30:00+02:00" },
-            { "name": "Sprint", "time": "2026-08-22T12:00:00+02:00" },
-            { "name": "Qualifying", "time": "2026-08-22T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-08-23T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-08-21T12:30:00+02:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-08-21T16:30:00+02:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-08-22T12:00:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-08-22T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-08-23T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.259km",
@@ -333,7 +524,8 @@
             "distance": "306.587km",
             "record": "1:11.097 (Lewis Hamilton (2021))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "zandvoort"
     },
     {
         "round": "ROUND 13",
@@ -348,11 +540,26 @@
         "flag": "/photos/seasons/flags/Italy.svg",
         "url": "https://www.formula1.com/en/racing/2026/italy",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-09-04T12:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-09-04T16:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-09-05T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-09-05T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-09-06T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-09-04T12:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-09-04T16:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-09-05T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-09-05T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-09-06T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.793km",
@@ -361,7 +568,8 @@
             "distance": "306.72km",
             "record": "1:20.901 (Lando Norris (2025))"
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "monza"
     },
     {
         "round": "ROUND 14",
@@ -376,11 +584,26 @@
         "flag": "/photos/seasons/flags/Spain.svg",
         "url": "https://www.formula1.com/en/racing/2026/spain",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-09-11T13:30:00+02:00" },
-            { "name": "Practice 2", "time": "2026-09-11T17:00:00+02:00" },
-            { "name": "Practice 3", "time": "2026-09-12T12:30:00+02:00" },
-            { "name": "Qualifying", "time": "2026-09-12T16:00:00+02:00" },
-            { "name": "Race", "time": "2026-09-13T15:00:00+02:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-09-11T13:30:00+02:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-09-11T17:00:00+02:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-09-12T12:30:00+02:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-09-12T16:00:00+02:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-09-13T15:00:00+02:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.416km",
@@ -389,7 +612,8 @@
             "distance": "308.524km",
             "record": null
         },
-        "gmtOffset": "+02:00"
+        "gmtOffset": "+02:00",
+        "trackSlug": "madring"
     },
     {
         "round": "ROUND 15",
@@ -404,11 +628,26 @@
         "flag": "/photos/seasons/flags/Azerbaijan.svg",
         "url": "https://www.formula1.com/en/racing/2026/azerbaijan",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-09-24T12:30:00+04:00" },
-            { "name": "Practice 2", "time": "2026-09-24T16:00:00+04:00" },
-            { "name": "Practice 3", "time": "2026-09-25T12:30:00+04:00" },
-            { "name": "Qualifying", "time": "2026-09-25T16:00:00+04:00" },
-            { "name": "Race", "time": "2026-09-26T15:00:00+04:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-09-24T12:30:00+04:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-09-24T16:00:00+04:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-09-25T12:30:00+04:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-09-25T16:00:00+04:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-09-26T15:00:00+04:00"
+            }
         ],
         "circuitSpecs": {
             "length": "6.003km",
@@ -417,7 +656,8 @@
             "distance": "306.049km",
             "record": "1:43.009 (Charles Leclerc (2019))"
         },
-        "gmtOffset": "+04:00"
+        "gmtOffset": "+04:00",
+        "trackSlug": "baku"
     },
     {
         "round": "ROUND 16",
@@ -427,16 +667,31 @@
         "location": "Kuala Lumpur",
         "dates": "02 - 04 Oct",
         "slug": "bahrain",
-        "image": "/photos/seasons/2026/tracks/malaysia_outline.svg",
-        "detailedImage": "/photos/seasons/2026/tracks/malaysia_detailed.webp",
+        "image": "/photos/seasons/2026/tracks/kualalumpur_outline.svg",
+        "detailedImage": "/photos/seasons/2026/tracks/kualalumpur_detailed.webp",
         "flag": "/photos/seasons/flags/Malaysia.svg",
         "url": "https://www.formula1.com/en/racing/2026/bahrain",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-10-02T12:30:00+08:00" },
-            { "name": "Practice 2", "time": "2026-10-02T16:00:00+08:00" },
-            { "name": "Practice 3", "time": "2026-10-03T12:30:00+08:00" },
-            { "name": "Qualifying", "time": "2026-10-03T16:00:00+08:00" },
-            { "name": "Race", "time": "2026-10-04T15:00:00+08:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-10-02T12:30:00+08:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-10-02T16:00:00+08:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-10-03T12:30:00+08:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-10-03T16:00:00+08:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-10-04T15:00:00+08:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.543km",
@@ -445,7 +700,8 @@
             "distance": "310.418km",
             "record": "1:34.080 (Sebastian Vettel (2017))"
         },
-        "gmtOffset": "+08:00"
+        "gmtOffset": "+08:00",
+        "trackSlug": "kualalumpur"
     },
     {
         "round": "ROUND 17",
@@ -460,11 +716,26 @@
         "flag": "/photos/seasons/flags/Singapore.svg",
         "url": "https://www.formula1.com/en/racing/2026/singapore",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-10-09T16:30:00+08:00" },
-            { "name": "Sprint Qualifying", "time": "2026-10-09T20:30:00+08:00" },
-            { "name": "Sprint", "time": "2026-10-10T17:00:00+08:00" },
-            { "name": "Qualifying", "time": "2026-10-10T21:00:00+08:00" },
-            { "name": "Race", "time": "2026-10-11T20:00:00+08:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-10-09T16:30:00+08:00"
+            },
+            {
+                "name": "Sprint Qualifying",
+                "time": "2026-10-09T20:30:00+08:00"
+            },
+            {
+                "name": "Sprint",
+                "time": "2026-10-10T17:00:00+08:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-10-10T21:00:00+08:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-10-11T20:00:00+08:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.927km",
@@ -473,7 +744,8 @@
             "distance": "305.337km",
             "record": "1:33.808 (Lewis Hamilton (2025))"
         },
-        "gmtOffset": "+08:00"
+        "gmtOffset": "+08:00",
+        "trackSlug": "singapore"
     },
     {
         "round": "ROUND 18",
@@ -488,11 +760,26 @@
         "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/united-states",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-10-23T12:30:00-05:00" },
-            { "name": "Practice 2", "time": "2026-10-23T16:00:00-05:00" },
-            { "name": "Practice 3", "time": "2026-10-24T12:30:00-05:00" },
-            { "name": "Qualifying", "time": "2026-10-24T16:00:00-05:00" },
-            { "name": "Race", "time": "2026-10-25T15:00:00-05:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-10-23T12:30:00-05:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-10-23T16:00:00-05:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-10-24T12:30:00-05:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-10-24T16:00:00-05:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-10-25T15:00:00-05:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.513km",
@@ -501,7 +788,8 @@
             "distance": "308.405km",
             "record": "1:36.169 (Charles Leclerc (2019))"
         },
-        "gmtOffset": "-05:00"
+        "gmtOffset": "-05:00",
+        "trackSlug": "austin"
     },
     {
         "round": "ROUND 19",
@@ -516,11 +804,26 @@
         "flag": "/photos/seasons/flags/Mexico.svg",
         "url": "https://www.formula1.com/en/racing/2026/mexico",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-10-30T12:30:00-06:00" },
-            { "name": "Practice 2", "time": "2026-10-30T16:00:00-06:00" },
-            { "name": "Practice 3", "time": "2026-10-31T11:30:00-06:00" },
-            { "name": "Qualifying", "time": "2026-10-31T15:00:00-06:00" },
-            { "name": "Race", "time": "2026-11-01T14:00:00-06:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-10-30T12:30:00-06:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-10-30T16:00:00-06:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-10-31T11:30:00-06:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-10-31T15:00:00-06:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-11-01T14:00:00-06:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.304km",
@@ -529,7 +832,8 @@
             "distance": "305.354km",
             "record": "1:17.774 (Valtteri Bottas (2021))"
         },
-        "gmtOffset": "-06:00"
+        "gmtOffset": "-06:00",
+        "trackSlug": "mexicocity"
     },
     {
         "round": "ROUND 20",
@@ -544,11 +848,26 @@
         "flag": "/photos/seasons/flags/Brazil.svg",
         "url": "https://www.formula1.com/en/racing/2026/brazil",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-11-06T12:30:00-03:00" },
-            { "name": "Practice 2", "time": "2026-11-06T16:00:00-03:00" },
-            { "name": "Practice 3", "time": "2026-11-07T11:30:00-03:00" },
-            { "name": "Qualifying", "time": "2026-11-07T15:00:00-03:00" },
-            { "name": "Race", "time": "2026-11-08T14:00:00-03:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-11-06T12:30:00-03:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-11-06T16:00:00-03:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-11-07T11:30:00-03:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-11-07T15:00:00-03:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-11-08T14:00:00-03:00"
+            }
         ],
         "circuitSpecs": {
             "length": "4.309km",
@@ -557,7 +876,8 @@
             "distance": "305.879km",
             "record": "1:10.540 (Valtteri Bottas (2018))"
         },
-        "gmtOffset": "-03:00"
+        "gmtOffset": "-03:00",
+        "trackSlug": "interlagos"
     },
     {
         "round": "ROUND 21",
@@ -572,11 +892,26 @@
         "flag": "/photos/seasons/flags/USA.svg",
         "url": "https://www.formula1.com/en/racing/2026/las-vegas",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-11-19T16:30:00-08:00" },
-            { "name": "Practice 2", "time": "2026-11-19T20:00:00-08:00" },
-            { "name": "Practice 3", "time": "2026-11-20T16:30:00-08:00" },
-            { "name": "Qualifying", "time": "2026-11-20T20:00:00-08:00" },
-            { "name": "Race", "time": "2026-11-21T20:00:00-08:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-11-19T16:30:00-08:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-11-19T20:00:00-08:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-11-20T16:30:00-08:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-11-20T20:00:00-08:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-11-21T20:00:00-08:00"
+            }
         ],
         "circuitSpecs": {
             "length": "6.201km",
@@ -585,7 +920,8 @@
             "distance": "309.958km",
             "record": "1:33.365 (Max Verstappen (2025))"
         },
-        "gmtOffset": "-08:00"
+        "gmtOffset": "-08:00",
+        "trackSlug": "lasvegas"
     },
     {
         "round": "ROUND 22",
@@ -600,11 +936,26 @@
         "flag": "/photos/seasons/flags/Qatar.svg",
         "url": "https://www.formula1.com/en/racing/2026/qatar",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-11-27T16:30:00+03:00" },
-            { "name": "Practice 2", "time": "2026-11-27T20:00:00+03:00" },
-            { "name": "Practice 3", "time": "2026-11-28T17:30:00+03:00" },
-            { "name": "Qualifying", "time": "2026-11-28T21:00:00+03:00" },
-            { "name": "Race", "time": "2026-11-29T19:00:00+03:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-11-27T16:30:00+03:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-11-27T20:00:00+03:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-11-28T17:30:00+03:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-11-28T21:00:00+03:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-11-29T19:00:00+03:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.419km",
@@ -613,7 +964,8 @@
             "distance": "308.611km",
             "record": "1:22.384 (Lando Norris (2024))"
         },
-        "gmtOffset": "+03:00"
+        "gmtOffset": "+03:00",
+        "trackSlug": "lusail"
     },
     {
         "round": "ROUND 23",
@@ -628,11 +980,26 @@
         "flag": "/photos/seasons/flags/UAE.svg",
         "url": "https://www.formula1.com/en/racing/2026/united-arab-emirates",
         "sessions": [
-            { "name": "Practice 1", "time": "2026-12-04T13:30:00+04:00" },
-            { "name": "Practice 2", "time": "2026-12-04T17:00:00+04:00" },
-            { "name": "Practice 3", "time": "2026-12-05T14:30:00+04:00" },
-            { "name": "Qualifying", "time": "2026-12-05T18:00:00+04:00" },
-            { "name": "Race", "time": "2026-12-06T17:00:00+04:00" }
+            {
+                "name": "Practice 1",
+                "time": "2026-12-04T13:30:00+04:00"
+            },
+            {
+                "name": "Practice 2",
+                "time": "2026-12-04T17:00:00+04:00"
+            },
+            {
+                "name": "Practice 3",
+                "time": "2026-12-05T14:30:00+04:00"
+            },
+            {
+                "name": "Qualifying",
+                "time": "2026-12-05T18:00:00+04:00"
+            },
+            {
+                "name": "Race",
+                "time": "2026-12-06T17:00:00+04:00"
+            }
         ],
         "circuitSpecs": {
             "length": "5.281km",
@@ -641,6 +1008,7 @@
             "first_gp": 2009,
             "distance": "306.183km"
         },
-        "gmtOffset": "+04:00"
+        "gmtOffset": "+04:00",
+        "trackSlug": "yasmarinacircuit"
     }
 ]

@@ -2,6 +2,24 @@
 
 记录 `f1express` 的主要版本变更、架构调整与发布说明。
 
+## 2026-09-24: v1.4.5 - Schedule regeneration + official track assets via collector
+- 赛历改为采集器生成（联网重抓核对）
+  - `python collector/scrapers/scraper.py` 重新抓取 23 站；与官方 2026 站点逐站核对。
+  - R16 官方数据确认：`meetingName=Bahrain Grand Prix`、`meetingOfficialName=...IN MALAYSIA 2026`、`meetingLocation=Kuala Lumpur`、`circuitOfficialName=Sepang International Circuit`、5.543km/56 圈/310.418km/+08:00 —— 与我们的 Sepang 设定完全一致。
+  - 修正配置：`spain` location 改为 `Madrid`（官方 meetingLocation，Madring 新赛道）；`bahrain` 的本地素材 slug 改为 `kualalumpur`；`dates` 月份统一 Title case。
+  - 新增 `trackSlug` 字段：由详情页 `circuitImage.public_id` 解析官方赛道 slug，不再维护硬编码映射。
+- 赛道素材回归采集端
+  - 重写 `collector/download_assets.py`：依据 `trackSlug` 从官方 CDN 下载赛道轮廓/详图到 `storage/photos/seasons/<year>/tracks/`，支持 `--force` 与 slug 过滤；不再写死 `collector/assets`（与运行时目录脱节）。
+  - 下载官方 Sepang 素材：`kualalumpur_outline.svg`（19049B，MD5 与官方 CDN 一致）、`kualalumpur_detailed.webp`；R16 不再显示西班牙赛道占位图。
+  - 清理无用占位：`malaysia_*`、`bahrain_*`（旧 Sakhir）、`saudi-arabia_*`。
+  - `collector/config/circuit_metadata.json`：`malaysia` 键改为 `kualalumpur`（Sepang 规格）。
+  - 修复 `collector/syncer.py` 照片索引路径：`scripts/update_photo_index.py` → `scripts/pipeline/update_photo_index.py`。
+- 文档
+  - `docs/AGENTS.md` 新增 §10「Data Provenance & Modification Rule（采集优先铁律）」：明确哪些页面内容来自采集、发布产物禁止手改、修改流程与 schema 契约。
+- 测试
+  - 新增 `collector/tests/test_track_assets.py`（trackSlug 解析 / 素材 URL / 本地 base）。
+  - `python -m pytest collector/tests`（20）、`npm run test:unit`（86）、`npm run test:integration`（33）、`npm run validate:team-totals`、`npm run validate:docker` 全部通过。
+
 ## 2026-09-24: v1.4.4 - Collector-side data fixes (Docker release unblock)
 - 修复 Docker 发布失败
   - 根因：`collector/results_2026/spain_results.json` 的 `points` 是字符串，`calculate_team_stats.py` 做 `int + str` 抛异常被吞，`teams_2026.json::stats.points` 少算最后一站，`validate:team-totals` 失败，`docker-publish`（`needs: verify`）被跳过。

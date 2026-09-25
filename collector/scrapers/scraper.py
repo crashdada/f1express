@@ -24,10 +24,14 @@ class F1DataCollector:
             "australia": {"country": "AUSTRALIA", "location": "Melbourne", "gp": "Australian Grand Prix", "flag": "Australia.svg"},
             "china": {"country": "CHINA", "location": "Shanghai", "gp": "Chinese Grand Prix", "flag": "China.svg"},
             "japan": {"country": "JAPAN", "location": "Suzuka", "gp": "Japanese Grand Prix", "flag": "Japan.svg"},
-            "bahrain": {"country": "MALAYSIA", "location": "Kuala Lumpur", "gp": "Bahrain Grand Prix", "flag": "Malaysia.svg"},
+            # 官方赛事名仍为 Bahrain Grand Prix，但实际在马来西亚 Sepang 举办：
+            # 本地素材用官方赛道 slug (kualalumpur)，slug 保留 bahrain 以兼容历史成绩索引。
+            "bahrain": {"country": "MALAYSIA", "location": "Kuala Lumpur", "gp": "Bahrain Grand Prix", "flag": "Malaysia.svg", "file_slug": "kualalumpur"},
             "miami": {"country": "USA", "location": "Miami", "gp": "Miami Grand Prix", "flag": "USA.svg"},
             "monaco": {"country": "MONACO", "location": "Monaco", "gp": "Monaco Grand Prix", "flag": "Monaco.svg"},
-            "spain": {"country": "SPAIN", "location": "Barcelona", "gp": "Spanish Grand Prix", "flag": "Spain.svg"},
+            # Round 14 为马德里 Madring 新赛道（官方 meetingLocation=Madrid），
+            # 与 Round 7 的 Barcelona-Catalunya 是两场不同的西班牙大奖赛。
+            "spain": {"country": "SPAIN", "location": "Madrid", "gp": "Spanish Grand Prix", "flag": "Spain.svg"},
             "barcelona-catalunya": {"country": "SPAIN", "location": "Barcelona", "gp": "Spanish Grand Prix", "flag": "Spain.svg"},
             "canada": {"country": "CANADA", "location": "Montreal", "gp": "Canadian Grand Prix", "flag": "Canada.svg"},
             "austria": {"country": "AUSTRIA", "location": "Spielberg", "gp": "Austrian Grand Prix", "flag": "Austria.svg"},
@@ -187,13 +191,16 @@ class F1DataCollector:
         # 为列表中的每个比赛补充具体时刻表
         print(f"Enriching {len(schedule)} events with session timetables...")
         for i, event in enumerate(schedule):
-            # 1. 获取详情页会话数据
-            if not event.get("sessions") and event.get("url"):
+            # 1. 获取详情页会话数据 + 官方赛道素材 slug
+            if (not event.get("sessions") or not event.get("trackSlug")) and event.get("url"):
                 print(f"[{i+1}/{len(schedule)}] Fetching sessions for {event['slug']}...")
-                sessions, gmt_offset = self.fetch_sessions_for_race(event["url"])
-                event["sessions"] = sessions
-                if gmt_offset:
+                sessions, gmt_offset, track_slug = self.fetch_sessions_for_race(event["url"])
+                if not event.get("sessions"):
+                    event["sessions"] = sessions
+                if gmt_offset and not event.get("gmtOffset"):
                     event["gmtOffset"] = gmt_offset
+                if track_slug:
+                    event["trackSlug"] = track_slug
                 time.sleep(0.5)
 
             # 2. 自动补全缺失的 dates 字符串 (从 sessions 推导)
@@ -223,13 +230,54 @@ class F1DataCollector:
                     event["gpName"] = f"[CANCELLED] {event['gpName']}"
                 event["sessions"] = [] # 取消后清空会话
 
+        # 统一 dates 月份大小写：会话推导路径生成 "Mar"，卡片文本可能是 "MAR"，
+        # 混用会导致同份赛历内格式不一致。统一为 Title case（如 "08 Mar"）。
+        for event in schedule:
+            if event.get("dates"):
+                event["dates"] = re.sub(
+                    r"\b([A-Z]{3})\b",
+                    lambda match: match.group(1).capitalize(),
+                    event["dates"],
+                )
+
+        # 保证每个分站都有 trackSlug（官方赛道素材 slug）。
+        # 正常情况下由详情页 circuitImage.public_id 解析得到；解析失败时回退到
+        # 配置的 file_slug 或展示 slug，避免字段缺失。
+        for event in schedule:
+            if not event.get("trackSlug"):
+                config = self.SEASON_2026_CONFIG.get(event.get("slug"), {})
+                event["trackSlug"] = config.get("file_slug", event.get("slug"))
+
         return schedule
+
+    @staticmethod
+    def _extract_track_slug(full_text):
+        """从赛事详情页内嵌 JSON 解析官方赛道素材 slug。
+
+        官方数据形如：
+          "circuitImage":{"public_id":"common/f1/2026/track/2026trackkualalumpurblackoutline"}
+        去掉固定前后缀后得到赛道 slug（如 kualalumpur），供 CDN 素材下载使用，
+        避免维护硬编码的显示 slug → 赛道 slug 映射表。
+        """
+        match = re.search(r'"circuitImage":\{"public_id":"([^"]+)"', full_text)
+        if not match:
+            return None
+        public_id = match.group(1)
+        prefix = 'common/f1/2026/track/2026track'
+        if not public_id.startswith(prefix):
+            return None
+        slug = public_id[len(prefix):]
+        for suffix in ('blackoutline', 'detailed'):
+            if slug.endswith(suffix):
+                slug = slug[: -len(suffix)]
+        return slug or None
 
     def fetch_sessions_for_race(self, race_url):
         html = self.fetch_page(race_url)
-        if not html: return [], None
+        if not html: return [], None, None
         
         full_text = self._reconstruct_next_data(html)
+        track_slug = self._extract_track_slug(full_text)
         
         # 尝试抓取该分站的 gmtOffset
         gmt_match = re.search(r'\"gmtOffset\":\"([+-]\d{2}:\d{2})\"', full_text)
@@ -265,7 +313,7 @@ class F1DataCollector:
         order = {"Practice 1": 1, "Practice 2": 2, "Practice 3": 3, "Sprint Qualifying": 4, "Sprint": 5, "Qualifying": 6, "Race": 7}
         sessions.sort(key=lambda x: order.get(x['name'], 99))
         
-        return sessions, gmt_offset
+        return sessions, gmt_offset, track_slug
 
     @staticmethod
     def _cell_text(row, index, join=False):

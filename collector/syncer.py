@@ -419,7 +419,7 @@ def main():
 
     # 最后自动生成照片索引，确保前端能找到新同步的文件
     log('[...] 正在生成照片索引...')
-    photo_indexer = os.path.join(WEBSITE_DIR, 'scripts', 'update_photo_index.py')
+    photo_indexer = os.path.join(WEBSITE_DIR, 'scripts', 'pipeline', 'update_photo_index.py')
     if os.path.exists(photo_indexer):
         subprocess.run([sys.executable, photo_indexer], cwd=WEBSITE_DIR)
         log('[OK] 照片索引已更新')

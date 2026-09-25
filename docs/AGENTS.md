@@ -233,8 +233,9 @@ To solve historical technical debt related to scattered team translations and ha
 | 字段 | 类型 | 含义 |
 | :--- | :--- | :--- |
 | `isSubstitute` | `boolean` | 是否为临时顶替 / 替补车手 |
-| `replacesCode` | `string` | 被替换的常备车手 `code`（首发花名册里那位） |
-| `replaceReason` | `'illness' \| 'injury' \| 'penalty' \| 'promotion' \| 'other'` | 顶替原因短标签 |
+| `actualCode` | `string` | 实际驾车人的 `code`（替补行的首要身份标识，v1.4.1 起） |
+| `replacesCode` | `string` | （可选）被替换的常备车手 `code`，仅作记录 |
+| `replaceReason` | `'illness' \| 'injury' \| 'penalty' \| 'promotion' \| 'reserve' \| 'other'` | 顶替原因短标签 |
 
 这些字段全部为可选；常规结果保持空缺，老 race JSON 不会破坏加载。
 
@@ -250,4 +251,63 @@ To solve historical technical debt related to scattered team translations and ha
 ### 9.4 校验
 `scripts/validate_2026_json_readiness.py` 会拦截：
 - 任何 pos ∈ 1–22 或 `points > 0` 的行若有 firstName / lastName / code / team 空字符串；
-- 任何 `isSubstitute=true` 行缺少 `replacesCode` 或 `replaceReason` 非法值。
+- 任何 `isSubstitute=true` 行缺少 `actualCode` 或 `replaceReason` 非法值。
+
+---
+
+## 10. Data Provenance & Modification Rule (采集优先铁律)
+
+> **核心规则**：凡是由采集得到、最终展示在页面上的内容，其唯一可编辑源头是采集端（`collector/` 与历史 CSV 流水线）。
+> **禁止**直接硬编码，或手工修改发布产物（`storage/*.json`、`dist/data/*` 等）。
+
+### 10.1 层级边界（谁能改）
+
+| 层级 | 路径 | 角色 | 允许手动编辑？ |
+| :--- | :--- | :--- | :--- |
+| 采集源 | `collector/`、`collector/data/*.json`、`collector/results_2026/*.json` | 采集器输出 / 采集端真值 | ✅ 改这里，或改采集器代码后重跑 |
+| 历史源 | `storage/csv/*.csv`、`scripts/pipeline/` | 1950–2025 历史真值 | ✅ 经流水线重建 |
+| 发布产物 | `storage/*.json`、`storage/f1.db`、`dist/data/*`、`dist/f1.db` | 运行时 / 构建产物 | ❌ 由 `collector/syncer.py` / `vite build` 生成 |
+| 前端展示映射 | `src/**` 中的翻译 / 颜色 / 图标常量 | 纯展示映射 | ⚠️ 仅限非数据内容 |
+
+`storage/*.json` 由 `collector/syncer.py` 从 `collector/data/*.json` 覆盖；`dist/data/*` 由 `vite.config.js` 的 `closeBundle` 从 `storage/` 复制。手改这些文件会在下一次采集 / 同步 / 构建时被覆盖。
+
+### 10.2 哪些页面内容属于"采集数据"（不得硬编码）
+
+| 页面 / 模块 | 内容 | 采集源头 |
+| :--- | :--- | :--- |
+| `NewSeasonPage`、`RacesPage`、`RaceCountdown`、首页倒计时 | 赛历 / 分站信息 | `schedule_2026.json` ← `collector/scrapers/scraper.py`（赛季一次性采集） |
+| `RaceDetailPage`、`RacesPage` | 正赛 / 冲刺 / 排位成绩 | `results_2026.json` ← `collector/results_2026/<slug>_results.json` ← `collector/scrapers/scraper_results.py`（定期）+ `collector/spider.py`（补抓）← `collector/exporters/export_results_json.py`（聚合） |
+| `DriversPage`、`DriverDetail2026`、`NewSeasonPage` 车手榜 | 车手花名册与生涯统计 | `drivers_2026.json` ← `collector/scrapers/scraper_drivers.py` + `collector/processors/refine_with_stats.py` |
+| `TeamsPage`、`TeamDetail2026`、`NewSeasonPage` 车队榜 | 车队信息与历史统计 | `teams_2026.json` ← `collector/scrapers/scraper_teams.py` + `collector/processors/calculate_team_stats.py`（DB 历史 + live 累加） |
+| `RaceDetailPage` 替补角标、Drivers filter | 替补车手 | `collector/data/substitutes_2026.json` + `scripts/f1_substitutions_2026.json` |
+| `HomePage`、`DriversPage`、`TeamsPage` | 积分榜 / 排名 | DB 历史（`storage/f1.db`，CSV 流水线生成）+ `results_2026.json` live 累加 |
+| 全站 | 赛道图 / 国旗 / 车手照 / 车队 logo | `collector/download_assets.py`（赛道图依据官方 `trackSlug` 从 formula1.com CDN 下载）→ `storage/photos/` |
+
+### 10.3 修改流程（必须）
+
+1. 先判断数据属于"历史（CSV/DB）"还是"live 2026（JSON）"。
+2. 改**采集器代码或采集端数据**，而不是发布产物：
+   - 赛历：改 `collector/scrapers/scraper.py` 的 `SEASON_2026_CONFIG` / `CANCELLED_ROUNDS`，或直接改 `collector/data/schedule_2026.json`。
+   - 成绩：改 `collector/results_2026/<slug>_results.json`（补抓）或修正抓取/解析代码。
+   - 车队/车手元数据：改对应 `scraper_*.py` 与 `collector/data/*.json`。
+   - 历史：改 `storage/csv/*.csv` 后跑 `scripts/pipeline/`。
+3. 重跑聚合与派生：
+   - `python collector/exporters/export_results_json.py`（成绩聚合）
+   - `npm run pipeline:sync:release`（重建 DB + sync + refine）
+   - `npm run build`（生成 `dist/`）
+4. 校验：`npm run validate:team-totals`、`npm run validate:docker`、`npm run verify:dist`、`npm run test`。
+
+### 10.4 类型与 schema 契约（硬性）
+
+- `results_2026.json` 的 `points` 必须是 **number**（int/float），不得为字符串；由 `export_results_json.py::to_points()` 归一。字符串会导致 `calculate_team_stats.py` 求和异常、前端字符串拼接。
+- `schedule_2026.json` 每站字段 schema 必须一致（例如不要只在个别站出现 `originalSlug`）。
+- 采集端脚本输出路径必须基于 `__file__` 的绝对路径，禁止依赖调用时的 CWD。
+- 结果解析逻辑只允许存在一处（`F1DataCollector`）；新增补抓入口应复用它，不得复制解析器。
+- 赛道素材：下载源必须由官方详情页 `circuitImage.public_id` 解析出的 `trackSlug` 决定（`scraper.py` → `download_assets.py`），禁止维护"显示 slug → 赛道 slug"的硬编码映射，也不得用别的分站素材做占位。
+
+### 10.5 反例（禁止）
+
+- ❌ 直接编辑 `storage/*.json` / `dist/data/*.json` 修数据。
+- ❌ 在 `src/**` 里硬编码赛历、成绩、积分、车手/车队列表。
+- ❌ 在采集器里按"轮次数字"硬编码特例（如 `if roundNumber in [4, 5]`），应配置 / 数据驱动。
+- ❌ 为同一数据源维护两套解析器（如 `spider.py` 与 `scraper_results.py` 各写一份）。

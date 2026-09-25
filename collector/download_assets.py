@@ -1,177 +1,177 @@
-import os
+#!/usr/bin/env python3
+"""Download 2026 season assets from the official Formula 1 CDN.
+
+Track outlines / detailed maps are driven by the official circuit slug parsed
+by ``collector/scrapers/scraper.py`` (``trackSlug``), so there is no hardcoded
+display-slug -> circuit-slug map. Files are written straight into the runtime
+photo directory (``storage/photos/seasons/<year>/...``) that the frontend and
+``scripts/pipeline/update_photo_index.py`` read.
+
+Usage:
+    python download_assets.py                 # tracks only (skip existing files)
+    python download_assets.py --force         # overwrite existing files
+    python download_assets.py bahrain spain   # only these schedule slugs
+    python download_assets.py --all           # tracks + drivers + teams
+"""
+
+from __future__ import annotations
+
+import argparse
 import json
+import os
+from pathlib import Path
+
 import requests
-from urllib.parse import urlparse
 
-# 路径配置
-COLLECTOR_DIR = os.path.dirname(os.path.abspath(__file__))
-# 新结构：assets/seasons/年度/...
-DATA_DIR = os.path.join(COLLECTOR_DIR, 'data')
+COLLECTOR_DIR = Path(__file__).resolve().parent
+WEBSITE_DIR = COLLECTOR_DIR.parent
+DATA_DIR = COLLECTOR_DIR / "data"
+PHOTOS_DIR = WEBSITE_DIR / "storage" / "photos" / "seasons"
 
-def download_file(url, target_path):
-    if not url or not url.startswith('http'):
-        return None
-    
-    if os.path.exists(target_path):
-        if os.path.getsize(target_path) > 100:
-            return True
+CDN_BASE = "https://media.formula1.com/image/upload"
+CDN_VERSION = "v1740000000"
+OUTLINE_TX = "c_lfill,w_3392"
+DETAILED_TX = "c_fit,h_704/q_auto"
 
-    os.makedirs(os.path.dirname(target_path), exist_ok=True)
-    
+
+def track_outline_url(track_slug: str) -> str:
+    return (
+        f"{CDN_BASE}/{OUTLINE_TX}/{CDN_VERSION}/common/f1/2026/track/"
+        f"2026track{track_slug}blackoutline.svg"
+    )
+
+
+def track_detailed_url(track_slug: str) -> str:
+    return (
+        f"{CDN_BASE}/{DETAILED_TX}/{CDN_VERSION}/common/f1/2026/track/"
+        f"2026track{track_slug}detailed.webp"
+    )
+
+
+def download_file(url: str, target: Path, force: bool = False) -> bool:
+    if target.exists() and not force and target.stat().st_size > 100:
+        return True
+    target.parent.mkdir(parents=True, exist_ok=True)
     try:
-        print(f"Downloading {url} ...")
-        response = requests.get(url, stream=True, timeout=10)
-        if response.status_code == 200:
-            with open(target_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            return True
-        else:
-            print(f"Failed to download {url}: Status {response.status_code}")
-    except Exception as e:
-        print(f"Error downloading {url}: {e}")
-    
+        response = requests.get(url, timeout=25)
+    except Exception as exc:  # network errors
+        print(f"  [!] {exc}: {url}")
+        return False
+    if response.status_code == 200 and response.content:
+        target.write_bytes(response.content)
+        return True
+    print(f"  [!] status {response.status_code}: {url}")
     return False
 
-def get_assets_dir(year):
-    return os.path.join(COLLECTOR_DIR, 'assets', 'seasons', str(year))
 
-def process_schedule(year=2026):
-    path = os.path.join(DATA_DIR, f'schedule_{year}.json')
-    if not os.path.exists(path): return
-    
-    assets_dir = get_assets_dir(year)
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    changed = False
-    for item in data:
-        slug = item.get('slug', 'unknown')
-        
-        # 1. Outline Image
-        if 'image' in item:
-            url = item['image']
-            if url.startswith('http'):
-                ext = os.path.splitext(urlparse(url).path)[1] or '.svg'
-                filename = f"{slug}_outline{ext}"
-                target = os.path.join(assets_dir, 'tracks', filename)
-                if download_file(url, target):
-                    item['image'] = f"/photos/seasons/{year}/tracks/{filename}"
-                    changed = True
-            elif '/assets/' in url:
-                item['image'] = url.replace('/assets/', f'/photos/seasons/')
-        
-        # 2. Detailed Image
-        if 'detailedImage' in item:
-            url = item['detailedImage']
-            if url.startswith('http'):
-                ext = os.path.splitext(urlparse(url).path)[1] or '.webp'
-                filename = f"{slug}_detailed{ext}"
-                target = os.path.join(assets_dir, 'tracks', filename)
-                if download_file(url, target):
-                    item['detailedImage'] = f"/photos/seasons/{year}/tracks/{filename}"
-                    changed = True
-            elif '/assets/' in url:
-                item['detailedImage'] = url.replace('/assets/', f'/photos/seasons/')
-        
-        # 3. Flag Image
-        if 'flag' in item:
-            url = item['flag']
-            # 特殊处理：旗帜通常存放在 assets/seasons/flags/
-            country_name = item.get('country', 'unknown').capitalize().replace(' ', '_')
-            if url.startswith('http'):
-                ext = os.path.splitext(urlparse(url).path)[1] or '.svg'
-                filename = f"{country_name}{ext}"
-                target = os.path.join(COLLECTOR_DIR, 'assets', 'seasons', 'flags', filename)
-                if download_file(url, target):
-                    item['flag'] = f"/photos/seasons/flags/{filename}"
-                    changed = True
-            elif '/assets/flags/' in url:
-                item['flag'] = url.replace('/assets/flags/', '/photos/seasons/flags/')
-            elif '/assets/' in url: # 兜底逻辑
-                item['flag'] = url.replace('/assets/', '/photos/seasons/')
-                
-    if changed or True: # Force update for path cleanup
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        print(f"[OK] Updated schedule_{year}.json")
+def _local_base(image_path, fallback: str) -> str:
+    if image_path:
+        stem = os.path.splitext(os.path.basename(image_path))[0]
+        for suffix in ("_outline", "_detailed"):
+            if stem.endswith(suffix):
+                return stem[: -len(suffix)]
+    return fallback
 
-def process_drivers(year=2026):
-    path = os.path.join(DATA_DIR, f'drivers_{year}.json')
-    if not os.path.exists(path): return
-    
-    assets_dir = get_assets_dir(year)
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    changed = False
-    for item in data:
-        first = item.get('firstName', '').lower().replace(' ', '_')
-        last = item.get('lastName', '').lower().replace(' ', '_')
-        if not first or not last: continue
-        
-        url = item.get('officialImage', '') # Use officialImage as source
-        if url.startswith('http'):
-            ext = os.path.splitext(urlparse(url).path)[1] or '.webp'
-            filename = f"{first}_{last}{ext}"
-            target = os.path.join(assets_dir, 'drivers', filename)
-            if download_file(url, target):
-                item['image'] = f"/photos/seasons/{year}/drivers/{filename}"
-                changed = True
-        elif '/assets/' in url:
-            item['image'] = url.replace('/assets/', f'/photos/seasons/')
-            changed = True
-                
-    if changed or True:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        print(f"[OK] Updated drivers_{year}.json")
 
-def process_teams(year=2026):
-    path = os.path.join(DATA_DIR, f'teams_{year}.json')
-    if not os.path.exists(path): return
-    
-    assets_dir = get_assets_dir(year)
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    changed = False
-    for item in data:
-        tid = item.get('id', 'unknown')
-        
-        # 1. Logo
-        url = item.get('officialLogo', '')
-        if url.startswith('http'):
-            ext = os.path.splitext(urlparse(url).path)[1] or '.webp'
-            filename = f"{tid}_logo{ext}"
-            target = os.path.join(assets_dir, 'teams', filename)
-            if download_file(url, target):
-                item['logo'] = f"/photos/seasons/{year}/teams/{filename}"
-                changed = True
-        elif '/assets/' in url: # Fallback legacy paths
-            item['logo'] = url.replace('/assets/', f'/photos/seasons/')
-        
-        # 2. Car Image
-        url = item.get('officialCar', '')
-        if url.startswith('http'):
-            ext = os.path.splitext(urlparse(url).path)[1] or '.webp'
-            filename = f"{tid}_car{ext}"
-            target = os.path.join(assets_dir, 'teams', filename)
-            if download_file(url, target):
-                item['carImage'] = f"/photos/seasons/{year}/teams/{filename}"
-                changed = True
-        elif '/assets/' in url:
-            item['carImage'] = url.replace('/assets/', f'/photos/seasons/')
-                
-    if changed or True:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4, ensure_ascii=False)
-        print(f"[OK] Updated teams_{year}.json")
+def process_schedule(year: int, force: bool, only_slugs: set[str]) -> bool:
+    path = DATA_DIR / f"schedule_{year}.json"
+    if not path.exists():
+        print(f"[!] schedule not found: {path}")
+        return False
+
+    with path.open("r", encoding="utf-8") as fh:
+        schedule = json.load(fh)
+
+    tracks_dir = PHOTOS_DIR / str(year) / "tracks"
+    for event in schedule:
+        slug = event.get("slug", "")
+        if only_slugs and slug not in only_slugs:
+            continue
+
+        local_base = _local_base(event.get("image"), event.get("trackSlug") or slug)
+        track_slug = event.get("trackSlug") or local_base
+        outline_ok = download_file(
+            track_outline_url(track_slug), tracks_dir / f"{local_base}_outline.svg", force
+        )
+        detailed_ok = download_file(
+            track_detailed_url(track_slug), tracks_dir / f"{local_base}_detailed.webp", force
+        )
+        event["image"] = f"/photos/seasons/{year}/tracks/{local_base}_outline.svg"
+        event["detailedImage"] = f"/photos/seasons/{year}/tracks/{local_base}_detailed.webp"
+        status = "OK" if outline_ok and detailed_ok else "!!"
+        print(f"  [{status}] {slug:<22} trackSlug={track_slug:<16} base={local_base}")
+
+    with path.open("w", encoding="utf-8") as fh:
+        json.dump(schedule, fh, ensure_ascii=False, indent=4)
+    print(f"[OK] schedule_{year}.json track images localized")
+    return True
+
+
+def process_drivers(year: int, force: bool) -> None:
+    path = DATA_DIR / f"drivers_{year}.json"
+    if not path.exists():
+        return
+    with path.open("r", encoding="utf-8") as fh:
+        drivers = json.load(fh)
+
+    drivers_dir = PHOTOS_DIR / str(year) / "drivers"
+    for item in drivers:
+        first = item.get("firstName", "").lower().replace(" ", "_")
+        last = item.get("lastName", "").lower().replace(" ", "_")
+        if not first or not last:
+            continue
+        url = item.get("officialImage", "")
+        target = drivers_dir / f"{first}_{last}.webp"
+        if url.startswith("http"):
+            download_file(url, target, force)
+        item["image"] = f"/photos/seasons/{year}/drivers/{first}_{last}.webp"
+
+    with path.open("w", encoding="utf-8") as fh:
+        json.dump(drivers, fh, ensure_ascii=False, indent=4)
+    print(f"[OK] drivers_{year}.json images localized")
+
+
+def process_teams(year: int, force: bool) -> None:
+    path = DATA_DIR / f"teams_{year}.json"
+    if not path.exists():
+        return
+    with path.open("r", encoding="utf-8") as fh:
+        teams = json.load(fh)
+
+    teams_dir = PHOTOS_DIR / str(year) / "teams"
+    for item in teams:
+        tid = item.get("id", "unknown")
+        for url_key, out_key, suffix in (
+            ("officialLogo", "logo", "logo"),
+            ("officialCar", "carImage", "car"),
+        ):
+            url = item.get(url_key, "")
+            target = teams_dir / f"{tid}_{suffix}.webp"
+            if url.startswith("http"):
+                download_file(url, target, force)
+            item[out_key] = f"/photos/seasons/{year}/teams/{tid}_{suffix}.webp"
+
+    with path.open("w", encoding="utf-8") as fh:
+        json.dump(teams, fh, ensure_ascii=False, indent=4)
+    print(f"[OK] teams_{year}.json images localized")
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Download 2026 F1 season assets")
+    parser.add_argument("slugs", nargs="*", help="optional schedule slug filter")
+    parser.add_argument("--year", type=int, default=2026)
+    parser.add_argument("--force", action="store_true", help="overwrite existing files")
+    parser.add_argument("--all", action="store_true", help="also refresh drivers and teams")
+    args = parser.parse_args()
+
+    print(f"Downloading {args.year} assets (force={args.force})...")
+    process_schedule(args.year, args.force, set(args.slugs))
+    if args.all:
+        process_drivers(args.year, args.force)
+        process_teams(args.year, args.force)
+    print("Asset download complete.")
+    return 0
+
 
 if __name__ == "__main__":
-    current_year = 2026
-    print(f"Starting asset download for {current_year} season...")
-    process_schedule(current_year)
-    process_drivers(current_year)
-    process_teams(current_year)
-    print("Asset download process completed.")
+    raise SystemExit(main())
