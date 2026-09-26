@@ -4,7 +4,7 @@
     "country": "AZERBAIJAN",
     "slug": "azerbaijan",
     "url": "https://www.formula1.com/en/results/2026/races/1295/azerbaijan/race-result",
-    "scraped_at": "2026-09-26T16:26:38.907019",
+    "scraped_at": "2026-09-26T21:13:23.059073",
     "results": [
         {
             "pos": "1",
@@ -128,16 +128,6 @@
         },
         {
             "pos": "13",
-            "no": "5",
-            "code": "BOR",
-            "driver": "Gabriel Bortoleto BOR",
-            "team": "Audi",
-            "laps": "51",
-            "time": "+34.230s",
-            "points": "0"
-        },
-        {
-            "pos": "14",
             "no": "81",
             "code": "PIA",
             "driver": "Oscar Piastri PIA",
@@ -147,13 +137,23 @@
             "points": "0"
         },
         {
-            "pos": "15",
+            "pos": "14",
             "no": "11",
             "code": "PER",
             "driver": "Sergio Perez PER",
             "team": "Cadillac",
             "laps": "51",
             "time": "+41.400s",
+            "points": "0"
+        },
+        {
+            "pos": "15",
+            "no": "5",
+            "code": "BOR",
+            "driver": "Gabriel Bortoleto BOR",
+            "team": "Audi",
+            "laps": "51",
+            "time": "+44.230s",
             "points": "0"
         },
         {
