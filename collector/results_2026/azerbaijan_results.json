@@ -1,0 +1,263 @@
+{
+    "round": "ROUND 15",
+    "eventId": 1295,
+    "country": "AZERBAIJAN",
+    "slug": "azerbaijan",
+    "url": "https://www.formula1.com/en/results/2026/races/1295/azerbaijan/race-result",
+    "scraped_at": "2026-09-26T16:26:38.907019",
+    "results": [
+        {
+            "pos": "1",
+            "no": "63",
+            "code": "RUS",
+            "driver": "George Russell RUS",
+            "team": "Mercedes",
+            "laps": "51",
+            "time": "1:38:02.143",
+            "points": "25"
+        },
+        {
+            "pos": "2",
+            "no": "3",
+            "code": "VER",
+            "driver": "Max Verstappen VER",
+            "team": "Red Bull Racing",
+            "laps": "51",
+            "time": "+0.196s",
+            "points": "18"
+        },
+        {
+            "pos": "3",
+            "no": "6",
+            "code": "HAD",
+            "driver": "Isack Hadjar HAD",
+            "team": "Red Bull Racing",
+            "laps": "51",
+            "time": "+10.704s",
+            "points": "15"
+        },
+        {
+            "pos": "4",
+            "no": "16",
+            "code": "LEC",
+            "driver": "Charles Leclerc LEC",
+            "team": "Ferrari",
+            "laps": "51",
+            "time": "+14.136s",
+            "points": "12"
+        },
+        {
+            "pos": "5",
+            "no": "12",
+            "code": "ANT",
+            "driver": "Kimi Antonelli ANT",
+            "team": "Mercedes",
+            "laps": "51",
+            "time": "+14.512s",
+            "points": "10"
+        },
+        {
+            "pos": "6",
+            "no": "44",
+            "code": "HAM",
+            "driver": "Lewis Hamilton HAM",
+            "team": "Ferrari",
+            "laps": "51",
+            "time": "+22.382s",
+            "points": "8"
+        },
+        {
+            "pos": "7",
+            "no": "41",
+            "code": "LIN",
+            "driver": "Arvid Lindblad LIN",
+            "team": "Racing Bulls",
+            "laps": "51",
+            "time": "+31.159s",
+            "points": "6"
+        },
+        {
+            "pos": "8",
+            "no": "31",
+            "code": "OCO",
+            "driver": "Esteban Ocon OCO",
+            "team": "Haas F1 Team",
+            "laps": "51",
+            "time": "+31.189s",
+            "points": "4"
+        },
+        {
+            "pos": "9",
+            "no": "87",
+            "code": "BEA",
+            "driver": "Oliver Bearman BEA",
+            "team": "Haas F1 Team",
+            "laps": "51",
+            "time": "+31.929s",
+            "points": "2"
+        },
+        {
+            "pos": "10",
+            "no": "55",
+            "code": "SAI",
+            "driver": "Carlos Sainz SAI",
+            "team": "Williams",
+            "laps": "51",
+            "time": "+32.416s",
+            "points": "1"
+        },
+        {
+            "pos": "11",
+            "no": "27",
+            "code": "HUL",
+            "driver": "Nico Hulkenberg HUL",
+            "team": "Audi",
+            "laps": "51",
+            "time": "+33.231s",
+            "points": "0"
+        },
+        {
+            "pos": "12",
+            "no": "30",
+            "code": "LAW",
+            "driver": "Liam Lawson LAW",
+            "team": "Racing Bulls",
+            "laps": "51",
+            "time": "+34.013s",
+            "points": "0"
+        },
+        {
+            "pos": "13",
+            "no": "5",
+            "code": "BOR",
+            "driver": "Gabriel Bortoleto BOR",
+            "team": "Audi",
+            "laps": "51",
+            "time": "+34.230s",
+            "points": "0"
+        },
+        {
+            "pos": "14",
+            "no": "81",
+            "code": "PIA",
+            "driver": "Oscar Piastri PIA",
+            "team": "McLaren",
+            "laps": "51",
+            "time": "+36.401s",
+            "points": "0"
+        },
+        {
+            "pos": "15",
+            "no": "11",
+            "code": "PER",
+            "driver": "Sergio Perez PER",
+            "team": "Cadillac",
+            "laps": "51",
+            "time": "+41.400s",
+            "points": "0"
+        },
+        {
+            "pos": "16",
+            "no": "77",
+            "code": "BOT",
+            "driver": "Valtteri Bottas BOT",
+            "team": "Cadillac",
+            "laps": "49",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "43",
+            "code": "COL",
+            "driver": "Franco Colapinto COL",
+            "team": "Alpine",
+            "laps": "36",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "10",
+            "code": "GAS",
+            "driver": "Pierre Gasly GAS",
+            "team": "Alpine",
+            "laps": "35",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "1",
+            "code": "NOR",
+            "driver": "Lando Norris NOR",
+            "team": "McLaren",
+            "laps": "35",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "23",
+            "code": "ALB",
+            "driver": "Alexander Albon ALB",
+            "team": "Williams",
+            "laps": "29",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "14",
+            "code": "ALO",
+            "driver": "Fernando Alonso ALO",
+            "team": "Aston Martin",
+            "laps": "20",
+            "time": "DNF",
+            "points": "0"
+        },
+        {
+            "pos": "NC",
+            "no": "18",
+            "code": "STR",
+            "driver": "Lance Stroll STR",
+            "team": "Aston Martin",
+            "laps": "7",
+            "time": "DNF",
+            "points": "0"
+        }
+    ],
+    "qualifyingResults": [
+        {
+            "position": 1,
+            "no": "63",
+            "q1": "1:43.615",
+            "q2": "1:43.462",
+            "q3": "1:42.526",
+            "time": "1:42.526",
+            "laps": "26"
+        },
+        {
+            "position": 2,
+            "no": "16",
+            "q1": "1:44.360",
+            "q2": "1:43.780",
+            "q3": "1:43.363",
+            "time": "1:43.363",
+            "laps": "23"
+        },
+        {
+            "position": 3,
+            "no": "81",
+            "q1": "1:45.014",
+            "q2": "1:43.814",
+            "q3": "1:43.364",
+            "time": "1:43.364",
+            "laps": "22"
+        }
+    ],
+    "polePosition": {
+        "no": "63",
+        "time": "1:42.526"
+    }
+}
